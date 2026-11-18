@@ -1,13 +1,16 @@
-# Codemagic workflow — unsigned iOS build of liquid-glass-lab
+# Codemagic workflow — unsigned iOS build of liquid-glass-lab (v2)
 # Drop this file in the ROOT of github.com/binyamfeyissa/liquid-glass-lab
+# as codemagic.yaml (replacing v1).
 #
-# What it does: builds the Expo app on Codemagic's free macOS M2 minutes
-# with code signing DISABLED, and packages the result as an unsigned .ipa.
-# The .ipa is then signed with a free Apple ID at install time by
-# SideStore / AltStore / Sideloadly (7-day expiry, SideStore auto-refreshes).
+# v2 fix: v1 picked the FIRST scheme in the workspace alphabetically, which
+# was a small library scheme — it "built" in 10 seconds, produced no .app,
+# and the packaging step zipped an empty folder (a 166-byte .ipa).
+# v2 derives the scheme from the .xcodeproj name (the app scheme), fails
+# loudly if no .app is produced, and prints diagnostics.
 #
 # Free tier notes (personal Codemagic account): 500 macOS M2 minutes/month,
-# 1 build at a time, keep the build under 90 minutes total.
+# 1 build at a time. A real app build takes several minutes — that is normal
+# and expected this time.
 
 workflows:
   ios-unsigned:
@@ -20,20 +23,29 @@ workflows:
     scripts:
       - name: Show tool versions
         script: |
+          set -euo pipefail
           node --version
           xcodebuild -version
       - name: Install dependencies
         script: |
+          set -euo pipefail
           npm ci || npm install
       - name: Generate the native iOS project (Expo prebuild)
         script: |
+          set -euo pipefail
           npx expo prebuild --platform ios --no-install
           cd ios && pod install
       - name: Build unsigned for a real device (iphoneos, signing OFF)
         script: |
+          set -euo pipefail
           WORKSPACE=$(ls -d ios/*.xcworkspace | head -1)
-          SCHEME=$(xcodebuild -list -workspace "$WORKSPACE" -json | python3 -c "import json,sys; print(json.load(sys.stdin)['workspace']['schemes'][0])")
-          echo "Workspace: $WORKSPACE | Scheme: $SCHEME"
+          PROJECT=$(ls -d ios/*.xcodeproj | head -1)
+          SCHEME=$(basename "$PROJECT" .xcodeproj)
+          echo "Workspace: $WORKSPACE"
+          echo "Project:   $PROJECT"
+          echo "Scheme:    $SCHEME"
+          echo "--- All schemes in workspace (for the record) ---"
+          xcodebuild -list -workspace "$WORKSPACE"
           xcodebuild \
             -workspace "$WORKSPACE" \
             -scheme "$SCHEME" \
@@ -46,11 +58,25 @@ workflows:
             build
       - name: Package the unsigned .ipa
         script: |
+          set -euo pipefail
+          echo "--- Products folders produced ---"
+          find "$CM_BUILD_DIR/build/Build/Products" -maxdepth 2 -type d | head -20
           APP_PATH=$(find "$CM_BUILD_DIR/build" -name "*.app" -path "*Release-iphoneos*" | head -1)
+          if [ -z "$APP_PATH" ]; then
+            echo "ERROR: no .app found under Release-iphoneos — the build did not produce the app. See the scheme list and products folders above."
+            exit 1
+          fi
           echo "App: $APP_PATH"
+          du -sh "$APP_PATH"
           rm -rf Payload && mkdir Payload
           cp -r "$APP_PATH" Payload/
           zip -qry liquid-glass-lab-unsigned.ipa Payload
           ls -la liquid-glass-lab-unsigned.ipa
+          # Sanity: a real React Native .app is tens of MB. Refuse a stub.
+          SIZE=$(stat -f%z liquid-glass-lab-unsigned.ipa)
+          if [ "$SIZE" -lt 1000000 ]; then
+            echo "ERROR: .ipa is only $SIZE bytes — something is still wrong."
+            exit 1
+          fi
     artifacts:
       - liquid-glass-lab-unsigned.ipa
