@@ -1,21 +1,24 @@
-# Codemagic workflow — unsigned iOS build of liquid-glass-lab (v4)
+# Codemagic workflow — unsigned iOS build of liquid-glass-lab (v5)
 # Drop this file in the ROOT of github.com/binyamfeyissa/liquid-glass-lab
-# as codemagic.yaml (replacing v3).
+# as codemagic.yaml (replacing v4).
 #
 # History:
 # v1 packaged an empty .ipa (wrong scheme picked alphabetically).
 # v2 built the right scheme; compile failed at the library's shader.
-# v3 added log extraction. The extracted error (build log line 14807):
-#    "cannot execute tool 'metal' due to missing Metal Toolchain;
-#     use: xcodebuild -downloadComponent MetalToolchain"
-#    The shader code was never the problem: from Xcode 26, Apple ships the
-#    Metal compiler as a separate downloadable component, and Codemagic's
-#    image doesn't preinstall it.
-# v4 = v3 + one step that downloads the Metal Toolchain before building.
+# v3 log extraction found the real error: missing Metal Toolchain.
+# v4 added `xcodebuild -downloadComponent MetalToolchain` — the shader
+#    compiled and the build got all the way to the app target, then died in
+#    Expo's own "[Expo] Configure project" phase:
+#      "ExpoModulesMacros scan-modules timed out after 5000 ms ...
+#       Build again to retry the scan"
+#    A known flaky timeout on shared CI machines (cold macro compilation
+#    vs a 5-second budget) — not the library, not the app code.
+# v5 = v4 + the build step retries xcodebuild ONCE on failure, inside the
+#    same step. DerivedData persists between the two attempts on the same
+#    machine, so the macro scan is warm on the retry and finishes in time.
 #
 # Free tier notes (personal Codemagic account): 500 macOS M2 minutes/month,
-# 1 build at a time. The toolchain download adds a few minutes per build
-# (machines are ephemeral — it cannot be cached between builds).
+# 1 build at a time.
 
 workflows:
   ios-unsigned:
@@ -52,21 +55,32 @@ workflows:
           echo "Workspace: $WORKSPACE"
           echo "Project:   $PROJECT"
           echo "Scheme:    $SCHEME"
-          xcodebuild \
-            -workspace "$WORKSPACE" \
-            -scheme "$SCHEME" \
-            -configuration Release \
-            -sdk iphoneos \
-            -derivedDataPath "$CM_BUILD_DIR/build" \
-            CODE_SIGNING_ALLOWED=NO \
-            CODE_SIGNING_REQUIRED=NO \
-            CODE_SIGN_IDENTITY="" \
-            build 2>&1 | tee "$CM_BUILD_DIR/xcodebuild.log"
-          STATUS=${PIPESTATUS[0]}
+          run_build() {
+            xcodebuild \
+              -workspace "$WORKSPACE" \
+              -scheme "$SCHEME" \
+              -configuration Release \
+              -sdk iphoneos \
+              -derivedDataPath "$CM_BUILD_DIR/build" \
+              CODE_SIGNING_ALLOWED=NO \
+              CODE_SIGNING_REQUIRED=NO \
+              CODE_SIGN_IDENTITY="" \
+              build 2>&1 | tee -a "$CM_BUILD_DIR/xcodebuild.log"
+            return ${PIPESTATUS[0]}
+          }
+          : > "$CM_BUILD_DIR/xcodebuild.log"
+          run_build
+          STATUS=$?
+          if [ "$STATUS" -ne 0 ]; then
+            echo ""
+            echo "########## First attempt failed (exit $STATUS) — retrying once with warm caches ##########"
+            run_build
+            STATUS=$?
+          fi
           if [ "$STATUS" -ne 0 ]; then
             echo ""
             echo "================ COMPILER ERRORS (extracted) ================"
-            grep -n -B1 -A6 "error:" "$CM_BUILD_DIR/xcodebuild.log" | head -120
+            grep -n -B1 -A6 "error:" "$CM_BUILD_DIR/xcodebuild.log" | tail -120
             echo "============================================================="
             exit "$STATUS"
           fi
