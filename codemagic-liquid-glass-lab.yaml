@@ -1,0 +1,56 @@
+# Codemagic workflow — unsigned iOS build of liquid-glass-lab
+# Drop this file in the ROOT of github.com/binyamfeyissa/liquid-glass-lab
+#
+# What it does: builds the Expo app on Codemagic's free macOS M2 minutes
+# with code signing DISABLED, and packages the result as an unsigned .ipa.
+# The .ipa is then signed with a free Apple ID at install time by
+# SideStore / AltStore / Sideloadly (7-day expiry, SideStore auto-refreshes).
+#
+# Free tier notes (personal Codemagic account): 500 macOS M2 minutes/month,
+# 1 build at a time, keep the build under 90 minutes total.
+
+workflows:
+  ios-unsigned:
+    name: iOS unsigned IPA (for SideStore/AltStore)
+    instance_type: mac_mini_m2
+    max_build_duration: 60
+    environment:
+      vars:
+        APP_NAME: liquid-glass-lab
+    scripts:
+      - name: Show tool versions
+        script: |
+          node --version
+          xcodebuild -version
+      - name: Install dependencies
+        script: |
+          npm ci || npm install
+      - name: Generate the native iOS project (Expo prebuild)
+        script: |
+          npx expo prebuild --platform ios --no-install
+          cd ios && pod install
+      - name: Build unsigned for a real device (iphoneos, signing OFF)
+        script: |
+          WORKSPACE=$(ls -d ios/*.xcworkspace | head -1)
+          SCHEME=$(xcodebuild -list -workspace "$WORKSPACE" -json | python3 -c "import json,sys; print(json.load(sys.stdin)['workspace']['schemes'][0])")
+          echo "Workspace: $WORKSPACE | Scheme: $SCHEME"
+          xcodebuild \
+            -workspace "$WORKSPACE" \
+            -scheme "$SCHEME" \
+            -configuration Release \
+            -sdk iphoneos \
+            -derivedDataPath "$CM_BUILD_DIR/build" \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            build
+      - name: Package the unsigned .ipa
+        script: |
+          APP_PATH=$(find "$CM_BUILD_DIR/build" -name "*.app" -path "*Release-iphoneos*" | head -1)
+          echo "App: $APP_PATH"
+          rm -rf Payload && mkdir Payload
+          cp -r "$APP_PATH" Payload/
+          zip -qry liquid-glass-lab-unsigned.ipa Payload
+          ls -la liquid-glass-lab-unsigned.ipa
+    artifacts:
+      - liquid-glass-lab-unsigned.ipa
