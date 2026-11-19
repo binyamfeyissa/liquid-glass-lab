@@ -13,7 +13,14 @@
 | Platform | Profile / Type | Status | Build Page Logs | Artifact / Direct Download |
 | :--- | :--- | :--- | :--- | :--- |
 | **Android** | `preview` (`buildType: "apk"`) | **Finished (SUCCESS)** | [EAS Build b00ba4f9](https://expo.dev/accounts/binapluto/projects/liquid-glass-lab/builds/b00ba4f9-1f53-45aa-b889-edff2d7a8647) | [Download Android APK](https://expo.dev/artifacts/eas/jxzDdtxcyPQWcSCvk_HDAAE_Va0Mzr8XOCUKqC4xAqQ.apk) |
-| **iOS** | `simulator` (`simulator: true`) | **Finished (SUCCESS)** | [EAS Build b4927027](https://expo.dev/accounts/binapluto/projects/liquid-glass-lab/builds/b4927027-facb-4ffe-bbd4-123a2294c71b) | [Download iOS Simulator .tar.gz](https://expo.dev/artifacts/eas/c-ftchldPEW_SU7n31DOcqlG26Y_HDzTKEd5-O-qDh0.tar.gz) |
+| **iOS** | `simulator` (`simulator: true`) | **Finished & Verified Live** | [EAS Build b4927027](https://expo.dev/accounts/binapluto/projects/liquid-glass-lab/builds/b4927027-facb-4ffe-bbd4-123a2294c71b) | [Download iOS Simulator .tar.gz](https://expo.dev/artifacts/eas/c-ftchldPEW_SU7n31DOcqlG26Y_HDzTKEd5-O-qDh0.tar.gz) |
+
+> [!NOTE]
+> **iOS Live Simulator Verification:**  
+> The `.app` bundle from EAS build `b4927027` was extracted and installed directly onto the booted **iPhone 14 Pro** simulator (`D0D54959-E327-4587-AC00-9E454A86B626`).  
+> - **Active Renderer Detected Live**: `metal` (as expected on iOS < 26).
+> - **Visual Glass Shader**: Live Metal shader refraction, dispersion, and continuous corner styling rendered cleanly over the background with the floating `LiquidGlassTabBar`.
+> - **Metro Server**: Running live on `exp://localhost:8081`.
 
 > [!NOTE]
 > **iOS Build Type Disclosure:**  
