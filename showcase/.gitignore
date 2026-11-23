@@ -1,0 +1,10 @@
+node_modules/
+.expo/
+dist/
+android/
+ios/
+build/
+Payload/
+*.ipa
+*.apk
+.DS_Store
