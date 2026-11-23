@@ -129,9 +129,11 @@ workflows:
           cd android
           ./gradlew assembleRelease
           cp app/build/outputs/apk/release/app-release.apk "$CM_BUILD_DIR/glacia-showcase.apk"
-          ls -la "$CM_BUILD_DIR/glacia-showcase.apk"
+          cp app/build/outputs/apk/release/app-release.apk ../glacia-showcase.apk
+          ls -la "$CM_BUILD_DIR/glacia-showcase.apk" ../glacia-showcase.apk
     artifacts:
       - glacia-showcase.apk
+      - showcase/glacia-showcase.apk
 
   showcase-ios:
     name: Glacia Showcase — iOS unsigned IPA (for SideStore/AltStore)
