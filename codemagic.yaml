@@ -111,7 +111,7 @@ workflows:
 
   showcase-android:
     name: Glacia Showcase — Android APK
-    instance_type: linux_x2
+    instance_type: linux
     max_build_duration: 60
     working_directory: showcase
     scripts:
