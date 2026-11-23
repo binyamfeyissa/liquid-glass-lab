@@ -1,4 +1,4 @@
-# Codemagic workflow — unsigned iOS build of liquid-glass-lab (v5)
+# Codemagic workflows — liquid-glass-lab (v5) + Glacia Showcase (added 2026-11-23: showcase-android, showcase-ios; the showcase app lives in showcase/)
 # Drop this file in the ROOT of github.com/binyamfeyissa/liquid-glass-lab
 # as codemagic.yaml (replacing v4).
 #
@@ -108,3 +108,112 @@ workflows:
     artifacts:
       - liquid-glass-lab-unsigned.ipa
       - $CM_BUILD_DIR/xcodebuild.log
+
+  showcase-android:
+    name: Glacia Showcase — Android APK
+    instance_type: linux_x2
+    max_build_duration: 60
+    working_directory: showcase
+    scripts:
+      - name: Install dependencies
+        script: |
+          set -euo pipefail
+          npm install
+      - name: Generate the native Android project (Expo prebuild)
+        script: |
+          set -euo pipefail
+          npx expo prebuild --platform android
+      - name: Build the release APK (debug-key signed, installable)
+        script: |
+          set -euo pipefail
+          cd android
+          ./gradlew assembleRelease
+          cp app/build/outputs/apk/release/app-release.apk "$CM_BUILD_DIR/glacia-showcase.apk"
+          ls -la "$CM_BUILD_DIR/glacia-showcase.apk"
+    artifacts:
+      - glacia-showcase.apk
+
+  showcase-ios:
+    name: Glacia Showcase — iOS unsigned IPA (for SideStore/AltStore)
+    instance_type: mac_mini_m2
+    max_build_duration: 60
+    working_directory: showcase
+    scripts:
+      - name: Show tool versions
+        script: |
+          set -euo pipefail
+          node --version
+          xcodebuild -version
+      - name: Install the Metal Toolchain (Xcode 26 ships it separately)
+        script: |
+          xcodebuild -downloadComponent MetalToolchain
+      - name: Install dependencies
+        script: |
+          set -euo pipefail
+          npm install
+      - name: Generate the native iOS project (Expo prebuild)
+        script: |
+          set -euo pipefail
+          npx expo prebuild --platform ios --no-install
+          cd ios && pod install
+      - name: Build unsigned for a real device (iphoneos, signing OFF)
+        script: |
+          set -uo pipefail
+          WORKSPACE=$(ls -d ios/*.xcworkspace | head -1)
+          PROJECT=$(ls -d ios/*.xcodeproj | head -1)
+          SCHEME=$(basename "$PROJECT" .xcodeproj)
+          echo "Workspace: $WORKSPACE"
+          echo "Project:   $PROJECT"
+          echo "Scheme:    $SCHEME"
+          run_build() {
+            xcodebuild \
+              -workspace "$WORKSPACE" \
+              -scheme "$SCHEME" \
+              -configuration Release \
+              -sdk iphoneos \
+              -derivedDataPath "$CM_BUILD_DIR/build-showcase" \
+              CODE_SIGNING_ALLOWED=NO \
+              CODE_SIGNING_REQUIRED=NO \
+              CODE_SIGN_IDENTITY="" \
+              build 2>&1 | tee -a "$CM_BUILD_DIR/xcodebuild-showcase.log"
+            return ${PIPESTATUS[0]}
+          }
+          : > "$CM_BUILD_DIR/xcodebuild-showcase.log"
+          run_build
+          STATUS=$?
+          if [ "$STATUS" -ne 0 ]; then
+            echo ""
+            echo "########## First attempt failed (exit $STATUS) — retrying once with warm caches ##########"
+            run_build
+            STATUS=$?
+          fi
+          if [ "$STATUS" -ne 0 ]; then
+            echo ""
+            echo "================ COMPILER ERRORS (extracted) ================"
+            grep -n -B1 -A6 "error:" "$CM_BUILD_DIR/xcodebuild-showcase.log" | tail -120
+            echo "============================================================="
+            exit "$STATUS"
+          fi
+      - name: Package the unsigned .ipa
+        script: |
+          set -euo pipefail
+          APP_PATH=$(find "$CM_BUILD_DIR/build-showcase" -name "*.app" -path "*Release-iphoneos*" | head -1)
+          if [ -z "$APP_PATH" ]; then
+            echo "ERROR: no .app found under Release-iphoneos — the build did not produce the app."
+            exit 1
+          fi
+          echo "App: $APP_PATH"
+          du -sh "$APP_PATH"
+          rm -rf Payload && mkdir Payload
+          cp -r "$APP_PATH" Payload/
+          zip -qry glacia-showcase-unsigned.ipa Payload
+          cp glacia-showcase-unsigned.ipa "$CM_BUILD_DIR/"
+          ls -la "$CM_BUILD_DIR/glacia-showcase-unsigned.ipa"
+          SIZE=$(stat -f%z "$CM_BUILD_DIR/glacia-showcase-unsigned.ipa")
+          if [ "$SIZE" -lt 1000000 ]; then
+            echo "ERROR: .ipa is only $SIZE bytes — something is still wrong."
+            exit 1
+          fi
+    artifacts:
+      - glacia-showcase-unsigned.ipa
+      - $CM_BUILD_DIR/xcodebuild-showcase.log
