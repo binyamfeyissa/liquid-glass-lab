@@ -4,30 +4,30 @@
 # Tab navigation uses deep links (glacia-master://...) because the tab
 # labels ("Accounts", "Cards") also appear as section titles on the Home
 # tab, so tapOn would be ambiguous. The home-row tap and the account-card
-# tap are real taps. __BUNDLE_ID__ is replaced by the capture workflow
-# with the bundle id read from the built .app.
+# tap are real taps. The appId placeholder on the appId line is
+# replaced by the capture workflow with the bundle id from the built .app.
 appId: __BUNDLE_ID__
 ---
 - launchApp:
     clearState: true
 - assertVisible: "Templates"
 - tapOn: "Bank — Northwind Bank"
-- waitForAnimationToSettle
+- waitForAnimationToEnd
 - takeScreenshot: 01-bank-home
 - openLink: "glacia-master://templates/bank/accounts"
-- waitForAnimationToSettle
+- waitForAnimationToEnd
 - takeScreenshot: 02-bank-accounts
 - openLink: "glacia-master://templates/bank/cards"
-- waitForAnimationToSettle
+- waitForAnimationToEnd
 - takeScreenshot: 03-bank-cards
 - openLink: "glacia-master://templates/bank/activity"
-- waitForAnimationToSettle
+- waitForAnimationToEnd
 - takeScreenshot: 04-bank-activity
 - openLink: "glacia-master://templates/bank/profile"
-- waitForAnimationToSettle
+- waitForAnimationToEnd
 - takeScreenshot: 05-bank-profile
 - openLink: "glacia-master://templates/bank"
-- waitForAnimationToSettle
+- waitForAnimationToEnd
 - tapOn: "Main Checking"
-- waitForAnimationToSettle
+- waitForAnimationToEnd
 - takeScreenshot: 06-bank-account-detail

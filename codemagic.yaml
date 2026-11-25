@@ -363,6 +363,10 @@ workflows:
       - name: Build unsigned for the iOS Simulator
         script: |
           set -uo pipefail
+          # RN 0.88 skips JS bundling in Debug-for-Simulator (expects a Metro
+          # packager); without this the .app shows the red "No script URL"
+          # screen. FORCE_BUNDLING embeds the bundle in the Debug .app.
+          export FORCE_BUNDLING=1
           WORKSPACE=$(ls -d ios/*.xcworkspace | head -1)
           PROJECT=$(ls -d ios/*.xcodeproj | head -1)
           SCHEME=$(basename "$PROJECT" .xcodeproj)
@@ -434,6 +438,11 @@ workflows:
           BUNDLE_ID=$(/usr/libexec/PlistBuddy -c "Print CFBundleIdentifier" "$APP_PATH/Info.plist")
           echo "Bundle ID: $BUNDLE_ID"
           echo "$BUNDLE_ID" > "$CM_BUILD_DIR/bundle-id.txt"
+          if [ ! -f "$APP_PATH/main.jsbundle" ]; then
+            echo "ERROR: no main.jsbundle inside the .app — the JS was not embedded"
+            exit 1
+          fi
+          echo "Embedded bundle: $(du -sh "$APP_PATH/main.jsbundle")"
           xcrun simctl install booted "$APP_PATH"
           xcrun simctl launch booted "$BUNDLE_ID" || true
           sleep 5
@@ -456,6 +465,7 @@ workflows:
           export PATH="$HOME/.maestro/bin:$PATH"
           maestro --version
           brew tap facebook/fb || true
+          brew trust facebook/fb || true
           brew install idb-companion || echo "idb-companion install failed — continuing, Maestro bundles its own iOS driver"
           which idb_companion || true
       - name: Capture bank screenshots (Maestro)

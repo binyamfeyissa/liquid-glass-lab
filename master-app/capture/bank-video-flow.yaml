@@ -1,7 +1,7 @@
 # Maestro flow for the ~6-8s video: launch, open bank, flip through tabs.
 # Keep it short on purpose — no per-screen waits, no screenshots.
 # Tab navigation uses deep links (see bank-flow.yaml comment).
-# __BUNDLE_ID__ is replaced by the capture workflow.
+# The appId placeholder is replaced by the capture workflow.
 appId: __BUNDLE_ID__
 ---
 - launchApp:
