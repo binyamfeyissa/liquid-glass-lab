@@ -15,6 +15,7 @@ appId: __BUNDLE_ID__
 - tapOn:
     text: "^Open$"
     optional: true
+    timeout: 2000
 - waitForAnimationToEnd
 - assertVisible: "Templates"
 - tapOn: "Jobs — Northbound"
@@ -24,10 +25,12 @@ appId: __BUNDLE_ID__
 - tapOn:
     text: "^Open$"
     optional: true
+    timeout: 2000
 - waitForAnimationToEnd
 - takeScreenshot: jobs-02-search
 - openLink: "glacia-master://"
 - tapOn:
     text: "^Open$"
     optional: true
+    timeout: 2000
 - waitForAnimationToEnd

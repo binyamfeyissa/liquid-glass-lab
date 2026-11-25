@@ -10,6 +10,7 @@ appId: __BUNDLE_ID__
 - tapOn:
     text: "^Open$"
     optional: true
+    timeout: 2000
 - waitForAnimationToEnd
 - assertVisible: "Templates"
 - tapOn: "Backdrop: light. Tap to change."
@@ -21,6 +22,7 @@ appId: __BUNDLE_ID__
 - tapOn:
     text: "^Open$"
     optional: true
+    timeout: 2000
 - waitForAnimationToEnd
 - tapOn: "Backdrop: dark. Tap to change."
 - waitForAnimationToEnd
@@ -31,6 +33,7 @@ appId: __BUNDLE_ID__
 - tapOn:
     text: "^Open$"
     optional: true
+    timeout: 2000
 - waitForAnimationToEnd
 - tapOn: "Backdrop: image. Tap to change."
 - waitForAnimationToEnd
