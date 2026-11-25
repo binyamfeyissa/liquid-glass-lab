@@ -268,10 +268,17 @@ workflows:
         script: |
           set -euo pipefail
           npx expo prebuild --platform ios --no-install
+          # Expo sets SKIP_BUNDLING=1 in Debug; RN 0.88 then skips the JS
+          # bundle for the Simulator (expects Metro) and the .app opens on
+          # the red "No script URL" screen. Unsetting it in the generated
+          # project's own override hook embeds the bundle instead.
+          printf 'unset SKIP_BUNDLING\n' > ios/.xcode.env.updates
+          cat ios/.xcode.env.updates
           cd ios && pod install
       - name: Build unsigned for the iOS Simulator
         script: |
           set -uo pipefail
+          export FORCE_BUNDLING=1
           WORKSPACE=$(ls -d ios/*.xcworkspace | head -1)
           PROJECT=$(ls -d ios/*.xcodeproj | head -1)
           SCHEME=$(basename "$PROJECT" .xcodeproj)
@@ -354,6 +361,12 @@ workflows:
         script: |
           set -euo pipefail
           npx expo prebuild --platform ios --no-install
+          # Expo sets SKIP_BUNDLING=1 in Debug; RN 0.88 then skips the JS
+          # bundle for the Simulator (expects Metro) and the .app opens on
+          # the red "No script URL" screen. Unsetting it in the generated
+          # project's own override hook embeds the bundle instead.
+          printf 'unset SKIP_BUNDLING\n' > ios/.xcode.env.updates
+          cat ios/.xcode.env.updates
           cd ios && pod install
       - name: Hide the host back pill for clean recordings (capture build only, NOT committed)
         script: |
@@ -402,6 +415,26 @@ workflows:
             echo "============================================================"
             exit "$STATUS"
           fi
+      - name: Package the Simulator .app (for Revyl)
+        script: |
+          set -euo pipefail
+          APP_PATH=$(find "$CM_BUILD_DIR/build-capture" -name "*.app" -path "*Debug-iphonesimulator*" | head -1)
+          if [ -z "$APP_PATH" ]; then
+            echo "ERROR: no .app found under Debug-iphonesimulator"
+            exit 1
+          fi
+          echo "App: $APP_PATH"
+          du -sh "$APP_PATH"
+          if [ ! -f "$APP_PATH/main.jsbundle" ]; then
+            echo "ERROR: no main.jsbundle inside the .app — the JS was not embedded"
+            exit 1
+          fi
+          echo "Embedded bundle: $(du -sh "$APP_PATH/main.jsbundle")"
+          rm -rf GlaciaMaster-simulator.app
+          cp -r "$APP_PATH" GlaciaMaster-simulator.app
+          zip -qry GlaciaMaster-simulator.zip GlaciaMaster-simulator.app
+          cp GlaciaMaster-simulator.zip "$CM_BUILD_DIR/"
+          ls -la "$CM_BUILD_DIR/GlaciaMaster-simulator.zip"
       - name: Boot an iPhone simulator
         script: |
           set -euo pipefail
@@ -524,6 +557,7 @@ workflows:
             exit 1
           fi
     artifacts:
+      - GlaciaMaster-simulator.zip
       - $CM_BUILD_DIR/capture/*.png
       - $CM_BUILD_DIR/capture/*.mp4
       - $CM_BUILD_DIR/capture/*.log
