@@ -1,0 +1,33 @@
+# Maestro flow: open the master app, open Northwind Bank, capture one
+# screenshot per main screen + one account detail screen.
+#
+# Tab navigation uses deep links (glacia-master://...) because the tab
+# labels ("Accounts", "Cards") also appear as section titles on the Home
+# tab, so tapOn would be ambiguous. The home-row tap and the account-card
+# tap are real taps. __BUNDLE_ID__ is replaced by the capture workflow
+# with the bundle id read from the built .app.
+appId: __BUNDLE_ID__
+---
+- launchApp:
+    clearState: true
+- assertVisible: "Templates"
+- tapOn: "Bank — Northwind Bank"
+- waitForAnimationToSettle
+- takeScreenshot: 01-bank-home
+- openLink: "glacia-master://templates/bank/accounts"
+- waitForAnimationToSettle
+- takeScreenshot: 02-bank-accounts
+- openLink: "glacia-master://templates/bank/cards"
+- waitForAnimationToSettle
+- takeScreenshot: 03-bank-cards
+- openLink: "glacia-master://templates/bank/activity"
+- waitForAnimationToSettle
+- takeScreenshot: 04-bank-activity
+- openLink: "glacia-master://templates/bank/profile"
+- waitForAnimationToSettle
+- takeScreenshot: 05-bank-profile
+- openLink: "glacia-master://templates/bank"
+- waitForAnimationToSettle
+- tapOn: "Main Checking"
+- waitForAnimationToSettle
+- takeScreenshot: 06-bank-account-detail

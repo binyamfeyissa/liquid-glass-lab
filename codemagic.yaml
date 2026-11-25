@@ -330,3 +330,192 @@ workflows:
     artifacts:
       - GlaciaMaster-simulator.zip
       - $CM_BUILD_DIR/xcodebuild-master-app.log
+
+  master-app-capture-bank:
+    name: Glacia Master — capture bank (Simulator + Maestro)
+    instance_type: mac_mini_m2
+    max_build_duration: 90
+    working_directory: master-app
+    scripts:
+      - name: Show tool versions
+        script: |
+          set -euo pipefail
+          node --version
+          xcodebuild -version
+          java -version 2>&1 | head -3 || echo "no java on PATH"
+      - name: Install the Metal Toolchain (Xcode 26 ships it separately)
+        script: |
+          xcodebuild -downloadComponent MetalToolchain
+      - name: Install dependencies
+        script: |
+          set -euo pipefail
+          npm install
+      - name: Generate the native iOS project (Expo prebuild)
+        script: |
+          set -euo pipefail
+          npx expo prebuild --platform ios --no-install
+          cd ios && pod install
+      - name: Hide the host back pill for clean recordings (capture build only, NOT committed)
+        script: |
+          set -euo pipefail
+          perl -0pi -e 's/if \(segments\[0\] !== "templates"\) return null;/if (segments) return null; \/\/ capture build: host back pill hidden/' src/app/_layout.tsx
+          grep -n "capture build" src/app/_layout.tsx
+      - name: Build unsigned for the iOS Simulator
+        script: |
+          set -uo pipefail
+          WORKSPACE=$(ls -d ios/*.xcworkspace | head -1)
+          PROJECT=$(ls -d ios/*.xcodeproj | head -1)
+          SCHEME=$(basename "$PROJECT" .xcodeproj)
+          echo "Workspace: $WORKSPACE"
+          echo "Project:   $PROJECT"
+          echo "Scheme:    $SCHEME"
+          run_build() {
+            xcodebuild \
+              -workspace "$WORKSPACE" \
+              -scheme "$SCHEME" \
+              -configuration Debug \
+              -sdk iphonesimulator \
+              -derivedDataPath "$CM_BUILD_DIR/build-capture" \
+              CODE_SIGNING_ALLOWED=NO \
+              CODE_SIGNING_REQUIRED=NO \
+              CODE_SIGN_IDENTITY="" \
+              build 2>&1 | tee -a "$CM_BUILD_DIR/xcodebuild-capture.log"
+            return ${PIPESTATUS[0]}
+          }
+          : > "$CM_BUILD_DIR/xcodebuild-capture.log"
+          run_build
+          STATUS=$?
+          if [ "$STATUS" -ne 0 ]; then
+            echo ""
+            echo "########## First attempt failed (exit $STATUS) — retrying once with warm caches ##########"
+            run_build
+            STATUS=$?
+          fi
+          if [ "$STATUS" -ne 0 ]; then
+            echo ""
+            echo "================ COMPILER ERRORS (extracted) ================"
+            grep -n -B1 -A6 "error:" "$CM_BUILD_DIR/xcodebuild-capture.log" | tail -120
+            echo "============================================================"
+            exit "$STATUS"
+          fi
+      - name: Boot an iPhone simulator
+        script: |
+          set -euo pipefail
+          RUNTIME=$(xcrun simctl list runtimes -j | python3 -c "
+          import json, sys
+          rs = [r for r in json.load(sys.stdin)['runtimes'] if r['identifier'].startswith('com.apple.CoreSimulator.SimRuntime.iOS') and r.get('isAvailable')]
+          rs.sort(key=lambda r: r['version'])
+          print(rs[-1]['identifier'])
+          ")
+          echo "Runtime: $RUNTIME"
+          UDID=""
+          for TYPE in "iPhone 16" "iPhone 17" "iPhone 16 Pro"; do
+            UDID=$(xcrun simctl create "Pilot-iPhone" "$TYPE" "$RUNTIME" 2>/dev/null || true)
+            if [ -n "$UDID" ]; then echo "Created $TYPE: $UDID"; break; fi
+          done
+          if [ -z "$UDID" ]; then
+            echo "ERROR: could not create a simulator"
+            exit 1
+          fi
+          echo "$UDID" > "$CM_BUILD_DIR/sim-udid.txt"
+          xcrun simctl boot "$UDID"
+          xcrun simctl bootstatus "$UDID" -b
+          xcrun simctl list devices | grep -i booted
+      - name: Install and launch the master app
+        script: |
+          set -euo pipefail
+          APP_PATH=$(find "$CM_BUILD_DIR/build-capture" -name "*.app" -path "*Debug-iphonesimulator*" | head -1)
+          if [ -z "$APP_PATH" ]; then
+            echo "ERROR: no .app found under Debug-iphonesimulator"
+            exit 1
+          fi
+          echo "App: $APP_PATH"
+          du -sh "$APP_PATH"
+          BUNDLE_ID=$(/usr/libexec/PlistBuddy -c "Print CFBundleIdentifier" "$APP_PATH/Info.plist")
+          echo "Bundle ID: $BUNDLE_ID"
+          echo "$BUNDLE_ID" > "$CM_BUILD_DIR/bundle-id.txt"
+          xcrun simctl install booted "$APP_PATH"
+          xcrun simctl launch booted "$BUNDLE_ID" || true
+          sleep 5
+          xcrun simctl io booted screenshot "$CM_BUILD_DIR/capture-check.png" || true
+          ls -la "$CM_BUILD_DIR/capture-check.png" || true
+      - name: Install Maestro CLI (+ idb, best effort)
+        script: |
+          set -euo pipefail
+          if ! java -version 2>&1 | grep -Eq " (17|21|22|23|24|25)\."; then
+            echo "Java 17+ missing — installing Temurin 17"
+            brew install --cask temurin@17
+            export JAVA_HOME=$(/usr/libexec/java_home -v 17)
+            export PATH="$JAVA_HOME/bin:$PATH"
+            echo "export JAVA_HOME=$JAVA_HOME" >> "$CM_ENV"
+            echo "export PATH=\"$JAVA_HOME/bin:\$PATH\"" >> "$CM_ENV"
+          fi
+          java -version 2>&1 | head -3
+          curl -Ls "https://get.maestro.mobile.dev" | bash
+          echo "export PATH=\"\$HOME/.maestro/bin:\$PATH\"" >> "$CM_ENV"
+          export PATH="$HOME/.maestro/bin:$PATH"
+          maestro --version
+          brew tap facebook/fb || true
+          brew install idb-companion || echo "idb-companion install failed — continuing, Maestro bundles its own iOS driver"
+          which idb_companion || true
+      - name: Capture bank screenshots (Maestro)
+        script: |
+          set -euo pipefail
+          export PATH="$HOME/.maestro/bin:$PATH"
+          BUNDLE_ID=$(cat "$CM_BUILD_DIR/bundle-id.txt")
+          mkdir -p "$CM_BUILD_DIR/capture"
+          sed "s/__BUNDLE_ID__/$BUNDLE_ID/" capture/bank-flow.yaml > "$CM_BUILD_DIR/bank-flow.yaml"
+          cat "$CM_BUILD_DIR/bank-flow.yaml"
+          cd "$CM_BUILD_DIR/capture"
+          echo "=== Maestro screenshots run started $(date -u +%H:%M:%S) UTC ==="
+          set +e
+          maestro test "$CM_BUILD_DIR/bank-flow.yaml" 2>&1 | tee "$CM_BUILD_DIR/capture/maestro-screenshots.log"
+          MAESTRO_STATUS=${PIPESTATUS[0]}
+          set -e
+          echo "=== Maestro screenshots run finished $(date -u +%H:%M:%S) UTC, exit $MAESTRO_STATUS ==="
+          find "$CM_BUILD_DIR" -maxdepth 3 -name "0*.png" -not -path "$CM_BUILD_DIR/capture/*" -exec cp {} "$CM_BUILD_DIR/capture/" \; 2>/dev/null || true
+          ls -la "$CM_BUILD_DIR/capture/"
+          if [ "$MAESTRO_STATUS" -ne 0 ]; then
+            echo "Maestro screenshots flow failed (exit $MAESTRO_STATUS)"
+            exit "$MAESTRO_STATUS"
+          fi
+      - name: Record the bank video, ~6-8s (Maestro short flow)
+        script: |
+          set -euo pipefail
+          export PATH="$HOME/.maestro/bin:$PATH"
+          sed "s/__BUNDLE_ID__/$(cat "$CM_BUILD_DIR/bundle-id.txt")/" capture/bank-video-flow.yaml > "$CM_BUILD_DIR/bank-video-flow.yaml"
+          VIDEO="$CM_BUILD_DIR/capture/bank-video.mp4"
+          xcrun simctl io booted recordVideo --codec=h264 "$VIDEO" &
+          REC_PID=$!
+          echo "Recording started (pid $REC_PID) at $(date -u +%H:%M:%S) UTC"
+          sleep 1
+          START=$(date +%s)
+          set +e
+          maestro test "$CM_BUILD_DIR/bank-video-flow.yaml" 2>&1 | tee "$CM_BUILD_DIR/capture/maestro-video.log"
+          MAESTRO_STATUS=${PIPESTATUS[0]}
+          set -e
+          END=$(date +%s)
+          echo "Maestro video flow: exit $MAESTRO_STATUS, wall time $((END - START))s"
+          kill -INT $REC_PID || true
+          wait $REC_PID || true
+          sleep 2
+          ls -la "$VIDEO" || echo "WARNING: no video file"
+          if command -v ffprobe >/dev/null 2>&1; then
+            echo -n "Video duration (ffprobe): "
+            ffprobe -v error -show_entries format=duration -of csv=p=0 "$VIDEO" || true
+          fi
+          mdls -name kMDItemDurationSeconds "$VIDEO" 2>/dev/null || true
+          if [ "$MAESTRO_STATUS" -ne 0 ]; then
+            echo "Maestro video flow failed (exit $MAESTRO_STATUS)"
+            exit "$MAESTRO_STATUS"
+          fi
+          if [ ! -s "$VIDEO" ]; then
+            echo "ERROR: video file empty or missing"
+            exit 1
+          fi
+    artifacts:
+      - $CM_BUILD_DIR/capture/*.png
+      - $CM_BUILD_DIR/capture/*.mp4
+      - $CM_BUILD_DIR/capture/*.log
+      - $CM_BUILD_DIR/capture-check.png
+      - $CM_BUILD_DIR/xcodebuild-capture.log
