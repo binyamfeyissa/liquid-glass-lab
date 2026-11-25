@@ -2,13 +2,33 @@
 # Keep it short on purpose — no per-screen waits, no screenshots.
 # Tab navigation uses deep links (see bank-flow.yaml comment).
 # The appId placeholder is replaced by the capture workflow.
+#
+# Run 7 lesson: every openLink pops iOS's system "Open in "Glacia Master"?"
+# alert, which must be confirmed or navigation never happens (and a
+# leftover alert blocks the next launch — it is what failed this flow's
+# assertVisible in run 7). After each openLink, tap the alert's "Open"
+# button; `optional: true` covers the case where iOS stops showing the
+# alert, and ^Open$ keeps the tap off the alert's title.
 appId: __BUNDLE_ID__
 ---
 - launchApp:
     clearState: true
+- waitForAnimationToEnd
 - assertVisible: "Templates"
 - tapOn: "Bank — Northwind Bank"
 - openLink: "glacia-master://templates/bank/accounts"
+- tapOn:
+    text: "^Open$"
+    optional: true
 - openLink: "glacia-master://templates/bank/cards"
+- tapOn:
+    text: "^Open$"
+    optional: true
 - openLink: "glacia-master://templates/bank/activity"
+- tapOn:
+    text: "^Open$"
+    optional: true
 - openLink: "glacia-master://templates/bank/profile"
+- tapOn:
+    text: "^Open$"
+    optional: true

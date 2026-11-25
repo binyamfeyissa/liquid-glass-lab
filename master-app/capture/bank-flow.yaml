@@ -3,9 +3,18 @@
 #
 # Tab navigation uses deep links (glacia-master://...) because the tab
 # labels ("Accounts", "Cards") also appear as section titles on the Home
-# tab, so tapOn would be ambiguous. The home-row tap and the account-card
-# tap are real taps. The appId placeholder on the appId line is
+# tab, so tapOn would be ambiguous. The appId placeholder on the appId line is
 # replaced by the capture workflow with the bundle id from the built .app.
+#
+# Run 7 lesson: Maestro's openLink goes through SpringBoard, so iOS shows
+# a system "Open in "Glacia Master"?" alert — and the flow never dismissed
+# it, so NO deep link ever navigated: screenshots 02-06 were all the bank
+# home screen with the alert on top (02==03, 04==05==06 by md5). The
+# leftover alert also blocked the video flow's relaunch. Fix: after every
+# openLink, tap the alert's "Open" button. It is `optional: true` so the
+# flow still passes if iOS ever stops showing the alert, and the text is
+# anchored (^Open$) so it cannot match the alert's title
+# ("Open in "Glacia Master"?").
 appId: __BUNDLE_ID__
 ---
 - launchApp:
@@ -15,23 +24,41 @@ appId: __BUNDLE_ID__
 - waitForAnimationToEnd
 - takeScreenshot: 01-bank-home
 - openLink: "glacia-master://templates/bank/accounts"
+- tapOn:
+    text: "^Open$"
+    optional: true
 - waitForAnimationToEnd
 - takeScreenshot: 02-bank-accounts
 - openLink: "glacia-master://templates/bank/cards"
+- tapOn:
+    text: "^Open$"
+    optional: true
 - waitForAnimationToEnd
 - takeScreenshot: 03-bank-cards
 - openLink: "glacia-master://templates/bank/activity"
+- tapOn:
+    text: "^Open$"
+    optional: true
 - waitForAnimationToEnd
 - takeScreenshot: 04-bank-activity
 - openLink: "glacia-master://templates/bank/profile"
+- tapOn:
+    text: "^Open$"
+    optional: true
 - waitForAnimationToEnd
 - takeScreenshot: 05-bank-profile
 - openLink: "glacia-master://templates/bank"
+- tapOn:
+    text: "^Open$"
+    optional: true
 - waitForAnimationToEnd
 # Account detail via deep link, not a tap: the "Main Checking" card sits
 # in a horizontal scroll row and Maestro's text search missed it on the
 # 0.6.1 run (attempt 5). The link opens the same screen the card's
 # onPress pushes (/templates/bank/account/checking).
 - openLink: "glacia-master://templates/bank/account/checking"
+- tapOn:
+    text: "^Open$"
+    optional: true
 - waitForAnimationToEnd
 - takeScreenshot: 06-bank-account-detail
