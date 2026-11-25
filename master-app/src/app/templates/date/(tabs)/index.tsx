@@ -91,7 +91,7 @@ export default function DiscoverScreen() {
               isDark={kindred.darkMode}
               accessibilityLabel={`Pass on ${current.name}`}
               variant="glass"
-              size="lg"
+              size="sm"
               style={styles.actionButton}
               onPress={() => kindred.pass(current.id)}
             >
@@ -101,7 +101,7 @@ export default function DiscoverScreen() {
               isDark={kindred.darkMode}
               accessibilityLabel={`Super like ${current.name}`}
               variant="glass"
-              size="lg"
+              size="sm"
               style={styles.actionButton}
               disabled={kindred.superLikesLeft <= 0}
               onPress={() => kindred.superLike(current.id)}
@@ -112,7 +112,7 @@ export default function DiscoverScreen() {
               isDark={kindred.darkMode}
               accessibilityLabel={`Like ${current.name}`}
               variant="filled"
-              size="lg"
+              size="sm"
               style={styles.actionButton}
               onPress={() => kindred.like(current.id)}
             >

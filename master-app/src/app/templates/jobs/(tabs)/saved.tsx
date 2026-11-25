@@ -44,6 +44,7 @@ export default function SavedScreen() {
                     isDark={jobs.darkMode}
                     accessibilityLabel={`Remove ${job.title} from saved`}
                     variant="glass"
+                    size="sm"
                     onPress={() => jobs.toggleSaved(job.id)}
                     style={styles.action}
                   >
@@ -55,6 +56,7 @@ export default function SavedScreen() {
                       applied ? `View application for ${job.title}` : `Apply to ${job.title}`
                     }
                     variant="filled"
+                    size="sm"
                     onPress={() =>
                       applied
                         ? router.push(`/templates/jobs/application/${jobs.applicationFor(job.id)!.id}`)

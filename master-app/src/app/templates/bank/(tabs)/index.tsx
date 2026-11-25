@@ -97,6 +97,7 @@ export default function HomeScreen() {
       {/* Quick actions */}
       <View style={styles.actions}>
         <Button
+          size="sm"
           isDark={bank.darkMode}
           accessibilityLabel="Send money"
           variant="filled"
@@ -106,6 +107,7 @@ export default function HomeScreen() {
           Send
         </Button>
         <Button
+          size="sm"
           isDark={bank.darkMode}
           accessibilityLabel="Request money"
           variant="filled"
@@ -115,6 +117,7 @@ export default function HomeScreen() {
           Request
         </Button>
         <Button
+          size="sm"
           isDark={bank.darkMode}
           accessibilityLabel="Top up account"
           variant="filled"
@@ -124,6 +127,7 @@ export default function HomeScreen() {
           Top up
         </Button>
         <Button
+          size="sm"
           isDark={bank.darkMode}
           accessibilityLabel="More actions"
           onPress={() => setSheet("more")}
