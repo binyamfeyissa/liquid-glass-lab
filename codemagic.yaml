@@ -519,6 +519,14 @@ workflows:
           set -e
           echo "=== Maestro screenshots run finished $(date -u +%H:%M:%S) UTC, exit $MAESTRO_STATUS ==="
           find "$CM_BUILD_DIR" -maxdepth 3 -name "0*.png" -not -path "$CM_BUILD_DIR/capture/*" -exec cp {} "$CM_BUILD_DIR/capture/" \; 2>/dev/null || true
+          # Maestro 2.x writes takeScreenshot files into its own run dir
+          # ($HOME/.maestro/tests/<timestamp>/), NOT the working directory
+          # — attempt 5 took all 6 shots but none were collected.
+          LATEST_RUN=$(ls -dt "$HOME/.maestro/tests/"*/ 2>/dev/null | head -1)
+          if [ -n "$LATEST_RUN" ]; then
+            echo "Maestro run dir: $LATEST_RUN"
+            find "$LATEST_RUN" -maxdepth 1 -name "0*.png" -exec cp {} "$CM_BUILD_DIR/capture/" \; 2>/dev/null || true
+          fi
           ls -la "$CM_BUILD_DIR/capture/"
           if [ "$MAESTRO_STATUS" -ne 0 ]; then
             echo "Maestro screenshots flow failed (exit $MAESTRO_STATUS)"

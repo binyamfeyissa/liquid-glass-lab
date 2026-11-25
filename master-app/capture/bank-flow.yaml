@@ -28,6 +28,10 @@ appId: __BUNDLE_ID__
 - takeScreenshot: 05-bank-profile
 - openLink: "glacia-master://templates/bank"
 - waitForAnimationToEnd
-- tapOn: "Main Checking"
+# Account detail via deep link, not a tap: the "Main Checking" card sits
+# in a horizontal scroll row and Maestro's text search missed it on the
+# 0.6.1 run (attempt 5). The link opens the same screen the card's
+# onPress pushes (/templates/bank/account/checking).
+- openLink: "glacia-master://templates/bank/account/checking"
 - waitForAnimationToEnd
 - takeScreenshot: 06-bank-account-detail
