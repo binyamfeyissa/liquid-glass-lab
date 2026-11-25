@@ -1,7 +1,8 @@
 import React, { useMemo, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { Button, IconButton, SegmentedControl } from "glacia-native";
+import { colors, Button, IconButton, SegmentedControl } from "glacia-native";
+import { ChevronLeft } from "lucide-react-native";
 
 import { episodesOfShow, showById } from "../data";
 import { useCast } from "../state";
@@ -40,7 +41,7 @@ export default function ShowScreen() {
           accessibilityLabel="Back"
           onPress={() => router.back()}
           isDark={darkMode}
-          icon={<T variant="heading">‹</T>}
+          icon={<ChevronLeft size={20} color={colors[darkMode ? "dark" : "light"].foreground} />}
         />
         <T variant="label" muted>
           Podcast

@@ -32,6 +32,7 @@ export default function HomeScreen() {
           <View style={styles.headerRight}>
             <Avatar name={fleet.riderName} size="md" isDark={fleet.darkMode} />
             <Switch
+              isDark={fleet.darkMode}
               value={fleet.online}
               onValueChange={fleet.setOnline}
               accessibilityLabel="Online"
@@ -50,6 +51,7 @@ export default function HomeScreen() {
             The payout is in today's earnings below
           </T>
           <Button
+            isDark={fleet.darkMode}
             accessibilityLabel="Dismiss delivery confirmation"
             variant="ghost"
             onPress={fleet.clearLastDelivered}
@@ -143,6 +145,7 @@ export default function HomeScreen() {
               </T>
             </View>
             <Button
+              isDark={fleet.darkMode}
               accessibilityLabel="View job offer"
               variant="filled"
               disabled={!fleet.online}

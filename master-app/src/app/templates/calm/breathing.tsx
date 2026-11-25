@@ -94,6 +94,7 @@ export default function BreathingScreen() {
     >
       <View style={styles.topRow}>
         <Button
+          isDark={app.darkMode}
           accessibilityLabel="Back"
           variant="glass"
           onPress={() => router.back()}
@@ -151,6 +152,7 @@ export default function BreathingScreen() {
       ) : null}
 
       <Button
+        isDark={app.darkMode}
         accessibilityLabel={running ? "Stop breathing exercise" : "Start breathing exercise"}
         variant="filled"
         onPress={() => {
@@ -181,6 +183,7 @@ export default function BreathingScreen() {
                   </T>
                 </View>
                 <Button
+                  isDark={app.darkMode}
                   accessibilityLabel={`Use the ${p.name} pattern`}
                   variant={p.id === patternId ? "filled" : "glass"}
                   onPress={() => {

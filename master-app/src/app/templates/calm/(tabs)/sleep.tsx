@@ -67,6 +67,7 @@ export default function SleepScreen() {
           </Badge>
         </View>
         <Button
+          isDark={app.darkMode}
           accessibilityLabel={mixerRunning ? "Stop the soundscape" : "Play the soundscape"}
           variant="filled"
           disabled={activeSounds.length === 0}

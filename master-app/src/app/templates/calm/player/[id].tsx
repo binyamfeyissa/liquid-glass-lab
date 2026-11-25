@@ -133,6 +133,7 @@ export default function PlayerScreen() {
     >
       <View style={styles.topRow}>
         <Button
+          isDark={app.darkMode}
           accessibilityLabel="Back"
           variant="glass"
           onPress={() => router.back()}
@@ -203,6 +204,7 @@ export default function PlayerScreen() {
       {/* Transport */}
       <View style={styles.transport}>
         <Button
+          isDark={app.darkMode}
           accessibilityLabel="Back 30 seconds"
           variant="glass"
           onPress={() => skip(-30)}
@@ -211,6 +213,7 @@ export default function PlayerScreen() {
           −30s
         </Button>
         <Button
+          isDark={app.darkMode}
           accessibilityLabel={playing ? "Pause" : "Play"}
           variant="filled"
           onPress={togglePlay}
@@ -219,6 +222,7 @@ export default function PlayerScreen() {
           {finished ? "Listen again" : playing ? "Pause" : "Play"}
         </Button>
         <Button
+          isDark={app.darkMode}
           accessibilityLabel="Forward 30 seconds"
           variant="glass"
           onPress={() => skip(30)}

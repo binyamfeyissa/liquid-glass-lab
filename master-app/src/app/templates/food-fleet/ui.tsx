@@ -10,6 +10,7 @@ import {
   type ViewStyle,
 } from "react-native";
 import {
+  colors,
   Badge,
   Card,
   SegmentedControl,
@@ -17,6 +18,7 @@ import {
   Text,
   type TextProps,
 } from "glacia-native";
+import { ChevronRight, Star } from "lucide-react-native";
 
 import type { Job } from "./data";
 import { useFleet, type BackdropMode } from "./state";
@@ -91,7 +93,7 @@ export function Figure({ style, ...rest }: TextProps) {
 /* ------------------------------------------------------------------ */
 /*  Backdrop — the three backgrounds, and nothing else.                */
 /*  Dark: graphite #141415. Light: broken white #f7f4ee.               */
-/*  Photo: the Tahoe image, full-bleed, under a neutral scrim.         */
+/*  Photo: the palm image, full-bleed, under a neutral scrim.         */
 /* ------------------------------------------------------------------ */
 
 export function Backdrop() {
@@ -262,9 +264,7 @@ export function NavRow({
           {detail}
         </Figure>
       ) : null}
-      <T variant="heading" muted>
-        ›
-      </T>
+      <ChevronRight size={20} color={colors[darkMode ? "dark" : "light"].muted} />
     </Pressable>
   );
 }
@@ -344,24 +344,23 @@ export function StatusBadge({ status }: { status: Job["status"] }) {
 }
 
 /**
- * Stars drawn as text glyphs — glacia-native has no rating widget.
+ * Stars are Lucide icons — glacia-native has no rating widget.
  * Set in ink, never in an accent: the number beside them is the figure.
  */
 export function Stars({ count, size = 15 }: { count: number; size?: number }) {
   const { darkMode } = useFleet();
+  const ink = darkMode ? "#ededed" : "#1f1b16";
   return (
-    <T
-      style={{
-        fontSize: size,
-        letterSpacing: 1,
-        color: darkMode ? "#ededed" : "#1f1b16",
-      }}
-    >
-      {"★".repeat(count)}
-      <T style={{ fontSize: size, color: "rgba(127,127,127,0.45)" }}>
-        {"★".repeat(5 - count)}
-      </T>
-    </T>
+    <View style={{ flexDirection: "row", gap: 2, alignItems: "center" }}>
+      {[0, 1, 2, 3, 4].map((i) => (
+        <Star
+          key={i}
+          size={size}
+          color={i < count ? ink : "rgba(127,127,127,0.45)"}
+          fill={i < count ? ink : "none"}
+        />
+      ))}
+    </View>
   );
 }
 

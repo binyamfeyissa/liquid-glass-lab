@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
-import { Button, IconButton, Stepper, Toast } from "glacia-native";
+import { colors, Button, IconButton, Stepper, Toast } from "glacia-native";
+import { ChevronLeft } from "lucide-react-native";
 
 import { aisleById, productById, productsInAisle } from "../data";
 import { useBasket } from "../state";
@@ -49,7 +50,7 @@ export default function ProductScreen() {
             accessibilityLabel="Back"
             onPress={() => router.back()}
             isDark={basket.darkMode}
-            icon={<T variant="heading">‹</T>}
+            icon={<ChevronLeft size={20} color={colors[basket.darkMode ? "dark" : "light"].foreground} />}
           />
           <T variant="caption" muted style={styles.flex}>
             {aisleById(product.aisleId).name}
@@ -94,6 +95,7 @@ export default function ProductScreen() {
             onValueChange={setQty}
           />
           <Button
+            isDark={basket.darkMode}
             accessibilityLabel={`Add ${qty} of ${product.name} to cart`}
             variant="filled"
             size="lg"

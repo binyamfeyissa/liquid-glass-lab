@@ -14,7 +14,7 @@ export default function TransactionDetailScreen() {
   if (!tx) {
     return (
       <Screen title="Payment not found">
-        <Button accessibilityLabel="Back" onPress={() => router.back()}>
+        <Button accessibilityLabel="Back" onPress={() => router.back()} isDark={bank.darkMode}>
           Back
         </Button>
       </Screen>
@@ -67,6 +67,7 @@ export default function TransactionDetailScreen() {
       </Card>
 
       <Button
+        isDark={bank.darkMode}
         accessibilityLabel={tx.disputed ? "Cancel dispute" : "Dispute this payment"}
         variant={tx.disputed ? "glass" : "filled"}
         onPress={() => bank.toggleDisputed(tx.id)}
@@ -78,7 +79,7 @@ export default function TransactionDetailScreen() {
           ? "Our team reviews disputes within 2 business days. The payment stays marked here and in your activity list."
           : "Disputing flags the payment for review — use it if you don't recognise this charge."}
       </T>
-      <Button accessibilityLabel="Back" variant="ghost" onPress={() => router.back()}>
+      <Button accessibilityLabel="Back" variant="ghost" onPress={() => router.back()} isDark={bank.darkMode}>
         Back
       </Button>
     </Screen>

@@ -1,7 +1,8 @@
 import React, { useMemo } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 import { router } from "expo-router";
-import { Avatar, Button } from "glacia-native";
+import { colors, Avatar, Button } from "glacia-native";
+import { X } from "lucide-react-native";
 
 import { useHealth } from "./state";
 import {
@@ -42,6 +43,7 @@ export default function HistoryScreen() {
       subtitle="Every entry you have logged, newest first"
     >
       <Button
+        isDark={app.darkMode}
         accessibilityLabel="Back"
         variant="ghost"
         onPress={() => router.back()}
@@ -96,9 +98,7 @@ export default function HistoryScreen() {
                         pressed && { backgroundColor: chrome.fill },
                       ]}
                     >
-                      <T variant="body" muted>
-                        ✕
-                      </T>
+                      <X size={16} color={colors[app.darkMode ? "dark" : "light"].muted} />
                     </Pressable>
                   </View>
                 </React.Fragment>

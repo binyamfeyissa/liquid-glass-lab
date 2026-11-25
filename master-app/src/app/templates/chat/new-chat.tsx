@@ -54,6 +54,7 @@ export default function NewChatScreen() {
         isDark={chat.darkMode}
       />
       <Button
+        isDark={chat.darkMode}
         accessibilityLabel="Create a group instead"
         variant="glass"
         onPress={() => router.replace("/templates/chat/new-group")}
@@ -80,7 +81,7 @@ export default function NewChatScreen() {
           No contacts match “{query}”
         </T>
       )}
-      <Button accessibilityLabel="Cancel" variant="ghost" onPress={() => router.back()}>
+      <Button accessibilityLabel="Cancel" variant="ghost" onPress={() => router.back()} isDark={chat.darkMode}>
         Cancel
       </Button>
     </Screen>

@@ -73,6 +73,7 @@ export default function CheckoutScreen() {
           Your cart is empty — add a dish first
         </T>
         <Button
+          isDark={food.darkMode}
           accessibilityLabel="Browse restaurants"
           variant="filled"
           onPress={() => router.replace("/templates/food/(tabs)")}
@@ -231,6 +232,7 @@ export default function CheckoutScreen() {
 
       <View style={styles.footer}>
         <Button
+          isDark={food.darkMode}
           accessibilityLabel={`Place order, ${money(total)}`}
           variant="filled"
           size="lg"

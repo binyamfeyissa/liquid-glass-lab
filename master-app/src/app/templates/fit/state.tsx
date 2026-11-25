@@ -66,7 +66,7 @@ interface FitState {
   lifetimeHours: number;
   lifetimeCalories: number;
 
-  /** The three backgrounds: dark gray, broken white, or the Tahoe photo. */
+  /** The three backgrounds: dark gray, broken white, or the palm photo. */
   backdrop: BackdropMode;
   setBackdrop: (value: BackdropMode) => void;
   /** Derived: true unless the backdrop is the broken-white light mode. */

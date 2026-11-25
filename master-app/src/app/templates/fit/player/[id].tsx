@@ -7,6 +7,7 @@ import React, {
 import { ScrollView, StyleSheet, View } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import { Badge, Button, Card, Progress } from "glacia-native";
+import { Check } from "lucide-react-native";
 
 import { completionShare, useFit, type LogResult } from "../state";
 import { totalSets, workoutById } from "../data";
@@ -133,12 +134,7 @@ export default function PlayerScreen() {
               },
             ]}
           >
-            <T
-              variant="title"
-              style={[styles.doneBadgeText, { color: accentColor(fit.darkMode) }]}
-            >
-              ✓
-            </T>
+            <Check size={28} color={accentColor(fit.darkMode)} />
           </View>
           <T variant="title" style={styles.centerText}>
             Workout complete

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { router } from "expo-router";
-import { Button, Field, IconButton, Input, RadioGroup } from "glacia-native";
+import { colors, Button, Field, IconButton, Input, RadioGroup } from "glacia-native";
+import { ChevronLeft } from "lucide-react-native";
 
 import { useBasket, type Order } from "./state";
 import { Figure, ListCard, RowSeparator, SectionTitle, T, money } from "./ui";
@@ -71,6 +72,7 @@ export default function CheckoutScreen() {
             </View>
           </ListCard>
           <Button
+            isDark={basket.darkMode}
             accessibilityLabel="View my orders"
             variant="filled"
             size="lg"
@@ -80,6 +82,7 @@ export default function CheckoutScreen() {
             View my orders
           </Button>
           <Button
+            isDark={basket.darkMode}
             accessibilityLabel="Continue shopping"
             variant="ghost"
             onPress={() => router.replace("/templates/grocery/(tabs)")}
@@ -103,7 +106,7 @@ export default function CheckoutScreen() {
           accessibilityLabel="Back"
           onPress={() => router.back()}
           isDark={basket.darkMode}
-          icon={<T variant="heading">‹</T>}
+          icon={<ChevronLeft size={20} color={colors[basket.darkMode ? "dark" : "light"].foreground} />}
         />
         <View style={styles.flex}>
           <T variant="title">Checkout</T>
@@ -132,6 +135,7 @@ export default function CheckoutScreen() {
             <View style={styles.addressForm}>
               <Field label="Label" isDark={basket.darkMode}>
                 <Input
+                  isDark={basket.darkMode}
                   value={label}
                   onChangeText={setLabel}
                   placeholder="e.g. Parents' house"
@@ -140,6 +144,7 @@ export default function CheckoutScreen() {
               </Field>
               <Field label="Street address" isDark={basket.darkMode}>
                 <Input
+                  isDark={basket.darkMode}
                   value={line}
                   onChangeText={setLine}
                   placeholder="Street and number"
@@ -148,6 +153,7 @@ export default function CheckoutScreen() {
               </Field>
               <Field label="City" error={addressError} isDark={basket.darkMode}>
                 <Input
+                  isDark={basket.darkMode}
                   value={city}
                   onChangeText={setCity}
                   placeholder="City"
@@ -156,6 +162,7 @@ export default function CheckoutScreen() {
                 />
               </Field>
               <Button
+                isDark={basket.darkMode}
                 accessibilityLabel="Save address"
                 variant="filled"
                 onPress={saveAddress}
@@ -163,6 +170,7 @@ export default function CheckoutScreen() {
                 Save address
               </Button>
               <Button
+                isDark={basket.darkMode}
                 accessibilityLabel="Cancel adding address"
                 variant="ghost"
                 onPress={() => setAddingAddress(false)}
@@ -172,6 +180,7 @@ export default function CheckoutScreen() {
             </View>
           ) : (
             <Button
+              isDark={basket.darkMode}
               accessibilityLabel="Add a new address"
               variant="ghost"
               onPress={() => setAddingAddress(true)}
@@ -193,6 +202,7 @@ export default function CheckoutScreen() {
               </Figure>
             </View>
             <Button
+              isDark={basket.darkMode}
               accessibilityLabel="Change delivery slot"
               variant="ghost"
               size="sm"
@@ -246,6 +256,7 @@ export default function CheckoutScreen() {
       </ListCard>
 
       <Button
+        isDark={basket.darkMode}
         accessibilityLabel="Place order"
         variant="filled"
         size="lg"

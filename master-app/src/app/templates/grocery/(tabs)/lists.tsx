@@ -37,6 +37,7 @@ function ListCard({ list }: { list: ShoppingList }) {
         </View>
         {confirmDelete ? (
           <Button
+            isDark={basket.darkMode}
             accessibilityLabel={`Confirm delete of ${list.name}`}
             variant="filled"
             size="sm"
@@ -46,6 +47,7 @@ function ListCard({ list }: { list: ShoppingList }) {
           </Button>
         ) : (
           <Button
+            isDark={basket.darkMode}
             accessibilityLabel={`Delete ${list.name}`}
             variant="ghost"
             size="sm"
@@ -81,6 +83,7 @@ function ListCard({ list }: { list: ShoppingList }) {
                   </T>
                 ) : (
                   <Button
+                    isDark={basket.darkMode}
                     accessibilityLabel={`Add ${product.name} from ${list.name} to cart`}
                     size="sm"
                     onPress={() => basket.addListItemToCart(list.id, item.productId)}
@@ -101,6 +104,7 @@ function ListCard({ list }: { list: ShoppingList }) {
 
       {list.items.length > 0 ? (
         <Button
+          isDark={basket.darkMode}
           accessibilityLabel={`Add all of ${list.name} to cart`}
           variant="filled"
           style={styles.addAll}
@@ -114,6 +118,7 @@ function ListCard({ list }: { list: ShoppingList }) {
       ) : null}
       {addedAll ? (
         <Button
+          isDark={basket.darkMode}
           accessibilityLabel="Go to cart"
           variant="ghost"
           onPress={() => router.push("/templates/grocery/cart")}
@@ -148,6 +153,7 @@ export default function ListsScreen() {
     <View style={styles.root}>
       <Screen title="Shopping lists" subtitle="Your saved shopping lists">
         <Button
+          isDark={basket.darkMode}
           accessibilityLabel="Create a new shopping list"
           variant="filled"
           size="lg"
@@ -182,6 +188,7 @@ export default function ListsScreen() {
           <T variant="heading">New shopping list</T>
           <Field label="List name" error={error} isDark={basket.darkMode}>
             <Input
+              isDark={basket.darkMode}
               value={name}
               onChangeText={(text) => {
                 setName(text);
@@ -194,6 +201,7 @@ export default function ListsScreen() {
             />
           </Field>
           <Button
+            isDark={basket.darkMode}
             accessibilityLabel="Create list"
             variant="filled"
             size="lg"
@@ -202,6 +210,7 @@ export default function ListsScreen() {
             Create list
           </Button>
           <Button
+            isDark={basket.darkMode}
             accessibilityLabel="Cancel"
             variant="ghost"
             onPress={() => setSheetOpen(false)}

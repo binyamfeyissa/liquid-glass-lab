@@ -47,6 +47,7 @@ export default function LikesScreen() {
               <InterestChips interests={profile.interests} />
               <View style={styles.actions}>
                 <Button
+                  isDark={kindred.darkMode}
                   accessibilityLabel={`Dismiss ${profile.name}`}
                   variant="glass"
                   style={styles.actionButton}
@@ -55,6 +56,7 @@ export default function LikesScreen() {
                   Not for me
                 </Button>
                 <Button
+                  isDark={kindred.darkMode}
                   accessibilityLabel={`Like ${profile.name} back`}
                   variant="filled"
                   style={styles.actionButton}

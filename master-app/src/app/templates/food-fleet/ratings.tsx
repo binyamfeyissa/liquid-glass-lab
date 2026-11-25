@@ -41,6 +41,7 @@ export default function RatingsScreen() {
       </View>
 
       <Button
+        isDark={fleet.darkMode}
         accessibilityLabel="Back"
         variant="ghost"
         onPress={() => router.back()}

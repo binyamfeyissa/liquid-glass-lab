@@ -30,6 +30,7 @@ export default function ActiveScreen() {
             appear here
           </T>
           <Button
+            isDark={fleet.darkMode}
             accessibilityLabel="Back to home"
             variant="filled"
             onPress={() => router.replace("/templates/food-fleet/(tabs)")}
@@ -158,6 +159,7 @@ export default function ActiveScreen() {
 
       {/* The one big step button */}
       <Button
+        isDark={fleet.darkMode}
         accessibilityLabel={STAGES[stage]}
         variant="filled"
         size="lg"

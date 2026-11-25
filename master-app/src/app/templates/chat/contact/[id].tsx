@@ -14,7 +14,7 @@ export default function ContactProfileScreen() {
   if (!contact) {
     return (
       <Screen title="Not found" subtitle="That contact doesn't exist">
-        <Button accessibilityLabel="Back" variant="ghost" onPress={() => router.back()}>
+        <Button accessibilityLabel="Back" variant="ghost" onPress={() => router.back()} isDark={chat.darkMode}>
           Back
         </Button>
       </Screen>
@@ -44,6 +44,7 @@ export default function ContactProfileScreen() {
 
       <View style={styles.actions}>
         <Button
+          isDark={chat.darkMode}
           accessibilityLabel={`Message ${contact.name}`}
           variant="filled"
           style={styles.actionButton}
@@ -55,6 +56,7 @@ export default function ContactProfileScreen() {
           Message
         </Button>
         <Button
+          isDark={chat.darkMode}
           accessibilityLabel={`Voice call ${contact.name}`}
           variant="glass"
           style={styles.actionButton}
@@ -63,6 +65,7 @@ export default function ContactProfileScreen() {
           Call
         </Button>
         <Button
+          isDark={chat.darkMode}
           accessibilityLabel={`Video call ${contact.name}`}
           variant="glass"
           style={styles.actionButton}
@@ -72,7 +75,7 @@ export default function ContactProfileScreen() {
         </Button>
       </View>
 
-      <Button accessibilityLabel="Back" variant="ghost" onPress={() => router.back()}>
+      <Button accessibilityLabel="Back" variant="ghost" onPress={() => router.back()} isDark={chat.darkMode}>
         Back
       </Button>
     </Screen>

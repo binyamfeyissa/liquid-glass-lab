@@ -76,7 +76,7 @@ export default function InsightsScreen() {
         {month.label}. Transfers between your own accounts don't count as spending.
       </T>
 
-      <Button accessibilityLabel="Back" variant="ghost" onPress={() => router.back()}>
+      <Button accessibilityLabel="Back" variant="ghost" onPress={() => router.back()} isDark={bank.darkMode}>
         Back
       </Button>
     </Screen>

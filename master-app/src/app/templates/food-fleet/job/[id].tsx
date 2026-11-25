@@ -30,6 +30,7 @@ export default function JobDetailScreen() {
             This job is not on today's list
           </T>
           <Button
+            isDark={fleet.darkMode}
             accessibilityLabel="Back to jobs"
             variant="filled"
             onPress={() => router.replace("/templates/food-fleet/(tabs)/jobs")}
@@ -89,6 +90,7 @@ export default function JobDetailScreen() {
       </View>
 
       <Button
+        isDark={fleet.darkMode}
         accessibilityLabel="Back to jobs"
         variant="ghost"
         onPress={() => router.back()}

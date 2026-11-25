@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { router } from "expo-router";
-import { Badge, Button, Field, Input } from "glacia-native";
+import { colors, Badge, Button, Field, Input } from "glacia-native";
+import { ChevronRight } from "lucide-react-native";
 
 import { useFood } from "./state";
 import {
@@ -46,6 +47,7 @@ export default function CartScreen() {
               Add a dish from a restaurant and it will show up here
             </T>
             <Button
+              isDark={food.darkMode}
               accessibilityLabel="Browse restaurants"
               variant="filled"
               onPress={() => router.replace("/templates/food/(tabs)")}
@@ -71,9 +73,7 @@ export default function CartScreen() {
                       {restaurant.cuisine} · {restaurant.eta}
                     </T>
                   </View>
-                  <T variant="heading" muted>
-                    ›
-                  </T>
+                  <ChevronRight size={20} color={colors[food.darkMode ? "dark" : "light"].muted} />
                 </View>
               </ListCard>
             </Pressable>
@@ -102,19 +102,21 @@ export default function CartScreen() {
                   </React.Fragment>
                 ))}
               </ListCard>
-              <Pressable
-                onPress={food.clearCart}
-                accessibilityRole="button"
-                accessibilityLabel="Clear cart"
-                style={styles.clearWrap}
-              >
-                <T
-                  variant="label"
-                  style={{ color: negativeColor(food.darkMode) }}
+              <View style={styles.clearWrap}>
+                <Button
+                  variant="ghost"
+                  accessibilityLabel="Clear cart"
+                  onPress={food.clearCart}
+                  isDark={food.darkMode}
                 >
-                  Clear cart
-                </T>
-              </Pressable>
+                  <T
+                    variant="label"
+                    style={{ color: negativeColor(food.darkMode) }}
+                  >
+                    Clear cart
+                  </T>
+                </Button>
+              </View>
             </View>
 
             {/* Promo */}
@@ -147,6 +149,7 @@ export default function CartScreen() {
                     </Field>
                   </View>
                   <Button
+                    isDark={food.darkMode}
                     accessibilityLabel="Apply promo code"
                     onPress={() => food.applyPromo(promoInput)}
                   >
@@ -205,6 +208,7 @@ export default function CartScreen() {
       {food.cartLines.length > 0 ? (
         <View style={styles.footer}>
           <Button
+            isDark={food.darkMode}
             accessibilityLabel="Go to checkout"
             variant="filled"
             size="lg"

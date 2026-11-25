@@ -95,6 +95,7 @@ export default function EarningsScreen() {
             </>
           ) : (
             <Button
+              isDark={fleet.darkMode}
               accessibilityLabel="Cash out today's earnings"
               variant="filled"
               disabled={balance <= 0}

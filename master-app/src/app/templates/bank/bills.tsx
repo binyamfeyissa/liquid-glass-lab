@@ -35,6 +35,7 @@ function BillRow({ bill }: { bill: Bill }) {
           </Badge>
         ) : (
           <Button
+            isDark={bank.darkMode}
             accessibilityLabel={`Pay ${bill.name}, ${bill.amount} dollars`}
             variant="filled"
             size="sm"
@@ -100,7 +101,7 @@ export default function BillsScreen() {
         right away.
       </T>
 
-      <Button accessibilityLabel="Back" variant="ghost" onPress={() => router.back()}>
+      <Button accessibilityLabel="Back" variant="ghost" onPress={() => router.back()} isDark={bank.darkMode}>
         Back
       </Button>
     </Screen>

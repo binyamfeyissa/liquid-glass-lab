@@ -1,7 +1,8 @@
 import React from "react";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { useRouter } from "expo-router";
-import { Button, IconButton, SegmentedControl, Select, Slider } from "glacia-native";
+import { colors, Button, IconButton, SegmentedControl, Select, Slider } from "glacia-native";
+import { Menu, Pause, Play, SkipBack, SkipForward } from "lucide-react-native";
 
 import {
   SLEEP_TIMER_OPTIONS,
@@ -81,7 +82,7 @@ export default function PlayerScreen() {
           accessibilityLabel="View queue"
           onPress={() => router.push("/templates/cast/queue")}
           isDark={darkMode}
-          icon={<T variant="body">☰</T>}
+          icon={<Menu size={16} color={colors[darkMode ? "dark" : "light"].foreground} />}
         />
       </View>
 
@@ -143,7 +144,7 @@ export default function PlayerScreen() {
           onPress={cast.prevEpisode}
           isDark={darkMode}
           size="lg"
-          icon={<T variant="heading">◀◀</T>}
+          icon={<SkipBack size={20} color={colors[darkMode ? "dark" : "light"].foreground} />}
         />
         <IconButton
           accessibilityLabel="Back 15 seconds"
@@ -161,9 +162,7 @@ export default function PlayerScreen() {
           variant="filled"
           style={styles.playButton}
         >
-          <T variant="title" style={{ color: "#ffffff" }}>
-            {cast.isPlaying ? "❚❚" : "▶"}
-          </T>
+          {cast.isPlaying ? <Pause size={28} color="#FFFFFF" /> : <Play size={28} color="#FFFFFF" />}
         </Button>
         <IconButton
           accessibilityLabel="Forward 30 seconds"
@@ -177,7 +176,7 @@ export default function PlayerScreen() {
           onPress={cast.nextEpisode}
           isDark={darkMode}
           size="lg"
-          icon={<T variant="heading">▶▶</T>}
+          icon={<SkipForward size={20} color={colors[darkMode ? "dark" : "light"].foreground} />}
         />
       </View>
       <View style={styles.skipRow}>

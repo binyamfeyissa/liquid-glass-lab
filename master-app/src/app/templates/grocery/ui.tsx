@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { router } from "expo-router";
 import {
+  colors,
   Badge,
   Button,
   Card,
@@ -21,6 +22,7 @@ import {
   Text,
   type TextProps,
 } from "glacia-native";
+import { ChevronRight, Heart } from "lucide-react-native";
 
 import { useBasket, type BackdropMode } from "./state";
 import type { Product } from "./data";
@@ -92,7 +94,7 @@ export function Figure({
 /* ------------------------------------------------------------------ */
 /*  Backdrop — the three backgrounds, and nothing else.                */
 /*  Dark: graphite #141415. Light: broken white #f7f4ee.               */
-/*  Photo: the Tahoe image, full-bleed, under a neutral scrim.         */
+/*  Photo: the palm image, full-bleed, under a neutral scrim.         */
 /* ------------------------------------------------------------------ */
 
 export function Backdrop() {
@@ -260,9 +262,7 @@ export function NavRow({
           {detail}
         </Figure>
       ) : null}
-      <T variant="heading" muted>
-        ›
-      </T>
+      <ChevronRight size={20} color={colors[darkMode ? "dark" : "light"].muted} />
     </Pressable>
   );
 }
@@ -350,12 +350,11 @@ export function HeartButton({
       isDark={basket.darkMode}
       size={size}
       icon={
-        <T
-          variant="body"
-          style={active ? { color: accentColor(basket.backdrop) } : undefined}
-        >
-          {active ? "♥" : "♡"}
-        </T>
+        <Heart
+          size={16}
+          color={active ? accentColor(basket.backdrop) : colors[basket.darkMode ? "dark" : "light"].foreground}
+          fill={active ? accentColor(basket.backdrop) : "none"}
+        />
       }
     />
   );
@@ -372,6 +371,7 @@ export function AddControl({ product }: { product: Product }) {
   if (qty === 0) {
     return (
       <Button
+        isDark={basket.darkMode}
         accessibilityLabel={`Add ${product.name} to cart`}
         variant="filled"
         size="sm"

@@ -1,7 +1,8 @@
 import React from "react";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { useRouter } from "expo-router";
-import { Button, Card, IconButton, Progress } from "glacia-native";
+import { colors, Button, Card, IconButton, Progress } from "glacia-native";
+import { Check, ChevronLeft } from "lucide-react-native";
 
 import { EPISODES, episodeById, showById, type Episode } from "./data";
 import { useCast } from "./state";
@@ -34,7 +35,7 @@ export default function DownloadsScreen() {
           accessibilityLabel="Back"
           onPress={() => router.back()}
           isDark={darkMode}
-          icon={<T variant="heading">‹</T>}
+          icon={<ChevronLeft size={20} color={colors[darkMode ? "dark" : "light"].foreground} />}
         />
         <T variant="title">Downloads</T>
       </View>
@@ -135,7 +136,7 @@ function DownloadRow({ episode }: { episode: Episode }) {
       </View>
       {downloaded ? (
         <>
-          <T variant="body">✓</T>
+          <Check size={16} color={colors[darkMode ? "dark" : "light"].foreground} />
           <Button
             accessibilityLabel={`Remove download of ${episode.title}`}
             onPress={() => cast.removeDownload(episode.id)}

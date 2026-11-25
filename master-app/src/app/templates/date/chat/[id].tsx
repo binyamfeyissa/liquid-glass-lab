@@ -9,7 +9,8 @@ import {
 } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Avatar, Button, Input } from "glacia-native";
+import { colors, Avatar, Button, Input } from "glacia-native";
+import { ChevronLeft } from "lucide-react-native";
 
 import { profileById, useKindred, type ChatMessage } from "../state";
 import { Figure, MessageBubble, T } from "../ui";
@@ -56,7 +57,7 @@ export default function ChatScreen() {
           accessibilityLabel="Back to matches"
           style={styles.backButton}
         >
-          <T variant="heading">‹</T>
+          <ChevronLeft size={20} color={colors[kindred.darkMode ? "dark" : "light"].foreground} />
         </Pressable>
         <Avatar name={profile.name} size="md" isDark={kindred.darkMode} />
         <View style={styles.headerText}>
@@ -115,6 +116,7 @@ export default function ChatScreen() {
           />
         </View>
         <Button
+          isDark={kindred.darkMode}
           accessibilityLabel="Send message"
           variant="filled"
           disabled={!draft.trim()}

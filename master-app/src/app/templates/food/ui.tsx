@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { router } from "expo-router";
 import {
+  colors,
   Badge,
   Card,
   IconButton,
@@ -20,6 +21,7 @@ import {
   Text,
   type TextProps,
 } from "glacia-native";
+import { ChevronLeft, ChevronRight, Heart } from "lucide-react-native";
 
 import { useFood, type BackdropMode } from "./state";
 import type { Restaurant } from "./data";
@@ -92,7 +94,7 @@ export function Meta({
 /* ------------------------------------------------------------------ */
 /*  Backdrop — the three backgrounds, and nothing else.                */
 /*  Dark: graphite #141415. Light: broken white #f7f4ee.               */
-/*  Photo: the Tahoe image, full-bleed, under a neutral scrim.         */
+/*  Photo: the palm image, full-bleed, under a neutral scrim.         */
 /* ------------------------------------------------------------------ */
 
 export function Backdrop() {
@@ -262,9 +264,7 @@ export function NavRow({
           {detail}
         </T>
       ) : null}
-      <T variant="heading" muted>
-        ›
-      </T>
+      <ChevronRight size={20} color={colors[darkMode ? "dark" : "light"].muted} />
     </Pressable>
   );
 }
@@ -357,7 +357,7 @@ export function BackButton({ label = "Back" }: { label?: string }) {
       onPress={() => router.back()}
       isDark={darkMode}
       size="lg"
-      icon={<T variant="title">‹</T>}
+      icon={<ChevronLeft size={28} color={colors[darkMode ? "dark" : "light"].foreground} />}
     />
   );
 }
@@ -406,12 +406,15 @@ export function FavouriteButton({
       size={size}
       tint={food.darkMode ? "rgba(0,0,0,0.35)" : "rgba(255,255,255,0.75)"}
       icon={
-        <T
-          variant={size === "lg" ? "title" : "heading"}
-          style={styles.heartGlyph}
-        >
-          {active ? "♥" : "♡"}
-        </T>
+        <Heart
+          size={size === "lg" ? 22 : 20}
+          color={
+            active
+              ? accentColor(food.backdrop)
+              : colors[food.darkMode ? "dark" : "light"].foreground
+          }
+          fill={active ? accentColor(food.backdrop) : "none"}
+        />
       }
     />
   );
@@ -483,6 +486,5 @@ const styles = StyleSheet.create({
     top: -4,
     right: -4,
   },
-  heartGlyph: { color: "#ffffff" },
   stepperSmall: { transform: [{ scale: 0.9 }] },
 });

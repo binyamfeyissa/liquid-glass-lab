@@ -24,6 +24,7 @@ export default function SavedScreen() {
             Save a job from any listing and it will wait for you here
           </T>
           <Button
+            isDark={jobs.darkMode}
             accessibilityLabel="Find jobs to save"
             variant="filled"
             onPress={() => router.push("/templates/jobs/(tabs)")}
@@ -40,6 +41,7 @@ export default function SavedScreen() {
                 <JobCard job={job} />
                 <View style={styles.actions}>
                   <Button
+                    isDark={jobs.darkMode}
                     accessibilityLabel={`Remove ${job.title} from saved`}
                     variant="glass"
                     onPress={() => jobs.toggleSaved(job.id)}
@@ -48,6 +50,7 @@ export default function SavedScreen() {
                     Remove
                   </Button>
                   <Button
+                    isDark={jobs.darkMode}
                     accessibilityLabel={
                       applied ? `View application for ${job.title}` : `Apply to ${job.title}`
                     }

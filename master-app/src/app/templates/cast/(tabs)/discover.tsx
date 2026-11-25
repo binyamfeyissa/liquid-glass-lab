@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { useRouter } from "expo-router";
-import { Card, Chip, Input } from "glacia-native";
+import { Button, Card, Chip, Input } from "glacia-native";
 
 import { CATEGORIES, EPISODES, SHOWS, showById } from "../data";
 import { useCast } from "../state";
@@ -133,25 +133,18 @@ export default function DiscoverScreen() {
                       · {show.cadence}
                     </T>
                   </View>
-                  <Pressable
-                    onPress={() => cast.toggleFollow(show.id)}
-                    accessibilityRole="button"
-                    accessibilityLabel={
-                      following ? `Unfollow ${show.title}` : `Follow ${show.title}`
-                    }
-                    style={styles.followButton}
-                  >
-                    <T
-                      variant="label"
-                      style={
-                        following
-                          ? { color: accentColor(cast.backdrop) }
-                          : undefined
+                  <View style={styles.followButton}>
+                    <Button
+                      accessibilityLabel={
+                        following ? `Unfollow ${show.title}` : `Follow ${show.title}`
                       }
+                      variant={following ? "glass" : "filled"}
+                      onPress={() => cast.toggleFollow(show.id)}
+                      isDark={darkMode}
                     >
                       {following ? "Following" : "Follow"}
-                    </T>
-                  </Pressable>
+                    </Button>
+                  </View>
                 </Card>
               );
             })}

@@ -74,7 +74,7 @@ export default function HomeScreen() {
               returnKeyType="search"
             />
           </View>
-          <Button accessibilityLabel="Run search" variant="filled" onPress={submitSearch}>
+          <Button accessibilityLabel="Run search" variant="filled" onPress={submitSearch} isDark={jobs.darkMode}>
             Search
           </Button>
         </View>

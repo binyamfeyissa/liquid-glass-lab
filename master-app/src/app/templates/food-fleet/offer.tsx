@@ -57,6 +57,7 @@ export default function OfferScreen() {
             to Home for the next one
           </T>
           <Button
+            isDark={fleet.darkMode}
             accessibilityLabel="Back to home"
             variant="filled"
             onPress={() => router.replace("/templates/food-fleet/(tabs)")}
@@ -130,6 +131,7 @@ export default function OfferScreen() {
 
       <View style={styles.actions}>
         <Button
+          isDark={fleet.darkMode}
           accessibilityLabel="Decline this offer"
           variant="ghost"
           onPress={() => {
@@ -141,6 +143,7 @@ export default function OfferScreen() {
           Decline
         </Button>
         <Button
+          isDark={fleet.darkMode}
           accessibilityLabel="Accept this offer"
           variant="filled"
           onPress={() => {

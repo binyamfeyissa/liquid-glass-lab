@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import { Button, Card } from "glacia-native";
+import { X } from "lucide-react-native";
 
 import { STAGES, useJobs, type ApplicationStatus } from "../state";
 import {
@@ -35,6 +36,7 @@ export default function ApplicationDetailScreen() {
     return (
       <Screen title="Application not found" subtitle="It may have been withdrawn">
         <Button
+          isDark={jobs.darkMode}
           accessibilityLabel="Back to applications"
           variant="filled"
           onPress={() => router.replace("/templates/jobs/(tabs)/applications")}
@@ -141,9 +143,7 @@ export default function ApplicationDetailScreen() {
               <View style={styles.stepRow}>
                 <View style={styles.stepRail}>
                   <View style={[styles.dot, { backgroundColor: chrome.neg }]}>
-                    <T variant="caption" style={{ color: onAccent }}>
-                      ✕
-                    </T>
+                    <X size={12} color={onAccent} />
                   </View>
                 </View>
                 <View style={styles.stepText}>
@@ -182,6 +182,7 @@ export default function ApplicationDetailScreen() {
       </View>
 
       <Button
+        isDark={jobs.darkMode}
         accessibilityLabel="View the job posting"
         variant="glass"
         onPress={() => router.push(`/templates/jobs/job/${job.id}`)}
@@ -189,6 +190,7 @@ export default function ApplicationDetailScreen() {
         View the job posting
       </Button>
       <Button
+        isDark={jobs.darkMode}
         accessibilityLabel="Back to applications"
         variant="ghost"
         onPress={() => router.back()}

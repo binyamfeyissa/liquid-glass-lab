@@ -1,7 +1,8 @@
 import React from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 import { useRouter } from "expo-router";
-import { Button } from "glacia-native";
+import { colors, Button } from "glacia-native";
+import { ChevronRight } from "lucide-react-native";
 
 import { episodeById, showById } from "../data";
 import { useCast } from "../state";
@@ -52,9 +53,7 @@ export default function LibraryScreen() {
                       {show.author} · {show.cadence}
                     </T>
                   </View>
-                  <T variant="body" muted>
-                    ›
-                  </T>
+                  <ChevronRight size={16} color={colors[darkMode ? "dark" : "light"].muted} />
                 </Pressable>
               </View>
             ))}

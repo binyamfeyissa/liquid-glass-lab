@@ -72,6 +72,7 @@ export default function ApplicationsScreen() {
             When you apply to a job it lands here with its full timeline
           </T>
           <Button
+            isDark={jobs.darkMode}
             accessibilityLabel="Browse jobs"
             variant="filled"
             onPress={() => router.push("/templates/jobs/(tabs)/search")}

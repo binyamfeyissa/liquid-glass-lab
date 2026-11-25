@@ -27,6 +27,7 @@ export default function ApplyScreen() {
     return (
       <Screen title="Job not found" subtitle="This posting may have been filled or removed">
         <Button
+          isDark={jobs.darkMode}
           accessibilityLabel="Back to jobs"
           variant="filled"
           onPress={() => router.replace("/templates/jobs/(tabs)")}
@@ -73,13 +74,14 @@ export default function ApplyScreen() {
           </T>
         </Card>
         <Button
+          isDark={jobs.darkMode}
           accessibilityLabel="View your application"
           variant="filled"
           onPress={() => router.replace(`/templates/jobs/application/${existing.id}`)}
         >
           View application
         </Button>
-        <Button accessibilityLabel="Back to job" variant="ghost" onPress={() => router.back()}>
+        <Button accessibilityLabel="Back to job" variant="ghost" onPress={() => router.back()} isDark={jobs.darkMode}>
           Back to job
         </Button>
       </Screen>
@@ -99,6 +101,7 @@ export default function ApplyScreen() {
           </T>
         </Card>
         <Button
+          isDark={jobs.darkMode}
           accessibilityLabel="View my application"
           variant="filled"
           onPress={() =>
@@ -110,6 +113,7 @@ export default function ApplyScreen() {
           View my application
         </Button>
         <Button
+          isDark={jobs.darkMode}
           accessibilityLabel="Keep browsing jobs"
           variant="ghost"
           onPress={() => router.replace("/templates/jobs/(tabs)")}
@@ -160,10 +164,11 @@ export default function ApplyScreen() {
             </View>
           </View>
         </ListCard>
-        <Button accessibilityLabel="Submit application" variant="filled" onPress={submit}>
+        <Button accessibilityLabel="Submit application" variant="filled" onPress={submit} isDark={jobs.darkMode}>
           Submit application
         </Button>
         <Button
+          isDark={jobs.darkMode}
           accessibilityLabel="Back to edit application"
           variant="ghost"
           onPress={() => setStep("form")}
@@ -228,6 +233,7 @@ export default function ApplyScreen() {
       </View>
 
       <Button
+        isDark={jobs.darkMode}
         accessibilityLabel="Review application"
         variant="filled"
         onPress={() => {
@@ -236,7 +242,7 @@ export default function ApplyScreen() {
       >
         Review application
       </Button>
-      <Button accessibilityLabel="Cancel application" variant="ghost" onPress={() => router.back()}>
+      <Button accessibilityLabel="Cancel application" variant="ghost" onPress={() => router.back()} isDark={jobs.darkMode}>
         Cancel
       </Button>
     </Screen>

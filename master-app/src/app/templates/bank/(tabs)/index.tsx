@@ -97,6 +97,7 @@ export default function HomeScreen() {
       {/* Quick actions */}
       <View style={styles.actions}>
         <Button
+          isDark={bank.darkMode}
           accessibilityLabel="Send money"
           variant="filled"
           onPress={() => router.push("/templates/bank/send")}
@@ -105,20 +106,25 @@ export default function HomeScreen() {
           Send
         </Button>
         <Button
+          isDark={bank.darkMode}
           accessibilityLabel="Request money"
+          variant="filled"
           onPress={() => setSheet("request")}
           style={styles.action}
         >
           Request
         </Button>
         <Button
+          isDark={bank.darkMode}
           accessibilityLabel="Top up account"
+          variant="filled"
           onPress={() => setSheet("topup")}
           style={styles.action}
         >
           Top up
         </Button>
         <Button
+          isDark={bank.darkMode}
           accessibilityLabel="More actions"
           onPress={() => setSheet("more")}
           style={styles.action}
@@ -212,7 +218,7 @@ export default function HomeScreen() {
                 Your payment link northwind.pay/{bank.userHandle.replace("@", "")} was
                 shared. Requests this session: {bank.requestCount + 1}.
               </T>
-              <Button accessibilityLabel="Done" variant="filled" onPress={closeSheet}>
+              <Button accessibilityLabel="Done" variant="filled" onPress={closeSheet} isDark={bank.darkMode}>
                 Done
               </Button>
             </>
@@ -228,6 +234,7 @@ export default function HomeScreen() {
                 </View>
               </ListCard>
               <Button
+                isDark={bank.darkMode}
                 accessibilityLabel="Send request link"
                 variant="filled"
                 onPress={() => {
@@ -254,7 +261,7 @@ export default function HomeScreen() {
                 The money is in your Main Checking (••{checking.last4}) and shows in
                 your activity.
               </T>
-              <Button accessibilityLabel="Done" variant="filled" onPress={closeSheet}>
+              <Button accessibilityLabel="Done" variant="filled" onPress={closeSheet} isDark={bank.darkMode}>
                 Done
               </Button>
             </>
@@ -274,7 +281,7 @@ export default function HomeScreen() {
                   isDark={bank.darkMode}
                 />
               </Field>
-              <Button accessibilityLabel="Confirm top up" variant="filled" onPress={submitTopUp}>
+              <Button accessibilityLabel="Confirm top up" variant="filled" onPress={submitTopUp} isDark={bank.darkMode}>
                 Add money
               </Button>
             </>

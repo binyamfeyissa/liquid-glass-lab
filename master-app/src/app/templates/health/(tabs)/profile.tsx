@@ -122,6 +122,7 @@ export default function ProfileScreen() {
           ) : null}
           <View style={styles.cardBtn}>
             <Button
+              isDark={app.darkMode}
               accessibilityLabel="Save profile"
               variant="filled"
               onPress={saveProfile}
@@ -241,7 +242,7 @@ export default function ProfileScreen() {
           <View style={styles.backdropBody}>
             <BackdropControl />
             <T variant="caption" muted style={styles.backdropNote}>
-              Dark gray, broken white, or the Tahoe photo — the glass sits over all three
+              Dark gray, broken white, or the palm photo — the glass sits over all three
             </T>
           </View>
         </ListCard>

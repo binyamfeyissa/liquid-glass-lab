@@ -77,7 +77,9 @@ export default function CardsScreen() {
       </Card>
 
       <Button
+        isDark={bank.darkMode}
         accessibilityLabel={detailsRevealed ? "Hide card details" : "Show card details"}
+        variant="filled"
         onPress={() => setDetailsRevealed(!detailsRevealed)}
       >
         {detailsRevealed ? "Hide card details" : "Show card details"}

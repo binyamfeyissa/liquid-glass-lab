@@ -18,7 +18,7 @@ import {
 /**
  * Profile & settings: listening stats computed from the store's
  * history, plus every switch the template supports. The background
- * choice (dark gray, broken white, Tahoe photo) lives in the store
+ * choice (dark gray, broken white, palm photo) lives in the store
  * and threads through the whole app as the derived dark mode.
  */
 export default function ProfileScreen() {
@@ -118,7 +118,7 @@ export default function ProfileScreen() {
           <View style={styles.backdropBody}>
             <BackdropControl />
             <T variant="caption" muted style={styles.backdropNote}>
-              Dark gray, broken white, or the Tahoe photo — the glass sits over all three
+              Dark gray, broken white, or the palm photo — the glass sits over all three
             </T>
           </View>
         </ListCard>

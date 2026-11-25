@@ -1,7 +1,7 @@
 import React from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 import { router } from "expo-router";
-import { Avatar, Badge, Button, Card, Progress, Switch } from "glacia-native";
+import { Avatar, Badge, Button, Card, Chip, Progress, Stepper, Switch } from "glacia-native";
 
 import { useHealth } from "../state";
 import { MOOD_LABELS, todayKey } from "../data";
@@ -84,6 +84,7 @@ export default function TodayScreen() {
       {/* Quick actions */}
       <View style={styles.actions}>
         <Button
+          isDark={app.darkMode}
           accessibilityLabel="Open the log screen"
           variant="filled"
           onPress={() => router.push("/templates/health/log")}
@@ -92,6 +93,7 @@ export default function TodayScreen() {
           Log entry
         </Button>
         <Button
+          isDark={app.darkMode}
           accessibilityLabel="Open history"
           variant="ghost"
           onPress={() => router.push("/templates/health/history")}
@@ -111,19 +113,12 @@ export default function TodayScreen() {
         >
           <View style={styles.quickAdds}>
             {[250, 500, 1000].map((n) => (
-              <Pressable
+              <Chip
                 key={n}
+                label={`+${n}`}
                 onPress={() => app.addEntry("steps", n)}
-                accessibilityRole="button"
-                accessibilityLabel={`Add ${n} steps`}
-                style={({ pressed }) => [
-                  styles.quickAdd,
-                  { borderColor: chrome.hairline },
-                  pressed && { backgroundColor: chrome.fill },
-                ]}
-              >
-                <Figure variant="caption">+{n}</Figure>
-              </Pressable>
+                isDark={app.darkMode}
+              />
             ))}
           </View>
         </MetricCard>
@@ -135,30 +130,13 @@ export default function TodayScreen() {
           progress={pct(water, app.goals.water)}
         >
           <View style={styles.stepperRow}>
-            <Pressable
-              onPress={() => app.setDayTotal("water", today, Math.max(0, water - 1))}
-              accessibilityRole="button"
-              accessibilityLabel="Remove a glass of water"
-              style={({ pressed }) => [
-                styles.stepperBtn,
-                { borderColor: chrome.hairline },
-                pressed && { backgroundColor: chrome.fill },
-              ]}
-            >
-              <T variant="heading">−</T>
-            </Pressable>
-            <Pressable
-              onPress={() => app.setDayTotal("water", today, water + 1)}
-              accessibilityRole="button"
-              accessibilityLabel="Add a glass of water"
-              style={({ pressed }) => [
-                styles.stepperBtn,
-                { borderColor: chrome.hairline },
-                pressed && { backgroundColor: chrome.fill },
-              ]}
-            >
-              <T variant="heading">+</T>
-            </Pressable>
+            <Stepper
+              value={water}
+              min={0}
+              onValueChange={(v) => app.setDayTotal("water", today, v)}
+              accessibilityLabel="Glasses of water"
+              isDark={app.darkMode}
+            />
           </View>
         </MetricCard>
       </View>
@@ -209,6 +187,7 @@ export default function TodayScreen() {
               </T>
             </View>
             <Button
+              isDark={app.darkMode}
               accessibilityLabel="Log mood"
               variant="ghost"
               onPress={() => router.push("/templates/health/log")}

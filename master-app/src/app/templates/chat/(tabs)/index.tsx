@@ -1,7 +1,8 @@
 import React, { useMemo, useState } from "react";
 import { FlatList, Pressable, StyleSheet, View } from "react-native";
 import { router } from "expo-router";
-import { Avatar, IconButton, Input } from "glacia-native";
+import { colors, Avatar, IconButton, Input } from "glacia-native";
+import { Plus, Users } from "lucide-react-native";
 
 import { useChat, type Conversation } from "../state";
 import { accentColor, ContactAvatar, Figure, pressedFill, T } from "../ui";
@@ -104,21 +105,13 @@ export default function ChatsScreen() {
           <T variant="title">Relay</T>
           <View style={styles.headerActions}>
             <IconButton
-              icon={
-                <T variant="caption" style={styles.headerGlyph}>
-                  Group
-                </T>
-              }
+              icon={<Users size={16} color={colors[chat.darkMode ? "dark" : "light"].foreground} />}
               accessibilityLabel="Create a group"
               isDark={chat.darkMode}
               onPress={() => router.push("/templates/chat/new-group")}
             />
             <IconButton
-              icon={
-                <T variant="caption" style={styles.headerGlyph}>
-                  New
-                </T>
-              }
+              icon={<Plus size={16} color={colors[chat.darkMode ? "dark" : "light"].foreground} />}
               accessibilityLabel="New chat"
               isDark={chat.darkMode}
               onPress={() => router.push("/templates/chat/new-chat")}

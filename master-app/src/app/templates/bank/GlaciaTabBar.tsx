@@ -1,7 +1,8 @@
-import React from "react";
+import React, { type ReactNode } from "react";
 import { StyleSheet, View } from "react-native";
 import type { BottomTabBarProps } from "expo-router/build/layouts/Tabs";
 import { TabBar } from "glacia-native";
+import { Activity, CreditCard, Home, User, Wallet } from "lucide-react-native";
 
 import { useBank } from "./state";
 
@@ -12,6 +13,17 @@ const LABELS: Record<string, string> = {
   cards: "Cards",
   activity: "Activity",
   profile: "Profile",
+};
+
+/** Route name -> tab icon, as a render function: the engine tab bar
+ *  calls icon({ focused, color, size }), so the colour and size it
+ *  resolves (accent when focused, muted when not) flow straight in. */
+const ICONS: Record<string, (state: { color: string; size: number }) => ReactNode> = {
+  index: ({ color, size }) => <Home color={color} size={size} />,
+  accounts: ({ color, size }) => <Wallet color={color} size={size} />,
+  cards: ({ color, size }) => <CreditCard color={color} size={size} />,
+  activity: ({ color, size }) => <Activity color={color} size={size} />,
+  profile: ({ color, size }) => <User color={color} size={size} />,
 };
 
 /**
@@ -33,6 +45,7 @@ export function GlaciaTabBar({ state, emitter, navigateToTab, insets }: BottomTa
         items={state.routes.map((route) => ({
           id: route.key,
           label: LABELS[route.name] ?? route.name,
+          icon: ICONS[route.name],
         }))}
         onTabChange={(key) => {
           const route = state.routes.find((r) => r.key === key);

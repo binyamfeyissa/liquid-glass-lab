@@ -19,6 +19,7 @@ export default function SignedOutScreen() {
           You are signed out. Sign in to return to your accounts.
         </T>
         <Button
+          isDark={bank.darkMode}
           accessibilityLabel="Sign in"
           variant="filled"
           onPress={() => {

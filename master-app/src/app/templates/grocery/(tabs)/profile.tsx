@@ -116,6 +116,7 @@ export default function ProfileScreen() {
             <ListCard style={styles.form}>
               <Field label="Label" isDark={basket.darkMode}>
                 <Input
+                  isDark={basket.darkMode}
                   value={label}
                   onChangeText={setLabel}
                   placeholder="e.g. Parents' house"
@@ -124,6 +125,7 @@ export default function ProfileScreen() {
               </Field>
               <Field label="Street address" isDark={basket.darkMode}>
                 <Input
+                  isDark={basket.darkMode}
                   value={line}
                   onChangeText={setLine}
                   placeholder="Street and number"
@@ -132,6 +134,7 @@ export default function ProfileScreen() {
               </Field>
               <Field label="City" error={error} isDark={basket.darkMode}>
                 <Input
+                  isDark={basket.darkMode}
                   value={city}
                   onChangeText={setCity}
                   placeholder="City"
@@ -140,6 +143,7 @@ export default function ProfileScreen() {
                 />
               </Field>
               <Button
+                isDark={basket.darkMode}
                 accessibilityLabel="Save address"
                 variant="filled"
                 onPress={saveAddress}
@@ -147,6 +151,7 @@ export default function ProfileScreen() {
                 Save address
               </Button>
               <Button
+                isDark={basket.darkMode}
                 accessibilityLabel="Cancel adding address"
                 variant="ghost"
                 onPress={() => setAdding(false)}
@@ -156,6 +161,7 @@ export default function ProfileScreen() {
             </ListCard>
           ) : (
             <Button
+              isDark={basket.darkMode}
               accessibilityLabel="Add a new address"
               variant="ghost"
               onPress={() => setAdding(true)}
@@ -190,7 +196,7 @@ export default function ProfileScreen() {
           <Card isDark={basket.darkMode} padding={16}>
             <BackdropControl />
             <T variant="caption" muted style={styles.backdropNote}>
-              Dark, broken white, or the Tahoe photo behind the glass
+              Dark, broken white, or the palm photo behind the glass
             </T>
           </Card>
         </View>

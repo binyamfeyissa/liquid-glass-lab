@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { router } from "expo-router";
 import {
+  colors,
   Card,
   IconButton,
   SegmentedControl,
@@ -18,6 +19,7 @@ import {
   Text,
   type TextProps,
 } from "glacia-native";
+import { Bookmark, ChevronRight } from "lucide-react-native";
 
 import { useJobs, type ApplicationStatus, type BackdropMode } from "./state";
 import {
@@ -76,7 +78,7 @@ export function Figure({ style, ...rest }: TextProps) {
 /* ------------------------------------------------------------------ */
 /*  Backdrop — the three backgrounds, and nothing else.                */
 /*  Dark: graphite #141415. Light: broken white #f7f4ee.               */
-/*  Photo: the Tahoe image, full-bleed, under a neutral scrim.         */
+/*  Photo: the palm image, full-bleed, under a neutral scrim.         */
 /* ------------------------------------------------------------------ */
 
 export function Backdrop() {
@@ -220,7 +222,7 @@ export function NavRow({
   detail?: string;
   onPress: () => void;
 }) {
-  const { backdrop } = useJobs();
+  const { backdrop, darkMode } = useJobs();
   const chrome = chromeColors(backdrop);
   return (
     <Pressable
@@ -245,9 +247,7 @@ export function NavRow({
           {detail}
         </Figure>
       ) : null}
-      <T variant="heading" muted>
-        ›
-      </T>
+      <ChevronRight size={20} color={colors[darkMode ? "dark" : "light"].muted} />
     </Pressable>
   );
 }
@@ -352,9 +352,11 @@ export function JobCard({ job, showMatch = true }: { job: Job; showMatch?: boole
           onPress={() => jobs.toggleSaved(job.id)}
           isDark={jobs.darkMode}
           icon={
-            <T variant="caption" style={saved ? { color: chrome.accent } : undefined}>
-              {saved ? "Saved" : "Save"}
-            </T>
+            <Bookmark
+              size={16}
+              color={saved ? chrome.accent : colors[jobs.darkMode ? "dark" : "light"].foreground}
+              fill={saved ? chrome.accent : "none"}
+            />
           }
         />
       </View>

@@ -2,7 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Button, IconButton } from "glacia-native";
+import { colors, Button, IconButton } from "glacia-native";
+import { Mic, MicOff, Video, VideoOff, Volume2, VolumeX } from "lucide-react-native";
 
 import { nowLabel, useChat, type CallKind } from "../state";
 import { ContactAvatar, Figure, T } from "../ui";
@@ -43,7 +44,7 @@ export default function CallScreen() {
     return (
       <View style={styles.missing}>
         <T variant="heading">Contact not found</T>
-        <Button accessibilityLabel="Back" variant="ghost" onPress={() => router.back()}>
+        <Button accessibilityLabel="Back" variant="ghost" onPress={() => router.back()} isDark={chat.darkMode}>
           Back
         </Button>
       </View>
@@ -92,7 +93,7 @@ export default function CallScreen() {
       <View style={styles.controls}>
         <View style={styles.control}>
           <IconButton
-            icon={<T variant="caption">{muted ? "Unmute" : "Mute"}</T>}
+            icon={muted ? <MicOff size={16} color={colors[chat.darkMode ? "dark" : "light"].foreground} /> : <Mic size={16} color={colors[chat.darkMode ? "dark" : "light"].foreground} />}
             accessibilityLabel={muted ? "Unmute" : "Mute"}
             isDark={chat.darkMode}
             size="lg"
@@ -104,7 +105,7 @@ export default function CallScreen() {
         </View>
         <View style={styles.control}>
           <IconButton
-            icon={<T variant="caption">Speaker</T>}
+            icon={speaker ? <Volume2 size={16} color={colors[chat.darkMode ? "dark" : "light"].foreground} /> : <VolumeX size={16} color={colors[chat.darkMode ? "dark" : "light"].foreground} />}
             accessibilityLabel={speaker ? "Speaker off" : "Speaker on"}
             isDark={chat.darkMode}
             size="lg"
@@ -117,7 +118,7 @@ export default function CallScreen() {
         {callKind === "video" ? (
           <View style={styles.control}>
             <IconButton
-              icon={<T variant="caption">Camera</T>}
+              icon={cameraOff ? <VideoOff size={16} color={colors[chat.darkMode ? "dark" : "light"].foreground} /> : <Video size={16} color={colors[chat.darkMode ? "dark" : "light"].foreground} />}
               accessibilityLabel={cameraOff ? "Camera on" : "Camera off"}
               isDark={chat.darkMode}
               size="lg"
@@ -131,6 +132,7 @@ export default function CallScreen() {
       </View>
 
       <Button
+        isDark={chat.darkMode}
         accessibilityLabel="End call"
         variant="filled"
         tint={chat.darkMode ? "#c93a30" : "#b3261e"}

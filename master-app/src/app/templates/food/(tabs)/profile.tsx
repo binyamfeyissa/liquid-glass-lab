@@ -114,6 +114,7 @@ export default function ProfileScreen() {
             </Field>
             <View style={styles.formButtons}>
               <Button
+                isDark={food.darkMode}
                 accessibilityLabel="Cancel adding address"
                 onPress={() => setShowForm(false)}
                 style={styles.flex1}
@@ -121,6 +122,7 @@ export default function ProfileScreen() {
                 Cancel
               </Button>
               <Button
+                isDark={food.darkMode}
                 accessibilityLabel="Save address"
                 variant="filled"
                 onPress={saveAddress}
@@ -132,6 +134,7 @@ export default function ProfileScreen() {
           </View>
         ) : (
           <Button
+            isDark={food.darkMode}
             accessibilityLabel="Add a new address"
             onPress={() => setShowForm(true)}
             style={styles.addButton}
@@ -148,7 +151,7 @@ export default function ProfileScreen() {
           <View style={styles.backdropBody}>
             <BackdropControl />
             <T variant="caption" muted style={styles.backdropNote}>
-              Dark gray, broken white, or the Tahoe photo — the glass sits over all three
+              Dark gray, broken white, or the palm photo — the glass sits over all three
             </T>
           </View>
         </ListCard>

@@ -160,6 +160,7 @@ export default function HabitsScreen() {
           ) : null}
           <View style={styles.cardBtn}>
             <Button
+              isDark={app.darkMode}
               accessibilityLabel="Add habit"
               variant="filled"
               onPress={addHabit}

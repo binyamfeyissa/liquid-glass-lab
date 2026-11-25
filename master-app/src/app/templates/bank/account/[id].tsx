@@ -24,7 +24,7 @@ export default function AccountDetailScreen() {
   if (!account) {
     return (
       <Screen title="Account not found">
-        <Button accessibilityLabel="Back to accounts" onPress={() => router.back()}>
+        <Button accessibilityLabel="Back to accounts" onPress={() => router.back()} isDark={bank.darkMode}>
           Back
         </Button>
       </Screen>
@@ -47,6 +47,7 @@ export default function AccountDetailScreen() {
           {revealed ? account.number : `•••• •••• •••• ${account.last4}`}
         </T>
         <Button
+          isDark={bank.darkMode}
           accessibilityLabel={revealed ? "Hide account number" : "Reveal account number"}
           onPress={() => setRevealed(!revealed)}
           style={styles.reveal}
@@ -78,7 +79,7 @@ export default function AccountDetailScreen() {
         </ListCard>
       </View>
 
-      <Button accessibilityLabel="Back" variant="ghost" onPress={() => router.back()}>
+      <Button accessibilityLabel="Back" variant="ghost" onPress={() => router.back()} isDark={bank.darkMode}>
         Back
       </Button>
     </Screen>

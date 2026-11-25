@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { router } from "expo-router";
 import { Button, Progress } from "glacia-native";
+import { Check } from "lucide-react-native";
 
 import { ORDER_STEPS, useFood } from "./state";
 import {
@@ -41,6 +42,7 @@ export default function TrackingScreen() {
       <View style={styles.empty}>
         <T variant="heading">No orders yet</T>
         <Button
+          isDark={food.darkMode}
           accessibilityLabel="Browse restaurants"
           variant="filled"
           onPress={() => router.replace("/templates/food/(tabs)")}
@@ -105,9 +107,7 @@ export default function TrackingScreen() {
                     ]}
                   >
                     {done || (delivered && current) ? (
-                      <T variant="body" style={styles.stepGlyphOn}>
-                        ✓
-                      </T>
+                      <Check size={16} color="#FFFFFF" />
                     ) : (
                       <T
                         variant="body"
@@ -213,6 +213,7 @@ export default function TrackingScreen() {
       <View style={styles.footer}>
         {delivered ? (
           <Button
+            isDark={food.darkMode}
             accessibilityLabel="Back to orders"
             variant="filled"
             size="lg"
@@ -222,6 +223,7 @@ export default function TrackingScreen() {
           </Button>
         ) : (
           <Button
+            isDark={food.darkMode}
             accessibilityLabel="Continue browsing"
             size="lg"
             onPress={() => router.replace("/templates/food/(tabs)")}

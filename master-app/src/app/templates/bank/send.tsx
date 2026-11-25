@@ -55,6 +55,7 @@ export default function SendScreen() {
           </Badge>
         </Card>
         <Button
+          isDark={bank.darkMode}
           accessibilityLabel="Back to home"
           variant="filled"
           onPress={() => router.replace("/templates/bank/(tabs)")}
@@ -62,6 +63,7 @@ export default function SendScreen() {
           Back to home
         </Button>
         <Button
+          isDark={bank.darkMode}
           accessibilityLabel="Send another payment"
           variant="ghost"
           onPress={() => {
@@ -102,6 +104,7 @@ export default function SendScreen() {
           </View>
         </ListCard>
         <Button
+          isDark={bank.darkMode}
           accessibilityLabel={`Send ${money(amount)} to ${recipient.name}`}
           variant="filled"
           onPress={() => {
@@ -112,6 +115,7 @@ export default function SendScreen() {
           Send {money(amount)}
         </Button>
         <Button
+          isDark={bank.darkMode}
           accessibilityLabel="Back to edit payment"
           variant="ghost"
           onPress={() => setStep("pick")}
@@ -184,6 +188,7 @@ export default function SendScreen() {
       </Field>
 
       <Button
+        isDark={bank.darkMode}
         accessibilityLabel="Review payment"
         variant="filled"
         onPress={() => {
@@ -192,7 +197,7 @@ export default function SendScreen() {
       >
         Review payment
       </Button>
-      <Button accessibilityLabel="Cancel" variant="ghost" onPress={() => router.back()}>
+      <Button accessibilityLabel="Cancel" variant="ghost" onPress={() => router.back()} isDark={bank.darkMode}>
         Cancel
       </Button>
     </Screen>

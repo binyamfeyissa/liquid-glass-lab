@@ -24,6 +24,7 @@ export default function JobDetailScreen() {
     return (
       <Screen title="Job not found" subtitle="This posting may have been filled or removed">
         <Button
+          isDark={jobs.darkMode}
           accessibilityLabel="Back to jobs"
           variant="filled"
           onPress={() => router.replace("/templates/jobs/(tabs)")}
@@ -139,6 +140,7 @@ export default function JobDetailScreen() {
       {/* Actions */}
       {application ? (
         <Button
+          isDark={jobs.darkMode}
           accessibilityLabel="View your application"
           variant="filled"
           onPress={() => router.push(`/templates/jobs/application/${application.id}`)}
@@ -147,6 +149,7 @@ export default function JobDetailScreen() {
         </Button>
       ) : (
         <Button
+          isDark={jobs.darkMode}
           accessibilityLabel={`Apply to ${job.title}`}
           variant="filled"
           onPress={() => router.push(`/templates/jobs/apply/${job.id}`)}
@@ -155,6 +158,7 @@ export default function JobDetailScreen() {
         </Button>
       )}
       <Button
+        isDark={jobs.darkMode}
         accessibilityLabel={saved ? "Remove from saved" : "Save this job"}
         variant="glass"
         onPress={() => jobs.toggleSaved(job.id)}
@@ -162,6 +166,7 @@ export default function JobDetailScreen() {
         {saved ? "Saved — tap to remove" : "Save for later"}
       </Button>
       <Button
+        isDark={jobs.darkMode}
         accessibilityLabel="Back"
         variant="ghost"
         onPress={() => router.back()}

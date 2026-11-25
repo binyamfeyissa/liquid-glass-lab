@@ -63,6 +63,7 @@ export default function DiscoverScreen() {
               whenever you are.
             </T>
             <Button
+              isDark={kindred.darkMode}
               accessibilityLabel={`Send a message to ${pending.name}`}
               variant="filled"
               onPress={() => {
@@ -73,6 +74,7 @@ export default function DiscoverScreen() {
               Send a message
             </Button>
             <Button
+              isDark={kindred.darkMode}
               accessibilityLabel="Keep browsing"
               variant="glass"
               onPress={() => kindred.clearPendingMatch()}
@@ -86,6 +88,7 @@ export default function DiscoverScreen() {
           <ProfileCardView profile={current} />
           <View style={styles.actions}>
             <Button
+              isDark={kindred.darkMode}
               accessibilityLabel={`Pass on ${current.name}`}
               variant="glass"
               size="lg"
@@ -95,6 +98,7 @@ export default function DiscoverScreen() {
               Pass
             </Button>
             <Button
+              isDark={kindred.darkMode}
               accessibilityLabel={`Super like ${current.name}`}
               variant="glass"
               size="lg"
@@ -105,6 +109,7 @@ export default function DiscoverScreen() {
               Super like
             </Button>
             <Button
+              isDark={kindred.darkMode}
               accessibilityLabel={`Like ${current.name}`}
               variant="filled"
               size="lg"
@@ -129,6 +134,7 @@ export default function DiscoverScreen() {
             range or distance in Profile — or take another look from the top.
           </T>
           <Button
+            isDark={kindred.darkMode}
             accessibilityLabel="Start the deck over"
             variant="filled"
             onPress={() => kindred.resetDeck()}

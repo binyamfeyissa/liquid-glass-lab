@@ -97,6 +97,7 @@ export default function LogScreen() {
   return (
     <Screen title="Log entry" subtitle="One form per metric, saved with today's date">
       <Button
+        isDark={app.darkMode}
         accessibilityLabel="Back"
         variant="ghost"
         onPress={() => router.back()}
@@ -138,6 +139,7 @@ export default function LogScreen() {
           ) : null}
           <View style={styles.cardBtn}>
             <Button
+              isDark={app.darkMode}
               accessibilityLabel="Save weight"
               variant="filled"
               onPress={saveWeight}
@@ -177,6 +179,7 @@ export default function LogScreen() {
           ) : null}
           <View style={styles.cardBtn}>
             <Button
+              isDark={app.darkMode}
               accessibilityLabel="Add steps"
               variant="filled"
               onPress={saveSteps}
@@ -217,6 +220,7 @@ export default function LogScreen() {
           ) : null}
           <View style={styles.cardBtn}>
             <Button
+              isDark={app.darkMode}
               accessibilityLabel="Add water"
               variant="filled"
               onPress={saveWater}
@@ -252,6 +256,7 @@ export default function LogScreen() {
           ) : null}
           <View style={styles.cardBtn}>
             <Button
+              isDark={app.darkMode}
               accessibilityLabel="Save sleep"
               variant="filled"
               onPress={saveSleep}
@@ -293,6 +298,7 @@ export default function LogScreen() {
           ) : null}
           <View style={styles.cardBtn}>
             <Button
+              isDark={app.darkMode}
               accessibilityLabel="Save mood"
               variant="filled"
               onPress={saveMood}
@@ -305,6 +311,7 @@ export default function LogScreen() {
 
       <RowSeparator />
       <Button
+        isDark={app.darkMode}
         accessibilityLabel="View history"
         variant="ghost"
         onPress={() => router.push("/templates/health/history")}

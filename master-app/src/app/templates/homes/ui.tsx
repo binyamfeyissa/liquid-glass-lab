@@ -12,14 +12,17 @@ import {
 } from "react-native";
 import Svg, { Circle, Rect } from "react-native-svg";
 import {
+  colors,
   Avatar,
   Badge,
   Card,
+  IconButton,
   SegmentedControl,
   Separator,
   Text,
   type TextProps,
 } from "glacia-native";
+import { Bookmark, ChevronLeft, ChevronRight } from "lucide-react-native";
 import { router } from "expo-router";
 
 import { useHomes, type BackdropMode } from "./state";
@@ -96,7 +99,7 @@ export function Serif({ style, ...rest }: TextProps) {
 /* ------------------------------------------------------------------ */
 /*  Backdrop — the three backgrounds, and nothing else.                */
 /*  Dark: graphite #141415. Light: broken white #f7f4ee.               */
-/*  Photo: the Tahoe image, full-bleed, under a neutral scrim.         */
+/*  Photo: the palm image, full-bleed, under a neutral scrim.         */
 /* ------------------------------------------------------------------ */
 
 export function Backdrop() {
@@ -181,23 +184,17 @@ export function StackHeader({
   subtitle?: string;
   titleStyle?: StyleProp<TextStyle>;
 }) {
-  const { backdrop } = useHomes();
+  const { backdrop, darkMode } = useHomes();
   return (
     <View style={styles.stackHeader}>
-      <Pressable
-        onPress={() => router.back()}
-        accessibilityRole="button"
+      <IconButton
         accessibilityLabel="Go back"
-        style={({ pressed }) => [
-          styles.backButton,
-          {
-            backgroundColor: backdrop === "light" ? "#efe9df" : "#232325",
-            opacity: pressed ? 0.6 : 1,
-          },
-        ]}
-      >
-        <T variant="heading">‹</T>
-      </Pressable>
+        onPress={() => router.back()}
+        isDark={darkMode}
+        size="md"
+        tint={backdrop === "light" ? "#efe9df" : "#232325"}
+        icon={<ChevronLeft size={20} color={colors[darkMode ? "dark" : "light"].foreground} />}
+      />
       <View style={styles.settingText}>
         <T variant="heading" numberOfLines={1} style={titleStyle}>
           {title}
@@ -307,9 +304,7 @@ export function NavRow({
           {detail}
         </T>
       ) : null}
-      <T variant="heading" muted>
-        ›
-      </T>
+      <ChevronRight size={20} color={colors[darkMode ? "dark" : "light"].muted} />
     </Pressable>
   );
 }
@@ -406,28 +401,27 @@ export function PropertyVisual({
 /* ------------------------------------------------------------------ */
 
 export function SaveButton({ propertyId, large = false }: { propertyId: string; large?: boolean }) {
-  const { backdrop, isFavourite, toggleFavourite } = useHomes();
+  const { backdrop, darkMode, isFavourite, toggleFavourite } = useHomes();
   const active = isFavourite(propertyId);
   return (
-    <Pressable
-      onPress={() => toggleFavourite(propertyId)}
-      accessibilityRole="button"
+    <IconButton
       accessibilityLabel={active ? "Remove from favourites" : "Save to favourites"}
-      hitSlop={8}
-      style={({ pressed }) => [
-        styles.savePill,
-        large && styles.savePillLarge,
-        {
-          backgroundColor:
-            backdrop === "light" ? "rgba(253,251,247,0.88)" : "rgba(20,20,21,0.78)",
-          opacity: pressed ? 0.6 : 1,
-        },
-      ]}
-    >
-      <T variant="caption" style={active ? { color: accentColor(backdrop) } : undefined}>
-        {active ? "Saved" : "Save"}
-      </T>
-    </Pressable>
+      onPress={() => toggleFavourite(propertyId)}
+      isDark={darkMode}
+      size={large ? "md" : "sm"}
+      tint={backdrop === "light" ? "rgba(253,251,247,0.88)" : "rgba(20,20,21,0.78)"}
+      icon={
+        <Bookmark
+          size={16}
+          color={
+            active
+              ? accentColor(backdrop)
+              : colors[darkMode ? "dark" : "light"].foreground
+          }
+          fill={active ? accentColor(backdrop) : "none"}
+        />
+      }
+    />
   );
 }
 

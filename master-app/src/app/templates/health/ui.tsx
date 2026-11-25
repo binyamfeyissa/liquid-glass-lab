@@ -10,12 +10,14 @@ import {
   type ViewStyle,
 } from "react-native";
 import {
+  colors,
   Card,
   SegmentedControl,
   Separator,
   Text,
   type TextProps,
 } from "glacia-native";
+import { ChevronRight } from "lucide-react-native";
 
 import { useHealth, type BackdropMode } from "./state";
 
@@ -66,7 +68,7 @@ export function Figure({ style, ...rest }: TextProps) {
 /* ------------------------------------------------------------------ */
 /*  Backdrop — the three backgrounds, and nothing else.                */
 /*  Dark: graphite #141415. Light: broken white #f7f4ee.               */
-/*  Photo: the Tahoe image, full-bleed, under a neutral scrim.         */
+/*  Photo: the palm image, full-bleed, under a neutral scrim.         */
 /* ------------------------------------------------------------------ */
 
 export function Backdrop() {
@@ -233,7 +235,7 @@ export function NavRow({
   detail?: string;
   onPress: () => void;
 }) {
-  const { backdrop } = useHealth();
+  const { backdrop, darkMode } = useHealth();
   const chrome = chromeColors(backdrop);
   return (
     <Pressable
@@ -258,9 +260,7 @@ export function NavRow({
           {detail}
         </Figure>
       ) : null}
-      <T variant="heading" muted>
-        ›
-      </T>
+      <ChevronRight size={20} color={colors[darkMode ? "dark" : "light"].muted} />
     </Pressable>
   );
 }

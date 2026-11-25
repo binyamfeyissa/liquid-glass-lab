@@ -124,6 +124,7 @@ export default function ProfileScreen() {
             />
           </Field>
           <Button
+            isDark={jobs.darkMode}
             accessibilityLabel="Save profile details"
             variant="filled"
             onPress={saveDetails}
@@ -173,6 +174,7 @@ export default function ProfileScreen() {
               />
             </View>
             <Button
+              isDark={jobs.darkMode}
               accessibilityLabel="Add skill"
               variant="filled"
               onPress={() => {
@@ -234,7 +236,7 @@ export default function ProfileScreen() {
           <View style={styles.backdropBody}>
             <BackdropControl />
             <T variant="caption" muted>
-              Dark gray, broken white, or the Tahoe photo — the glass sits over all three
+              Dark gray, broken white, or the palm photo — the glass sits over all three
             </T>
           </View>
         </ListCard>

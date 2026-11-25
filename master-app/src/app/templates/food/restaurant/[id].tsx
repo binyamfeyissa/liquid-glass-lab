@@ -29,6 +29,7 @@ export default function RestaurantScreen() {
       <View style={styles.missing}>
         <T variant="heading">Restaurant not found</T>
         <Button
+          isDark={food.darkMode}
           accessibilityLabel="Back to home"
           variant="filled"
           onPress={() => router.replace("/templates/food/(tabs)")}
@@ -102,6 +103,7 @@ export default function RestaurantScreen() {
       {cartHere > 0 ? (
         <View style={styles.cartBar}>
           <Button
+            isDark={food.darkMode}
             accessibilityLabel={`View cart, ${cartHere} items`}
             variant="filled"
             size="lg"

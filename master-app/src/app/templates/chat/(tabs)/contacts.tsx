@@ -1,7 +1,8 @@
 import React, { useMemo, useState } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 import { router } from "expo-router";
-import { Input } from "glacia-native";
+import { colors, Input } from "glacia-native";
+import { ChevronRight } from "lucide-react-native";
 
 import { useChat, type Contact } from "../state";
 import { ContactAvatar, ListCard, pressedFill, RowSeparator, Screen, T } from "../ui";
@@ -27,9 +28,7 @@ function ContactRow({ contact, onPress }: { contact: Contact; onPress: () => voi
           {contact.presenceLabel}
         </T>
       </View>
-      <T variant="heading" muted>
-        ›
-      </T>
+      <ChevronRight size={20} color={colors[chat.darkMode ? "dark" : "light"].muted} />
     </Pressable>
   );
 }

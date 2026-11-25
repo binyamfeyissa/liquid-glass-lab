@@ -1,7 +1,8 @@
 import React from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { router } from "expo-router";
-import { Button, IconButton, Progress } from "glacia-native";
+import { colors, Button, IconButton, Progress } from "glacia-native";
+import { ChevronLeft } from "lucide-react-native";
 
 import { FREE_DELIVERY_THRESHOLD, productById } from "./data";
 import { useBasket } from "./state";
@@ -39,7 +40,7 @@ export default function CartScreen() {
           accessibilityLabel="Back"
           onPress={() => router.back()}
           isDark={basket.darkMode}
-          icon={<T variant="heading">‹</T>}
+          icon={<ChevronLeft size={20} color={colors[basket.darkMode ? "dark" : "light"].foreground} />}
         />
         <View style={styles.flex}>
           <T variant="title">Your cart</T>
@@ -49,6 +50,7 @@ export default function CartScreen() {
         </View>
         {basket.cart.length > 0 ? (
           <Button
+            isDark={basket.darkMode}
             accessibilityLabel="Clear cart"
             variant="ghost"
             size="sm"
@@ -66,6 +68,7 @@ export default function CartScreen() {
             Browse the aisles or add a whole shopping list in one tap.
           </T>
           <Button
+            isDark={basket.darkMode}
             accessibilityLabel="Browse groceries"
             variant="filled"
             size="lg"
@@ -74,6 +77,7 @@ export default function CartScreen() {
             Browse groceries
           </Button>
           <Button
+            isDark={basket.darkMode}
             accessibilityLabel="Open shopping lists"
             variant="ghost"
             onPress={() => router.replace("/templates/grocery/(tabs)/lists")}
@@ -154,6 +158,7 @@ export default function CartScreen() {
                   </T>
                 </View>
                 <Button
+                  isDark={basket.darkMode}
                   accessibilityLabel="Change delivery slot"
                   variant="ghost"
                   size="sm"
@@ -191,6 +196,7 @@ export default function CartScreen() {
           </ListCard>
 
           <Button
+            isDark={basket.darkMode}
             accessibilityLabel="Go to checkout"
             variant="filled"
             size="lg"

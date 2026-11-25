@@ -74,6 +74,7 @@ function OrderCard({ order, live = false }: { order: Order; live?: boolean }) {
         </T>
         {live ? (
           <Button
+            isDark={food.darkMode}
             accessibilityLabel={`Track order ${order.id}`}
             variant="filled"
             size="sm"
@@ -83,7 +84,9 @@ function OrderCard({ order, live = false }: { order: Order; live?: boolean }) {
           </Button>
         ) : (
           <Button
+            isDark={food.darkMode}
             accessibilityLabel={`Reorder from ${order.restaurantName}`}
+            variant="filled"
             size="sm"
             onPress={() => {
               food.reorder(order);

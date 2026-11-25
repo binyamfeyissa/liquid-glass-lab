@@ -1,7 +1,8 @@
 import React, { useMemo, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { router } from "expo-router";
-import { Chip, Field, IconButton, Input } from "glacia-native";
+import { colors, Chip, Field, IconButton, Input } from "glacia-native";
+import { ChevronLeft } from "lucide-react-native";
 
 import { PRODUCTS, aisleById } from "./data";
 import { useBasket } from "./state";
@@ -47,13 +48,14 @@ export default function SearchScreen() {
             accessibilityLabel="Back"
             onPress={() => router.back()}
             isDark={basket.darkMode}
-            icon={<T variant="heading">‹</T>}
+            icon={<ChevronLeft size={20} color={colors[basket.darkMode ? "dark" : "light"].foreground} />}
           />
           <T variant="title">Search</T>
         </View>
 
         <Field isDark={basket.darkMode}>
           <Input
+            isDark={basket.darkMode}
             value={query}
             onChangeText={setQuery}
             placeholder="Search the whole store"

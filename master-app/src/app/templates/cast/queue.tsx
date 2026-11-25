@@ -1,7 +1,8 @@
 import React from "react";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { useRouter } from "expo-router";
-import { Button, Card, IconButton } from "glacia-native";
+import { colors, Button, Card, IconButton } from "glacia-native";
+import { ChevronLeft, X } from "lucide-react-native";
 
 import { episodeById, formatDuration, showById } from "./data";
 import { useCast } from "./state";
@@ -33,7 +34,7 @@ export default function QueueScreen() {
           accessibilityLabel="Back"
           onPress={() => router.back()}
           isDark={darkMode}
-          icon={<T variant="heading">‹</T>}
+          icon={<ChevronLeft size={20} color={colors[darkMode ? "dark" : "light"].foreground} />}
         />
         <T variant="title">Up next</T>
       </View>
@@ -118,7 +119,7 @@ export default function QueueScreen() {
                         onPress={() => cast.removeFromQueue(episode.id)}
                         isDark={darkMode}
                         size="sm"
-                        icon={<T variant="body">✕</T>}
+                        icon={<X size={16} color={colors[darkMode ? "dark" : "light"].foreground} />}
                       />
                     </Pressable>
                   </View>

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { router } from "expo-router";
-import { Badge, Button, Chip, IconButton } from "glacia-native";
+import { colors, Badge, Button, Chip, IconButton } from "glacia-native";
+import { ChevronLeft } from "lucide-react-native";
 
 import { slotDays, windowsForDay } from "./data";
 import { useBasket } from "./state";
@@ -40,7 +41,7 @@ export default function SlotScreen() {
           accessibilityLabel="Back"
           onPress={() => router.back()}
           isDark={basket.darkMode}
-          icon={<T variant="heading">‹</T>}
+          icon={<ChevronLeft size={20} color={colors[basket.darkMode ? "dark" : "light"].foreground} />}
         />
         <View style={styles.flex}>
           <T variant="title">Delivery slot</T>
@@ -126,6 +127,7 @@ export default function SlotScreen() {
       </View>
 
       <Button
+        isDark={basket.darkMode}
         accessibilityLabel="Confirm delivery slot"
         variant="filled"
         size="lg"

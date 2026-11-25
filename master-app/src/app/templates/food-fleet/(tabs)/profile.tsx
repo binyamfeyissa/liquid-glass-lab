@@ -79,6 +79,7 @@ export default function ProfileScreen() {
               />
             </Field>
             <Button
+              isDark={fleet.darkMode}
               accessibilityLabel="Save rider details"
               variant="filled"
               disabled={!fleet.riderName.trim() || !fleet.riderPhone.trim()}
@@ -101,6 +102,7 @@ export default function ProfileScreen() {
         <ListCard>
           <SettingRow title="Available for offers">
             <Switch
+              isDark={fleet.darkMode}
               value={fleet.online}
               onValueChange={fleet.setOnline}
               accessibilityLabel="Available for offers"
@@ -112,6 +114,7 @@ export default function ProfileScreen() {
             description="A buzz when a new job arrives"
           >
             <Switch
+              isDark={fleet.darkMode}
               value={fleet.notifyOffers}
               onValueChange={fleet.setNotifyOffers}
               accessibilityLabel="New offer alerts"
@@ -123,6 +126,7 @@ export default function ProfileScreen() {
             description="When a cash out is sent"
           >
             <Switch
+              isDark={fleet.darkMode}
               value={fleet.notifyPayouts}
               onValueChange={fleet.setNotifyPayouts}
               accessibilityLabel="Payout alerts"
@@ -137,7 +141,7 @@ export default function ProfileScreen() {
         <Card isDark={fleet.darkMode} padding={16}>
           <BackdropControl />
           <T variant="caption" muted style={styles.backdropNote}>
-            Dark, broken white, or the Tahoe photo behind the glass
+            Dark, broken white, or the palm photo behind the glass
           </T>
         </Card>
       </View>

@@ -118,6 +118,7 @@ export default function NewGroupScreen() {
       </View>
 
       <Button
+        isDark={chat.darkMode}
         accessibilityLabel="Create group"
         variant="filled"
         disabled={!canCreate}
@@ -125,7 +126,7 @@ export default function NewGroupScreen() {
       >
         Create group
       </Button>
-      <Button accessibilityLabel="Cancel" variant="ghost" onPress={() => router.back()}>
+      <Button accessibilityLabel="Cancel" variant="ghost" onPress={() => router.back()} isDark={chat.darkMode}>
         Cancel
       </Button>
     </Screen>

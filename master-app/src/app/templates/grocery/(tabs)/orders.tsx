@@ -46,6 +46,7 @@ function OrderCard({ order }: { order: Order }) {
         <Figure variant="heading">{money(order.total)}</Figure>
         {reordered ? (
           <Button
+            isDark={basket.darkMode}
             accessibilityLabel="Go to cart"
             variant="filled"
             size="sm"
@@ -55,7 +56,9 @@ function OrderCard({ order }: { order: Order }) {
           </Button>
         ) : (
           <Button
+            isDark={basket.darkMode}
             accessibilityLabel={`Reorder ${order.number}`}
+            variant="filled"
             size="sm"
             onPress={() => {
               basket.reorder(order.id);
@@ -82,6 +85,7 @@ export default function OrdersScreen() {
               Your first delivery will show up here
             </T>
             <Button
+              isDark={basket.darkMode}
               accessibilityLabel="Browse groceries"
               variant="filled"
               size="lg"

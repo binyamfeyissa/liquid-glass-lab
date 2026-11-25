@@ -1,7 +1,8 @@
 import React from "react";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { router } from "expo-router";
-import { Avatar, Badge, Card } from "glacia-native";
+import { colors, Avatar, Badge, Card } from "glacia-native";
+import { ChevronRight } from "lucide-react-native";
 
 import { profileById, useKindred } from "../state";
 import {
@@ -125,9 +126,7 @@ export default function MatchesScreen() {
                         {last ? last.timeLabel : match.matchedLabel}
                       </Figure>
                     </View>
-                    <T variant="heading" muted>
-                      ›
-                    </T>
+                    <ChevronRight size={20} color={colors[kindred.darkMode ? "dark" : "light"].muted} />
                   </Pressable>
                 </View>
               );

@@ -1,7 +1,8 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { router } from "expo-router";
-import { Badge, Button, Card } from "glacia-native";
+import { colors, Badge, Button, Card } from "glacia-native";
+import { ChevronRight } from "lucide-react-native";
 
 import { useFood } from "./state";
 import type { MenuItem, Restaurant } from "./data";
@@ -94,9 +95,7 @@ export function RestaurantRow({ restaurant }: { restaurant: Restaurant }) {
           </T>
           <Meta style={styles.cardMeta}>{restaurantMeta(restaurant)}</Meta>
         </View>
-        <T variant="heading" muted>
-          ›
-        </T>
+        <ChevronRight size={20} color={colors[darkMode ? "dark" : "light"].muted} />
       </View>
     </Card>
   );
@@ -139,6 +138,7 @@ export function MenuItemRow({
       <View style={styles.menuControl}>
         {qty === 0 ? (
           <Button
+            isDark={food.darkMode}
             accessibilityLabel={`Add ${item.name} to cart`}
             variant="filled"
             size="sm"

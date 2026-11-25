@@ -1,7 +1,8 @@
 import React from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 import { router } from "expo-router";
-import { Text } from "glacia-native";
+import { colors, Text } from "glacia-native";
+import { ChevronRight } from "lucide-react-native";
 
 import { AISLES, productsInAisle } from "../data";
 import { useBasket } from "../state";
@@ -74,9 +75,7 @@ export default function AislesScreen() {
                 <Figure variant="caption" muted>
                   {productsInAisle(aisle.id).length} items
                 </Figure>
-                <T variant="heading" muted>
-                  ›
-                </T>
+                <ChevronRight size={20} color={colors[basket.darkMode ? "dark" : "light"].muted} />
               </Pressable>
             </View>
           ))}

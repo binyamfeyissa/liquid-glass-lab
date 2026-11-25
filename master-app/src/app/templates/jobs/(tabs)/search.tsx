@@ -142,7 +142,7 @@ export default function SearchScreen() {
                 clearing the keywords
               </T>
               {hasFilters ? (
-                <Button accessibilityLabel="Clear all filters" onPress={clearAll}>
+                <Button accessibilityLabel="Clear all filters" onPress={clearAll} isDark={jobs.darkMode}>
                   Clear all filters
                 </Button>
               ) : null}

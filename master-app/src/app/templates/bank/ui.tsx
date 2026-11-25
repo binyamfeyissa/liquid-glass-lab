@@ -9,7 +9,8 @@ import {
   type StyleProp,
   type ViewStyle,
 } from "react-native";
-import { Avatar, Badge, Card, SegmentedControl, Separator, Text, type TextProps } from "glacia-native";
+import { colors, Avatar, Badge, Card, SegmentedControl, Separator, Text, type TextProps } from "glacia-native";
+import { ChevronRight } from "lucide-react-native";
 
 import { useBank, type BackdropMode, type Transaction } from "./state";
 
@@ -84,7 +85,7 @@ export function T({ style, ...rest }: TextProps) {
 /* ------------------------------------------------------------------ */
 /*  Backdrop — the three backgrounds, and nothing else.                */
 /*  Dark: graphite #141415. Light: broken white #f7f4ee.               */
-/*  Photo: the Tahoe image, full-bleed, under a neutral scrim.         */
+/*  Photo: the palm image, full-bleed, under a neutral scrim.         */
 /* ------------------------------------------------------------------ */
 
 export function Backdrop() {
@@ -258,9 +259,7 @@ export function NavRow({
           {detail}
         </T>
       ) : null}
-      <T variant="heading" muted>
-        ›
-      </T>
+      <ChevronRight size={20} color={colors[darkMode ? "dark" : "light"].muted} />
     </Pressable>
   );
 }

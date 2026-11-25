@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { useRouter } from "expo-router";
 import {
+  colors,
   Badge,
   Card,
   IconButton,
@@ -20,6 +21,7 @@ import {
   Text,
   type TextProps,
 } from "glacia-native";
+import { Check, Download, Menu } from "lucide-react-native";
 
 import {
   formatDuration,
@@ -76,7 +78,7 @@ export function Figure({ style, ...rest }: TextProps) {
 /* ------------------------------------------------------------------ */
 /*  Backdrop — the three backgrounds, and nothing else.                */
 /*  Dark: graphite #141415. Light: broken white #f7f4ee.               */
-/*  Photo: the Tahoe image, full-bleed, under a neutral scrim.         */
+/*  Photo: the palm image, full-bleed, under a neutral scrim.         */
 /* ------------------------------------------------------------------ */
 
 export function Backdrop() {
@@ -356,12 +358,11 @@ export function EpisodeRow({
         isDark={darkMode}
         size="sm"
         icon={
-          <T
-            variant="body"
-            style={queued ? { color: accentColor(cast.backdrop) } : undefined}
-          >
-            {queued ? "✓" : "☰"}
-          </T>
+          queued ? (
+            <Check size={16} color={accentColor(cast.backdrop)} />
+          ) : (
+            <Menu size={16} color={colors[darkMode ? "dark" : "light"].foreground} />
+          )
         }
       />
       <IconButton
@@ -380,11 +381,11 @@ export function EpisodeRow({
         size="sm"
         icon={
           downloaded ? (
-            <T variant="body">✓</T>
+            <Check size={16} color={colors[darkMode ? "dark" : "light"].foreground} />
           ) : downloading ? (
             <Figure variant="caption">{Math.floor(download)}%</Figure>
           ) : (
-            <T variant="body">⬇</T>
+            <Download size={16} color={colors[darkMode ? "dark" : "light"].foreground} />
           )
         }
       />

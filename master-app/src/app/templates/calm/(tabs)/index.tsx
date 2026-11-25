@@ -97,6 +97,7 @@ export default function HomeScreen() {
             </T>
           </View>
           <Button
+            isDark={app.darkMode}
             accessibilityLabel={`Play ${featured.title}`}
             variant="filled"
             onPress={() => router.push(`/templates/calm/player/${featured.id}`)}
@@ -116,6 +117,7 @@ export default function HomeScreen() {
             </T>
           </View>
           <Button
+            isDark={app.darkMode}
             accessibilityLabel="Start a breathing exercise"
             onPress={() => router.push("/templates/calm/breathing")}
           >
