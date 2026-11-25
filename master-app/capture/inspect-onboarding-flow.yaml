@@ -1,11 +1,15 @@
-# Maestro inspection flow (baseline, 2026-11-25). AppId placeholder is
-# replaced by the master-app-inspect-all workflow. launchApp has NO
-# clearState here: only inspect-home.yaml clears state, at the start of
-# the build. Each flow normalises to home via deep link first, so a
-# previous flow ending inside a template cannot break the next one.
-# Screenshots are named <slug>-01-main / <slug>-02-<screen>.
+# Maestro inspection flow (verify, 2026-11-26): 5 screenshots.
+# AppId placeholder is replaced by the master-app-inspect-all workflow.
+# launchApp has NO clearState here: only inspect-home.yaml clears state,
+# at the start of the build. Each flow normalises to home via deep link
+# first, so a previous flow ending inside a template cannot break the next one.
+# onboarding-flow is a single-screen stage machine (no router, no tabs):
+# shot 2 is pager page 2 (Next), shot 3 is the FinishScreen (Skip) in
+# dark, shots 4-5 switch via the FinishScreen's OWN BackdropControl
+# (Dark / Light / Photo) and return via "Replay the intro" to the intro
+# pager in the new mode.
 # Run 7/8 lesson: every openLink pops iOS's system "Open in" alert;
-# tap its "Open" button (optional) right after each openLink, or the
+# tap its "Open" button (optional, 2 s) right after each openLink, or the
 # deep link never navigates and the leftover alert blocks later flows.
 appId: __BUNDLE_ID__
 ---
@@ -27,7 +31,59 @@ appId: __BUNDLE_ID__
 - tapOn: "Onboarding Flow — Northwind Onboarding"
 - waitForAnimationToEnd
 - takeScreenshot: onboarding-flow-01-main
-# onboarding-flow is a single-screen stage machine: no 2nd screen exists.
+# Shot 2 (dark): pager page 2.
+- tapOn:
+    text: "^Next$"
+- waitForAnimationToEnd
+- takeScreenshot: onboarding-flow-02-page2
+# Shot 3 (dark): the FinishScreen, via Skip (shown on every non-last page).
+- tapOn:
+    text: "^Skip$"
+- waitForAnimationToEnd
+- takeScreenshot: onboarding-flow-03-finish
+# Shot 4 (light): the FinishScreen's own BackdropControl, then replay.
+- scrollUntilVisible:
+    element:
+      text: "^Light$"
+    direction: DOWN
+    timeout: 15000
+    visibilityPercentage: 50
+- tapOn:
+    text: "^Light$"
+- waitForAnimationToEnd
+- scrollUntilVisible:
+    element:
+      text: "^Replay the intro$"
+    direction: DOWN
+    timeout: 15000
+    visibilityPercentage: 50
+- tapOn:
+    text: "^Replay the intro$"
+- waitForAnimationToEnd
+- takeScreenshot: onboarding-flow-04-light
+# Shot 5 (photo): same, Photo segment.
+- tapOn:
+    text: "^Skip$"
+- waitForAnimationToEnd
+- scrollUntilVisible:
+    element:
+      text: "^Photo$"
+    direction: DOWN
+    timeout: 15000
+    visibilityPercentage: 50
+- tapOn:
+    text: "^Photo$"
+- waitForAnimationToEnd
+- scrollUntilVisible:
+    element:
+      text: "^Replay the intro$"
+    direction: DOWN
+    timeout: 15000
+    visibilityPercentage: 50
+- tapOn:
+    text: "^Replay the intro$"
+- waitForAnimationToEnd
+- takeScreenshot: onboarding-flow-05-photo
 - openLink: "glacia-master://"
 - tapOn:
     text: "^Open$"

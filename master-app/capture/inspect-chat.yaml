@@ -1,11 +1,17 @@
-# Maestro inspection flow (baseline, 2026-11-25). AppId placeholder is
-# replaced by the master-app-inspect-all workflow. launchApp has NO
-# clearState here: only inspect-home.yaml clears state, at the start of
-# the build. Each flow normalises to home via deep link first, so a
-# previous flow ending inside a template cannot break the next one.
-# Screenshots are named <slug>-01-main / <slug>-02-<screen>.
+# Maestro inspection flow (verify, 2026-11-26): 5 screenshots per template.
+# AppId placeholder is replaced by the master-app-inspect-all workflow.
+# launchApp has NO clearState here: only inspect-home.yaml clears state,
+# at the start of the build. Each flow normalises to home via deep link
+# first, so a previous flow ending inside a template cannot break the next one.
+# Shots: -01-main (dark) / -02-<screen> (dark) / -03-<screen> (dark) /
+# -04-light / -05-photo. Shots 4-5 switch the backdrop via the template's
+# OWN BackdropControl (Dark / Light / Photo segments on its Profile tab;
+# appearance tab for profile-settings): the host ModeToggle only affects
+# the host — each template keeps its own backdrop store. The return trip
+# deep-links to the template root (/templates/<slug>), which lands on its
+# index tab, the same route the home rows push to.
 # Run 7/8 lesson: every openLink pops iOS's system "Open in" alert;
-# tap its "Open" button (optional) right after each openLink, or the
+# tap its "Open" button (optional, 2 s) right after each openLink, or the
 # deep link never navigates and the leftover alert blocks later flows.
 appId: __BUNDLE_ID__
 ---
@@ -34,6 +40,61 @@ appId: __BUNDLE_ID__
     timeout: 2000
 - waitForAnimationToEnd
 - takeScreenshot: chat-02-calls
+- openLink: "glacia-master://templates/chat/contacts"
+- tapOn:
+    text: "^Open$"
+    optional: true
+    timeout: 2000
+- waitForAnimationToEnd
+- takeScreenshot: chat-03-contacts
+# Shot 4 (light): the template's own BackdropControl on its
+# Profile tab, then back to the main screen.
+- openLink: "glacia-master://templates/chat/profile"
+- tapOn:
+    text: "^Open$"
+    optional: true
+    timeout: 2000
+- waitForAnimationToEnd
+- scrollUntilVisible:
+    element:
+      text: "^Light$"
+    direction: DOWN
+    timeout: 15000
+    visibilityPercentage: 50
+- tapOn:
+    text: "^Light$"
+- waitForAnimationToEnd
+- openLink: "glacia-master://templates/chat"
+- tapOn:
+    text: "^Open$"
+    optional: true
+    timeout: 2000
+- waitForAnimationToEnd
+- takeScreenshot: chat-04-light
+# Shot 5 (photo): the template's own BackdropControl on its
+# Profile tab, then back to the main screen.
+- openLink: "glacia-master://templates/chat/profile"
+- tapOn:
+    text: "^Open$"
+    optional: true
+    timeout: 2000
+- waitForAnimationToEnd
+- scrollUntilVisible:
+    element:
+      text: "^Photo$"
+    direction: DOWN
+    timeout: 15000
+    visibilityPercentage: 50
+- tapOn:
+    text: "^Photo$"
+- waitForAnimationToEnd
+- openLink: "glacia-master://templates/chat"
+- tapOn:
+    text: "^Open$"
+    optional: true
+    timeout: 2000
+- waitForAnimationToEnd
+- takeScreenshot: chat-05-photo
 - openLink: "glacia-master://"
 - tapOn:
     text: "^Open$"
