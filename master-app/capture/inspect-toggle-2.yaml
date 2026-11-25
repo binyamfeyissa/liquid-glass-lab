@@ -15,6 +15,12 @@ appId: __BUNDLE_ID__
 - assertVisible: "Templates"
 - tapOn: "Backdrop: light. Tap to change."
 - waitForAnimationToEnd
+- scrollUntilVisible:
+    element:
+      text: "Health — Vitalis"
+    direction: DOWN
+    timeout: 15000
+    visibilityPercentage: 50
 - tapOn: "Health — Vitalis"
 - waitForAnimationToEnd
 - takeScreenshot: health-toggle
@@ -26,6 +32,12 @@ appId: __BUNDLE_ID__
 - waitForAnimationToEnd
 - tapOn: "Backdrop: dark. Tap to change."
 - waitForAnimationToEnd
+- scrollUntilVisible:
+    element:
+      text: "Shop — Lumen"
+    direction: DOWN
+    timeout: 15000
+    visibilityPercentage: 50
 - tapOn: "Shop — Lumen"
 - waitForAnimationToEnd
 - takeScreenshot: shop-toggle

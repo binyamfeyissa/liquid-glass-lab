@@ -18,6 +18,12 @@ appId: __BUNDLE_ID__
     timeout: 2000
 - waitForAnimationToEnd
 - assertVisible: "Templates"
+- scrollUntilVisible:
+    element:
+      text: "Shop — Lumen"
+    direction: DOWN
+    timeout: 15000
+    visibilityPercentage: 50
 - tapOn: "Shop — Lumen"
 - waitForAnimationToEnd
 - takeScreenshot: shop-01-main

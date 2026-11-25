@@ -15,6 +15,12 @@ appId: __BUNDLE_ID__
 - assertVisible: "Templates"
 - tapOn: "Backdrop: light. Tap to change."
 - waitForAnimationToEnd
+- scrollUntilVisible:
+    element:
+      text: "Stream — Lumen Play"
+    direction: DOWN
+    timeout: 15000
+    visibilityPercentage: 50
 - tapOn: "Stream — Lumen Play"
 - waitForAnimationToEnd
 - takeScreenshot: stream-toggle
@@ -26,6 +32,12 @@ appId: __BUNDLE_ID__
 - waitForAnimationToEnd
 - tapOn: "Backdrop: dark. Tap to change."
 - waitForAnimationToEnd
+- scrollUntilVisible:
+    element:
+      text: "Wallet — Orbit Wallet"
+    direction: DOWN
+    timeout: 15000
+    visibilityPercentage: 50
 - tapOn: "Wallet — Orbit Wallet"
 - waitForAnimationToEnd
 - takeScreenshot: wallet-toggle

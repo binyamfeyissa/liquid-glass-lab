@@ -15,6 +15,12 @@ appId: __BUNDLE_ID__
 - assertVisible: "Templates"
 - tapOn: "Backdrop: light. Tap to change."
 - waitForAnimationToEnd
+- scrollUntilVisible:
+    element:
+      text: "Bank — Northwind Bank"
+    direction: DOWN
+    timeout: 15000
+    visibilityPercentage: 50
 - tapOn: "Bank — Northwind Bank"
 - waitForAnimationToEnd
 - takeScreenshot: bank-toggle
@@ -26,6 +32,12 @@ appId: __BUNDLE_ID__
 - waitForAnimationToEnd
 - tapOn: "Backdrop: dark. Tap to change."
 - waitForAnimationToEnd
+- scrollUntilVisible:
+    element:
+      text: "Food — Forkful"
+    direction: DOWN
+    timeout: 15000
+    visibilityPercentage: 50
 - tapOn: "Food — Forkful"
 - waitForAnimationToEnd
 - takeScreenshot: food-toggle

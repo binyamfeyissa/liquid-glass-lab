@@ -18,6 +18,12 @@ appId: __BUNDLE_ID__
     timeout: 2000
 - waitForAnimationToEnd
 - assertVisible: "Templates"
+- scrollUntilVisible:
+    element:
+      text: "Wallet — Orbit Wallet"
+    direction: DOWN
+    timeout: 15000
+    visibilityPercentage: 50
 - tapOn: "Wallet — Orbit Wallet"
 - waitForAnimationToEnd
 - takeScreenshot: wallet-01-main

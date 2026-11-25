@@ -18,6 +18,12 @@ appId: __BUNDLE_ID__
     timeout: 2000
 - waitForAnimationToEnd
 - assertVisible: "Templates"
+- scrollUntilVisible:
+    element:
+      text: "Cast — Airwave"
+    direction: DOWN
+    timeout: 15000
+    visibilityPercentage: 50
 - tapOn: "Cast — Airwave"
 - waitForAnimationToEnd
 - takeScreenshot: cast-01-main

@@ -784,32 +784,41 @@ workflows:
       - name: Dump Maestro screenshot locations + collect PNGs
         script: |
           set -euo pipefail
-          # Run-7 recipe: dump WHERE Maestro actually wrote the PNGs into a
-          # log that IS saved as an artifact, then copy whatever PNGs exist
-          # (either location) into the artifacts dir. Runs 5-6 lost shots
-          # because the collection searched only one location and the shell
-          # output was never saved.
+          # COPY FIRST, dump second. Run 2 proved a failing dump loses every
+          # screenshot: its `find | head -100` died on SIGPIPE (exit 141)
+          # and set -e killed the step before the cp commands ran — 18
+          # screenshots taken on the builder were never collected.
+          # Maestro 2.x writes takeScreenshot PNGs only to its run dir
+          # ($HOME/.maestro/tests/<ts>/<flow>/takeScreenshot/*.png).
+          mkdir -p "$CM_BUILD_DIR/capture" "$CM_BUILD_DIR/capture/maestro-steps"
+          find "$HOME/.maestro" -path '*/takeScreenshot/*.png' -exec cp {} "$CM_BUILD_DIR/capture/" \; 2>/dev/null || true
+          find "$HOME/.maestro" -path '*/screenshots/*.png' -exec cp {} "$CM_BUILD_DIR/capture/maestro-steps/" \; 2>/dev/null || true
+          echo "--- PNGs collected in capture/ ---"
+          ls -la "$CM_BUILD_DIR/capture/"*.png 2>/dev/null || echo "WARNING: no takeScreenshot PNGs collected"
+          ls "$CM_BUILD_DIR/capture/maestro-steps/"*.png 2>/dev/null | wc -l | xargs echo "maestro step screenshots:"
+          # Diagnostic dump (saved as an artifact). The `head -100` pipe
+          # MUST carry `|| true`: with pipefail, head closing the pipe
+          # makes find die on SIGPIPE (141) and set -e kills the step.
+          # The CM_BUILD_DIR find is scoped to skip node_modules and the
+          # build dir — the unscoped find drowned the log in junk PNGs.
+          # No broad cp from $CM_BUILD_DIR: Maestro never writes PNGs to
+          # the working dir, and the copy flooded artifacts with icons.
           DUMP="$CM_BUILD_DIR/capture/maestro-find-dump.log"
           {
             echo "=== $(date -u +%H:%M:%S) UTC — screenshot find dump ==="
             echo "--- HOME: $HOME ---"
             echo "--- CM_BUILD_DIR: $CM_BUILD_DIR ---"
-            echo "--- find \$HOME/.maestro -name '*.png' ---"
-            find "$HOME/.maestro" -name '*.png' 2>&1
-            echo "--- find \$CM_BUILD_DIR -name '*.png' ---"
-            find "$CM_BUILD_DIR" -name '*.png' 2>&1
-            echo "--- \$HOME/.maestro tree (top 3 levels) ---"
-            find "$HOME/.maestro" -maxdepth 3 2>&1 | head -100
+            echo "--- find \$HOME/.maestro -path '*/takeScreenshot/*.png' ---"
+            find "$HOME/.maestro" -path '*/takeScreenshot/*.png' 2>&1 || true
             echo "--- ls -la \$CM_BUILD_DIR/capture/ ---"
             ls -la "$CM_BUILD_DIR/capture/"
-          } | tee "$DUMP"
-          find "$HOME/.maestro" -name '*.png' -exec cp {} "$CM_BUILD_DIR/capture/" \; 2>/dev/null || true
-          find "$CM_BUILD_DIR" -name '*.png' -not -path "$CM_BUILD_DIR/capture/*" -not -name 'capture-check.png' -exec cp {} "$CM_BUILD_DIR/capture/" \; 2>/dev/null || true
-          echo "--- PNGs collected in capture/ ---"
-          ls -la "$CM_BUILD_DIR/capture/"*.png 2>/dev/null || echo "WARNING: no PNGs collected"
+          } | tee "$DUMP" || true
+          ls -la "$CM_BUILD_DIR/capture/"
+          exit 0
     artifacts:
       - GlaciaMaster-simulator.zip
       - $CM_BUILD_DIR/capture/*.png
+      - $CM_BUILD_DIR/capture/maestro-steps/*.png
       - $CM_BUILD_DIR/capture/*.log
       - $CM_BUILD_DIR/capture-check.png
       - $CM_BUILD_DIR/xcodebuild-capture.log

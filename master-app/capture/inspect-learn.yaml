@@ -18,6 +18,12 @@ appId: __BUNDLE_ID__
     timeout: 2000
 - waitForAnimationToEnd
 - assertVisible: "Templates"
+- scrollUntilVisible:
+    element:
+      text: "Learn — Glasshouse"
+    direction: DOWN
+    timeout: 15000
+    visibilityPercentage: 50
 - tapOn: "Learn — Glasshouse"
 - waitForAnimationToEnd
 - takeScreenshot: learn-01-main
