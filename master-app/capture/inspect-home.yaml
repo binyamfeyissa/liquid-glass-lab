@@ -1,0 +1,19 @@
+# Maestro inspection flow: home screen in all 3 host modes.
+# Host default mode is light (theme.tsx). The toggle cycles
+# light -> dark -> image -> light; its accessibility label is
+# "Backdrop: <mode>. Tap to change." Tap that label, not the glyph.
+# Ends back on light so batch flows start from a known host mode.
+appId: __BUNDLE_ID__
+---
+- launchApp:
+    clearState: true
+- assertVisible: "Templates"
+- takeScreenshot: home-light
+- tapOn: "Backdrop: light. Tap to change."
+- waitForAnimationToEnd
+- takeScreenshot: home-dark
+- tapOn: "Backdrop: dark. Tap to change."
+- waitForAnimationToEnd
+- takeScreenshot: home-image
+- tapOn: "Backdrop: image. Tap to change."
+- waitForAnimationToEnd

@@ -586,3 +586,223 @@ workflows:
       - $CM_BUILD_DIR/capture/*.log
       - $CM_BUILD_DIR/capture-check.png
       - $CM_BUILD_DIR/xcodebuild-capture.log
+
+  master-app-inspect-all:
+    name: Glacia Master — inspect all 24 templates (Simulator + Maestro)
+    instance_type: mac_mini_m2
+    max_build_duration: 120
+    working_directory: master-app
+    scripts:
+      - name: Show tool versions
+        script: |
+          set -euo pipefail
+          node --version
+          xcodebuild -version
+          java -version 2>&1 | head -3 || echo "no java on PATH"
+      - name: Install the Metal Toolchain (Xcode 26 ships it separately)
+        script: |
+          xcodebuild -downloadComponent MetalToolchain
+      - name: Install dependencies
+        script: |
+          set -euo pipefail
+          npm install
+      - name: Generate the native iOS project (Expo prebuild)
+        script: |
+          set -euo pipefail
+          npx expo prebuild --platform ios --no-install
+          # Expo's pod-install hook writes ios/.xcode.env.updates itself
+          # when EX_UPDATES_NATIVE_DEBUG=1 (FORCE_BUNDLING + unset
+          # SKIP_BUNDLING + RCT_NO_LAUNCH_PACKAGER=1); without it the hook
+          # DELETES the file — writing it by hand before pod install is
+          # why attempt 3 still skipped bundling.
+          cd ios && EX_UPDATES_NATIVE_DEBUG=1 pod install
+          test -f .xcode.env.updates || { echo "ERROR: .xcode.env.updates missing after pod install"; exit 1; }
+          cat .xcode.env.updates
+      - name: Build unsigned for the iOS Simulator
+        script: |
+          set -uo pipefail
+          # RN 0.88 skips JS bundling in Debug-for-Simulator (expects a Metro
+          # packager); without this the .app shows the red "No script URL"
+          # screen. FORCE_BUNDLING embeds the bundle in the Debug .app.
+          export FORCE_BUNDLING=1
+          WORKSPACE=$(ls -d ios/*.xcworkspace | head -1)
+          PROJECT=$(ls -d ios/*.xcodeproj | head -1)
+          SCHEME=$(basename "$PROJECT" .xcodeproj)
+          echo "Workspace: $WORKSPACE"
+          echo "Project:   $PROJECT"
+          echo "Scheme:    $SCHEME"
+          run_build() {
+            xcodebuild \
+              -workspace "$WORKSPACE" \
+              -scheme "$SCHEME" \
+              -configuration Debug \
+              -sdk iphonesimulator \
+              -derivedDataPath "$CM_BUILD_DIR/build-inspect" \
+              CODE_SIGNING_ALLOWED=NO \
+              CODE_SIGNING_REQUIRED=NO \
+              CODE_SIGN_IDENTITY="" \
+              build 2>&1 | tee -a "$CM_BUILD_DIR/xcodebuild-capture.log"
+            return ${PIPESTATUS[0]}
+          }
+          : > "$CM_BUILD_DIR/xcodebuild-capture.log"
+          run_build
+          STATUS=$?
+          if [ "$STATUS" -ne 0 ]; then
+            echo ""
+            echo "########## First attempt failed (exit $STATUS) — retrying once with warm caches ##########"
+            run_build
+            STATUS=$?
+          fi
+          if [ "$STATUS" -ne 0 ]; then
+            echo ""
+            echo "================ COMPILER ERRORS (extracted) ================"
+            grep -n -B1 -A6 "error:" "$CM_BUILD_DIR/xcodebuild-capture.log" | tail -120
+            echo "============================================================"
+            exit "$STATUS"
+          fi
+      - name: Package the Simulator .app (for Revyl)
+        script: |
+          set -euo pipefail
+          APP_PATH=$(find "$CM_BUILD_DIR/build-inspect" -name "*.app" -path "*Debug-iphonesimulator*" | head -1)
+          if [ -z "$APP_PATH" ]; then
+            echo "ERROR: no .app found under Debug-iphonesimulator"
+            exit 1
+          fi
+          echo "App: $APP_PATH"
+          du -sh "$APP_PATH"
+          if [ ! -f "$APP_PATH/main.jsbundle" ]; then
+            echo "ERROR: no main.jsbundle inside the .app — the JS was not embedded"
+            exit 1
+          fi
+          echo "Embedded bundle: $(du -sh "$APP_PATH/main.jsbundle")"
+          rm -rf GlaciaMaster-simulator.app
+          cp -r "$APP_PATH" GlaciaMaster-simulator.app
+          zip -qry GlaciaMaster-simulator.zip GlaciaMaster-simulator.app
+          cp GlaciaMaster-simulator.zip "$CM_BUILD_DIR/"
+          ls -la "$CM_BUILD_DIR/GlaciaMaster-simulator.zip"
+      - name: Boot an iPhone simulator
+        script: |
+          set -euo pipefail
+          RUNTIME=$(xcrun simctl list runtimes -j | python3 -c "
+          import json, sys
+          rs = [r for r in json.load(sys.stdin)['runtimes'] if r['identifier'].startswith('com.apple.CoreSimulator.SimRuntime.iOS') and r.get('isAvailable')]
+          rs.sort(key=lambda r: r['version'])
+          print(rs[-1]['identifier'])
+          ")
+          echo "Runtime: $RUNTIME"
+          UDID=""
+          for TYPE in "iPhone 16" "iPhone 17" "iPhone 16 Pro"; do
+            UDID=$(xcrun simctl create "Pilot-iPhone" "$TYPE" "$RUNTIME" 2>/dev/null || true)
+            if [ -n "$UDID" ]; then echo "Created $TYPE: $UDID"; break; fi
+          done
+          if [ -z "$UDID" ]; then
+            echo "ERROR: could not create a simulator"
+            exit 1
+          fi
+          echo "$UDID" > "$CM_BUILD_DIR/sim-udid.txt"
+          xcrun simctl boot "$UDID"
+          xcrun simctl bootstatus "$UDID" -b
+          xcrun simctl list devices | grep -i booted
+      - name: Install and launch the master app
+        script: |
+          set -euo pipefail
+          APP_PATH=$(find "$CM_BUILD_DIR/build-inspect" -name "*.app" -path "*Debug-iphonesimulator*" | head -1)
+          if [ -z "$APP_PATH" ]; then
+            echo "ERROR: no .app found under Debug-iphonesimulator"
+            exit 1
+          fi
+          echo "App: $APP_PATH"
+          du -sh "$APP_PATH"
+          BUNDLE_ID=$(/usr/libexec/PlistBuddy -c "Print CFBundleIdentifier" "$APP_PATH/Info.plist")
+          echo "Bundle ID: $BUNDLE_ID"
+          echo "$BUNDLE_ID" > "$CM_BUILD_DIR/bundle-id.txt"
+          if [ ! -f "$APP_PATH/main.jsbundle" ]; then
+            echo "ERROR: no main.jsbundle inside the .app — the JS was not embedded"
+            exit 1
+          fi
+          echo "Embedded bundle: $(du -sh "$APP_PATH/main.jsbundle")"
+          xcrun simctl install booted "$APP_PATH"
+          xcrun simctl launch booted "$BUNDLE_ID" || true
+          sleep 5
+          xcrun simctl io booted screenshot "$CM_BUILD_DIR/capture-check.png" || true
+          ls -la "$CM_BUILD_DIR/capture-check.png" || true
+      - name: Install Maestro CLI (+ idb, best effort)
+        script: |
+          set -euo pipefail
+          if ! java -version 2>&1 | grep -Eq " (17|21|22|23|24|25)\."; then
+            echo "Java 17+ missing — installing Temurin 17"
+            brew install --cask temurin@17
+            export JAVA_HOME=$(/usr/libexec/java_home -v 17)
+            export PATH="$JAVA_HOME/bin:$PATH"
+            echo "export JAVA_HOME=$JAVA_HOME" >> "$CM_ENV"
+            echo "export PATH=\"$JAVA_HOME/bin:\$PATH\"" >> "$CM_ENV"
+          fi
+          java -version 2>&1 | head -3
+          curl -Ls "https://get.maestro.mobile.dev" | bash
+          echo "export PATH=\"\$HOME/.maestro/bin:\$PATH\"" >> "$CM_ENV"
+          export PATH="$HOME/.maestro/bin:$PATH"
+          maestro --version
+          brew tap facebook/fb || true
+          brew trust facebook/fb || true
+          brew install idb-companion || echo "idb-companion install failed — continuing, Maestro bundles its own iOS driver"
+          which idb_companion || true
+      - name: Run inspection flows (all 24 templates + home + toggle rounds)
+        script: |
+          set -euo pipefail
+          export PATH="$HOME/.maestro/bin:$PATH"
+          BUNDLE_ID=$(cat "$CM_BUILD_DIR/bundle-id.txt")
+          mkdir -p "$CM_BUILD_DIR/capture"
+          SUMMARY="$CM_BUILD_DIR/capture/inspect-summary.log"
+          : > "$SUMMARY"
+          echo "=== Inspection run started $(date -u +%H:%M:%S) UTC, bundle $BUNDLE_ID ===" | tee -a "$SUMMARY"
+          # One flow file per template (not one per batch): a bad template
+          # must not kill the other 23. Every flow is NON-FATAL here — its
+          # exit code is recorded and the loop continues. This step always
+          # exits 0 so the find-dump + collection step below still runs.
+          FLOWS="inspect-home bank calm cast chat date fit food-fleet food toggle-1 grocery health homes jobs learn news ride shop toggle-2 social spend stream travel tunes wallet onboarding-flow profile-settings toggle-3"
+          for NAME in $FLOWS; do
+            FLOW="capture/inspect-$NAME.yaml"
+            sed "s/__BUNDLE_ID__/$BUNDLE_ID/" "$FLOW" > "$CM_BUILD_DIR/inspect-$NAME.yaml"
+            echo "--- flow inspect-$NAME started $(date -u +%H:%M:%S) UTC ---" | tee -a "$SUMMARY"
+            set +e
+            maestro test "$CM_BUILD_DIR/inspect-$NAME.yaml" 2>&1 | tee "$CM_BUILD_DIR/capture/maestro-inspect-$NAME.log"
+            STATUS=${PIPESTATUS[0]}
+            set -e
+            echo "--- flow inspect-$NAME finished exit $STATUS ---" | tee -a "$SUMMARY"
+          done
+          echo "=== Inspection run finished $(date -u +%H:%M:%S) UTC ===" | tee -a "$SUMMARY"
+          grep -c "finished exit 0" "$SUMMARY" | xargs echo "flows passed:"
+          grep "finished exit" "$SUMMARY" | grep -v "exit 0" || echo "no failed flows"
+          exit 0
+      - name: Dump Maestro screenshot locations + collect PNGs
+        script: |
+          set -euo pipefail
+          # Run-7 recipe: dump WHERE Maestro actually wrote the PNGs into a
+          # log that IS saved as an artifact, then copy whatever PNGs exist
+          # (either location) into the artifacts dir. Runs 5-6 lost shots
+          # because the collection searched only one location and the shell
+          # output was never saved.
+          DUMP="$CM_BUILD_DIR/capture/maestro-find-dump.log"
+          {
+            echo "=== $(date -u +%H:%M:%S) UTC — screenshot find dump ==="
+            echo "--- HOME: $HOME ---"
+            echo "--- CM_BUILD_DIR: $CM_BUILD_DIR ---"
+            echo "--- find \$HOME/.maestro -name '*.png' ---"
+            find "$HOME/.maestro" -name '*.png' 2>&1
+            echo "--- find \$CM_BUILD_DIR -name '*.png' ---"
+            find "$CM_BUILD_DIR" -name '*.png' 2>&1
+            echo "--- \$HOME/.maestro tree (top 3 levels) ---"
+            find "$HOME/.maestro" -maxdepth 3 2>&1 | head -100
+            echo "--- ls -la \$CM_BUILD_DIR/capture/ ---"
+            ls -la "$CM_BUILD_DIR/capture/"
+          } | tee "$DUMP"
+          find "$HOME/.maestro" -name '*.png' -exec cp {} "$CM_BUILD_DIR/capture/" \; 2>/dev/null || true
+          find "$CM_BUILD_DIR" -name '*.png' -not -path "$CM_BUILD_DIR/capture/*" -not -name 'capture-check.png' -exec cp {} "$CM_BUILD_DIR/capture/" \; 2>/dev/null || true
+          echo "--- PNGs collected in capture/ ---"
+          ls -la "$CM_BUILD_DIR/capture/"*.png 2>/dev/null || echo "WARNING: no PNGs collected"
+    artifacts:
+      - GlaciaMaster-simulator.zip
+      - $CM_BUILD_DIR/capture/*.png
+      - $CM_BUILD_DIR/capture/*.log
+      - $CM_BUILD_DIR/capture-check.png
+      - $CM_BUILD_DIR/xcodebuild-capture.log

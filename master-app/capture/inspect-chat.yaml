@@ -1,0 +1,21 @@
+# Maestro inspection flow (baseline, 2026-11-25). AppId placeholder is
+# replaced by the master-app-inspect-all workflow. launchApp has NO
+# clearState here: only inspect-home.yaml clears state, at the start of
+# the build. Each flow normalises to home via deep link first, so a
+# previous flow ending inside a template cannot break the next one.
+# Screenshots are named <slug>-01-main / <slug>-02-<screen>.
+appId: __BUNDLE_ID__
+---
+- launchApp:
+    clearState: false
+- openLink: "glacia-master://"
+- waitForAnimationToEnd
+- assertVisible: "Templates"
+- tapOn: "Chat — Relay"
+- waitForAnimationToEnd
+- takeScreenshot: chat-01-main
+- openLink: "glacia-master://templates/chat/calls"
+- waitForAnimationToEnd
+- takeScreenshot: chat-02-calls
+- openLink: "glacia-master://"
+- waitForAnimationToEnd

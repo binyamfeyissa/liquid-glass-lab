@@ -1,0 +1,27 @@
+# Maestro inspection flow: host-toggle round for 2 templates.
+# The host toggle changes host TEXT theme only; each template keeps its
+# own backdrop state. These shots document the text/background split the
+# owner reported (white text, light background). Restores light at end.
+appId: __BUNDLE_ID__
+---
+- launchApp:
+    clearState: false
+- openLink: "glacia-master://"
+- waitForAnimationToEnd
+- assertVisible: "Templates"
+- tapOn: "Backdrop: light. Tap to change."
+- waitForAnimationToEnd
+- tapOn: "Bank — Northwind Bank"
+- waitForAnimationToEnd
+- takeScreenshot: bank-toggle
+- openLink: "glacia-master://"
+- waitForAnimationToEnd
+- tapOn: "Backdrop: dark. Tap to change."
+- waitForAnimationToEnd
+- tapOn: "Food — Forkful"
+- waitForAnimationToEnd
+- takeScreenshot: food-toggle
+- openLink: "glacia-master://"
+- waitForAnimationToEnd
+- tapOn: "Backdrop: image. Tap to change."
+- waitForAnimationToEnd

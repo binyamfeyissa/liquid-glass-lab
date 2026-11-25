@@ -1,0 +1,16 @@
+# Batch wrapper for local/manual runs: runs each template flow in turn.
+# NOTE: the Codemagic master-app-inspect-all workflow does NOT use these —
+# it runs the per-template inspect-<slug>.yaml files directly, one Maestro
+# invocation each, so one bad template cannot kill the rest of its batch.
+# A runFlow failure fails the parent flow, which is exactly what the
+# per-template loop avoids.
+appId: __BUNDLE_ID__
+---
+- runFlow: inspect-bank.yaml
+- runFlow: inspect-calm.yaml
+- runFlow: inspect-cast.yaml
+- runFlow: inspect-chat.yaml
+- runFlow: inspect-date.yaml
+- runFlow: inspect-fit.yaml
+- runFlow: inspect-food-fleet.yaml
+- runFlow: inspect-food.yaml
