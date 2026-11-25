@@ -518,15 +518,28 @@ workflows:
           MAESTRO_STATUS=${PIPESTATUS[0]}
           set -e
           echo "=== Maestro screenshots run finished $(date -u +%H:%M:%S) UTC, exit $MAESTRO_STATUS ==="
-          find "$CM_BUILD_DIR" -maxdepth 3 -name "0*.png" -not -path "$CM_BUILD_DIR/capture/*" -exec cp {} "$CM_BUILD_DIR/capture/" \; 2>/dev/null || true
-          # Maestro 2.x writes takeScreenshot files into its own run dir
-          # ($HOME/.maestro/tests/<timestamp>/), NOT the working directory
-          # — attempt 5 took all 6 shots but none were collected.
-          LATEST_RUN=$(ls -dt "$HOME/.maestro/tests/"*/ 2>/dev/null | head -1)
-          if [ -n "$LATEST_RUN" ]; then
-            echo "Maestro run dir: $LATEST_RUN"
-            find "$LATEST_RUN" -maxdepth 1 -name "0*.png" -exec cp {} "$CM_BUILD_DIR/capture/" \; 2>/dev/null || true
-          fi
+          # Screenshot collection, run 7: dump WHERE Maestro actually wrote
+          # the PNGs into a log that IS saved as an artifact, then copy
+          # whatever PNGs exist (either location) into the artifacts dir.
+          # Run 6 searched only $HOME/.maestro/tests/<latest>/ and found
+          # nothing, and its shell output was never saved — this dump is
+          # the whole point, so it must survive even if the step fails.
+          DUMP="$CM_BUILD_DIR/capture/maestro-find-dump.log"
+          {
+            echo "=== $(date -u +%H:%M:%S) UTC — screenshot find dump ==="
+            echo "--- HOME: $HOME ---"
+            echo "--- CM_BUILD_DIR: $CM_BUILD_DIR ---"
+            echo "--- find \$HOME/.maestro -name '*.png' ---"
+            find "$HOME/.maestro" -name '*.png' 2>&1
+            echo "--- find \$CM_BUILD_DIR -name '*.png' ---"
+            find "$CM_BUILD_DIR" -name '*.png' 2>&1
+            echo "--- \$HOME/.maestro tree (top 3 levels) ---"
+            find "$HOME/.maestro" -maxdepth 3 2>&1 | head -100
+            echo "--- ls -la \$CM_BUILD_DIR/capture/ ---"
+            ls -la "$CM_BUILD_DIR/capture/"
+          } | tee "$DUMP"
+          find "$HOME/.maestro" -name '*.png' -exec cp {} "$CM_BUILD_DIR/capture/" \; 2>/dev/null || true
+          find "$CM_BUILD_DIR" -name '*.png' -not -path "$CM_BUILD_DIR/capture/*" -not -name 'capture-check.png' -exec cp {} "$CM_BUILD_DIR/capture/" \; 2>/dev/null || true
           ls -la "$CM_BUILD_DIR/capture/"
           if [ "$MAESTRO_STATUS" -ne 0 ]; then
             echo "Maestro screenshots flow failed (exit $MAESTRO_STATUS)"

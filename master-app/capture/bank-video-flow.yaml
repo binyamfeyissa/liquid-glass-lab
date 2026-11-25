@@ -6,6 +6,7 @@ appId: __BUNDLE_ID__
 ---
 - launchApp:
     clearState: true
+- assertVisible: "Templates"
 - tapOn: "Bank — Northwind Bank"
 - openLink: "glacia-master://templates/bank/accounts"
 - openLink: "glacia-master://templates/bank/cards"
