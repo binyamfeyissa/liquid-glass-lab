@@ -268,13 +268,14 @@ workflows:
         script: |
           set -euo pipefail
           npx expo prebuild --platform ios --no-install
-          # Expo sets SKIP_BUNDLING=1 in Debug; RN 0.88 then skips the JS
-          # bundle for the Simulator (expects Metro) and the .app opens on
-          # the red "No script URL" screen. Unsetting it in the generated
-          # project's own override hook embeds the bundle instead.
-          printf 'unset SKIP_BUNDLING\n' > ios/.xcode.env.updates
-          cat ios/.xcode.env.updates
-          cd ios && pod install
+          # Expo's pod-install hook writes ios/.xcode.env.updates itself
+          # when EX_UPDATES_NATIVE_DEBUG=1 (FORCE_BUNDLING + unset
+          # SKIP_BUNDLING + RCT_NO_LAUNCH_PACKAGER=1); without it the hook
+          # DELETES the file — writing it by hand before pod install is
+          # why attempt 3 still skipped bundling.
+          cd ios && EX_UPDATES_NATIVE_DEBUG=1 pod install
+          test -f .xcode.env.updates || { echo "ERROR: .xcode.env.updates missing after pod install"; exit 1; }
+          cat .xcode.env.updates
       - name: Build unsigned for the iOS Simulator
         script: |
           set -uo pipefail
@@ -361,13 +362,14 @@ workflows:
         script: |
           set -euo pipefail
           npx expo prebuild --platform ios --no-install
-          # Expo sets SKIP_BUNDLING=1 in Debug; RN 0.88 then skips the JS
-          # bundle for the Simulator (expects Metro) and the .app opens on
-          # the red "No script URL" screen. Unsetting it in the generated
-          # project's own override hook embeds the bundle instead.
-          printf 'unset SKIP_BUNDLING\n' > ios/.xcode.env.updates
-          cat ios/.xcode.env.updates
-          cd ios && pod install
+          # Expo's pod-install hook writes ios/.xcode.env.updates itself
+          # when EX_UPDATES_NATIVE_DEBUG=1 (FORCE_BUNDLING + unset
+          # SKIP_BUNDLING + RCT_NO_LAUNCH_PACKAGER=1); without it the hook
+          # DELETES the file — writing it by hand before pod install is
+          # why attempt 3 still skipped bundling.
+          cd ios && EX_UPDATES_NATIVE_DEBUG=1 pod install
+          test -f .xcode.env.updates || { echo "ERROR: .xcode.env.updates missing after pod install"; exit 1; }
+          cat .xcode.env.updates
       - name: Hide the host back pill for clean recordings (capture build only, NOT committed)
         script: |
           set -euo pipefail
