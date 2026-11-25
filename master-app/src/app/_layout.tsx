@@ -1,7 +1,13 @@
 import React from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
-import { Stack, useRouter, useSegments } from "expo-router";
+import {
+  DefaultTheme,
+  Stack,
+  ThemeProvider,
+  useRouter,
+  useSegments,
+} from "expo-router";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SafeAreaProvider, useSafeAreaInsets } from "react-native-safe-area-context";
 import { GlassProvider, Text } from "glacia-native";
@@ -42,6 +48,20 @@ function BackToTemplates() {
   );
 }
 
+/**
+ * Navigation theme: transparent screen background. React Navigation
+ * paints every screen opaque (DefaultTheme: rgb(242, 242, 242)) via its
+ * `Background` wrapper, which sits on top of the host backdrop and every
+ * template's own backdrop. `contentStyle: transparent` styles the wrong
+ * (inner) layer, so the theme is the only place that reaches it.
+ * This one theme covers the root Stack, all template Stacks, and home.
+ * THEME ONLY — do not add transparent presentation as well.
+ */
+const NavigationTheme = {
+  ...DefaultTheme,
+  colors: { ...DefaultTheme.colors, background: "transparent" },
+};
+
 function Shell() {
   const { isDark } = useBackdropMode();
 
@@ -75,7 +95,9 @@ export default function RootLayout() {
     <GestureHandlerRootView style={styles.root}>
       <SafeAreaProvider>
         <BackdropModeProvider>
-          <Shell />
+          <ThemeProvider value={NavigationTheme}>
+            <Shell />
+          </ThemeProvider>
         </BackdropModeProvider>
       </SafeAreaProvider>
     </GestureHandlerRootView>

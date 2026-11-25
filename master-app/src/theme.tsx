@@ -11,10 +11,9 @@ import React, {
  * The three showcase backdrops. The mode lives in context so it survives
  * navigation between the home list and every component screen.
  *
- * - "light" — pale gradient blobs (Bank's light backdrop)
- * - "dark"  — deep gradient blobs (Bank's dark backdrop)
- * - "image" — a full-screen photo, so the glass refraction over a busy
- *             picture is visible
+ * - "light" — broken white #f7f4ee
+ * - "dark"  — dark graphite #141415
+ * - "image" — the palm-leaves photo, full-screen under a 38% scrim
  */
 export type BackdropMode = "light" | "dark" | "image";
 
@@ -24,8 +23,9 @@ interface BackdropModeValue {
   mode: BackdropMode;
   /** Light → Dark → Image → Light. */
   cycleMode: () => void;
-  /** What GlassProvider and the components should be told. The photo is
-   *  bright, so Image mode renders the light theme over it. */
+  /** What GlassProvider and the components should be told. The palm
+   *  photo is dark, so Image mode renders the dark theme over it —
+   *  same as the templates (`darkMode = backdrop !== "light"`). */
   isDark: boolean;
 }
 
@@ -41,7 +41,7 @@ export function BackdropModeProvider({ children }: { children: ReactNode }) {
     setMode((m) => ORDER[(ORDER.indexOf(m) + 1) % ORDER.length]);
   }, []);
   const value = useMemo<BackdropModeValue>(
-    () => ({ mode, cycleMode, isDark: mode === "dark" }),
+    () => ({ mode, cycleMode, isDark: mode !== "light" }),
     [mode, cycleMode],
   );
   return (
