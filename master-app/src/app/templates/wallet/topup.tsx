@@ -50,13 +50,15 @@ export default function TopUpScreen() {
           </Badge>
         </Card>
         <Button
+          isDark={wallet.darkMode}
           accessibilityLabel="Back to portfolio"
-          variant="filled"
+          variant="glass"
           onPress={() => router.replace("/templates/wallet/(tabs)")}
         >
           Back to portfolio
         </Button>
         <Button
+          isDark={wallet.darkMode}
           accessibilityLabel="Add more money"
           variant="ghost"
           onPress={() => {
@@ -120,6 +122,8 @@ export default function TopUpScreen() {
         {QUICK_AMOUNTS.map((q) => (
           <View key={q} style={styles.flex}>
             <Button
+              isDark={wallet.darkMode}
+              size="sm"
               accessibilityLabel={`Quick amount ${q} dollars`}
               variant={amount === q ? "filled" : "glass"}
               onPress={() => setAmountText(String(q))}
@@ -148,6 +152,7 @@ export default function TopUpScreen() {
       </Field>
 
       <Button
+        isDark={wallet.darkMode}
         accessibilityLabel="Add money now"
         variant="filled"
         onPress={() => {
@@ -158,7 +163,7 @@ export default function TopUpScreen() {
       >
         Add {amount > 0 ? wallet.fmt(amount) : "money"}
       </Button>
-      <Button accessibilityLabel="Cancel top up" variant="ghost" onPress={() => router.back()}>
+      <Button isDark={wallet.darkMode} accessibilityLabel="Cancel top up" variant="ghost" onPress={() => router.back()}>
         Cancel
       </Button>
       <T variant="caption" muted style={styles.note}>

@@ -81,7 +81,7 @@ export default function ProfileScreen() {
         <SectionTitle>Background</SectionTitle>
         <BackdropControl />
         <T variant="caption" muted style={styles.currencyNote}>
-          Graphite, broken white, or the Tahoe photo behind the glass
+          Graphite, broken white, or the palm photo behind the glass
         </T>
       </View>
 
@@ -115,6 +115,7 @@ export default function ProfileScreen() {
       </View>
 
       <Button
+        isDark={tally.darkMode}
         accessibilityLabel="Reset demo data"
         variant="glass"
         onPress={tally.resetDemo}

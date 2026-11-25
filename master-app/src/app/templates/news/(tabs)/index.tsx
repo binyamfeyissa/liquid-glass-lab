@@ -56,6 +56,7 @@ export default function TopScreen() {
       <View style={styles.actionRow}>
         <View style={styles.actionGrow}>
           <Button
+            isDark={darkMode}
             accessibilityLabel="Open the morning briefing"
             variant="filled"
             onPress={() => router.push("/templates/news/briefing")}
@@ -65,6 +66,7 @@ export default function TopScreen() {
         </View>
         <View style={styles.actionGrow}>
           <Button
+            isDark={darkMode}
             accessibilityLabel="Search stories"
             variant="glass"
             onPress={() => router.push("/templates/news/search")}

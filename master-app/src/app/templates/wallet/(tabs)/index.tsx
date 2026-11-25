@@ -56,22 +56,22 @@ export default function PortfolioScreen() {
       {/* Quick actions */}
       <View style={styles.actions}>
         <View style={styles.actionBtn}>
-          <Button accessibilityLabel="Add money" variant="glass" onPress={() => router.push("/templates/wallet/topup")}>
+          <Button isDark={wallet.darkMode} size="sm" accessibilityLabel="Add money" variant="glass" onPress={() => router.push("/templates/wallet/topup")}>
             Add
           </Button>
         </View>
         <View style={styles.actionBtn}>
-          <Button accessibilityLabel="Send money" variant="glass" onPress={() => router.push("/templates/wallet/send")}>
+          <Button isDark={wallet.darkMode} size="sm" accessibilityLabel="Send money" variant="glass" onPress={() => router.push("/templates/wallet/send")}>
             Send
           </Button>
         </View>
         <View style={styles.actionBtn}>
-          <Button accessibilityLabel="Request money" variant="glass" onPress={() => router.push("/templates/wallet/request")}>
+          <Button isDark={wallet.darkMode} size="sm" accessibilityLabel="Request money" variant="glass" onPress={() => router.push("/templates/wallet/request")}>
             Request
           </Button>
         </View>
         <View style={styles.actionBtn}>
-          <Button accessibilityLabel="Swap assets" variant="glass" onPress={() => router.push("/templates/wallet/(tabs)/swap")}>
+          <Button isDark={wallet.darkMode} size="sm" accessibilityLabel="Swap assets" variant="glass" onPress={() => router.push("/templates/wallet/(tabs)/swap")}>
             Swap
           </Button>
         </View>

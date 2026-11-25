@@ -1,7 +1,11 @@
 import React from "react";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { useRouter } from "expo-router";
-import { Button, IconButton } from "glacia-native";
+import {
+  colors,
+  Button, IconButton
+} from "glacia-native";
+import { Check, ChevronLeft, Plus } from "lucide-react-native";
 
 import { artistOf, trackById } from "./data";
 import { useTunes } from "./state";
@@ -57,7 +61,7 @@ export default function AddToPlaylistScreen() {
           accessibilityLabel="Back"
           onPress={() => router.back()}
           isDark={darkMode}
-          icon={<T variant="heading">‹</T>}
+          icon={<ChevronLeft size={20} color={darkMode ? colors.dark.foreground : colors.light.foreground} />}
         />
       </View>
       <T variant="title">Add to playlist</T>
@@ -98,13 +102,9 @@ export default function AddToPlaylistScreen() {
                   </T>
                 </View>
                 {included ? (
-                  <T variant="heading" style={{ color: accent }}>
-                    ✓
-                  </T>
+                  <Check size={18} color={accent} />
                 ) : (
-                  <T variant="heading" muted>
-                    +
-                  </T>
+                  <Plus size={18} color={darkMode ? colors.dark.muted : colors.light.muted} />
                 )}
               </Pressable>
             </View>

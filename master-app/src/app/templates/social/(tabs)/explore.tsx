@@ -1,7 +1,11 @@
 import React, { useMemo, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { router } from "expo-router";
-import { Avatar, Chip, Field, Input } from "glacia-native";
+import {
+  colors,
+  Avatar, Chip, Field, Input
+} from "glacia-native";
+import { ChevronRight } from "lucide-react-native";
 
 import { ME_ID, useSocial } from "../state";
 import { PostCard, SectionTitle, T, pressedFill } from "../ui";
@@ -103,9 +107,7 @@ export default function ExploreScreen() {
                     {user.handle} · {user.bio}
                   </T>
                 </View>
-                <T variant="heading" muted>
-                  ›
-                </T>
+                <ChevronRight size={18} color={social.darkMode ? colors.dark.muted : colors.light.muted} />
               </Pressable>
             ))}
           </View>

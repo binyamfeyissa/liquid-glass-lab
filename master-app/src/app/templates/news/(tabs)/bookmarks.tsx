@@ -1,7 +1,11 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { router } from "expo-router";
-import { Button, IconButton } from "glacia-native";
+import {
+  colors,
+  Button, IconButton
+} from "glacia-native";
+import { X } from "lucide-react-native";
 
 import { ARTICLES } from "../data";
 import { useSignal } from "../state";
@@ -32,6 +36,7 @@ export default function BookmarksScreen() {
             the train, the queue, or Sunday morning
           </T>
           <Button
+            isDark={darkMode}
             accessibilityLabel="Browse top stories"
             variant="filled"
             onPress={() => router.replace("/templates/news/(tabs)")}
@@ -52,7 +57,7 @@ export default function BookmarksScreen() {
                   accessibilityLabel={`Remove bookmark for ${article.headline}`}
                   isDark={darkMode}
                   onPress={() => toggleBookmark(article.id)}
-                  icon={<T variant="body">✕</T>}
+                  icon={<X size={18} color={darkMode ? colors.dark.foreground : colors.light.foreground} />}
                 />
               </View>
             </React.Fragment>

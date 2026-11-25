@@ -40,6 +40,7 @@ function CartRow({ line }: { line: CartLine }) {
             isDark={shop.darkMode}
           />
           <Button
+            isDark={shop.darkMode}
             accessibilityLabel={`Remove ${product.name} from cart`}
             variant="ghost"
             size="sm"
@@ -86,6 +87,7 @@ export default function CartScreen() {
     >
       <View style={styles.topBar}>
         <Button
+          isDark={shop.darkMode}
           accessibilityLabel="Back"
           variant="ghost"
           size="sm"
@@ -105,6 +107,7 @@ export default function CartScreen() {
               Add a piece from the shop and it will show up here
             </T>
             <Button
+              isDark={shop.darkMode}
               accessibilityLabel="Browse products"
               variant="filled"
               onPress={() => router.replace("/templates/shop/(tabs)/shop")}
@@ -137,6 +140,7 @@ export default function CartScreen() {
                     </T>
                   </View>
                   <Button
+                    isDark={shop.darkMode}
                     accessibilityLabel="Remove promo code"
                     variant="ghost"
                     size="sm"
@@ -162,7 +166,7 @@ export default function CartScreen() {
                     />
                   </Field>
                 </View>
-                <Button accessibilityLabel="Apply promo code" onPress={applyPromo}>
+                <Button isDark={shop.darkMode} accessibilityLabel="Apply promo code" onPress={applyPromo}>
                   Apply
                 </Button>
               </View>
@@ -207,6 +211,7 @@ export default function CartScreen() {
           </View>
 
           <Button
+            isDark={shop.darkMode}
             accessibilityLabel="Go to checkout"
             variant="filled"
             size="lg"
@@ -215,6 +220,7 @@ export default function CartScreen() {
             Checkout · {money(total)}
           </Button>
           <Button
+            isDark={shop.darkMode}
             accessibilityLabel="Clear cart"
             variant="ghost"
             onPress={shop.clearCart}

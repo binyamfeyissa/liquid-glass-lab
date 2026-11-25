@@ -1,7 +1,11 @@
 import React, { useMemo, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
-import { Button, Chip, Input, Stepper } from "glacia-native";
+import {
+  colors,
+  Button, Chip, Input, Stepper
+} from "glacia-native";
+import { ChevronLeft } from "lucide-react-native";
 
 import { useTravel } from "./state";
 import { ListCard, SectionTitle, StayCard, T } from "./ui";
@@ -48,7 +52,7 @@ export default function SearchScreen() {
           accessibilityLabel="Back"
           onPress={() => router.back()}
         >
-          ‹
+          <ChevronLeft size={18} color={darkMode ? colors.dark.foreground : colors.light.foreground} />
         </Button>
         <T variant="title" style={styles.title}>
           Search

@@ -38,8 +38,9 @@ export default function ProductDetailScreen() {
       <View style={styles.missing}>
         <T variant="heading">Product not found</T>
         <Button
+          isDark={shop.darkMode}
           accessibilityLabel="Back to shop"
-          variant="filled"
+          variant="glass"
           onPress={() => router.push("/templates/shop/(tabs)/shop")}
           style={styles.missingButton}
         >
@@ -64,6 +65,7 @@ export default function ProductDetailScreen() {
     >
       <View style={styles.topBar}>
         <Button
+          isDark={shop.darkMode}
           accessibilityLabel="Back"
           variant="ghost"
           size="sm"
@@ -123,6 +125,7 @@ export default function ProductDetailScreen() {
           />
         </View>
         <Button
+          isDark={shop.darkMode}
           accessibilityLabel={`Add ${qty} ${product.name} to cart`}
           variant="filled"
           size="lg"

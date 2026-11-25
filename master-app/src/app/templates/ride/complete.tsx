@@ -24,8 +24,9 @@ export default function CompleteScreen() {
     return (
       <Screen title="Trip not found" subtitle="This receipt is no longer available.">
         <Button
+          isDark={ride.darkMode}
           accessibilityLabel="Back to home"
-          variant="filled"
+          variant="glass"
           onPress={() => router.replace("/templates/ride/(tabs)")}
         >
           Back to home
@@ -56,6 +57,7 @@ export default function CompleteScreen() {
           </Badge>
         </Card>
         <Button
+          isDark={ride.darkMode}
           accessibilityLabel="Done — back to home"
           variant="filled"
           onPress={() => router.replace("/templates/ride/(tabs)")}
@@ -63,6 +65,7 @@ export default function CompleteScreen() {
           Done
         </Button>
         <Button
+          isDark={ride.darkMode}
           accessibilityLabel="View this trip in Activity"
           variant="ghost"
           onPress={() => router.replace("/templates/ride/(tabs)/activity")}
@@ -113,6 +116,7 @@ export default function CompleteScreen() {
       </View>
 
       <Button
+        isDark={ride.darkMode}
         accessibilityLabel={`Pay ${money(trip.fare.total + tip)}`}
         variant="filled"
         size="lg"

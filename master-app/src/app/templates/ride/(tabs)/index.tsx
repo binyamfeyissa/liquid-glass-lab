@@ -197,6 +197,7 @@ export default function HomeScreen() {
       </View>
 
       <Button
+        isDark={ride.darkMode}
         accessibilityLabel={
           destination
             ? `Request ${selectedClass.name} to ${destination.label} for ${quote ? money(quote.total) : ""}`

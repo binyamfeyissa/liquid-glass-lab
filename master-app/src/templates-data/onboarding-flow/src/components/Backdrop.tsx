@@ -4,7 +4,7 @@ import { pageColor } from '../theme';
 
 /**
  * The three backgrounds, and nothing else. Dark: graphite #141415.
- * Light: broken white #f7f4ee. Photo: the Tahoe image, full-bleed,
+ * Light: broken white #f7f4ee. Photo: the palm photo, full-bleed,
  * under a neutral black scrim. On Android this is the single direct
  * child of `GlassProvider` — the content its glass siblings sample.
  */

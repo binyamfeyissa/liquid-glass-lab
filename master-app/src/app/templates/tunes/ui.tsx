@@ -10,6 +10,7 @@ import {
   type ViewStyle,
 } from "react-native";
 import {
+  colors,
   Card,
   IconButton,
   SegmentedControl,
@@ -17,6 +18,7 @@ import {
   Text,
   type TextProps,
 } from "glacia-native";
+import { Heart, Music, Pause } from "lucide-react-native";
 
 import {
   artistOf,
@@ -105,7 +107,7 @@ export function Serif({ style, ...rest }: TextProps) {
 /* ------------------------------------------------------------------ */
 /*  Backdrop — the three backgrounds, and nothing else.                */
 /*  Dark: graphite #141415. Light: broken white #f7f4ee.               */
-/*  Photo: the Tahoe image, full-bleed, under a neutral scrim.         */
+/*  Photo: the palm photo, full-bleed, under a neutral scrim.         */
 /* ------------------------------------------------------------------ */
 
 export function Backdrop() {
@@ -330,9 +332,11 @@ export function TrackRow({
         </T>
       </View>
       {isCurrent ? (
-        <T variant="body" style={{ color: accent }}>
-          {tunes.isPlaying ? "♪" : "❚❚"}
-        </T>
+        tunes.isPlaying ? (
+          <Music size={16} color={accent} />
+        ) : (
+          <Pause size={16} color={accent} />
+        )
       ) : null}
       <IconButton
         accessibilityLabel={liked ? `Unlike ${track.title}` : `Like ${track.title}`}
@@ -341,9 +345,11 @@ export function TrackRow({
         size="sm"
         tint={liked ? accent : undefined}
         icon={
-          <T variant="body" style={liked ? { color: accent } : undefined}>
-            {liked ? "♥" : "♡"}
-          </T>
+          <Heart
+            size={18}
+            color={liked ? accent : darkMode ? colors.dark.foreground : colors.light.foreground}
+            fill={liked ? accent : "transparent"}
+          />
         }
       />
       <Figure variant="caption" muted>

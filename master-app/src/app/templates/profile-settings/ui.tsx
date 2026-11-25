@@ -110,7 +110,7 @@ export function Serif({ style, ...rest }: TextProps) {
 /* ------------------------------------------------------------------ */
 /*  Backdrop — the three backgrounds, and nothing else.                */
 /*  Dark: graphite #141415. Light: broken white #f7f4ee.               */
-/*  Photo: the Tahoe image, full-bleed, under a neutral scrim.         */
+/*  Photo: the palm photo, full-bleed, under a neutral scrim.         */
 /* ------------------------------------------------------------------ */
 
 export function Backdrop() {

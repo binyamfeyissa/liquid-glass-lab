@@ -45,6 +45,7 @@ function ProductRow({ product }: { product: Product }) {
       </Pressable>
       <HeartButton productId={product.id} size="sm" />
       <Button
+        isDark={shop.darkMode}
         accessibilityLabel={`Add ${product.name} to cart`}
         size="sm"
         variant="filled"

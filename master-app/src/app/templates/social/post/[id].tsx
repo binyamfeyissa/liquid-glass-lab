@@ -1,7 +1,15 @@
 import React, { useState } from "react";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
-import { Avatar, Button, Field, Input } from "glacia-native";
+import {
+  Avatar,
+  Button,
+  colors,
+  Field,
+  IconButton,
+  Input,
+} from "glacia-native";
+import { Heart } from "lucide-react-native";
 
 import { useSocial, type Comment } from "../state";
 import {
@@ -33,22 +41,24 @@ function CommentRow({ comment }: { comment: Comment }) {
         <T variant="body" style={styles.commentText}>
           {comment.text}
         </T>
-        <Pressable
-          onPress={() => social.toggleCommentLike(comment.id)}
-          accessibilityRole="button"
-          accessibilityLabel={liked ? "Unlike comment" : "Like comment"}
-          style={styles.commentLike}
-        >
-          <T
-            variant="caption"
-            style={liked ? { color: accentColor(social.backdrop) } : undefined}
-          >
-            {liked ? "♥" : "♡"}
-          </T>
+        <View style={styles.commentLike}>
+          <IconButton
+            accessibilityLabel={liked ? "Unlike comment" : "Like comment"}
+            onPress={() => social.toggleCommentLike(comment.id)}
+            isDark={social.darkMode}
+            size="sm"
+            icon={
+              <Heart
+                size={16}
+                color={liked ? accentColor(social.backdrop) : social.darkMode ? colors.dark.foreground : colors.light.foreground}
+                fill={liked ? accentColor(social.backdrop) : "transparent"}
+              />
+            }
+          />
           <Figure variant="caption" muted>
             {compact(social.commentLikeCountOf(comment))}
           </Figure>
-        </Pressable>
+        </View>
       </View>
     </View>
   );
@@ -67,7 +77,7 @@ export default function PostDetailScreen() {
         <T variant="body" muted style={styles.missingText}>
           It may have been removed
         </T>
-        <Button accessibilityLabel="Back" variant="filled" onPress={() => router.back()}>
+        <Button isDark={social.darkMode} accessibilityLabel="Back" variant="glass" onPress={() => router.back()}>
           Back
         </Button>
       </View>
@@ -88,7 +98,7 @@ export default function PostDetailScreen() {
       contentContainerStyle={styles.content}
       showsVerticalScrollIndicator={false}
     >
-      <Button accessibilityLabel="Back" variant="ghost" onPress={() => router.back()}>
+      <Button isDark={social.darkMode} accessibilityLabel="Back" variant="ghost" onPress={() => router.back()}>
         Back
       </Button>
 
@@ -123,6 +133,7 @@ export default function PostDetailScreen() {
           />
         </Field>
         <Button
+          isDark={social.darkMode}
           accessibilityLabel="Post comment"
           variant="filled"
           disabled={!draft.trim()}

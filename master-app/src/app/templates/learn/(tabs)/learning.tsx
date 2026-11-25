@@ -57,6 +57,7 @@ export default function LearningScreen() {
                 : "Nothing in progress — every enrolled course is finished"}
             </T>
             <Button
+              isDark={learn.darkMode}
               accessibilityLabel="Browse courses in Discover"
               variant="filled"
               onPress={() => router.push("/templates/learn/(tabs)/discover")}
@@ -157,6 +158,7 @@ export default function LearningScreen() {
             </T>
             {quizCourse ? (
               <Button
+                isDark={learn.darkMode}
                 accessibilityLabel="Take the Liquid Glass quiz"
                 onPress={() => router.push(`/templates/learn/quiz/${quizCourse.id}`)}
                 style={styles.browseButton}

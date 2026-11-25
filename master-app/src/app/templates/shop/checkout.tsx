@@ -2,6 +2,7 @@ import React, { useMemo, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { router } from "expo-router";
 import { Badge, Button, Field, Input, RadioGroup } from "glacia-native";
+import { Check } from "lucide-react-native";
 
 import { useShop, type Address, type Order } from "./state";
 import { productById } from "./data";
@@ -95,12 +96,7 @@ export default function CheckoutScreen() {
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.success}>
-          <T
-            variant="title"
-            style={[styles.successMark, { color: accentColor(shop.backdrop) }]}
-          >
-            ✓
-          </T>
+          <Check size={36} color={accentColor(shop.backdrop)} />
           <T variant="title">Order placed</T>
           <Badge tone="muted" isDark={shop.darkMode}>
             {placed.number}
@@ -129,6 +125,7 @@ export default function CheckoutScreen() {
             </View>
           </ListCard>
           <Button
+            isDark={shop.darkMode}
             accessibilityLabel="View this order"
             variant="filled"
             size="lg"
@@ -138,6 +135,7 @@ export default function CheckoutScreen() {
             View order {placed.number}
           </Button>
           <Button
+            isDark={shop.darkMode}
             accessibilityLabel="Continue shopping"
             variant="ghost"
             onPress={() => router.replace("/templates/shop/(tabs)/index")}
@@ -165,6 +163,7 @@ export default function CheckoutScreen() {
               Your cart is empty — add a piece from the shop first
             </T>
             <Button
+              isDark={shop.darkMode}
               accessibilityLabel="Browse products"
               variant="filled"
               onPress={() => router.replace("/templates/shop/(tabs)/shop")}
@@ -186,6 +185,7 @@ export default function CheckoutScreen() {
     >
       <View style={styles.topBar}>
         <Button
+          isDark={shop.darkMode}
           accessibilityLabel="Back to cart"
           variant="ghost"
           size="sm"
@@ -347,6 +347,7 @@ export default function CheckoutScreen() {
       </View>
 
       <Button
+        isDark={shop.darkMode}
         accessibilityLabel={`Place order, total ${money(total)}`}
         variant="filled"
         size="lg"
@@ -388,7 +389,6 @@ const styles = StyleSheet.create({
   },
   empty: { padding: 16, gap: 8, alignItems: "flex-start" },
   success: { alignItems: "center", gap: 12, paddingTop: 24 },
-  successMark: { fontSize: 36 },
   successText: { textAlign: "center", lineHeight: 22 },
   successCard: { alignSelf: "stretch" },
   successButton: { alignSelf: "stretch" },

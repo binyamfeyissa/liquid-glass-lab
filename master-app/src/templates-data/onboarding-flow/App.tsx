@@ -34,7 +34,7 @@ function Shell() {
     <>
       <StatusBar style={darkMode ? 'light' : 'dark'} />
       <View style={[styles.root, { backgroundColor: pageColor(backdrop) }]}>
-        <GlassProvider style={styles.fill}>
+        <GlassProvider style={styles.fill} isDark={darkMode}>
           <Backdrop />
         </GlassProvider>
 

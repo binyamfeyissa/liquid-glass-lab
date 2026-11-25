@@ -10,6 +10,7 @@ import {
   type ViewStyle,
 } from "react-native";
 import {
+  colors,
   Badge,
   Card,
   Progress,
@@ -18,6 +19,7 @@ import {
   Text,
   type TextProps,
 } from "glacia-native";
+import { ChevronRight } from "lucide-react-native";
 
 import { useLearn, type BackdropMode } from "./state";
 import { courseLessons, courseMinutes, type Course } from "./data";
@@ -110,7 +112,7 @@ export function formatMinutes(total: number): string {
 /* ------------------------------------------------------------------ */
 /*  Backdrop — the three backgrounds, and nothing else.                */
 /*  Dark: graphite #141415. Light: broken white #f7f4ee.               */
-/*  Photo: the Tahoe image, full-bleed, under a neutral scrim.         */
+/*  Photo: the palm photo, full-bleed, under a neutral scrim.         */
 /* ------------------------------------------------------------------ */
 
 export function Backdrop() {
@@ -282,9 +284,7 @@ export function NavRow({
           {detail}
         </Figure>
       ) : null}
-      <T variant="heading" muted>
-        ›
-      </T>
+      <ChevronRight size={18} color={darkMode ? colors.dark.muted : colors.light.muted} />
     </Pressable>
   );
 }

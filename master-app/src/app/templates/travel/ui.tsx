@@ -13,12 +13,15 @@ import {
   Avatar,
   Badge,
   Card,
+  colors,
   Glass,
+  IconButton,
   SegmentedControl,
   Separator,
   Text,
   type TextProps,
 } from "glacia-native";
+import { ChevronRight, Heart } from "lucide-react-native";
 import { router } from "expo-router";
 
 import { useTravel, type BackdropMode, type ChatMsg, type Stay } from "./state";
@@ -70,7 +73,7 @@ export function Figure({ style, ...rest }: TextProps) {
 /* ------------------------------------------------------------------ */
 /*  Backdrop — the three backgrounds, and nothing else.                */
 /*  Dark: graphite #141415. Light: broken white #f7f4ee.               */
-/*  Photo: the Tahoe image, full-bleed, under a neutral scrim.         */
+/*  Photo: the palm photo, full-bleed, under a neutral scrim.         */
 /* ------------------------------------------------------------------ */
 
 export function Backdrop() {
@@ -238,9 +241,10 @@ export function NavRow({
           {detail}
         </Figure>
       ) : null}
-      <T variant="heading" muted>
-        ›
-      </T>
+      <ChevronRight
+        size={18}
+        color={darkMode ? colors.dark.muted : colors.light.muted}
+      />
     </Pressable>
   );
 }
@@ -314,27 +318,18 @@ export function HeartButton({ stayId }: { stayId: string }) {
   const { isSaved, toggleSaved, darkMode } = useTravel();
   const saved = isSaved(stayId);
   return (
-    <Pressable
-      onPress={() => toggleSaved(stayId)}
-      accessibilityRole="button"
+    <IconButton
       accessibilityLabel={saved ? "Remove from saved" : "Save this stay"}
-      style={[
-        styles.heart,
-        {
-          backgroundColor: darkMode ? "rgba(10,10,12,0.35)" : "rgba(255,255,255,0.55)",
-        },
-      ]}
-    >
-      <Text
-        variant="body"
-        style={{
-          color: saved ? accent(darkMode) : darkMode ? "#f5f2ec" : "#3d362a",
-          fontSize: 17,
-        }}
-      >
-        {saved ? "♥" : "♡"}
-      </Text>
-    </Pressable>
+      onPress={() => toggleSaved(stayId)}
+      isDark={darkMode}
+      icon={
+        <Heart
+          size={18}
+          color={saved ? accent(darkMode) : darkMode ? "#f5f2ec" : "#3d362a"}
+          fill={saved ? accent(darkMode) : "transparent"}
+        />
+      }
+    />
   );
 }
 
@@ -528,13 +523,6 @@ const styles = StyleSheet.create({
   plateLabel: {
     fontFamily: SERIF,
     fontWeight: "600",
-  },
-  heart: {
-    width: 34,
-    height: 34,
-    borderRadius: 17,
-    alignItems: "center",
-    justifyContent: "center",
   },
   heartOverlay: {
     position: "absolute",

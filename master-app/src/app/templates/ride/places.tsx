@@ -53,6 +53,7 @@ export default function PlacesScreen() {
                   </T>
                 </View>
                 <Button
+                  isDark={ride.darkMode}
                   accessibilityLabel={`Remove saved place ${place.label}`}
                   variant="ghost"
                   size="sm"
@@ -106,13 +107,14 @@ export default function PlacesScreen() {
               {savedNote}
             </T>
           ) : null}
-          <Button accessibilityLabel="Save this place" variant="filled" onPress={add}>
+          <Button isDark={ride.darkMode} accessibilityLabel="Save this place" variant="filled" onPress={add}>
             Save place
           </Button>
         </View>
       </View>
 
       <Button
+        isDark={ride.darkMode}
         accessibilityLabel="Back to profile"
         variant="ghost"
         onPress={() => router.back()}

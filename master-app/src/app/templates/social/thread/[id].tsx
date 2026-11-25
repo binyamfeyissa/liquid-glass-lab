@@ -77,7 +77,7 @@ export default function ThreadScreen() {
         <T variant="body" muted style={styles.missingText}>
           This conversation could not be found
         </T>
-        <Button accessibilityLabel="Back" variant="filled" onPress={() => router.back()}>
+        <Button isDark={social.darkMode} accessibilityLabel="Back" variant="glass" onPress={() => router.back()}>
           Back
         </Button>
       </View>
@@ -95,7 +95,7 @@ export default function ThreadScreen() {
   return (
     <View style={styles.root}>
       <View style={styles.header}>
-        <Button accessibilityLabel="Back" variant="ghost" onPress={() => router.back()}>
+        <Button isDark={social.darkMode} accessibilityLabel="Back" variant="ghost" onPress={() => router.back()}>
           Back
         </Button>
         <PressableHeader userId={user.id} name={user.name} handle={user.handle} />
@@ -129,6 +129,7 @@ export default function ThreadScreen() {
           </Field>
         </View>
         <Button
+          isDark={social.darkMode}
           accessibilityLabel="Send message"
           variant="filled"
           disabled={!draft.trim()}

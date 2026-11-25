@@ -1,7 +1,11 @@
 import React from "react";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { router } from "expo-router";
-import { Avatar, Card } from "glacia-native";
+import {
+  colors,
+  Avatar, Card
+} from "glacia-native";
+import { Search } from "lucide-react-native";
 
 import { useTravel } from "../state";
 import { Figure, Plate, Screen, SectionTitle, StayCard, T } from "../ui";
@@ -21,7 +25,7 @@ export default function ExploreScreen() {
         accessibilityLabel="Search destinations and stays"
       >
         <View style={styles.searchRow}>
-          <T variant="body">⌕</T>
+          <Search size={18} color={darkMode ? colors.dark.foreground : colors.light.foreground} />
           <View style={styles.searchText}>
             <T variant="body">Search stays</T>
             <T variant="caption" muted>

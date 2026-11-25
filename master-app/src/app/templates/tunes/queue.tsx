@@ -1,7 +1,11 @@
 import React, { type ReactNode } from "react";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { useRouter } from "expo-router";
-import { IconButton } from "glacia-native";
+import {
+  colors,
+  IconButton
+} from "glacia-native";
+import { ChevronLeft } from "lucide-react-native";
 
 import { artistOf, formatTime, trackById } from "./data";
 import { useTunes } from "./state";
@@ -38,7 +42,7 @@ export default function QueueScreen() {
           accessibilityLabel="Back"
           onPress={() => router.back()}
           isDark={darkMode}
-          icon={<T variant="heading">‹</T>}
+          icon={<ChevronLeft size={20} color={darkMode ? colors.dark.foreground : colors.light.foreground} />}
         />
       </View>
       <T variant="title">Queue</T>

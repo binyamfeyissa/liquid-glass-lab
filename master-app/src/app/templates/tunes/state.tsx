@@ -27,7 +27,7 @@ import {
 
 export type RepeatMode = "off" | "all" | "one";
 
-/** The three backgrounds: graphite dark, broken-white light, Tahoe photo. */
+/** The three backgrounds: graphite dark, broken-white light, palm photo. */
 export type BackdropMode = "dark" | "light" | "image";
 
 export interface Playlist extends PlaylistSeed {

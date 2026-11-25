@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import { router } from "expo-router";
 import {
+  colors,
   Badge,
   Card,
   IconButton,
@@ -20,6 +21,7 @@ import {
   Text,
   type TextProps,
 } from "glacia-native";
+import { ChevronRight, Heart, ShoppingCart } from "lucide-react-native";
 
 import { useShop, type BackdropMode, type OrderStatus } from "./state";
 import { finishOf, type Product } from "./data";
@@ -88,7 +90,7 @@ export function Figure({
 /* ------------------------------------------------------------------ */
 /*  Backdrop — the three backgrounds, and nothing else.                */
 /*  Dark: graphite #141415. Light: broken white #f7f4ee.               */
-/*  Photo: the Tahoe image, full-bleed, under a neutral scrim.         */
+/*  Photo: the palm photo, full-bleed, under a neutral scrim.         */
 /* ------------------------------------------------------------------ */
 
 export function Backdrop() {
@@ -258,9 +260,7 @@ export function NavRow({
           {detail}
         </T>
       ) : null}
-      <T variant="heading" muted>
-        ›
-      </T>
+      <ChevronRight size={18} color={darkMode ? colors.dark.muted : colors.light.muted} />
     </Pressable>
   );
 }
@@ -318,12 +318,11 @@ export function HeartButton({ productId, size = "md" }: { productId: string; siz
       isDark={shop.darkMode}
       size={size}
       icon={
-        <T
-          variant="body"
-          style={active ? { color: accentColor(shop.backdrop) } : undefined}
-        >
-          {active ? "♥" : "♡"}
-        </T>
+        <Heart
+          size={20}
+          color={active ? accentColor(shop.backdrop) : shop.darkMode ? colors.dark.foreground : colors.light.foreground}
+          fill={active ? accentColor(shop.backdrop) : "transparent"}
+        />
       }
     />
   );
@@ -341,7 +340,7 @@ export function CartButton() {
         accessibilityLabel={`Cart, ${shop.cartCount} items`}
         onPress={() => router.push("/templates/shop/cart")}
         isDark={shop.darkMode}
-        icon={<T variant="caption">Cart</T>}
+        icon={<ShoppingCart size={20} color={shop.darkMode ? colors.dark.foreground : colors.light.foreground} />}
       />
       {shop.cartCount > 0 ? (
         <View style={styles.cartCount}>

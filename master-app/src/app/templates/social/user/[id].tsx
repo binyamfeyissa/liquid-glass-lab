@@ -18,7 +18,7 @@ export default function UserProfileScreen() {
         <T variant="body" muted style={styles.missingText}>
           This person could not be found
         </T>
-        <Button accessibilityLabel="Back" variant="filled" onPress={() => router.back()}>
+        <Button isDark={social.darkMode} accessibilityLabel="Back" variant="glass" onPress={() => router.back()}>
           Back
         </Button>
       </View>
@@ -34,7 +34,7 @@ export default function UserProfileScreen() {
       contentContainerStyle={styles.content}
       showsVerticalScrollIndicator={false}
     >
-      <Button accessibilityLabel="Back" variant="ghost" onPress={() => router.back()}>
+      <Button isDark={social.darkMode} accessibilityLabel="Back" variant="ghost" onPress={() => router.back()}>
         Back
       </Button>
 
@@ -76,6 +76,7 @@ export default function UserProfileScreen() {
 
       <View style={styles.actions}>
         <Button
+          isDark={social.darkMode}
           accessibilityLabel={following ? `Unfollow ${user.name}` : `Follow ${user.name}`}
           variant={following ? "glass" : "filled"}
           onPress={() => social.toggleFollow(user.id)}
@@ -84,6 +85,7 @@ export default function UserProfileScreen() {
           {following ? "Following" : "Follow"}
         </Button>
         <Button
+          isDark={social.darkMode}
           accessibilityLabel={`Message ${user.name}`}
           onPress={() => {
             const convId = social.startConversationWith(user.id);

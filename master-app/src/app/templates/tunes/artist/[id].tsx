@@ -1,7 +1,11 @@
 import React from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { Avatar, Button, Card, IconButton } from "glacia-native";
+import {
+  colors,
+  Avatar, Button, Card, IconButton
+} from "glacia-native";
+import { ChevronLeft } from "lucide-react-native";
 
 import { TRACKS, artistById } from "../data";
 import { useTunes } from "../state";
@@ -69,7 +73,7 @@ export default function ArtistScreen() {
           accessibilityLabel="Back"
           onPress={() => router.back()}
           isDark={darkMode}
-          icon={<T variant="heading">‹</T>}
+          icon={<ChevronLeft size={20} color={darkMode ? colors.dark.foreground : colors.light.foreground} />}
         />
       </View>
 

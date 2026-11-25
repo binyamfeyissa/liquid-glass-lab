@@ -78,6 +78,7 @@ export default function PaymentScreen() {
                   </Badge>
                 ) : (
                   <Button
+                    isDark={ride.darkMode}
                     accessibilityLabel={`Make ${card.brand} ending ${card.last4} the default card`}
                     variant="ghost"
                     size="sm"
@@ -159,7 +160,7 @@ export default function PaymentScreen() {
               {addedNote}
             </T>
           ) : null}
-          <Button accessibilityLabel="Add this card" variant="filled" onPress={add}>
+          <Button isDark={ride.darkMode} accessibilityLabel="Add this card" variant="filled" onPress={add}>
             Add card
           </Button>
           <T variant="caption" muted style={styles.foot}>
@@ -169,6 +170,7 @@ export default function PaymentScreen() {
       </View>
 
       <Button
+        isDark={ride.darkMode}
         accessibilityLabel="Back to profile"
         variant="ghost"
         onPress={() => router.back()}

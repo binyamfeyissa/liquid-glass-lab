@@ -1,7 +1,11 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { useRouter } from "expo-router";
-import { Button, IconButton, Progress } from "glacia-native";
+import {
+  colors,
+  Button, IconButton, Progress
+} from "glacia-native";
+import { Check, Download, X } from "lucide-react-native";
 
 import {
   TITLES,
@@ -48,11 +52,11 @@ function DownloadButton({ title }: { title: Title }) {
       isDark={stream.darkMode}
       icon={
         !entry ? (
-          <T variant="body">↓</T>
+          <Download size={18} color={stream.darkMode ? colors.dark.foreground : colors.light.foreground} />
         ) : entry.status === "downloading" ? (
           <Figure variant="caption">{entry.pct}%</Figure>
         ) : (
-          <T variant="body">✓</T>
+          <Check size={18} color={stream.darkMode ? colors.dark.foreground : colors.light.foreground} />
         )
       }
     />
@@ -93,7 +97,7 @@ export default function MyListScreen() {
                         accessibilityLabel={`Remove ${title.name} from My List`}
                         onPress={() => stream.toggleMyList(title.id)}
                         isDark={darkMode}
-                        icon={<T variant="body">✕</T>}
+                        icon={<X size={18} color={darkMode ? colors.dark.foreground : colors.light.foreground} />}
                       />
                     </View>
                   }
@@ -179,7 +183,7 @@ export default function MyListScreen() {
                     }
                     onPress={() => stream.removeDownload(playableId)}
                     isDark={darkMode}
-                    icon={<T variant="body">✕</T>}
+                    icon={<X size={18} color={darkMode ? colors.dark.foreground : colors.light.foreground} />}
                   />
                 </View>
               </View>

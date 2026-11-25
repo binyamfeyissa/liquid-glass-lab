@@ -1,7 +1,11 @@
 import React, { useMemo, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
-import { Badge, Button, Stepper } from "glacia-native";
+import {
+  colors,
+  Badge, Button, Stepper
+} from "glacia-native";
+import { ChevronLeft } from "lucide-react-native";
 
 import {
   dateForOffset,
@@ -127,7 +131,7 @@ export default function BookScreen() {
           accessibilityLabel="Back"
           onPress={() => router.back()}
         >
-          ‹
+          <ChevronLeft size={18} color={darkMode ? colors.dark.foreground : colors.light.foreground} />
         </Button>
         <T variant="title" style={styles.title}>
           Confirm and book

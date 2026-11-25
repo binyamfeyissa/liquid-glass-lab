@@ -102,7 +102,7 @@ export default function ProfileScreen() {
           <View style={styles.backdropBlock}>
             <BackdropControl />
             <T variant="caption" muted>
-              Dark gray, broken white, or the Tahoe photo — the glass sits over all three
+              Dark gray, broken white, or the palm photo — the glass sits over all three
             </T>
           </View>
         </ListCard>

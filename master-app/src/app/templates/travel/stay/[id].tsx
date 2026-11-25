@@ -7,7 +7,11 @@ import {
   type NativeSyntheticEvent,
 } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
-import { Avatar, Button, Card } from "glacia-native";
+import {
+  colors,
+  Avatar, Button, Card
+} from "glacia-native";
+import { Check, ChevronLeft } from "lucide-react-native";
 
 import { useTravel } from "../state";
 import {
@@ -70,7 +74,7 @@ export default function StayDetailScreen() {
             accessibilityLabel="Back"
             onPress={() => router.back()}
           >
-            ‹
+            <ChevronLeft size={18} color={darkMode ? colors.dark.foreground : colors.light.foreground} />
           </Button>
           <T variant="heading" style={[styles.flex, styles.placeName]} numberOfLines={1}>
             {dest?.city}, {dest?.country}
@@ -171,9 +175,7 @@ export default function StayDetailScreen() {
               <View key={a}>
                 {i > 0 ? <RowSeparator /> : null}
                 <View style={styles.amenityRow}>
-                  <T variant="body" muted>
-                    ✓
-                  </T>
+                  <Check size={16} color={darkMode ? colors.dark.muted : colors.light.muted} />
                   <T variant="body">{a}</T>
                 </View>
               </View>

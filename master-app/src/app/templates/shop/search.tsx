@@ -40,6 +40,7 @@ export default function SearchScreen() {
     >
       <View style={styles.topBar}>
         <Button
+          isDark={shop.darkMode}
           accessibilityLabel="Back"
           variant="ghost"
           size="sm"

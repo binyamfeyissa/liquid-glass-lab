@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
-import { AlertDialog, Avatar, Button } from "glacia-native";
+import {
+  colors,
+  AlertDialog, Avatar, Button
+} from "glacia-native";
+import { ChevronLeft } from "lucide-react-native";
 
 import { dateForOffset, formatDate, useTravel } from "../state";
 import {
@@ -53,7 +57,7 @@ export default function TripDetailScreen() {
           accessibilityLabel="Back"
           onPress={() => router.back()}
         >
-          ‹
+          <ChevronLeft size={18} color={darkMode ? colors.dark.foreground : colors.light.foreground} />
         </Button>
         <T variant="title" style={styles.title}>
           {dest?.city}

@@ -165,7 +165,7 @@ export default function ProfileScreen() {
           <View style={styles.backdropBlock}>
             <T variant="body">Background</T>
             <T variant="caption" muted style={styles.backdropHint}>
-              Graphite, broken white or the Tahoe photo
+              Graphite, broken white or the palm photo
             </T>
             <View style={styles.backdropControl}>
               <BackdropControl />

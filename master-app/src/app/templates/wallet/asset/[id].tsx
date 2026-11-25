@@ -71,6 +71,8 @@ export default function AssetDetailScreen() {
         <View style={styles.actions}>
           <View style={styles.flex}>
             <Button
+              isDark={wallet.darkMode}
+              size="sm"
               accessibilityLabel="Add money"
               variant="filled"
               onPress={() => router.push("/templates/wallet/topup")}
@@ -80,6 +82,8 @@ export default function AssetDetailScreen() {
           </View>
           <View style={styles.flex}>
             <Button
+              isDark={wallet.darkMode}
+              size="sm"
               accessibilityLabel="Send dollars"
               variant="glass"
               onPress={() => router.push("/templates/wallet/send")}
@@ -89,6 +93,8 @@ export default function AssetDetailScreen() {
           </View>
           <View style={styles.flex}>
             <Button
+              isDark={wallet.darkMode}
+              size="sm"
               accessibilityLabel="Swap dollars"
               variant="glass"
               onPress={() =>
@@ -103,6 +109,8 @@ export default function AssetDetailScreen() {
         <View style={styles.actions}>
           <View style={styles.flex}>
             <Button
+              isDark={wallet.darkMode}
+              size="sm"
               accessibilityLabel={`Buy ${asset.name}`}
               variant="filled"
               onPress={() =>
@@ -114,6 +122,8 @@ export default function AssetDetailScreen() {
           </View>
           <View style={styles.flex}>
             <Button
+              isDark={wallet.darkMode}
+              size="sm"
               accessibilityLabel={`Sell ${asset.name}`}
               variant="glass"
               onPress={() =>
@@ -125,6 +135,8 @@ export default function AssetDetailScreen() {
           </View>
           <View style={styles.flex}>
             <Button
+              isDark={wallet.darkMode}
+              size="sm"
               accessibilityLabel={`Swap ${asset.name}`}
               variant="glass"
               onPress={() =>
@@ -160,7 +172,7 @@ export default function AssetDetailScreen() {
         )}
       </View>
 
-      <Button accessibilityLabel="Back" variant="ghost" onPress={() => router.back()}>
+      <Button isDark={wallet.darkMode} accessibilityLabel="Back" variant="ghost" onPress={() => router.back()}>
         Back
       </Button>
     </Screen>

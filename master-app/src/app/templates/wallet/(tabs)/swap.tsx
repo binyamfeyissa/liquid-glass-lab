@@ -100,7 +100,7 @@ export default function SwapScreen() {
 
       <View style={styles.flipRow}>
         <View style={styles.flex}>
-          <Button accessibilityLabel="Flip swap direction" variant="glass" onPress={flip}>
+          <Button isDark={wallet.darkMode} accessibilityLabel="Flip swap direction" variant="glass" onPress={flip}>
             Flip
           </Button>
         </View>
@@ -155,6 +155,7 @@ export default function SwapScreen() {
       </View>
 
       <Button
+        isDark={wallet.darkMode}
         accessibilityLabel="Confirm swap"
         variant="filled"
         onPress={() => {

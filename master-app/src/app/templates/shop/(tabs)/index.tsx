@@ -82,6 +82,7 @@ export default function HomeScreen() {
             </View>
           </View>
           <Button
+            isDark={shop.darkMode}
             accessibilityLabel={`Shop the ${hero.name}`}
             variant="filled"
             onPress={() => router.push(`/templates/shop/product/${hero.id}`)}

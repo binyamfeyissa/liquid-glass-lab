@@ -25,8 +25,9 @@ export default function OrderDetailScreen() {
     return (
       <Screen title="Order not found" subtitle="This order is not in the list">
         <Button
+          isDark={shop.darkMode}
           accessibilityLabel="Back to orders"
-          variant="filled"
+          variant="glass"
           onPress={() => router.push("/templates/shop/(tabs)/orders")}
         >
           Back to orders
@@ -132,10 +133,11 @@ export default function OrderDetailScreen() {
         </ListCard>
       </View>
 
-      <Button accessibilityLabel="Buy these items again" variant="filled" onPress={buyAgain}>
+      <Button isDark={shop.darkMode} accessibilityLabel="Buy these items again" variant="filled" onPress={buyAgain}>
         Buy again
       </Button>
       <Button
+        isDark={shop.darkMode}
         accessibilityLabel="Back to orders"
         variant="ghost"
         onPress={() => router.push("/templates/shop/(tabs)/orders")}

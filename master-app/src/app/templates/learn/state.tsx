@@ -33,7 +33,7 @@ export interface ContinuePoint {
   lessonId: string;
 }
 
-/** The three backgrounds: graphite dark, broken-white light, Tahoe photo. */
+/** The three backgrounds: graphite dark, broken-white light, palm photo. */
 export type BackdropMode = "dark" | "light" | "image";
 
 interface LearnState {

@@ -119,6 +119,7 @@ export default function GoalsScreen() {
                         : `${tally.format(goal.target - goal.saved)} to go`}
                     </Figure>
                     <Button
+                      isDark={tally.darkMode}
                       accessibilityLabel={`Contribute to ${goal.name}`}
                       size="sm"
                       onPress={() => openContribute(goal)}
@@ -133,10 +134,10 @@ export default function GoalsScreen() {
         </ListCard>
       </View>
 
-      <Button accessibilityLabel="New goal" variant="filled" onPress={openAdd}>
+      <Button isDark={tally.darkMode} accessibilityLabel="New goal" variant="filled" onPress={openAdd}>
         New goal
       </Button>
-      <Button accessibilityLabel="Back" variant="ghost" onPress={() => router.back()}>
+      <Button isDark={tally.darkMode} accessibilityLabel="Back" variant="ghost" onPress={() => router.back()}>
         Back
       </Button>
 
@@ -169,6 +170,7 @@ export default function GoalsScreen() {
             />
           </Field>
           <Button
+            isDark={tally.darkMode}
             accessibilityLabel="Save contribution"
             variant="filled"
             onPress={saveContribute}
@@ -212,7 +214,7 @@ export default function GoalsScreen() {
               isDark={tally.darkMode}
             />
           </Field>
-          <Button accessibilityLabel="Create goal" variant="filled" onPress={saveGoal}>
+          <Button isDark={tally.darkMode} accessibilityLabel="Create goal" variant="filled" onPress={saveGoal}>
             Create goal
           </Button>
         </View>

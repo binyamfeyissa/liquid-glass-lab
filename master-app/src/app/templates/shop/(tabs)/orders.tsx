@@ -19,6 +19,7 @@ export default function OrdersScreen() {
               When you place an order it will show up here with its tracking status
             </T>
             <Button
+              isDark={shop.darkMode}
               accessibilityLabel="Browse products"
               variant="filled"
               onPress={() => router.push("/templates/shop/(tabs)/shop")}

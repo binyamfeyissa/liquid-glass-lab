@@ -68,13 +68,15 @@ export default function TradeScreen() {
           </Badge>
         </Card>
         <Button
+          isDark={wallet.darkMode}
           accessibilityLabel="Back to portfolio"
-          variant="filled"
+          variant="glass"
           onPress={() => router.replace("/templates/wallet/(tabs)")}
         >
           Back to portfolio
         </Button>
         <Button
+          isDark={wallet.darkMode}
           accessibilityLabel="Trade again"
           variant="ghost"
           onPress={() => {
@@ -117,6 +119,7 @@ export default function TradeScreen() {
           </View>
         </ListCard>
         <Button
+          isDark={wallet.darkMode}
           accessibilityLabel={`Confirm ${side} of ${wallet.fmt(amount)}`}
           variant="filled"
           onPress={() => {
@@ -129,6 +132,7 @@ export default function TradeScreen() {
           Confirm {side === "buy" ? "purchase" : "sale"}
         </Button>
         <Button
+          isDark={wallet.darkMode}
           accessibilityLabel="Back to edit trade"
           variant="ghost"
           onPress={() => setStep("enter")}
@@ -194,6 +198,7 @@ export default function TradeScreen() {
       </View>
 
       <Button
+        isDark={wallet.darkMode}
         accessibilityLabel="Review trade"
         variant="filled"
         onPress={() => {
@@ -202,7 +207,7 @@ export default function TradeScreen() {
       >
         Review {side === "buy" ? "purchase" : "sale"}
       </Button>
-      <Button accessibilityLabel="Cancel trade" variant="ghost" onPress={() => router.back()}>
+      <Button isDark={wallet.darkMode} accessibilityLabel="Cancel trade" variant="ghost" onPress={() => router.back()}>
         Cancel
       </Button>
     </Screen>

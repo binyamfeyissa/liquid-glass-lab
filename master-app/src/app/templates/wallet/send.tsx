@@ -51,13 +51,15 @@ export default function SendScreen() {
           </Badge>
         </Card>
         <Button
+          isDark={wallet.darkMode}
           accessibilityLabel="Back to portfolio"
-          variant="filled"
+          variant="glass"
           onPress={() => router.replace("/templates/wallet/(tabs)")}
         >
           Back to portfolio
         </Button>
         <Button
+          isDark={wallet.darkMode}
           accessibilityLabel="Send another payment"
           variant="ghost"
           onPress={() => {
@@ -97,6 +99,7 @@ export default function SendScreen() {
           </View>
         </ListCard>
         <Button
+          isDark={wallet.darkMode}
           accessibilityLabel={`Send ${wallet.fmt(amount)} to ${contact.name}`}
           variant="filled"
           onPress={() => {
@@ -107,6 +110,7 @@ export default function SendScreen() {
           Send {wallet.fmt(amount)}
         </Button>
         <Button
+          isDark={wallet.darkMode}
           accessibilityLabel="Back to edit payment"
           variant="ghost"
           onPress={() => setStep("pick")}
@@ -187,6 +191,7 @@ export default function SendScreen() {
       </Field>
 
       <Button
+        isDark={wallet.darkMode}
         accessibilityLabel="Review payment"
         variant="filled"
         onPress={() => {
@@ -195,7 +200,7 @@ export default function SendScreen() {
       >
         Review payment
       </Button>
-      <Button accessibilityLabel="Cancel" variant="ghost" onPress={() => router.back()}>
+      <Button isDark={wallet.darkMode} accessibilityLabel="Cancel" variant="ghost" onPress={() => router.back()}>
         Cancel
       </Button>
     </Screen>

@@ -1,7 +1,11 @@
 import React from "react";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
-import { Avatar, Badge, Button, Card, Progress } from "glacia-native";
+import {
+  colors,
+  Avatar, Badge, Button, Card, Progress
+} from "glacia-native";
+import { ChevronRight } from "lucide-react-native";
 
 import { useLearn } from "../state";
 import {
@@ -36,8 +40,9 @@ export default function CourseScreen() {
           This course is no longer in the catalogue.
         </T>
         <Button
+          isDark={learn.darkMode}
           accessibilityLabel="Back to Discover"
-          variant="filled"
+          variant="glass"
           onPress={() => router.replace("/templates/learn/(tabs)/discover")}
         >
           Browse courses
@@ -67,14 +72,14 @@ export default function CourseScreen() {
       contentContainerStyle={styles.content}
       showsVerticalScrollIndicator={false}
     >
-      <Pressable
-        onPress={() => router.back()}
-        accessibilityRole="button"
+      <Button
         accessibilityLabel="Go back"
-        style={styles.back}
+        variant="ghost"
+        onPress={() => router.back()}
+        isDark={learn.darkMode}
       >
-        <T variant="body">Back</T>
-      </Pressable>
+        Back
+      </Button>
 
       <Card isDark={learn.darkMode} padding={0}>
         <CourseCover course={course} height={150} />
@@ -140,6 +145,7 @@ export default function CourseScreen() {
             </T>
             {!complete && firstIncomplete ? (
               <Button
+                isDark={learn.darkMode}
                 accessibilityLabel="Continue with the next lesson"
                 variant="filled"
                 onPress={() => openLesson(firstIncomplete)}
@@ -157,6 +163,7 @@ export default function CourseScreen() {
               appears in My Learning straight away.
             </T>
             <Button
+              isDark={learn.darkMode}
               accessibilityLabel="Enrol in this course"
               variant="filled"
               onPress={() => learn.enrol(course.id)}
@@ -189,6 +196,7 @@ export default function CourseScreen() {
               : "Five questions on the material stack, surface profiles and contrast budgets. Score 80% or more to earn the quiz certificate."}
           </T>
           <Button
+            isDark={learn.darkMode}
             accessibilityLabel={quiz ? "Retake the quiz" : "Start the quiz"}
             variant={quiz ? "glass" : "filled"}
             onPress={() => router.push(`/templates/learn/quiz/${course.id}`)}
@@ -274,9 +282,7 @@ export default function CourseScreen() {
                           Done
                         </Badge>
                       ) : (
-                        <T variant="heading" muted>
-                          ›
-                        </T>
+                        <ChevronRight size={18} color={learn.darkMode ? colors.dark.muted : colors.light.muted} />
                       )}
                     </Pressable>
                   </React.Fragment>
@@ -303,7 +309,6 @@ const styles = StyleSheet.create({
     paddingBottom: 32,
     gap: 24,
   },
-  back: { alignSelf: "flex-start", paddingVertical: 4, paddingRight: 12 },
   spaced: { marginVertical: 12 },
   metaRow: {
     flexDirection: "row",

@@ -1,7 +1,11 @@
 import React from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { router } from "expo-router";
-import { Avatar, IconButton } from "glacia-native";
+import {
+  colors,
+  Avatar, IconButton
+} from "glacia-native";
+import { Mail } from "lucide-react-native";
 
 import { useSocial } from "../state";
 import { Figure, PostCard, StoryRing, T, accentColor } from "../ui";
@@ -28,7 +32,7 @@ export default function FeedScreen() {
             accessibilityLabel="Messages"
             onPress={() => router.push("/templates/social/messages")}
             isDark={social.darkMode}
-            icon={<T variant="heading">✉</T>}
+            icon={<Mail size={20} color={social.darkMode ? colors.dark.foreground : colors.light.foreground} />}
           />
           {social.totalUnreadMessages > 0 ? (
             <View

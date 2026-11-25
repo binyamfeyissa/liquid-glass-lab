@@ -55,7 +55,7 @@ export default function ProfileScreen() {
             {social.me.handle}
           </T>
         </View>
-        <Button accessibilityLabel="Edit profile" onPress={openEdit}>
+        <Button isDark={social.darkMode} accessibilityLabel="Edit profile" onPress={openEdit}>
           Edit
         </Button>
       </View>
@@ -103,7 +103,7 @@ export default function ProfileScreen() {
           <View style={styles.backdropBody}>
             <BackdropControl />
             <T variant="caption" muted>
-              Dark gray, broken white, or the Tahoe photo — the glass sits over
+              Dark gray, broken white, or the palm photo — the glass sits over
               all three
             </T>
           </View>
@@ -174,6 +174,7 @@ export default function ProfileScreen() {
                 Saved — the new name and bio are already in use
               </T>
               <Button
+                isDark={social.darkMode}
                 accessibilityLabel="Done editing"
                 variant="filled"
                 onPress={() => setEditOpen(false)}
@@ -203,6 +204,7 @@ export default function ProfileScreen() {
                 />
               </Field>
               <Button
+                isDark={social.darkMode}
                 accessibilityLabel="Save profile"
                 variant="filled"
                 disabled={!name.trim()}

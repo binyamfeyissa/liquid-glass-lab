@@ -152,7 +152,7 @@ export default function BudgetsScreen() {
               isDark={tally.darkMode}
             />
           </Field>
-          <Button accessibilityLabel="Save limit" variant="filled" onPress={saveLimit}>
+          <Button isDark={tally.darkMode} accessibilityLabel="Save limit" variant="filled" onPress={saveLimit}>
             Save limit
           </Button>
         </View>

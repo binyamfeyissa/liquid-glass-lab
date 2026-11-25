@@ -2,7 +2,15 @@ import React, { useEffect, useRef, useState } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Avatar, Button, Field, Input } from "glacia-native";
+import {
+  Avatar,
+  Button,
+  colors,
+  Field,
+  IconButton,
+  Input,
+} from "glacia-native";
+import { X } from "lucide-react-native";
 
 import { useSocial } from "../state";
 import { GradientTile, T } from "../ui";
@@ -55,7 +63,7 @@ export default function StoryViewerScreen() {
         <T variant="body" muted style={styles.missingText}>
           This story has expired
         </T>
-        <Button accessibilityLabel="Back" variant="filled" onPress={() => router.back()}>
+        <Button isDark={social.darkMode} accessibilityLabel="Back" variant="glass" onPress={() => router.back()}>
           Back
         </Button>
       </View>
@@ -109,14 +117,12 @@ export default function StoryViewerScreen() {
             {user.handle} · Story {index + 1} of {segmentCount}
           </T>
         </View>
-        <Pressable
-          onPress={() => router.back()}
-          accessibilityRole="button"
+        <IconButton
           accessibilityLabel="Close story"
-          style={styles.close}
-        >
-          <T variant="heading">✕</T>
-        </Pressable>
+          onPress={() => router.back()}
+          isDark={social.darkMode}
+          icon={<X size={18} color={social.darkMode ? colors.dark.foreground : colors.light.foreground} />}
+        />
       </View>
 
       {/* Tap zones: back / forward */}
@@ -155,7 +161,7 @@ export default function StoryViewerScreen() {
       {sent ? (
         <View style={styles.sentBox}>
           <T variant="body">Reply sent to {user.name.split(" ")[0]}</T>
-          <Button accessibilityLabel="Done" variant="filled" onPress={() => router.back()}>
+          <Button isDark={social.darkMode} accessibilityLabel="Done" variant="filled" onPress={() => router.back()}>
             Done
           </Button>
         </View>
@@ -173,6 +179,7 @@ export default function StoryViewerScreen() {
             </Field>
           </View>
           <Button
+            isDark={social.darkMode}
             accessibilityLabel="Send story reply"
             variant="filled"
             disabled={!reply.trim()}
@@ -210,7 +217,6 @@ const styles = StyleSheet.create({
   },
   barFill: { height: "100%", borderRadius: 2 },
   authorRow: { flexDirection: "row", alignItems: "center", gap: 12 },
-  close: { padding: 8 },
   stage: { position: "relative" },
   tapLeft: { position: "absolute", left: 0, top: 0, bottom: 0, width: "30%" },
   tapRight: { position: "absolute", right: 0, top: 0, bottom: 0, width: "30%" },

@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import { Badge, Button, Card, Progress, Slider } from "glacia-native";
+import { Pause, Play, RotateCcw } from "lucide-react-native";
 
 import { useLearn } from "../../state";
 import { QUIZ_COURSE_ID, courseLessons, findLesson } from "../../data";
@@ -86,8 +87,9 @@ export default function LessonScreen() {
           This lesson is no longer in the catalogue.
         </T>
         <Button
+          isDark={learn.darkMode}
           accessibilityLabel="Back to Discover"
-          variant="filled"
+          variant="glass"
           onPress={() => router.replace("/templates/learn/(tabs)/discover")}
         >
           Browse courses
@@ -126,14 +128,14 @@ export default function LessonScreen() {
       contentContainerStyle={styles.content}
       showsVerticalScrollIndicator={false}
     >
-      <Pressable
-        onPress={() => router.back()}
-        accessibilityRole="button"
+      <Button
         accessibilityLabel="Go back to the course"
-        style={styles.back}
+        variant="ghost"
+        onPress={() => router.back()}
+        isDark={learn.darkMode}
       >
-        <T variant="body">{course.title}</T>
-      </Pressable>
+        {course.title}
+      </Button>
 
       {/* Simulated video panel — one flat plate, no media assets. */}
       <View style={[styles.panel, { backgroundColor: plateColor(course, learn.backdrop) }]}>
@@ -151,9 +153,13 @@ export default function LessonScreen() {
           accessibilityLabel={playing ? "Pause lesson" : finished ? "Replay lesson" : "Play lesson"}
           style={styles.playButton}
         >
-          <T variant="title" style={styles.playGlyph}>
-            {playing ? "❚❚" : finished ? "↻" : "▶"}
-          </T>
+          {playing ? (
+            <Pause size={28} color="#ffffff" />
+          ) : finished ? (
+            <RotateCcw size={28} color="#ffffff" />
+          ) : (
+            <Play size={28} color="#ffffff" />
+          )}
         </Pressable>
         <View style={styles.panelMeta}>
           <Badge tone="muted" isDark={learn.darkMode}>
@@ -202,6 +208,7 @@ export default function LessonScreen() {
         </View>
         <View style={styles.transportRow}>
           <Button
+            isDark={learn.darkMode}
             accessibilityLabel={playing ? "Pause" : "Play"}
             variant="filled"
             onPress={() => {
@@ -223,6 +230,7 @@ export default function LessonScreen() {
             </Badge>
           ) : (
             <Button
+              isDark={learn.darkMode}
               accessibilityLabel="Mark this lesson complete"
               onPress={markComplete}
               style={styles.transportSide}
@@ -249,6 +257,7 @@ export default function LessonScreen() {
           </T>
           <View style={styles.completeActions}>
             <Button
+              isDark={learn.darkMode}
               accessibilityLabel="View certificates in My Learning"
               variant="filled"
               onPress={() => router.replace("/templates/learn/(tabs)/learning")}
@@ -258,6 +267,7 @@ export default function LessonScreen() {
             </Button>
             {course.id === QUIZ_COURSE_ID && !learn.quizResults[course.id]?.passed ? (
               <Button
+                isDark={learn.darkMode}
                 accessibilityLabel="Take the course quiz"
                 onPress={() => router.push(`/templates/learn/quiz/${course.id}`)}
                 style={styles.completeAction}
@@ -303,6 +313,7 @@ export default function LessonScreen() {
       {/* Prev / next */}
       <View style={styles.navRow}>
         <Button
+          isDark={learn.darkMode}
           accessibilityLabel={prev ? `Previous lesson: ${prev.title}` : "No previous lesson"}
           disabled={!prev}
           onPress={() => prev && goTo(prev)}
@@ -311,6 +322,7 @@ export default function LessonScreen() {
           Previous
         </Button>
         <Button
+          isDark={learn.darkMode}
           accessibilityLabel={next ? `Next lesson: ${next.title}` : "No next lesson"}
           disabled={!next}
           variant="filled"
@@ -385,7 +397,6 @@ const styles = StyleSheet.create({
     paddingBottom: 32,
     gap: 24,
   },
-  back: { alignSelf: "flex-start", paddingVertical: 4, paddingRight: 12 },
   spaced: { marginVertical: 12 },
   panel: {
     height: 208,
@@ -402,7 +413,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  playGlyph: { color: "#ffffff" },
   panelMeta: {
     position: "absolute",
     left: 16,

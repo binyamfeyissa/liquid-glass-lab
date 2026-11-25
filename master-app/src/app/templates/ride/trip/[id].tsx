@@ -27,8 +27,9 @@ export default function TripDetailScreen() {
     return (
       <Screen title="Trip not found" subtitle="This receipt is no longer available.">
         <Button
+          isDark={ride.darkMode}
           accessibilityLabel="Back to activity"
-          variant="filled"
+          variant="glass"
           onPress={() => router.replace("/templates/ride/(tabs)/activity")}
         >
           Back to Activity
@@ -101,6 +102,7 @@ export default function TripDetailScreen() {
 
       {trip.status === "unpaid" ? (
         <Button
+          isDark={ride.darkMode}
           accessibilityLabel="Pay for this trip now"
           variant="filled"
           onPress={() => router.push({ pathname: "/templates/ride/complete", params: { id: trip.id } })}
@@ -109,6 +111,7 @@ export default function TripDetailScreen() {
         </Button>
       ) : null}
       <Button
+        isDark={ride.darkMode}
         accessibilityLabel="Back to activity"
         variant="ghost"
         onPress={() => router.back()}

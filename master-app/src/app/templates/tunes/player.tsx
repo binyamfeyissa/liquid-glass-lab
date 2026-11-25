@@ -1,7 +1,11 @@
 import React from "react";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { useRouter } from "expo-router";
-import { Button, IconButton, Slider } from "glacia-native";
+import {
+  colors,
+  Button, IconButton, Slider
+} from "glacia-native";
+import { Heart, List, Pause, Play, Repeat, Shuffle, SkipBack, SkipForward } from "lucide-react-native";
 
 import { artistOf, formatTime, trackById } from "./data";
 import { useTunes } from "./state";
@@ -70,7 +74,7 @@ export default function PlayerScreen() {
           accessibilityLabel="View queue"
           onPress={() => router.push("/templates/tunes/queue")}
           isDark={darkMode}
-          icon={<T variant="body">☰</T>}
+          icon={<List size={18} color={darkMode ? colors.dark.foreground : colors.light.foreground} />}
         />
       </View>
 
@@ -102,9 +106,11 @@ export default function PlayerScreen() {
           size="lg"
           tint={liked ? accent : undefined}
           icon={
-            <T variant="heading" style={liked ? { color: accent } : undefined}>
-              {liked ? "♥" : "♡"}
-            </T>
+            <Heart
+              size={20}
+              color={liked ? accent : darkMode ? colors.dark.foreground : colors.light.foreground}
+              fill={liked ? accent : "transparent"}
+            />
           }
         />
       </View>
@@ -137,9 +143,10 @@ export default function PlayerScreen() {
           isDark={darkMode}
           tint={tunes.shuffle ? accent : undefined}
           icon={
-            <T variant="body" style={tunes.shuffle ? { color: accent } : undefined}>
-              ⇄
-            </T>
+            <Shuffle
+              size={18}
+              color={tunes.shuffle ? accent : darkMode ? colors.dark.foreground : colors.light.foreground}
+            />
           }
         />
         <IconButton
@@ -147,7 +154,7 @@ export default function PlayerScreen() {
           onPress={tunes.prev}
           isDark={darkMode}
           size="lg"
-          icon={<T variant="heading">⏮</T>}
+          icon={<SkipBack size={20} color={darkMode ? colors.dark.foreground : colors.light.foreground} />}
         />
         <Button
           accessibilityLabel={tunes.isPlaying ? "Pause" : "Play"}
@@ -158,16 +165,18 @@ export default function PlayerScreen() {
           variant="filled"
           style={styles.playButton}
         >
-          <T variant="title" style={{ color: "#ffffff" }}>
-            {tunes.isPlaying ? "❚❚" : "▶"}
-          </T>
+          {tunes.isPlaying ? (
+            <Pause size={24} color="#ffffff" />
+          ) : (
+            <Play size={24} color="#ffffff" />
+          )}
         </Button>
         <IconButton
           accessibilityLabel="Next track"
           onPress={() => tunes.next(true)}
           isDark={darkMode}
           size="lg"
-          icon={<T variant="heading">⏭</T>}
+          icon={<SkipForward size={20} color={darkMode ? colors.dark.foreground : colors.light.foreground} />}
         />
         <IconButton
           accessibilityLabel={
@@ -182,12 +191,10 @@ export default function PlayerScreen() {
           tint={tunes.repeat !== "off" ? accent : undefined}
           icon={
             <View style={styles.repeatIcon}>
-              <T
-                variant="body"
-                style={tunes.repeat !== "off" ? { color: accent } : undefined}
-              >
-                ↻
-              </T>
+              <Repeat
+                size={18}
+                color={tunes.repeat !== "off" ? accent : darkMode ? colors.dark.foreground : colors.light.foreground}
+              />
               {tunes.repeat === "one" ? (
                 <Figure
                   variant="caption"

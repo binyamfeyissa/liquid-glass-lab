@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { Badge, Button, IconButton, Progress, Select } from "glacia-native";
+import {
+  colors,
+  Badge, Button, IconButton, Progress, Select
+} from "glacia-native";
+import { Check, ChevronLeft, Download, Play } from "lucide-react-native";
 
 import {
   formatRuntime,
@@ -68,9 +72,7 @@ function EpisodeRow({
             </View>
           ) : null}
         </View>
-        <T variant="heading" style={styles.playGlyph}>
-          ▶
-        </T>
+        <Play size={15} color={darkMode ? colors.dark.foreground : colors.light.foreground} />
       </Pressable>
       <IconButton
         accessibilityLabel={
@@ -88,11 +90,11 @@ function EpisodeRow({
         isDark={darkMode}
         icon={
           !download ? (
-            <T variant="body">↓</T>
+            <Download size={18} color={darkMode ? colors.dark.foreground : colors.light.foreground} />
           ) : download.status === "downloading" ? (
             <Figure variant="caption">{download.pct}%</Figure>
           ) : (
-            <T variant="body">✓</T>
+            <Check size={18} color={darkMode ? colors.dark.foreground : colors.light.foreground} />
           )
         }
       />
@@ -130,7 +132,7 @@ export default function TitleScreen() {
           accessibilityLabel="Back"
           onPress={() => router.back()}
           isDark={darkMode}
-          icon={<T variant="heading">‹</T>}
+          icon={<ChevronLeft size={20} color={darkMode ? colors.dark.foreground : colors.light.foreground} />}
         />
         <T variant="caption" muted>
           {title.kind === "movie" ? "Film" : "Series"} · {title.genres.join(" · ")}
@@ -355,9 +357,6 @@ const styles = StyleSheet.create({
   episodeProgress: {
     marginTop: 8,
     maxWidth: 180,
-  },
-  playGlyph: {
-    fontSize: 15,
   },
   downloadCardRow: {
     flexDirection: "row",

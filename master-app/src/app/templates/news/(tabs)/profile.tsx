@@ -121,7 +121,7 @@ export default function ProfileScreen() {
           <View style={styles.bgBox}>
             <T variant="body">Background</T>
             <T variant="caption" muted>
-              Graphite, broken white, or the Tahoe photo — every screen
+              Graphite, broken white, or the palm photo — every screen
               follows
             </T>
             <BackdropControl />

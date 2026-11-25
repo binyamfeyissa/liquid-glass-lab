@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { router } from "expo-router";
 import {
+  colors,
   Badge,
   Card,
   SegmentedControl,
@@ -18,6 +19,7 @@ import {
   Text,
   type TextProps,
 } from "glacia-native";
+import { ChevronRight } from "lucide-react-native";
 
 import { useSignal, type BackdropMode } from "./state";
 import type { Article } from "./data";
@@ -89,7 +91,7 @@ export function Headline({ style, ...rest }: TextProps) {
 /* ------------------------------------------------------------------ */
 /*  Backdrop — the three backgrounds, and nothing else.                */
 /*  Dark: graphite #141415. Light: broken white #f7f4ee.               */
-/*  Photo: the Tahoe image, full-bleed, under a neutral scrim.         */
+/*  Photo: the palm photo, full-bleed, under a neutral scrim.         */
 /* ------------------------------------------------------------------ */
 
 export function Backdrop() {
@@ -264,9 +266,7 @@ export function NavRow({
           {detail}
         </Figure>
       ) : null}
-      <T variant="heading" muted>
-        ›
-      </T>
+      <ChevronRight size={18} color={darkMode ? colors.dark.muted : colors.light.muted} />
     </Pressable>
   );
 }
@@ -386,9 +386,7 @@ export function StoryRow({
           </T>
         ) : null}
       </View>
-      <T variant="heading" muted>
-        ›
-      </T>
+      <ChevronRight size={18} color={darkMode ? colors.dark.muted : colors.light.muted} />
     </Pressable>
   );
 }

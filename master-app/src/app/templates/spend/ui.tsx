@@ -10,6 +10,7 @@ import {
   type ViewStyle,
 } from "react-native";
 import {
+  colors,
   Avatar,
   Card,
   Progress,
@@ -18,6 +19,7 @@ import {
   Text,
   type TextProps,
 } from "glacia-native";
+import { ChevronRight } from "lucide-react-native";
 
 import {
   FIXTURE_TODAY,
@@ -101,7 +103,7 @@ export function usePalette() {
 
 /* ------------------------------------------------------------------ */
 /*  Backdrop — the only three backgrounds: graphite, broken white,     */
-/*  or the owner's Tahoe photo under a neutral scrim.                  */
+/*  or the owner's palm photo under a neutral scrim.                  */
 /* ------------------------------------------------------------------ */
 
 export function Backdrop() {
@@ -274,9 +276,7 @@ export function NavRow({
           {detail}
         </Figure>
       ) : null}
-      <T variant="heading" muted>
-        ›
-      </T>
+      <ChevronRight size={18} color={darkMode ? colors.dark.muted : colors.light.muted} />
     </Pressable>
   );
 }

@@ -117,7 +117,7 @@ export default function RequestScreen() {
         </Field>
       ) : null}
 
-      <Button accessibilityLabel="Share payment link" variant="filled" onPress={share}>
+      <Button isDark={wallet.darkMode} accessibilityLabel="Share payment link" variant="filled" onPress={share}>
         Share payment link
       </Button>
       {shared ? (
@@ -133,7 +133,7 @@ export default function RequestScreen() {
           </View>
         </ListCard>
       ) : null}
-      <Button accessibilityLabel="Back" variant="ghost" onPress={() => router.back()}>
+      <Button isDark={wallet.darkMode} accessibilityLabel="Back" variant="ghost" onPress={() => router.back()}>
         Back
       </Button>
     </Screen>

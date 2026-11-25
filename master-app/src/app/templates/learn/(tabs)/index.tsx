@@ -116,6 +116,7 @@ export default function HomeScreen() {
               style={styles.continueProgress}
             />
             <Button
+              isDark={learn.darkMode}
               accessibilityLabel="Continue this lesson"
               variant="filled"
               onPress={() =>
@@ -179,6 +180,7 @@ export default function HomeScreen() {
             progress · <Figure>{learn.coursesCompleted}</Figure> completed
           </T>
           <Button
+            isDark={learn.darkMode}
             accessibilityLabel="Go to My Learning"
             onPress={() => router.push("/templates/learn/(tabs)/learning")}
             style={styles.learningButton}

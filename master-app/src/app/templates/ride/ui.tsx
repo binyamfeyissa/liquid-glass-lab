@@ -10,6 +10,7 @@ import {
   type ViewStyle,
 } from "react-native";
 import {
+  colors,
   Avatar,
   Badge,
   Card,
@@ -18,6 +19,7 @@ import {
   Text,
   type TextProps,
 } from "glacia-native";
+import { ChevronRight, Star } from "lucide-react-native";
 
 import { useRide, type BackdropMode, type Trip } from "./state";
 import type { Fare } from "./data";
@@ -76,7 +78,7 @@ export function Figure({ style, ...rest }: TextProps) {
 /* ------------------------------------------------------------------ */
 /*  Backdrop — the three backgrounds, and nothing else.                */
 /*  Dark: graphite #141415. Light: broken white #f7f4ee.               */
-/*  Photo: the Tahoe image, full-bleed, under a neutral scrim.         */
+/*  Photo: the palm photo, full-bleed, under a neutral scrim.         */
 /* ------------------------------------------------------------------ */
 
 export function Backdrop() {
@@ -246,9 +248,7 @@ export function NavRow({
           {detail}
         </Figure>
       ) : null}
-      <T variant="heading" muted>
-        ›
-      </T>
+      <ChevronRight size={18} color={darkMode ? colors.dark.muted : colors.light.muted} />
     </Pressable>
   );
 }
@@ -340,7 +340,7 @@ export function MapPanel({
 }
 
 /* ------------------------------------------------------------------ */
-/*  Stars — a 1–5 star display or picker, drawn from text glyphs.      */
+/*  Stars — a 1–5 star display or picker, drawn with Lucide stars.    */
 /*  Filled stars are plain ink; the accent stays off the chrome.       */
 /* ------------------------------------------------------------------ */
 
@@ -361,15 +361,11 @@ export function Stars({
       {[1, 2, 3, 4, 5].map((n) => {
         const filled = n <= value;
         const star = (
-          <T
-            style={{
-              fontSize: size,
-              lineHeight: size + 4,
-              color: filled ? filledColor : emptyColor,
-            }}
-          >
-            ★
-          </T>
+          <Star
+            size={size}
+            color={filled ? filledColor : emptyColor}
+            fill={filled ? filledColor : "transparent"}
+          />
         );
         if (!onChange) return <View key={n}>{star}</View>;
         return (

@@ -1,7 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { useRouter } from "expo-router";
-import { Button, Card, IconButton, Slider } from "glacia-native";
+import {
+  colors,
+  Button, Card, IconButton, Slider
+} from "glacia-native";
+import { ChevronLeft, Pause, Play } from "lucide-react-native";
 
 import {
   QUALITY_OPTIONS,
@@ -107,7 +111,7 @@ export default function PlayerScreen() {
           accessibilityLabel="Back"
           onPress={() => router.back()}
           isDark={darkMode}
-          icon={<T variant="heading">‹</T>}
+          icon={<ChevronLeft size={20} color={darkMode ? colors.dark.foreground : colors.light.foreground} />}
         />
         <View style={styles.headerText}>
           <T variant="caption" muted>
@@ -141,9 +145,11 @@ export default function PlayerScreen() {
             variant="filled"
             style={styles.bigPlay}
           >
-            <T variant="title" style={{ color: "#ffffff" }}>
-              {stream.isPlaying ? "❚❚" : "▶"}
-            </T>
+            {stream.isPlaying ? (
+              <Pause size={24} color="#ffffff" />
+            ) : (
+              <Play size={24} color="#ffffff" />
+            )}
           </Button>
         </View>
       </View>

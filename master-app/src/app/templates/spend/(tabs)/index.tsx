@@ -93,6 +93,7 @@ export default function HomeScreen() {
       </Card>
 
       <Button
+        isDark={tally.darkMode}
         accessibilityLabel="Add expense"
         variant="filled"
         size="lg"

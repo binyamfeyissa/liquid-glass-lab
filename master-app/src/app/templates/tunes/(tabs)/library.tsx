@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 import { useRouter } from "expo-router";
-import { Button, Card, Input } from "glacia-native";
+import {
+  colors,
+  Button, Card, Input
+} from "glacia-native";
+import { ChevronRight, Heart } from "lucide-react-native";
 
 import { formatLongDuration, trackById } from "../data";
 import { LIKED_PLAYLIST_ID, useTunes } from "../state";
@@ -73,9 +77,7 @@ export default function LibraryScreen() {
               {formatLongDuration(totalDuration(tunes.likedIds))}
             </T>
           </View>
-          <T variant="heading" style={{ color: accent }}>
-            ♥
-          </T>
+          <Heart size={20} color={accent} fill={accent} />
         </View>
       </Card>
 
@@ -110,9 +112,7 @@ export default function LibraryScreen() {
                     {playlist.userCreated ? " · Yours" : ""}
                   </T>
                 </View>
-                <T variant="heading" muted>
-                  ›
-                </T>
+                <ChevronRight size={18} color={darkMode ? colors.dark.muted : colors.light.muted} />
               </Pressable>
             </View>
           ))}

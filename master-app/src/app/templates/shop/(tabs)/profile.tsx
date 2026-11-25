@@ -93,6 +93,7 @@ export default function ProfileScreen() {
                 here.
               </T>
               <Button
+                isDark={shop.darkMode}
                 accessibilityLabel="Browse products"
                 variant="filled"
                 onPress={() => router.push("/templates/shop/(tabs)/shop")}
@@ -124,6 +125,7 @@ export default function ProfileScreen() {
                     </View>
                   </Pressable>
                   <Button
+                    isDark={shop.darkMode}
                     accessibilityLabel={`Remove ${product.name} from favourites`}
                     variant="ghost"
                     size="sm"
@@ -204,6 +206,7 @@ export default function ProfileScreen() {
             </View>
             <View style={styles.formButtons}>
               <Button
+                isDark={shop.darkMode}
                 accessibilityLabel="Cancel adding address"
                 variant="ghost"
                 onPress={() => {
@@ -213,13 +216,14 @@ export default function ProfileScreen() {
               >
                 Cancel
               </Button>
-              <Button accessibilityLabel="Save address" variant="filled" onPress={saveAddress}>
+              <Button isDark={shop.darkMode} accessibilityLabel="Save address" variant="filled" onPress={saveAddress}>
                 Save address
               </Button>
             </View>
           </View>
         ) : (
           <Button
+            isDark={shop.darkMode}
             accessibilityLabel="Add an address"
             onPress={() => setShowForm(true)}
             style={styles.addButton}
@@ -236,7 +240,7 @@ export default function ProfileScreen() {
           <View style={styles.backdropBody}>
             <BackdropControl />
             <T variant="caption" muted style={styles.backdropNote}>
-              Dark gray, broken white, or the Tahoe photo — the glass sits over all three
+              Dark gray, broken white, or the palm photo — the glass sits over all three
             </T>
           </View>
         </ListCard>

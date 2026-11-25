@@ -1,8 +1,12 @@
-import React from "react";
+import React, { type ReactNode } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 import { useRouter } from "expo-router";
 import type { BottomTabBarProps } from "expo-router/build/layouts/Tabs";
-import { IconButton, Progress, TabBar } from "glacia-native";
+import {
+  colors,
+  IconButton, Progress, TabBar
+} from "glacia-native";
+import { Home, Library, Pause, Play, Search, SkipForward, User } from "lucide-react-native";
 
 import { artistOf, trackById } from "./data";
 import { useTunes } from "./state";
@@ -14,6 +18,16 @@ const LABELS: Record<string, string> = {
   search: "Search",
   library: "Library",
   profile: "Profile",
+};
+
+/** Route name -> tab icon, as a render function: the engine tab bar
+ *  calls icon({ focused, color, size }), so the colour and size it
+ *  resolves (accent when focused, muted when not) flow straight in. */
+const ICONS: Record<string, (state: { color: string; size: number }) => ReactNode> = {
+  index: ({ color, size }) => <Home color={color} size={size} />,
+  search: ({ color, size }) => <Search color={color} size={size} />,
+  library: ({ color, size }) => <Library color={color} size={size} />,
+  profile: ({ color, size }) => <User color={color} size={size} />,
 };
 
 /**
@@ -59,14 +73,18 @@ function MiniPlayer() {
         onPress={tunes.togglePlay}
         isDark={tunes.darkMode}
         icon={
-          <T variant="body">{tunes.isPlaying ? "❚❚" : "▶"}</T>
+          tunes.isPlaying ? (
+            <Pause size={18} color={tunes.darkMode ? colors.dark.foreground : colors.light.foreground} />
+          ) : (
+            <Play size={18} color={tunes.darkMode ? colors.dark.foreground : colors.light.foreground} />
+          )
         }
       />
       <IconButton
         accessibilityLabel="Next track"
         onPress={() => tunes.next(true)}
         isDark={tunes.darkMode}
-        icon={<T variant="body">⏭</T>}
+        icon={<SkipForward size={18} color={tunes.darkMode ? colors.dark.foreground : colors.light.foreground} />}
       />
     </Pressable>
   );
@@ -91,6 +109,7 @@ export function GlaciaTabBar({ state, emitter, navigateToTab, insets }: BottomTa
         items={state.routes.map((route) => ({
           id: route.key,
           label: LABELS[route.name] ?? route.name,
+          icon: ICONS[route.name],
         }))}
         onTabChange={(key) => {
           const route = state.routes.find((r) => r.key === key);

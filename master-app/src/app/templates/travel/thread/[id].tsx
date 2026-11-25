@@ -8,7 +8,11 @@ import {
 } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Avatar, Button, Input } from "glacia-native";
+import {
+  colors,
+  Avatar, Button, Input
+} from "glacia-native";
+import { ChevronLeft } from "lucide-react-native";
 
 import { useTravel, type ChatMsg } from "../state";
 import { Message, T, TypingIndicator } from "../ui";
@@ -70,7 +74,7 @@ export default function ThreadScreen() {
           accessibilityLabel="Back to messages"
           onPress={() => router.back()}
         >
-          ‹
+          <ChevronLeft size={18} color={darkMode ? colors.dark.foreground : colors.light.foreground} />
         </Button>
         <Avatar name={thread.hostName} size="sm" isDark={darkMode} />
         <View style={styles.flex}>

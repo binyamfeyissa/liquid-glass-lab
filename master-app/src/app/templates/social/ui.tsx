@@ -14,11 +14,14 @@ import {
   Avatar,
   Badge,
   Card,
+  colors,
+  IconButton,
   SegmentedControl,
   Separator,
   Text,
   type TextProps,
 } from "glacia-native";
+import { ChevronRight, Heart, MessageCircle, Send } from "lucide-react-native";
 
 import { GRADIENTS, ME_ID, useSocial, type BackdropMode, type Post } from "./state";
 
@@ -136,7 +139,7 @@ export function compact(n: number): string {
 /* ------------------------------------------------------------------ */
 /*  Backdrop — the three backgrounds, and nothing else.                */
 /*  Dark: graphite #141415. Light: broken white #f7f4ee.               */
-/*  Photo: the Tahoe image, full-bleed, under a neutral scrim.         */
+/*  Photo: the palm photo, full-bleed, under a neutral scrim.         */
 /* ------------------------------------------------------------------ */
 
 export function Backdrop() {
@@ -309,9 +312,10 @@ export function NavRow({
           {detail}
         </T>
       ) : null}
-      <T variant="heading" muted>
-        ›
-      </T>
+      <ChevronRight
+        size={18}
+        color={darkMode ? colors.dark.muted : colors.light.muted}
+      />
     </Pressable>
   );
 }
@@ -467,48 +471,52 @@ export function PostCard({ post, preview = false }: { post: Post; preview?: bool
       </Pressable>
 
       <View style={styles.postActions}>
-        <Pressable
-          onPress={() => social.togglePostLike(post.id)}
-          accessibilityRole="button"
-          accessibilityLabel={liked ? "Unlike this post" : "Like this post"}
-          style={styles.actionButton}
-        >
-          <T
-            variant="body"
-            style={liked ? { color: accentColor(social.backdrop) } : undefined}
-          >
-            {liked ? "♥" : "♡"}
-          </T>
+        <View style={styles.actionButton}>
+          <IconButton
+            accessibilityLabel={liked ? "Unlike this post" : "Like this post"}
+            onPress={() => social.togglePostLike(post.id)}
+            isDark={social.darkMode}
+            size="sm"
+            icon={
+              <Heart
+                size={18}
+                color={liked ? accentColor(social.backdrop) : social.darkMode ? colors.dark.foreground : colors.light.foreground}
+                fill={liked ? accentColor(social.backdrop) : "transparent"}
+              />
+            }
+          />
           <Figure variant="caption" muted>
             {compact(social.likeCountOf(post))}
           </Figure>
-        </Pressable>
-        <Pressable
-          onPress={() => router.push(`/templates/social/post/${post.id}`)}
-          accessibilityRole="button"
-          accessibilityLabel="Open comments"
-          style={styles.actionButton}
-        >
-          <T variant="body">↩</T>
+        </View>
+        <View style={styles.actionButton}>
+          <IconButton
+            accessibilityLabel="Open comments"
+            onPress={() => router.push(`/templates/social/post/${post.id}`)}
+            isDark={social.darkMode}
+            size="sm"
+            icon={<MessageCircle size={18} color={social.darkMode ? colors.dark.foreground : colors.light.foreground} />}
+          />
           <Figure variant="caption" muted>
             {commentCount}
           </Figure>
-        </Pressable>
+        </View>
         {post.authorId !== ME_ID ? (
-          <Pressable
-            onPress={() => {
-              const id = social.startConversationWith(post.authorId);
-              router.push(`/templates/social/thread/${id}`);
-            }}
-            accessibilityRole="button"
-            accessibilityLabel={`Message ${author.name}`}
-            style={styles.actionButton}
-          >
-            <T variant="body">✈</T>
+          <View style={styles.actionButton}>
+            <IconButton
+              accessibilityLabel={`Message ${author.name}`}
+              onPress={() => {
+                const id = social.startConversationWith(post.authorId);
+                router.push(`/templates/social/thread/${id}`);
+              }}
+              isDark={social.darkMode}
+              size="sm"
+              icon={<Send size={18} color={social.darkMode ? colors.dark.foreground : colors.light.foreground} />}
+            />
             <T variant="caption" muted>
               Message
             </T>
-          </Pressable>
+          </View>
         ) : null}
       </View>
     </Card>

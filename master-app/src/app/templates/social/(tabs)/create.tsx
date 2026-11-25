@@ -43,6 +43,7 @@ export default function CreateScreen() {
           </T>
           <View style={styles.doneActions}>
             <Button
+              isDark={social.darkMode}
               accessibilityLabel="View feed"
               variant="filled"
               onPress={() => {
@@ -53,6 +54,7 @@ export default function CreateScreen() {
               View feed
             </Button>
             <Button
+              isDark={social.darkMode}
               accessibilityLabel="Write another post"
               onPress={() => setPosted(false)}
             >
@@ -135,6 +137,7 @@ export default function CreateScreen() {
           </View>
 
           <Button
+            isDark={social.darkMode}
             accessibilityLabel="Publish post"
             variant="filled"
             disabled={!canPost}

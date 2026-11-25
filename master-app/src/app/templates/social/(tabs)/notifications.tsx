@@ -1,9 +1,13 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { router } from "expo-router";
-import { Avatar, Button } from "glacia-native";
+import {
+  colors,
+  Avatar, Button
+} from "glacia-native";
+import { AtSign, CornerUpLeft, Heart, Plus } from "lucide-react-native";
 
-import { useSocial, type NotificationKind } from "../state";
+import { useSocial, type BackdropMode, type NotificationKind } from "../state";
 import {
   Figure,
   ListCard,
@@ -14,12 +18,30 @@ import {
   raisedFill,
 } from "../ui";
 
-const KIND_GLYPH: Record<NotificationKind, string> = {
-  like: "♥",
-  follow: "+",
-  mention: "@",
-  comment: "↩",
-};
+/** The kind mark for a notification row — a Lucide icon, not a text glyph. */
+function KindIcon({
+  kind,
+  darkMode,
+  backdrop,
+}: {
+  kind: NotificationKind;
+  darkMode: boolean;
+  backdrop: BackdropMode;
+}) {
+  const muted = darkMode ? colors.dark.muted : colors.light.muted;
+  switch (kind) {
+    case "like": {
+      const accent = accentColor(backdrop);
+      return <Heart size={12} color={accent} fill={accent} />;
+    }
+    case "follow":
+      return <Plus size={12} color={muted} />;
+    case "mention":
+      return <AtSign size={12} color={muted} />;
+    case "comment":
+      return <CornerUpLeft size={12} color={muted} />;
+  }
+}
 
 export default function NotificationsScreen() {
   const social = useSocial();
@@ -35,6 +57,7 @@ export default function NotificationsScreen() {
     >
       {social.unreadNotifications > 0 ? (
         <Button
+          isDark={social.darkMode}
           accessibilityLabel="Mark all notifications as read"
           onPress={social.markAllNotificationsRead}
         >
@@ -57,20 +80,11 @@ export default function NotificationsScreen() {
                       { backgroundColor: raisedFill(social.backdrop) },
                     ]}
                   >
-                    <T
-                      variant="caption"
-                      style={{
-                        fontSize: 10,
-                        lineHeight: 12,
-                        color:
-                          n.kind === "like"
-                            ? accentColor(social.backdrop)
-                            : undefined,
-                      }}
-                      muted={n.kind !== "like"}
-                    >
-                      {KIND_GLYPH[n.kind]}
-                    </T>
+                    <KindIcon
+                      kind={n.kind}
+                      darkMode={social.darkMode}
+                      backdrop={social.backdrop}
+                    />
                   </View>
                 </View>
                 <View style={styles.flex1}>
@@ -97,6 +111,7 @@ export default function NotificationsScreen() {
       </ListCard>
 
       <Button
+        isDark={social.darkMode}
         accessibilityLabel="Open messages"
         variant="ghost"
         onPress={() => router.push("/templates/social/messages")}

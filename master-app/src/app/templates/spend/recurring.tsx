@@ -90,7 +90,7 @@ export default function RecurringScreen() {
         subscription with the provider
       </T>
 
-      <Button accessibilityLabel="Back" variant="ghost" onPress={() => router.back()}>
+      <Button isDark={tally.darkMode} accessibilityLabel="Back" variant="ghost" onPress={() => router.back()}>
         Back
       </Button>
     </Screen>

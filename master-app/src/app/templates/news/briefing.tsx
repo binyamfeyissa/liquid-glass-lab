@@ -1,7 +1,11 @@
 import React from "react";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { router } from "expo-router";
-import { Badge, Button, Card, IconButton } from "glacia-native";
+import {
+  colors,
+  Badge, Button, Card, IconButton
+} from "glacia-native";
+import { ArrowLeft, ChevronRight } from "lucide-react-native";
 
 import { ARTICLES, BRIEFING_MARKETS } from "./data";
 import { useSignal } from "./state";
@@ -33,7 +37,7 @@ export default function BriefingScreen() {
           accessibilityLabel="Back"
           isDark={signal.darkMode}
           onPress={() => router.back()}
-          icon={<T variant="heading">←</T>}
+          icon={<ArrowLeft size={20} color={signal.darkMode ? colors.dark.foreground : colors.light.foreground} />}
         />
         <View style={styles.headerText}>
           <Headline variant="title">Morning Briefing</Headline>
@@ -51,6 +55,7 @@ export default function BriefingScreen() {
         </T>
         {unread.length > 0 ? (
           <Button
+            isDark={signal.darkMode}
             accessibilityLabel="Read all briefing stories, starting with the first unread"
             variant="filled"
             onPress={() => router.push(`/templates/news/article/${unread[0].id}`)}
@@ -105,9 +110,7 @@ export default function BriefingScreen() {
                       Read
                     </Badge>
                   ) : null}
-                  <T variant="heading" muted>
-                    ›
-                  </T>
+                  <ChevronRight size={18} color={signal.darkMode ? colors.dark.muted : colors.light.muted} />
                 </Pressable>
               </React.Fragment>
             );

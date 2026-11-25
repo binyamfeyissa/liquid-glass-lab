@@ -56,6 +56,7 @@ export default function ActivityScreen() {
       </View>
 
       <Button
+        isDark={ride.darkMode}
         accessibilityLabel="Book a new ride"
         variant="glass"
         onPress={() => router.replace("/templates/ride/(tabs)")}

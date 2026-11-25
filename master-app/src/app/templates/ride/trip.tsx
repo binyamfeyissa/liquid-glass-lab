@@ -53,8 +53,9 @@ export default function TripScreen() {
     return (
       <Screen title="No ride in progress" subtitle="Your booking was cancelled or already finished.">
         <Button
+          isDark={ride.darkMode}
           accessibilityLabel="Back to home"
-          variant="filled"
+          variant="glass"
           onPress={() => router.replace("/templates/ride/(tabs)")}
         >
           Back to home
@@ -182,6 +183,7 @@ export default function TripScreen() {
 
       {stage !== "searching" ? (
         <Button
+          isDark={ride.darkMode}
           accessibilityLabel={stage === "arriving" ? "Simulate driver arrival" : "Simulate arrival at destination"}
           variant="filled"
           size="lg"
@@ -192,6 +194,7 @@ export default function TripScreen() {
       ) : null}
 
       <Button
+        isDark={ride.darkMode}
         accessibilityLabel="Cancel this ride"
         variant="ghost"
         onPress={() => setConfirmCancel(true)}

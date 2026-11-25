@@ -28,8 +28,9 @@ export default function QuizScreen() {
           This course does not have a quiz.
         </T>
         <Button
+          isDark={learn.darkMode}
           accessibilityLabel="Back to Discover"
-          variant="filled"
+          variant="glass"
           onPress={() => router.replace("/templates/learn/(tabs)/discover")}
         >
           Browse courses
@@ -81,14 +82,14 @@ export default function QuizScreen() {
       contentContainerStyle={styles.content}
       showsVerticalScrollIndicator={false}
     >
-      <Pressable
-        onPress={() => router.back()}
-        accessibilityRole="button"
+      <Button
         accessibilityLabel="Go back to the course"
-        style={styles.back}
+        variant="ghost"
+        onPress={() => router.back()}
+        isDark={learn.darkMode}
       >
-        <T variant="body">{course.title}</T>
-      </Pressable>
+        {course.title}
+      </Button>
 
       {phase === "intro" ? (
         <>
@@ -127,7 +128,7 @@ export default function QuizScreen() {
               </T>
             </Card>
           ) : null}
-          <Button accessibilityLabel="Start the quiz" variant="filled" onPress={start}>
+          <Button isDark={learn.darkMode} accessibilityLabel="Start the quiz" variant="filled" onPress={start}>
             {previous ? "Retake the quiz" : "Start the quiz"}
           </Button>
         </>
@@ -222,6 +223,7 @@ export default function QuizScreen() {
                 {question.explanation}
               </T>
               <Button
+                isDark={learn.darkMode}
                 accessibilityLabel={index + 1 >= total ? "See my result" : "Next question"}
                 variant="filled"
                 onPress={next}
@@ -294,6 +296,7 @@ export default function QuizScreen() {
 
           <View style={styles.resultActions}>
             <Button
+              isDark={learn.darkMode}
               accessibilityLabel="Retake the quiz"
               variant={passed ? "glass" : "filled"}
               onPress={start}
@@ -301,6 +304,7 @@ export default function QuizScreen() {
               Retake the quiz
             </Button>
             <Button
+              isDark={learn.darkMode}
               accessibilityLabel="Back to the course"
               variant={passed ? "filled" : "glass"}
               onPress={() => router.replace(`/templates/learn/course/${course.id}`)}
@@ -309,6 +313,7 @@ export default function QuizScreen() {
             </Button>
             {passed ? (
               <Button
+                isDark={learn.darkMode}
                 accessibilityLabel="View certificates in My Learning"
                 onPress={() => router.replace("/templates/learn/(tabs)/learning")}
               >
@@ -330,7 +335,6 @@ const styles = StyleSheet.create({
     paddingBottom: 32,
     gap: 24,
   },
-  back: { alignSelf: "flex-start", paddingVertical: 4, paddingRight: 12 },
   spaced: { marginVertical: 12 },
   introBadge: { alignSelf: "flex-start" },
   title: { marginTop: 12, lineHeight: 36 },

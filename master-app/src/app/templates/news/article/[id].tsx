@@ -8,7 +8,11 @@ import {
   type NativeSyntheticEvent,
 } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
-import { Button, Card, IconButton, Progress } from "glacia-native";
+import {
+  colors,
+  Button, Card, IconButton, Progress
+} from "glacia-native";
+import { ArrowLeft, ArrowUpRight } from "lucide-react-native";
 
 import { articleById, type Article } from "../data";
 import { FONT_STEPS, useSignal } from "../state";
@@ -53,8 +57,9 @@ export default function ArticleScreen() {
           This story may have rotated out of today's edition
         </T>
         <Button
+          isDark={signal.darkMode}
           accessibilityLabel="Back to top stories"
-          variant="filled"
+          variant="glass"
           onPress={() => router.back()}
         >
           Back to Top
@@ -108,11 +113,12 @@ export default function ArticleScreen() {
             accessibilityLabel="Back"
             isDark={signal.darkMode}
             onPress={() => router.back()}
-            icon={<T variant="heading">←</T>}
+            icon={<ArrowLeft size={20} color={signal.darkMode ? colors.dark.foreground : colors.light.foreground} />}
           />
           <View style={styles.toolbarSpacer} />
           <View style={styles.fontControls}>
             <Button
+              isDark={signal.darkMode}
               accessibilityLabel="Decrease text size"
               variant="glass"
               size="sm"
@@ -122,6 +128,7 @@ export default function ArticleScreen() {
               A−
             </Button>
             <Button
+              isDark={signal.darkMode}
               accessibilityLabel="Increase text size"
               variant="glass"
               size="sm"
@@ -143,7 +150,7 @@ export default function ArticleScreen() {
             accessibilityLabel="Share this story"
             isDark={signal.darkMode}
             onPress={share}
-            icon={<T variant="body">↗</T>}
+            icon={<ArrowUpRight size={18} color={signal.darkMode ? colors.dark.foreground : colors.light.foreground} />}
           />
         </View>
 
@@ -189,6 +196,7 @@ export default function ArticleScreen() {
               : "Bookmark this story to keep it in your reading list"}
           </T>
           <Button
+            isDark={signal.darkMode}
             accessibilityLabel={bookmarked ? "Remove bookmark" : "Bookmark this story"}
             variant={bookmarked ? "glass" : "filled"}
             onPress={() => signal.toggleBookmark(article.id)}

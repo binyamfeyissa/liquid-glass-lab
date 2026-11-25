@@ -1,7 +1,11 @@
 import React, { useMemo, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { router } from "expo-router";
-import { Chip, IconButton, Input } from "glacia-native";
+import {
+  colors,
+  Chip, IconButton, Input
+} from "glacia-native";
+import { ArrowLeft } from "lucide-react-native";
 
 import { ARTICLES, TOPICS } from "./data";
 import { useSignal } from "./state";
@@ -48,7 +52,7 @@ export default function SearchScreen() {
           accessibilityLabel="Back"
           isDark={darkMode}
           onPress={() => router.back()}
-          icon={<T variant="heading">←</T>}
+          icon={<ArrowLeft size={20} color={darkMode ? colors.dark.foreground : colors.light.foreground} />}
         />
         <Headline variant="title">Search</Headline>
       </View>
