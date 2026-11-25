@@ -4,18 +4,30 @@
 # the build. Each flow normalises to home via deep link first, so a
 # previous flow ending inside a template cannot break the next one.
 # Screenshots are named <slug>-01-main / <slug>-02-<screen>.
+# Run 7/8 lesson: every openLink pops iOS's system "Open in" alert;
+# tap its "Open" button (optional) right after each openLink, or the
+# deep link never navigates and the leftover alert blocks later flows.
 appId: __BUNDLE_ID__
 ---
 - launchApp:
     clearState: false
 - openLink: "glacia-master://"
+- tapOn:
+    text: "^Open$"
+    optional: true
 - waitForAnimationToEnd
 - assertVisible: "Templates"
 - tapOn: "Fit — Pulse"
 - waitForAnimationToEnd
 - takeScreenshot: fit-01-main
 - openLink: "glacia-master://templates/fit/workouts"
+- tapOn:
+    text: "^Open$"
+    optional: true
 - waitForAnimationToEnd
 - takeScreenshot: fit-02-workouts
 - openLink: "glacia-master://"
+- tapOn:
+    text: "^Open$"
+    optional: true
 - waitForAnimationToEnd

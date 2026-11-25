@@ -7,6 +7,9 @@ appId: __BUNDLE_ID__
 - launchApp:
     clearState: false
 - openLink: "glacia-master://"
+- tapOn:
+    text: "^Open$"
+    optional: true
 - waitForAnimationToEnd
 - assertVisible: "Templates"
 - tapOn: "Backdrop: light. Tap to change."
@@ -15,6 +18,9 @@ appId: __BUNDLE_ID__
 - waitForAnimationToEnd
 - takeScreenshot: health-toggle
 - openLink: "glacia-master://"
+- tapOn:
+    text: "^Open$"
+    optional: true
 - waitForAnimationToEnd
 - tapOn: "Backdrop: dark. Tap to change."
 - waitForAnimationToEnd
@@ -22,6 +28,9 @@ appId: __BUNDLE_ID__
 - waitForAnimationToEnd
 - takeScreenshot: shop-toggle
 - openLink: "glacia-master://"
+- tapOn:
+    text: "^Open$"
+    optional: true
 - waitForAnimationToEnd
 - tapOn: "Backdrop: image. Tap to change."
 - waitForAnimationToEnd

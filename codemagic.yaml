@@ -759,9 +759,16 @@ workflows:
           # must not kill the other 23. Every flow is NON-FATAL here — its
           # exit code is recorded and the loop continues. This step always
           # exits 0 so the find-dump + collection step below still runs.
-          FLOWS="inspect-home bank calm cast chat date fit food-fleet food toggle-1 grocery health homes jobs learn news ride shop toggle-2 social spend stream travel tunes wallet onboarding-flow profile-settings toggle-3"
+          # (Run 1 died in 3s on a double prefix — FLOWS entries are bare
+          # names, FLOW adds the inspect- prefix once — plus a missing-file
+          # guard, so one bad path can never kill the step again.)
+          FLOWS="home bank calm cast chat date fit food-fleet food toggle-1 grocery health homes jobs learn news ride shop toggle-2 social spend stream travel tunes wallet onboarding-flow profile-settings toggle-3"
           for NAME in $FLOWS; do
             FLOW="capture/inspect-$NAME.yaml"
+            if [ ! -f "$FLOW" ]; then
+              echo "--- flow inspect-$NAME MISSING ($FLOW not found) — skipping ---" | tee -a "$SUMMARY"
+              continue
+            fi
             sed "s/__BUNDLE_ID__/$BUNDLE_ID/" "$FLOW" > "$CM_BUILD_DIR/inspect-$NAME.yaml"
             echo "--- flow inspect-$NAME started $(date -u +%H:%M:%S) UTC ---" | tee -a "$SUMMARY"
             set +e
@@ -771,7 +778,7 @@ workflows:
             echo "--- flow inspect-$NAME finished exit $STATUS ---" | tee -a "$SUMMARY"
           done
           echo "=== Inspection run finished $(date -u +%H:%M:%S) UTC ===" | tee -a "$SUMMARY"
-          grep -c "finished exit 0" "$SUMMARY" | xargs echo "flows passed:"
+          grep -c "finished exit 0" "$SUMMARY" | xargs echo "flows passed:" || true
           grep "finished exit" "$SUMMARY" | grep -v "exit 0" || echo "no failed flows"
           exit 0
       - name: Dump Maestro screenshot locations + collect PNGs
