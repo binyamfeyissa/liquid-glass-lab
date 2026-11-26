@@ -28,6 +28,11 @@ function Shell() {
           screenOptions={{
             headerShown: false,
             contentStyle: { backgroundColor: "transparent" },
+            // Native-stack default statusBarStyle is 'auto' (system appearance:
+            // light mode -> dark text), which overrides this layout's StatusBar
+            // component on every screen focus. Set it from the bank mode so the
+            // time is readable on the bank backdrop.
+            statusBarStyle: darkMode ? "light" : "dark",
           }}
         >
           <Stack.Screen name="(tabs)" />

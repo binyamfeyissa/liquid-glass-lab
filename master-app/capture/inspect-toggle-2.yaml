@@ -19,6 +19,7 @@ appId: __BUNDLE_ID__
       text: "Health — Vitalis"
     direction: DOWN
     visibilityPercentage: 50
+    centerElement: true
 - tapOn: "Health — Vitalis"
 - waitForAnimationToEnd
 - takeScreenshot: health-toggle
@@ -34,6 +35,7 @@ appId: __BUNDLE_ID__
       text: "Shop — Lumen"
     direction: DOWN
     visibilityPercentage: 50
+    centerElement: true
 - tapOn: "Shop — Lumen"
 - waitForAnimationToEnd
 - takeScreenshot: shop-toggle

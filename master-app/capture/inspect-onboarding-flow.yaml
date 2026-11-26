@@ -26,6 +26,7 @@ appId: __BUNDLE_ID__
       text: "Onboarding Flow — Northwind Onboarding"
     direction: DOWN
     visibilityPercentage: 50
+    centerElement: true
 - tapOn: "Onboarding Flow — Northwind Onboarding"
 - waitForAnimationToEnd
 - takeScreenshot: onboarding-flow-01-main
@@ -45,6 +46,7 @@ appId: __BUNDLE_ID__
       text: "Background Light"
     direction: DOWN
     visibilityPercentage: 50
+    centerElement: true
 - tapOn:
     text: "Background Light"
 - waitForAnimationToEnd
@@ -53,6 +55,7 @@ appId: __BUNDLE_ID__
       text: "Replay the introduction"
     direction: DOWN
     visibilityPercentage: 50
+    centerElement: true
 - tapOn:
     text: "Replay the introduction"
 - waitForAnimationToEnd
@@ -66,6 +69,7 @@ appId: __BUNDLE_ID__
       text: "Background Photo"
     direction: DOWN
     visibilityPercentage: 50
+    centerElement: true
 - tapOn:
     text: "Background Photo"
 - waitForAnimationToEnd
@@ -74,6 +78,7 @@ appId: __BUNDLE_ID__
       text: "Replay the introduction"
     direction: DOWN
     visibilityPercentage: 50
+    centerElement: true
 - tapOn:
     text: "Replay the introduction"
 - waitForAnimationToEnd

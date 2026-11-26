@@ -25,6 +25,7 @@ appId: __BUNDLE_ID__
       text: "Background Light"
     direction: DOWN
     visibilityPercentage: 50
+    centerElement: true
 - waitForAnimationToEnd
 - tapOn:
     text: "Background Light"
@@ -52,6 +53,7 @@ appId: __BUNDLE_ID__
       text: "Background Photo"
     direction: DOWN
     visibilityPercentage: 50
+    centerElement: true
 - waitForAnimationToEnd
 - tapOn:
     text: "Background Photo"

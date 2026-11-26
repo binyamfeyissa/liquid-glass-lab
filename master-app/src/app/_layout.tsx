@@ -85,6 +85,11 @@ function Shell() {
           screenOptions={{
             headerShown: false,
             contentStyle: { backgroundColor: "transparent" },
+            // Native-stack default statusBarStyle is 'auto' (system appearance:
+            // light mode -> dark text), which overrides the StatusBar component
+            // on every screen focus. Set it from the host mode so the time is
+            // readable on the host backdrop.
+            statusBarStyle: isDark ? "light" : "dark",
           }}
         >
           <Stack.Screen name="index" />

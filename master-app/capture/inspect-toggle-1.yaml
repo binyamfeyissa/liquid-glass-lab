@@ -19,6 +19,7 @@ appId: __BUNDLE_ID__
       text: "Bank — Northwind Bank"
     direction: DOWN
     visibilityPercentage: 50
+    centerElement: true
 - tapOn: "Bank — Northwind Bank"
 - waitForAnimationToEnd
 - takeScreenshot: bank-toggle
@@ -34,6 +35,7 @@ appId: __BUNDLE_ID__
       text: "Food — Forkful"
     direction: DOWN
     visibilityPercentage: 50
+    centerElement: true
 - tapOn: "Food — Forkful"
 - waitForAnimationToEnd
 - takeScreenshot: food-toggle

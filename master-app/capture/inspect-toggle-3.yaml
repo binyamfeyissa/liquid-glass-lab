@@ -19,6 +19,7 @@ appId: __BUNDLE_ID__
       text: "Stream — Lumen Play"
     direction: DOWN
     visibilityPercentage: 50
+    centerElement: true
 - tapOn: "Stream — Lumen Play"
 - waitForAnimationToEnd
 - takeScreenshot: stream-toggle
@@ -34,6 +35,7 @@ appId: __BUNDLE_ID__
       text: "Wallet — Orbit Wallet"
     direction: DOWN
     visibilityPercentage: 50
+    centerElement: true
 - tapOn: "Wallet — Orbit Wallet"
 - waitForAnimationToEnd
 - takeScreenshot: wallet-toggle
