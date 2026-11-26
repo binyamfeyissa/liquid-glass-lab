@@ -71,6 +71,7 @@ export default function TripDetailScreen() {
         height={180}
         radius={20}
         fontSize={36}
+        image={stay.image}
       />
 
       <View>
@@ -108,7 +109,7 @@ export default function TripDetailScreen() {
         <SectionTitle>Your host</SectionTitle>
         <ListCard>
           <View style={styles.hostRow}>
-            <Avatar name={stay.hostName} size="md" isDark={darkMode} />
+            <Avatar name={stay.hostName} source={stay.hostImage} size="md" isDark={darkMode} />
             <View style={styles.flex}>
               <T variant="body">{stay.hostName}</T>
               <T variant="caption" muted>

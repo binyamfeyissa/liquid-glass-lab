@@ -8,6 +8,7 @@ import {
 import { ChevronLeft, X } from "lucide-react-native";
 
 import { formatLongDuration, trackById } from "../data";
+import { LIKED_SONGS_IMAGE } from "../data";
 import { LIKED_PLAYLIST_ID, useTunes, type Playlist } from "../state";
 import { Artwork, Figure, ListCard, Serif, T, TrackRow } from "../ui";
 
@@ -33,6 +34,7 @@ export default function PlaylistScreen() {
         description: "Every track you liked, in one place",
         trackIds: tunes.likedIds,
         colors: ["#db2777", "#7c3aed"],
+        image: LIKED_SONGS_IMAGE,
       }
     : (stored ?? null);
 
@@ -74,7 +76,7 @@ export default function PlaylistScreen() {
       </View>
 
       <View style={styles.hero}>
-        <Artwork title={playlist.name} colors={playlist.colors} size={150} radius={20} />
+        <Artwork title={playlist.name} colors={playlist.colors} size={150} radius={20} image={playlist.image} />
         <Serif variant="title" style={styles.heroTitle}>
           {playlist.name}
         </Serif>

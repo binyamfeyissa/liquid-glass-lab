@@ -9,6 +9,7 @@ import {
   type StyleProp,
   type ViewStyle,
 } from "react-native";
+import type { ImageSourcePropType } from "react-native";
 import { router } from "expo-router";
 import {
   Avatar,
@@ -333,12 +334,15 @@ export function GradientTile({
   height,
   radius = 20,
   fontSize,
+  image,
 }: {
   gradient: number;
   label: string;
   height: number;
   radius?: number;
   fontSize?: number;
+  /** Bundled photo; the flat plate is the fallback. */
+  image?: ImageSourcePropType;
 }) {
   const { backdrop } = useSocial();
   return (
@@ -350,11 +354,23 @@ export function GradientTile({
         backgroundColor: plateColor(gradient, backdrop),
       }}
     >
+      {image ? (
+        <Image
+          source={image}
+          style={[StyleSheet.absoluteFill, { width: "100%", height: "100%" }]}
+          resizeMode="cover"
+        />
+      ) : null}
+      {image ? (
+        <View
+          style={[StyleSheet.absoluteFill, { backgroundColor: "rgba(0,0,0,0.30)" }]}
+        />
+      ) : null}
       <View style={styles.tileLabelWrap}>
         <T
           variant="title"
           style={{
-            color: plateInk(backdrop),
+            color: image ? "#ffffff" : plateInk(backdrop),
             ...(fontSize ? { fontSize, lineHeight: fontSize * 1.12 } : null),
           }}
         >
@@ -397,7 +413,7 @@ export function StoryRing({
           justifyContent: "center",
         }}
       >
-        <Avatar name={user.name} size="lg" isDark={darkMode} />
+        <Avatar name={user.name} source={user.image} size="lg" isDark={darkMode} />
       </View>
       <T variant="caption" numberOfLines={1} style={styles.storyName}>
         {user.name.split(" ")[0]}
@@ -430,7 +446,7 @@ export function PostCard({ post, preview = false }: { post: Post; preview?: bool
           accessibilityRole="button"
           accessibilityLabel={`${author.name}'s profile`}
         >
-          <Avatar name={author.name} size="md" isDark={social.darkMode} />
+          <Avatar name={author.name} source={author.image} size="md" isDark={social.darkMode} />
         </Pressable>
         <View style={styles.flex1}>
           <T variant="body">{author.name}</T>
@@ -463,6 +479,7 @@ export function PostCard({ post, preview = false }: { post: Post; preview?: bool
               label={post.mediaLabel ?? "Orbit"}
               height={168}
               radius={8}
+              image={post.image}
             />
           </View>
         ) : null}

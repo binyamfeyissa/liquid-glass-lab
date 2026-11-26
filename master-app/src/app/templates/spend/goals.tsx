@@ -89,7 +89,7 @@ export default function GoalsScreen() {
                 {i > 0 ? <RowSeparator /> : null}
                 <View style={styles.goalRow}>
                   <View style={styles.goalHead}>
-                    <Avatar name={goal.name} size="lg" isDark={tally.darkMode} />
+                    <Avatar name={goal.name} source={goal.image} size="lg" isDark={tally.darkMode} />
                     <View style={styles.goalText}>
                       <T variant="body">{goal.name}</T>
                       <Figure variant="caption" muted style={styles.goalMeta}>

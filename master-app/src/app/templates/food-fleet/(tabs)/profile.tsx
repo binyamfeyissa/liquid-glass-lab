@@ -3,7 +3,7 @@ import { StyleSheet, View } from "react-native";
 import { router } from "expo-router";
 import { Avatar, Badge, Button, Card, Field, Input, Select, Switch } from "glacia-native";
 
-import { VEHICLES } from "../data";
+import { USER_IMAGE, VEHICLES } from "../data";
 import { useFleet } from "../state";
 import {
   BackdropControl,
@@ -30,7 +30,7 @@ export default function ProfileScreen() {
     <Screen title="Profile" subtitle="Rider details and app settings">
       {/* Header */}
       <View style={styles.header}>
-        <Avatar name={fleet.riderName || "Rider"} size="lg" isDark={fleet.darkMode} />
+        <Avatar name={fleet.riderName || "Rider"} size="lg" isDark={fleet.darkMode} source={USER_IMAGE} />
         <View style={styles.headerText}>
           <T variant="heading">{fleet.riderName}</T>
           <T variant="caption" muted>

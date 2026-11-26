@@ -53,6 +53,7 @@ export default function QueueScreen() {
                 title={showById(current.showId).title}
                 colors={showById(current.showId).colors}
                 size={52}
+                image={showById(current.showId).image}
               />
               <View style={styles.flex}>
                 <T variant="body" numberOfLines={2}>
@@ -100,7 +101,7 @@ export default function QueueScreen() {
                       <Figure variant="caption" muted style={styles.queueIndex}>
                         {i + 1}
                       </Figure>
-                      <Artwork title={show.title} colors={show.colors} size={48} />
+                      <Artwork title={show.title} colors={show.colors} size={48} image={show.image} />
                       <View style={styles.flex}>
                         <T variant="body" numberOfLines={2}>
                           {episode.title}

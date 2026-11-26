@@ -91,6 +91,7 @@ function TripCard({ booking }: { booking: Booking }) {
         height={130}
         radius={12}
         fontSize={28}
+        image={stay.image}
       />
       <View style={styles.meta}>
         <View style={styles.titleRow}>

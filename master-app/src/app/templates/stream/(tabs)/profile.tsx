@@ -35,7 +35,7 @@ export default function ProfileScreen() {
     <Screen title="Profile" subtitle="Viewer profile, playback and app settings">
       {/* Profile header */}
       <View style={styles.header}>
-        <Avatar name={stream.viewerName} size="lg" isDark={darkMode} />
+        <Avatar name={stream.viewerName} source={stream.viewerImage} size="lg" isDark={darkMode} />
         <View style={styles.headerText}>
           <T variant="heading">{stream.viewerName}</T>
           <T variant="body" muted>

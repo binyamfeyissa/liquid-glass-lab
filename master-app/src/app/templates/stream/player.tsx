@@ -134,6 +134,7 @@ export default function PlayerScreen() {
           width={336}
           height={210}
           radius={20}
+          image={owner.image}
         />
         <View style={styles.posterButton}>
           <Button

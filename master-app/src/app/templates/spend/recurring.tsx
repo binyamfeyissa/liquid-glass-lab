@@ -45,6 +45,7 @@ export default function RecurringScreen() {
               <View style={styles.row}>
                 <Avatar
                   name={item.name.split(" ")[0]}
+                  source={item.image}
                   size="md"
                   isDark={tally.darkMode}
                 />

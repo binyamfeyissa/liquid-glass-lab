@@ -59,7 +59,7 @@ export default function ChatScreen() {
         >
           <ChevronLeft size={20} color={colors[kindred.darkMode ? "dark" : "light"].foreground} />
         </Pressable>
-        <Avatar name={profile.name} size="md" isDark={kindred.darkMode} />
+        <Avatar name={profile.name} size="md" isDark={kindred.darkMode} source={profile.image} />
         <View style={styles.headerText}>
           <View style={styles.headerNameRow}>
             <T variant="heading">{profile.name}</T>
@@ -81,7 +81,7 @@ export default function ChatScreen() {
         data={messages}
         keyExtractor={(message) => message.id}
         renderItem={({ item }) => (
-          <MessageBubble message={item} senderName={profile.name} />
+          <MessageBubble message={item} senderName={profile.name} senderImage={profile.image} />
         )}
         ListEmptyComponent={
           <View style={styles.emptyThread}>

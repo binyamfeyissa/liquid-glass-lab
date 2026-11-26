@@ -22,6 +22,7 @@ import {
 import { ChevronRight } from "lucide-react-native";
 
 import {
+  CATEGORY_IMAGES,
   FIXTURE_TODAY,
   useTally,
   type BackdropMode,
@@ -292,7 +293,7 @@ export function TransactionRow({ tx }: { tx: Transaction }) {
   const palette = usePalette();
   return (
     <View style={styles.txRow}>
-      <Avatar name={tx.category} size="md" isDark={tally.darkMode} />
+      <Avatar name={tx.category} source={CATEGORY_IMAGES[tx.category]} size="md" isDark={tally.darkMode} />
       <View style={styles.settingText}>
         <T variant="body" numberOfLines={1}>
           {tx.title}

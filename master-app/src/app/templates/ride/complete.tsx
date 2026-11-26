@@ -80,7 +80,7 @@ export default function CompleteScreen() {
     <Screen title="You have arrived" subtitle={`${trip.destinationLabel} · ${trip.dateLabel}`}>
       {/* Driver + rating */}
       <Card isDark={ride.darkMode} padding={16} contentStyle={styles.driverCard}>
-        <Avatar name={trip.driver.name} size="lg" isDark={ride.darkMode} />
+        <Avatar name={trip.driver.name} source={trip.driver.image} size="lg" isDark={ride.darkMode} />
         <T variant="heading">How was {trip.driver.name.split(" ")[0]}?</T>
         <T variant="caption" muted>
           {trip.driver.car} · {trip.driver.plate}

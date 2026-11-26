@@ -119,7 +119,7 @@ export default function ViewingScreen() {
     >
       <StackHeader title="Book a viewing" subtitle={`${property.title} · ${money(property.price)}`} />
 
-      <PropertyVisual property={property} height={120} />
+      <PropertyVisual property={property} height={120} image={property.image} />
 
       <View>
         <SectionTitle>Pick a day</SectionTitle>

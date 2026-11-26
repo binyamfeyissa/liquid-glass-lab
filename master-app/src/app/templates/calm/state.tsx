@@ -7,6 +7,8 @@ import React, {
   type ReactNode,
 } from "react";
 
+import { useLocalSearchParams } from "expo-router";
+
 import { WEEK_MINUTES_SEED } from "./data";
 
 export type BackdropMode = "dark" | "light" | "image";
@@ -35,6 +37,8 @@ export interface MixerState {
 
 interface StillwaterState {
   userName: string;
+  /** Bundled portrait of the signed-in user. */
+  userImage: number;
   setUserName: (name: string) => void;
 
   /** Minutes practised today: the seed plus this session's completions. */
@@ -105,7 +109,17 @@ export function StillwaterProvider({ children }: { children: ReactNode }) {
   });
   const [bedtime, setBedtime] = useState("22:30");
   const [bedtimeReminder, setBedtimeReminder] = useState(true);
-  const [backdrop, setBackdrop] = useState<BackdropMode>("dark");
+  // The host (template list) passes its current backdrop mode as a route
+  // param (`backdrop`) when opening a template, so the template opens on
+  // the same background the owner just picked. Standalone there is no
+  // param and the template keeps its dark default. Read once on mount
+  // (lazy initialiser) so navigating inside the template never resets it.
+  const params = useLocalSearchParams();
+  const [backdrop, setBackdrop] = useState<BackdropMode>(() => {
+    const p = params.backdrop;
+    const v = Array.isArray(p) ? p[0] : p;
+    return v === "dark" || v === "light" || v === "image" ? v : "dark";
+  });
   const darkMode = backdrop !== "light";
   const setDarkMode = useCallback((value: boolean) => {
     setBackdrop(value ? "dark" : "light");
@@ -151,6 +165,7 @@ export function StillwaterProvider({ children }: { children: ReactNode }) {
   const value = useMemo<StillwaterState>(
     () => ({
       userName,
+      userImage: require("./assets/img/alex-rivera.jpg"),
       setUserName,
       todayMinutes,
       goalMinutes,

@@ -9,6 +9,7 @@ import {
   type StyleProp,
   type ViewStyle,
 } from "react-native";
+import type { ImageSourcePropType } from "react-native";
 import { useRouter } from "expo-router";
 import {
   Card,
@@ -199,10 +200,9 @@ export function SettingRow({
 }
 
 /* ------------------------------------------------------------------ */
-/*  Artwork — composed poster art: one flat tonal plate per title.     */
-/*  The fixture colour pair is averaged and mixed toward the mode      */
-/*  neutral, so the stills carry the identity and the chrome stays     */
-/*  quiet. No blobs, no image assets.                                  */
+/*  Artwork — poster art: the title's bundled photo fills the frame.  */
+/*  Without one, the fixture colour pair is averaged and mixed toward  */
+/*  the mode neutral into one flat tonal plate with the initials.      */
 /* ------------------------------------------------------------------ */
 
 function hexToRgb(hex: string): [number, number, number] {
@@ -223,12 +223,15 @@ export function Artwork({
   width,
   height,
   radius = 16,
+  image,
 }: {
   name: string;
   colors: [string, string];
   width: number;
   height: number;
   radius?: number;
+  /** Bundled poster photo; the tonal plate is the fallback. */
+  image?: ImageSourcePropType;
 }) {
   const { darkMode } = useStream();
   const big = Math.min(width, height) >= 110;
@@ -241,12 +244,20 @@ export function Artwork({
         { width, height, borderRadius: radius, backgroundColor: plate },
       ]}
     >
-      <T
-        variant={big ? "title" : "label"}
-        style={{ color: darkMode ? "#f5f1e8" : "#2e2921" }}
-      >
-        {initialsOfTitle(name)}
-      </T>
+      {image ? (
+        <Image
+          source={image}
+          style={[StyleSheet.absoluteFill, { width: "100%", height: "100%" }]}
+          resizeMode="cover"
+        />
+      ) : (
+        <T
+          variant={big ? "title" : "label"}
+          style={{ color: darkMode ? "#f5f1e8" : "#2e2921" }}
+        >
+          {initialsOfTitle(name)}
+        </T>
+      )}
     </View>
   );
 }
@@ -267,7 +278,7 @@ export function TitleCard({ title, width = 118 }: { title: Title; width?: number
       accessibilityLabel={`Open ${title.name}`}
       style={({ pressed }) => [{ width }, pressed && { opacity: 0.75 }]}
     >
-      <Artwork name={title.name} colors={title.colors} width={width} height={Math.round(width * 1.4)} radius={16} />
+      <Artwork name={title.name} colors={title.colors} width={width} height={Math.round(width * 1.4)} radius={16} image={title.image} />
       <T variant="body" numberOfLines={1} style={styles.cardName}>
         {title.name}
       </T>
@@ -318,7 +329,7 @@ export function TitleRow({
         },
       ]}
     >
-      <Artwork name={title.name} colors={title.colors} width={52} height={72} radius={12} />
+      <Artwork name={title.name} colors={title.colors} width={52} height={72} radius={12} image={title.image} />
       <View style={styles.flex}>
         <T variant="body" numberOfLines={1}>
           {title.name}

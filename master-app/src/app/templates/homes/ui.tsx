@@ -324,11 +324,15 @@ export function PropertyVisual({
   height = 150,
   variant = 0,
   radius = 12,
+  image,
 }: {
   property: Property;
   height?: number;
   variant?: number;
   radius?: number;
+  /** Bundled photo; when provided (and this is the front view) it
+      replaces the composed plate. Falls back to property.image. */
+  image?: number;
 }) {
   const { backdrop } = useHomes();
   const base = mixHex(property.palette[0], property.palette[1], 0.5);
@@ -343,6 +347,18 @@ export function PropertyVisual({
   const isTower = property.type === "Flat";
   const evening = variant === 2;
   const windowFill = evening ? "#cf9a58" : paperTone(backdrop);
+  const photo = image ?? property.image;
+  if (photo && variant === 0) {
+    return (
+      <View style={{ height, borderRadius: radius, overflow: "hidden" }}>
+        <Image
+          source={photo}
+          resizeMode="cover"
+          style={{ width: "100%", height: "100%" }}
+        />
+      </View>
+    );
+  }
 
   return (
     <View style={{ height, borderRadius: radius, overflow: "hidden" }}>
@@ -439,7 +455,7 @@ export function PropertyCard({ property }: { property: Property }) {
       accessibilityLabel={`${property.title}, ${money(property.price)}`}
     >
       <View>
-        <PropertyVisual property={property} />
+        <PropertyVisual property={property} image={property.image} />
         <View style={styles.cardBadge}>
           <Badge tone="muted" isDark={darkMode}>
             {property.status}
@@ -478,7 +494,7 @@ export function AgentLine({ property }: { property: Property }) {
   const agent = agentOf(property);
   return (
     <View style={styles.agentLine}>
-      <Avatar name={agent.name} size="md" isDark={darkMode} />
+      <Avatar name={agent.name} source={agent.image} size="md" isDark={darkMode} />
       <View style={styles.settingText}>
         <T variant="body">{agent.name}</T>
         <View style={styles.agentMeta}>

@@ -7,6 +7,8 @@ import React, {
   type ReactNode,
 } from "react";
 
+import { useLocalSearchParams } from "expo-router";
+
 import {
   LIFETIME_BASE,
   SEED_HISTORY,
@@ -88,7 +90,17 @@ const DAY_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 export function FitProvider({ children }: { children: ReactNode }) {
   const [history, setHistory] = useState<HistoryEntry[]>(SEED_HISTORY);
   const [weeklyGoal, setWeeklyGoal] = useState(4);
-  const [backdrop, setBackdrop] = useState<BackdropMode>("dark");
+  // The host (template list) passes its current backdrop mode as a route
+  // param (`backdrop`) when opening a template, so the template opens on
+  // the same background the owner just picked. Standalone there is no
+  // param and the template keeps its dark default. Read once on mount
+  // (lazy initialiser) so navigating inside the template never resets it.
+  const params = useLocalSearchParams();
+  const [backdrop, setBackdrop] = useState<BackdropMode>(() => {
+    const p = params.backdrop;
+    const v = Array.isArray(p) ? p[0] : p;
+    return v === "dark" || v === "light" || v === "image" ? v : "dark";
+  });
   const darkMode = backdrop !== "light";
   const setDarkMode = useCallback((value: boolean) => {
     setBackdrop(value ? "dark" : "light");

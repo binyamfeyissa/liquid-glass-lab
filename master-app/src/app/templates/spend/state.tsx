@@ -7,6 +7,8 @@ import React, {
   type ReactNode,
 } from "react";
 
+import { useLocalSearchParams } from "expo-router";
+
 /**
  * The whole template keeps its data in this one client-side store. There is
  * no backend and no persistence: state lives in memory for the session, so
@@ -28,6 +30,19 @@ export type Category =
   | "Fun"
   | "Home"
   | "Income";
+
+/** One bundled photo per spending category, for the category avatars. */
+export const CATEGORY_IMAGES: Record<Category, number> = {
+  Groceries: require("./assets/img/cat-groceries.jpg"),
+  Dining: require("./assets/img/cat-dining.jpg"),
+  Transport: require("./assets/img/cat-transport.jpg"),
+  Shopping: require("./assets/img/cat-shopping.jpg"),
+  Bills: require("./assets/img/cat-bills.jpg"),
+  Health: require("./assets/img/cat-health.jpg"),
+  Fun: require("./assets/img/cat-fun.jpg"),
+  Home: require("./assets/img/cat-home.jpg"),
+  Income: require("./assets/img/cat-income.jpg"),
+};
 
 export const EXPENSE_CATEGORIES: Category[] = [
   "Groceries",
@@ -62,6 +77,8 @@ export interface Goal {
   name: string;
   target: number;
   saved: number;
+  /** Bundled photo for the goal's avatar; the initials avatar is the fallback. */
+  image?: number;
 }
 
 export interface RecurringItem {
@@ -71,6 +88,8 @@ export interface RecurringItem {
   amount: number;
   nextLabel: string;
   active: boolean;
+  /** Bundled photo for the item's avatar; the initials avatar is the fallback. */
+  image?: number;
 }
 
 /** The three backgrounds the glass can sit over. */
@@ -185,19 +204,19 @@ const SEED_BUDGETS: Budget[] = [
 ];
 
 const SEED_GOALS: Goal[] = [
-  { id: "g1", name: "Emergency fund", target: 5000, saved: 3250 },
-  { id: "g2", name: "Lisbon trip", target: 1800, saved: 940 },
-  { id: "g3", name: "New laptop", target: 1600, saved: 420 },
+  { id: "g1", image: require("./assets/img/goal-emergency-fund.jpg"), name: "Emergency fund", target: 5000, saved: 3250 },
+  { id: "g2", image: require("./assets/img/goal-lisbon-trip.jpg"), name: "Lisbon trip", target: 1800, saved: 940 },
+  { id: "g3", image: require("./assets/img/goal-new-laptop.jpg"), name: "New laptop", target: 1600, saved: 420 },
 ];
 
 const SEED_RECURRING: RecurringItem[] = [
-  { id: "r1", name: "Rent — Maple St Apt", detail: "Monthly · Maple St", amount: 1450.0, nextLabel: "Dec 2", active: true },
-  { id: "r2", name: "Northwind Internet", detail: "Monthly · 500 Mbps", amount: 59.99, nextLabel: "Dec 2", active: true },
-  { id: "r3", name: "Form Studio", detail: "Monthly · gym membership", amount: 45.0, nextLabel: "Dec 14", active: true },
-  { id: "r4", name: "Netflix", detail: "Monthly · 4K plan", amount: 15.49, nextLabel: "Dec 21", active: true },
-  { id: "r5", name: "Spotify", detail: "Monthly · Premium", amount: 11.99, nextLabel: "Dec 1", active: true },
-  { id: "r6", name: "iCloud+", detail: "Monthly · 200 GB", amount: 2.99, nextLabel: "Dec 5", active: true },
-  { id: "r7", name: "Meal kit — HelloFresh", detail: "Weekly · paused in October", amount: 64.0, nextLabel: "Paused", active: false },
+  { id: "r1", image: require("./assets/img/recur-rent.jpg"), name: "Rent — Maple St Apt", detail: "Monthly · Maple St", amount: 1450.0, nextLabel: "Dec 2", active: true },
+  { id: "r2", image: require("./assets/img/recur-internet.jpg"), name: "Northwind Internet", detail: "Monthly · 500 Mbps", amount: 59.99, nextLabel: "Dec 2", active: true },
+  { id: "r3", image: require("./assets/img/recur-gym.jpg"), name: "Form Studio", detail: "Monthly · gym membership", amount: 45.0, nextLabel: "Dec 14", active: true },
+  { id: "r4", image: require("./assets/img/recur-netflix.jpg"), name: "Netflix", detail: "Monthly · 4K plan", amount: 15.49, nextLabel: "Dec 21", active: true },
+  { id: "r5", image: require("./assets/img/recur-spotify.jpg"), name: "Spotify", detail: "Monthly · Premium", amount: 11.99, nextLabel: "Dec 1", active: true },
+  { id: "r6", image: require("./assets/img/recur-icloud.jpg"), name: "iCloud+", detail: "Monthly · 200 GB", amount: 2.99, nextLabel: "Dec 5", active: true },
+  { id: "r7", image: require("./assets/img/recur-hellofresh.jpg"), name: "Meal kit — HelloFresh", detail: "Weekly · paused in October", amount: 64.0, nextLabel: "Paused", active: false },
 ];
 
 /* ------------------------------------------------------------------ */
@@ -206,6 +225,8 @@ const SEED_RECURRING: RecurringItem[] = [
 
 interface TallyState {
   userName: string;
+  /** Bundled portrait of the signed-in user, for the header avatars. */
+  userImage: number;
 
   transactions: Transaction[];
   addTransaction: (input: {
@@ -267,7 +288,17 @@ export function TallyProvider({ children }: { children: ReactNode }) {
   const [goals, setGoals] = useState<Goal[]>(SEED_GOALS);
   const [recurring, setRecurring] = useState<RecurringItem[]>(SEED_RECURRING);
   const [currency, setCurrency] = useState<Currency>("USD");
-  const [backdrop, setBackdrop] = useState<BackdropMode>("dark");
+  // The host (template list) passes its current backdrop mode as a route
+  // param (`backdrop`) when opening a template, so the template opens on
+  // the same background the owner just picked. Standalone there is no
+  // param and the template keeps its dark default. Read once on mount
+  // (lazy initialiser) so navigating inside the template never resets it.
+  const params = useLocalSearchParams();
+  const [backdrop, setBackdrop] = useState<BackdropMode>(() => {
+    const p = params.backdrop;
+    const v = Array.isArray(p) ? p[0] : p;
+    return v === "dark" || v === "light" || v === "image" ? v : "dark";
+  });
   const darkMode = backdrop !== "light";
   const setDarkMode = useCallback((value: boolean) => {
     setBackdrop(value ? "dark" : "light");
@@ -387,6 +418,7 @@ export function TallyProvider({ children }: { children: ReactNode }) {
       .reduce((sum, r) => sum + r.amount, 0);
     return {
       userName: "Jordan Ellis",
+      userImage: require("./assets/img/jordan-ellis.jpg"),
       transactions,
       addTransaction,
       spentForMonth,

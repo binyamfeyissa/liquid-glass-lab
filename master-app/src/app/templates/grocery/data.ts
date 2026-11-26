@@ -43,42 +43,46 @@ export interface Product {
   /** Short shelf label shown under the name. */
   detail: string;
   hue: [string, string];
+  /** Bundled product photo (assets/img). */
+  image?: number;
   badge?: string;
   /** Original price when the product is the deal of the day. */
   compareAt?: number;
   nutrition: Nutrition;
 }
 
+export const USER_IMAGE = require("./assets/img/jordan-ellis.jpg");
+
 export const PRODUCTS: Product[] = [
   // Produce
-  { id: "avocado", name: "Hass Avocados", aisleId: "produce", price: 5.96, unit: "pack of 4", detail: "Ready to eat · Mexico", hue: ["#bbf7d0", "#166534"], badge: "Organic", nutrition: { calories: 160, protein: 2.0, carbs: 8.5, fat: 14.7 } },
-  { id: "tomatoes", name: "Roma Tomatoes", aisleId: "produce", price: 2.48, unit: "per kg", detail: "On the vine", hue: ["#fecaca", "#dc2626"], nutrition: { calories: 18, protein: 0.9, carbs: 3.9, fat: 0.2 } },
-  { id: "spinach", name: "Baby Spinach", aisleId: "produce", price: 3.29, unit: "200 g bag", detail: "Washed & ready", hue: ["#86efac", "#14532d"], nutrition: { calories: 23, protein: 2.9, carbs: 3.6, fat: 0.4 } },
-  { id: "bananas", name: "Cavendish Bananas", aisleId: "produce", price: 1.19, unit: "per kg", detail: "Fairtrade", hue: ["#fef08a", "#ca8a04"], nutrition: { calories: 89, protein: 1.1, carbs: 22.8, fat: 0.3 } },
+  { id: "avocado", image: require("./assets/img/hass-avocados.jpg"), name: "Hass Avocados", aisleId: "produce", price: 5.96, unit: "pack of 4", detail: "Ready to eat · Mexico", hue: ["#bbf7d0", "#166534"], badge: "Organic", nutrition: { calories: 160, protein: 2.0, carbs: 8.5, fat: 14.7 } },
+  { id: "tomatoes", image: require("./assets/img/roma-tomatoes.jpg"), name: "Roma Tomatoes", aisleId: "produce", price: 2.48, unit: "per kg", detail: "On the vine", hue: ["#fecaca", "#dc2626"], nutrition: { calories: 18, protein: 0.9, carbs: 3.9, fat: 0.2 } },
+  { id: "spinach", image: require("./assets/img/baby-spinach.jpg"), name: "Baby Spinach", aisleId: "produce", price: 3.29, unit: "200 g bag", detail: "Washed & ready", hue: ["#86efac", "#14532d"], nutrition: { calories: 23, protein: 2.9, carbs: 3.6, fat: 0.4 } },
+  { id: "bananas", image: require("./assets/img/cavendish-bananas.jpg"), name: "Cavendish Bananas", aisleId: "produce", price: 1.19, unit: "per kg", detail: "Fairtrade", hue: ["#fef08a", "#ca8a04"], nutrition: { calories: 89, protein: 1.1, carbs: 22.8, fat: 0.3 } },
   // Bakery
-  { id: "sourdough", name: "Sourdough Loaf", aisleId: "bakery", price: 4.75, unit: "800 g loaf", detail: "Baked 6 AM today", hue: ["#fde68a", "#92400e"], nutrition: { calories: 259, protein: 9.0, carbs: 49.0, fat: 1.8 } },
-  { id: "croissants", name: "Butter Croissants", aisleId: "bakery", price: 5.49, compareAt: 6.99, unit: "pack of 4", detail: "All-butter · deal of the day", hue: ["#fcd34d", "#b45309"], badge: "Deal", nutrition: { calories: 406, protein: 8.2, carbs: 45.0, fat: 21.0 } },
-  { id: "muffins", name: "Blueberry Muffins", aisleId: "bakery", price: 3.99, unit: "pack of 2", detail: "Baked in store", hue: ["#c4b5fd", "#5b21b6"], nutrition: { calories: 377, protein: 5.4, carbs: 52.0, fat: 16.0 } },
+  { id: "sourdough", image: require("./assets/img/sourdough-loaf.jpg"), name: "Sourdough Loaf", aisleId: "bakery", price: 4.75, unit: "800 g loaf", detail: "Baked 6 AM today", hue: ["#fde68a", "#92400e"], nutrition: { calories: 259, protein: 9.0, carbs: 49.0, fat: 1.8 } },
+  { id: "croissants", image: require("./assets/img/butter-croissants.jpg"), name: "Butter Croissants", aisleId: "bakery", price: 5.49, compareAt: 6.99, unit: "pack of 4", detail: "All-butter · deal of the day", hue: ["#fcd34d", "#b45309"], badge: "Deal", nutrition: { calories: 406, protein: 8.2, carbs: 45.0, fat: 21.0 } },
+  { id: "muffins", image: require("./assets/img/blueberry-muffins.jpg"), name: "Blueberry Muffins", aisleId: "bakery", price: 3.99, unit: "pack of 2", detail: "Baked in store", hue: ["#c4b5fd", "#5b21b6"], nutrition: { calories: 377, protein: 5.4, carbs: 52.0, fat: 16.0 } },
   // Dairy & Eggs
-  { id: "milk", name: "Whole Milk", aisleId: "dairy", price: 1.89, unit: "1 L bottle", detail: "Organic · pasteurised", hue: ["#fef9c3", "#a16207"], nutrition: { calories: 64, protein: 3.3, carbs: 4.8, fat: 3.6 } },
-  { id: "eggs", name: "Free-Range Eggs", aisleId: "dairy", price: 4.29, unit: "box of 12", detail: "Grade A · large", hue: ["#ffedd5", "#c2410c"], nutrition: { calories: 143, protein: 12.6, carbs: 0.7, fat: 9.5 } },
-  { id: "yogurt", name: "Greek Yogurt", aisleId: "dairy", price: 3.79, unit: "500 g tub", detail: "10% fat · strained", hue: ["#e0f2fe", "#075985"], nutrition: { calories: 97, protein: 9.0, carbs: 4.0, fat: 5.0 } },
-  { id: "cheddar", name: "Aged Cheddar", aisleId: "dairy", price: 5.25, unit: "250 g block", detail: "Matured 14 months", hue: ["#fde68a", "#b45309"], nutrition: { calories: 416, protein: 25.0, carbs: 0.1, fat: 34.9 } },
+  { id: "milk", image: require("./assets/img/whole-milk.jpg"), name: "Whole Milk", aisleId: "dairy", price: 1.89, unit: "1 L bottle", detail: "Organic · pasteurised", hue: ["#fef9c3", "#a16207"], nutrition: { calories: 64, protein: 3.3, carbs: 4.8, fat: 3.6 } },
+  { id: "eggs", image: require("./assets/img/free-range-eggs.jpg"), name: "Free-Range Eggs", aisleId: "dairy", price: 4.29, unit: "box of 12", detail: "Grade A · large", hue: ["#ffedd5", "#c2410c"], nutrition: { calories: 143, protein: 12.6, carbs: 0.7, fat: 9.5 } },
+  { id: "yogurt", image: require("./assets/img/greek-yogurt.jpg"), name: "Greek Yogurt", aisleId: "dairy", price: 3.79, unit: "500 g tub", detail: "10% fat · strained", hue: ["#e0f2fe", "#075985"], nutrition: { calories: 97, protein: 9.0, carbs: 4.0, fat: 5.0 } },
+  { id: "cheddar", image: require("./assets/img/aged-cheddar.jpg"), name: "Aged Cheddar", aisleId: "dairy", price: 5.25, unit: "250 g block", detail: "Matured 14 months", hue: ["#fde68a", "#b45309"], nutrition: { calories: 416, protein: 25.0, carbs: 0.1, fat: 34.9 } },
   // Meat & Fish
-  { id: "chicken", name: "Chicken Breast", aisleId: "meat", price: 8.9, unit: "per kg", detail: "Skinless · corn-fed", hue: ["#fecdd3", "#9f1239"], nutrition: { calories: 165, protein: 31.0, carbs: 0.0, fat: 3.6 } },
-  { id: "salmon", name: "Salmon Fillet", aisleId: "meat", price: 12.4, unit: "per kg", detail: "Faroe Islands · skin on", hue: ["#fed7aa", "#c2410c"], badge: "Fresh", nutrition: { calories: 208, protein: 20.0, carbs: 0.0, fat: 13.0 } },
-  { id: "mince", name: "Beef Mince", aisleId: "meat", price: 6.85, unit: "500 g pack", detail: "10% fat", hue: ["#fca5a5", "#7f1d1d"], nutrition: { calories: 250, protein: 26.0, carbs: 0.0, fat: 15.0 } },
+  { id: "chicken", image: require("./assets/img/chicken-breast.jpg"), name: "Chicken Breast", aisleId: "meat", price: 8.9, unit: "per kg", detail: "Skinless · corn-fed", hue: ["#fecdd3", "#9f1239"], nutrition: { calories: 165, protein: 31.0, carbs: 0.0, fat: 3.6 } },
+  { id: "salmon", image: require("./assets/img/salmon-fillet.jpg"), name: "Salmon Fillet", aisleId: "meat", price: 12.4, unit: "per kg", detail: "Faroe Islands · skin on", hue: ["#fed7aa", "#c2410c"], badge: "Fresh", nutrition: { calories: 208, protein: 20.0, carbs: 0.0, fat: 13.0 } },
+  { id: "mince", image: require("./assets/img/beef-mince.jpg"), name: "Beef Mince", aisleId: "meat", price: 6.85, unit: "500 g pack", detail: "10% fat", hue: ["#fca5a5", "#7f1d1d"], nutrition: { calories: 250, protein: 26.0, carbs: 0.0, fat: 15.0 } },
   // Pantry
-  { id: "rice", name: "Basmati Rice", aisleId: "pantry", price: 5.6, unit: "2 kg bag", detail: "Aged 12 months", hue: ["#fef3c7", "#92400e"], nutrition: { calories: 360, protein: 7.0, carbs: 78.0, fat: 0.6 } },
-  { id: "olive-oil", name: "Extra-Virgin Olive Oil", aisleId: "pantry", price: 7.95, unit: "500 ml bottle", detail: "Cold pressed · Sicily", hue: ["#d9f99d", "#3f6212"], nutrition: { calories: 884, protein: 0.0, carbs: 0.0, fat: 100.0 } },
-  { id: "penne", name: "Penne Pasta", aisleId: "pantry", price: 1.65, unit: "500 g pack", detail: "Bronze-cut durum", hue: ["#fde68a", "#a16207"], nutrition: { calories: 371, protein: 13.0, carbs: 75.0, fat: 1.5 } },
+  { id: "rice", image: require("./assets/img/basmati-rice.jpg"), name: "Basmati Rice", aisleId: "pantry", price: 5.6, unit: "2 kg bag", detail: "Aged 12 months", hue: ["#fef3c7", "#92400e"], nutrition: { calories: 360, protein: 7.0, carbs: 78.0, fat: 0.6 } },
+  { id: "olive-oil", image: require("./assets/img/olive-oil.jpg"), name: "Extra-Virgin Olive Oil", aisleId: "pantry", price: 7.95, unit: "500 ml bottle", detail: "Cold pressed · Sicily", hue: ["#d9f99d", "#3f6212"], nutrition: { calories: 884, protein: 0.0, carbs: 0.0, fat: 100.0 } },
+  { id: "penne", image: require("./assets/img/penne-pasta.jpg"), name: "Penne Pasta", aisleId: "pantry", price: 1.65, unit: "500 g pack", detail: "Bronze-cut durum", hue: ["#fde68a", "#a16207"], nutrition: { calories: 371, protein: 13.0, carbs: 75.0, fat: 1.5 } },
   // Frozen
-  { id: "peas", name: "Garden Peas", aisleId: "frozen", price: 2.35, unit: "1 kg bag", detail: "Frozen within 2 hours", hue: ["#bbf7d0", "#15803d"], nutrition: { calories: 81, protein: 5.4, carbs: 14.0, fat: 0.4 } },
-  { id: "ice-cream", name: "Vanilla Ice Cream", aisleId: "frozen", price: 4.99, unit: "1 L tub", detail: "Madagascan vanilla", hue: ["#fef9c3", "#854d0e"], nutrition: { calories: 207, protein: 3.5, carbs: 24.0, fat: 11.0 } },
+  { id: "peas", image: require("./assets/img/garden-peas.jpg"), name: "Garden Peas", aisleId: "frozen", price: 2.35, unit: "1 kg bag", detail: "Frozen within 2 hours", hue: ["#bbf7d0", "#15803d"], nutrition: { calories: 81, protein: 5.4, carbs: 14.0, fat: 0.4 } },
+  { id: "ice-cream", image: require("./assets/img/vanilla-ice-cream.jpg"), name: "Vanilla Ice Cream", aisleId: "frozen", price: 4.99, unit: "1 L tub", detail: "Madagascan vanilla", hue: ["#fef9c3", "#854d0e"], nutrition: { calories: 207, protein: 3.5, carbs: 24.0, fat: 11.0 } },
   // Drinks
-  { id: "cold-brew", name: "Cold Brew Coffee", aisleId: "drinks", price: 5.5, unit: "750 ml bottle", detail: "18-hour steep", hue: ["#d6d3d1", "#44403c"], nutrition: { calories: 2, protein: 0.3, carbs: 0.0, fat: 0.0 } },
-  { id: "orange-juice", name: "Orange Juice", aisleId: "drinks", price: 3.45, unit: "1.5 L carton", detail: "Not from concentrate", hue: ["#fed7aa", "#ea580c"], badge: "New", nutrition: { calories: 45, protein: 0.7, carbs: 10.4, fat: 0.2 } },
-  { id: "sparkling", name: "Sparkling Water", aisleId: "drinks", price: 3.15, unit: "6 × 330 ml", detail: "Lightly carbonated", hue: ["#bae6fd", "#0369a1"], nutrition: { calories: 0, protein: 0.0, carbs: 0.0, fat: 0.0 } },
+  { id: "cold-brew", image: require("./assets/img/cold-brew-coffee.jpg"), name: "Cold Brew Coffee", aisleId: "drinks", price: 5.5, unit: "750 ml bottle", detail: "18-hour steep", hue: ["#d6d3d1", "#44403c"], nutrition: { calories: 2, protein: 0.3, carbs: 0.0, fat: 0.0 } },
+  { id: "orange-juice", image: require("./assets/img/orange-juice.jpg"), name: "Orange Juice", aisleId: "drinks", price: 3.45, unit: "1.5 L carton", detail: "Not from concentrate", hue: ["#fed7aa", "#ea580c"], badge: "New", nutrition: { calories: 45, protein: 0.7, carbs: 10.4, fat: 0.2 } },
+  { id: "sparkling", image: require("./assets/img/sparkling-water.jpg"), name: "Sparkling Water", aisleId: "drinks", price: 3.15, unit: "6 × 330 ml", detail: "Lightly carbonated", hue: ["#bae6fd", "#0369a1"], nutrition: { calories: 0, protein: 0.0, carbs: 0.0, fat: 0.0 } },
 ];
 
 export const productById = (id: string): Product =>

@@ -11,6 +11,8 @@ export type PropertyStatus = "For sale" | "New" | "Under offer" | "Reduced";
 
 export interface Property {
   id: string;
+  /** Bundled property photo (assets/img/). */
+  image: number;
   title: string;
   address: string;
   area: string;
@@ -37,6 +39,8 @@ export interface Property {
 
 export interface Agent {
   id: string;
+  /** Bundled portrait (assets/img/). */
+  image: number;
   name: string;
   role: string;
   phone: string;
@@ -45,10 +49,13 @@ export interface Agent {
 }
 
 export const AGENTS: Agent[] = [
-  { id: "ag-ava", name: "Ava Lindqvist", role: "Senior agent · Northside", phone: "+1 (555) 014-2200", rating: 4.9, sales: 132 },
-  { id: "ag-marcus", name: "Marcus Webb", role: "Agent · Riverside", phone: "+1 (555) 014-2287", rating: 4.8, sales: 98 },
-  { id: "ag-priya", name: "Priya Nair", role: "New homes specialist", phone: "+1 (555) 014-2319", rating: 5.0, sales: 76 },
+  { id: "ag-ava", image: require("./assets/img/agent-ava-lindqvist.jpg"), name: "Ava Lindqvist", role: "Senior agent · Northside", phone: "+1 (555) 014-2200", rating: 4.9, sales: 132 },
+  { id: "ag-marcus", image: require("./assets/img/agent-marcus-webb.jpg"), name: "Marcus Webb", role: "Agent · Riverside", phone: "+1 (555) 014-2287", rating: 4.8, sales: 98 },
+  { id: "ag-priya", image: require("./assets/img/agent-priya-nair.jpg"), name: "Priya Nair", role: "New homes specialist", phone: "+1 (555) 014-2319", rating: 5.0, sales: 76 },
 ];
+
+/** Bundled portrait for the signed-in buyer (Jordan Ellis). */
+export const USER_IMAGE = require("./assets/img/user-jordan-ellis.jpg");
 
 export function agentOf(property: Property): Agent {
   return AGENTS.find((a) => a.id === property.agentId) ?? AGENTS[0];
@@ -57,6 +64,7 @@ export function agentOf(property: Property): Agent {
 export const PROPERTIES: Property[] = [
   {
     id: "maple-house",
+    image: require("./assets/img/property-maple-house.jpg"),
     title: "Maple House",
     address: "14 Maple Row",
     area: "Northside",
@@ -79,6 +87,7 @@ export const PROPERTIES: Property[] = [
   },
   {
     id: "harbour-flat",
+    image: require("./assets/img/property-harbour-flat.jpg"),
     title: "Harbour View Flat",
     address: "Flat 9, Beacon Quay",
     area: "Riverside",
@@ -100,6 +109,7 @@ export const PROPERTIES: Property[] = [
   },
   {
     id: "willow-bungalow",
+    image: require("./assets/img/property-willow-bungalow.jpg"),
     title: "Willow Bungalow",
     address: "3 Willow Close",
     area: "Elm Park",
@@ -121,6 +131,7 @@ export const PROPERTIES: Property[] = [
   },
   {
     id: "foundry-loft",
+    image: require("./assets/img/property-foundry-loft.jpg"),
     title: "The Foundry Loft",
     address: "Unit 4, Ironworks Yard",
     area: "Old Foundry District",
@@ -142,6 +153,7 @@ export const PROPERTIES: Property[] = [
   },
   {
     id: "skyline-penthouse",
+    image: require("./assets/img/property-skyline-penthouse.jpg"),
     title: "Skyline Penthouse",
     address: "PH1, Meridian Tower",
     area: "City Centre",
@@ -164,6 +176,7 @@ export const PROPERTIES: Property[] = [
   },
   {
     id: "cedar-terrace",
+    image: require("./assets/img/property-cedar-terrace.jpg"),
     title: "Cedar Terrace",
     address: "27 Cedar Avenue",
     area: "Northside",
@@ -185,6 +198,7 @@ export const PROPERTIES: Property[] = [
   },
   {
     id: "garden-mews",
+    image: require("./assets/img/property-garden-mews.jpg"),
     title: "Garden Mews",
     address: "2 Garden Mews",
     area: "Old Town",
@@ -206,6 +220,7 @@ export const PROPERTIES: Property[] = [
   },
   {
     id: "station-studio",
+    image: require("./assets/img/property-station-studio.jpg"),
     title: "Station Studio",
     address: "Flat 2, Signal House",
     area: "Riverside",
@@ -227,6 +242,7 @@ export const PROPERTIES: Property[] = [
   },
   {
     id: "ashford-house",
+    image: require("./assets/img/property-ashford-house.jpg"),
     title: "Ashford House",
     address: "88 Ashford Lane",
     area: "Elm Park",
@@ -248,6 +264,7 @@ export const PROPERTIES: Property[] = [
   },
   {
     id: "birchwood-flat",
+    image: require("./assets/img/property-birchwood-flat.jpg"),
     title: "Birchwood Court Flat",
     address: "Flat 17, Birchwood Court",
     area: "Westfield",
@@ -269,6 +286,7 @@ export const PROPERTIES: Property[] = [
   },
   {
     id: "orchard-cottage",
+    image: require("./assets/img/property-orchard-cottage.jpg"),
     title: "Orchard Cottage",
     address: "1 Orchard Lane",
     area: "Village Edge",
@@ -290,6 +308,7 @@ export const PROPERTIES: Property[] = [
   },
   {
     id: "meridian-duplex",
+    image: require("./assets/img/property-meridian-duplex.jpg"),
     title: "Meridian Duplex",
     address: "12B Meridian Quarter",
     area: "City Centre",

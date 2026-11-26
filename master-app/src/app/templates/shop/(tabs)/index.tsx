@@ -39,7 +39,7 @@ export default function HomeScreen() {
     >
       {/* Brand header */}
       <View style={styles.header}>
-        <Avatar name={shop.userName} size="lg" isDark={shop.darkMode} />
+        <Avatar name={shop.userName} source={shop.userImage} size="lg" isDark={shop.darkMode} />
         <View style={styles.headerText}>
           <T variant="heading">Lumen</T>
           <T variant="caption" muted>

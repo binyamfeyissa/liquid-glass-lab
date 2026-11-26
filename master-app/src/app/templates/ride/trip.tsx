@@ -151,7 +151,7 @@ export default function TripScreen() {
           <SectionTitle>Your driver</SectionTitle>
           <ListCard>
             <View style={styles.driverRow}>
-              <Avatar name={driver.name} size="lg" isDark={ride.darkMode} status="online" />
+              <Avatar name={driver.name} source={driver.image} size="lg" isDark={ride.darkMode} status="online" />
               <View style={styles.driverText}>
                 <T variant="heading">{driver.name}</T>
                 <Figure variant="caption" muted>

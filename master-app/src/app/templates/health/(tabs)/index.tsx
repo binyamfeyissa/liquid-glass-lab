@@ -4,7 +4,7 @@ import { router } from "expo-router";
 import { Avatar, Badge, Button, Card, Chip, Progress, Stepper, Switch } from "glacia-native";
 
 import { useHealth } from "../state";
-import { MOOD_LABELS, todayKey } from "../data";
+import { MOOD_LABELS, USER_IMAGE, todayKey } from "../data";
 import {
   accentColor,
   chromeColors,
@@ -243,7 +243,7 @@ export default function TodayScreen() {
 
       {/* Profile strip */}
       <View style={styles.profileStrip}>
-        <Avatar name={app.userName} size="md" isDark={app.darkMode} />
+        <Avatar name={app.userName} size="md" isDark={app.darkMode} source={USER_IMAGE} />
         <View style={styles.flex1}>
           <T variant="body">{app.userName}</T>
           <T variant="caption" muted>

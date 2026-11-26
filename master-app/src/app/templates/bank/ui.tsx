@@ -12,7 +12,7 @@ import {
 import { colors, Avatar, Badge, Card, SegmentedControl, Separator, Text, type TextProps } from "glacia-native";
 import { ChevronRight } from "lucide-react-native";
 
-import { useBank, type Account, type BackdropMode, type Transaction } from "./state";
+import { RECIPIENTS, useBank, type Account, type BackdropMode, type Transaction } from "./state";
 
 /* ------------------------------------------------------------------ */
 /*  Theme tokens — one graphite/warm ramp, one deep-green accent.      */
@@ -346,10 +346,14 @@ export function TransactionRow({
   onPress?: () => void;
 }) {
   const { darkMode } = useBank();
-  const isPerson = tx.category === "Transfer" && tx.amount < 0 && tx.id.startsWith("x");
+  const recipient = RECIPIENTS.find((r) => r.name === tx.title);
+  const isPerson =
+    tx.category === "Transfer" &&
+    tx.amount < 0 &&
+    (tx.id.startsWith("x") || recipient !== undefined);
   const body = (
     <>
-      <Avatar name={isPerson ? tx.title : tx.category} size="md" isDark={darkMode} />
+      <Avatar name={isPerson ? tx.title : tx.category} size="md" isDark={darkMode} source={isPerson ? recipient?.image : undefined} />
       <View style={styles.settingText}>
         <T variant="body" numberOfLines={1}>
           {tx.title}

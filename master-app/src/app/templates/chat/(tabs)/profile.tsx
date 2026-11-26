@@ -20,7 +20,7 @@ export default function ProfileScreen() {
   return (
     <Screen title="Profile" subtitle="Name, status and settings">
       <View style={styles.hero}>
-        <Avatar name={chat.me.name} size="lg" status="online" isDark={chat.darkMode} />
+        <Avatar name={chat.me.name} size="lg" status="online" isDark={chat.darkMode} source={chat.me.image} />
         <T variant="heading" style={styles.heroName}>
           {chat.me.name}
         </T>

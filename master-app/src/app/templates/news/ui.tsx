@@ -281,12 +281,28 @@ export function CoverArt({
   article,
   height = 120,
   large = false,
+  image,
 }: {
   article: Article;
   height?: number;
   large?: boolean;
+  /** Bundled cover photo; when provided it replaces the flat plate.
+      Falls back to article.image. */
+  image?: number;
 }) {
   const { darkMode } = useSignal();
+  const photo = image ?? article.image;
+  if (photo) {
+    return (
+      <View
+        style={[styles.cover, { height }]}
+        accessibilityElementsHidden
+        importantForAccessibility="no"
+      >
+        <Image source={photo} resizeMode="cover" style={StyleSheet.absoluteFill} />
+      </View>
+    );
+  }
   return (
     <View
       style={[
@@ -349,14 +365,22 @@ export function StoryRow({
         accessibilityElementsHidden
         importantForAccessibility="no"
       >
-        <Text
-          style={[
-            styles.storyThumbText,
-            { color: darkMode ? "#ededed" : "#fdfbf7" },
-          ]}
-        >
-          {article.monogram}
-        </Text>
+        {article.image ? (
+          <Image
+            source={article.image}
+            resizeMode="cover"
+            style={StyleSheet.absoluteFill}
+          />
+        ) : (
+          <Text
+            style={[
+              styles.storyThumbText,
+              { color: darkMode ? "#ededed" : "#fdfbf7" },
+            ]}
+          >
+            {article.monogram}
+          </Text>
+        )}
       </View>
       <View style={[styles.settingText, read && styles.readDim]}>
         <View style={styles.storyMetaRow}>
@@ -467,6 +491,7 @@ const styles = StyleSheet.create({
     width: 56,
     height: 56,
     borderRadius: 12,
+    overflow: "hidden",
     alignItems: "center",
     justifyContent: "center",
   },

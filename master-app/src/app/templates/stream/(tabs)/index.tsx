@@ -68,6 +68,7 @@ export default function HomeScreen() {
               width={342}
               height={204}
               radius={20}
+              image={featured.image}
             />
           </Pressable>
           <T variant="title" style={styles.heroName}>
@@ -149,6 +150,7 @@ export default function HomeScreen() {
                     width={218}
                     height={122}
                     radius={16}
+                    image={owner.image}
                   />
                   <T variant="body" numberOfLines={1} style={styles.cardName}>
                     {owner.name}

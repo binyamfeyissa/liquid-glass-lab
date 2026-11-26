@@ -7,6 +7,8 @@ import React, {
   type ReactNode,
 } from "react";
 
+import { useLocalSearchParams } from "expo-router";
+
 /**
  * Orbit Wallet keeps everything in this one client-side store. There is no
  * backend and no persistence: balances, transactions and settings live in
@@ -67,6 +69,8 @@ export interface Contact {
   id: string;
   name: string;
   handle: string;
+  /** Bundled portrait, shown on the Send screen. */
+  image?: number;
 }
 
 export interface PayCard {
@@ -159,11 +163,11 @@ const SEED_TXS: WalletTx[] = [
 ];
 
 const CONTACTS: Contact[] = [
-  { id: "c1", name: "Maya Chen", handle: "@maya" },
-  { id: "c2", name: "Daniel Osei", handle: "@daniel" },
-  { id: "c3", name: "Priya Nair", handle: "@priya" },
-  { id: "c4", name: "Tom Alvarez", handle: "@tomas" },
-  { id: "c5", name: "Sara Lindqvist", handle: "@sara" },
+  { id: "c1", name: "Maya Chen", handle: "@maya", image: require("./assets/img/contact-maya-chen.jpg") },
+  { id: "c2", name: "Daniel Osei", handle: "@daniel", image: require("./assets/img/contact-daniel-osei.jpg") },
+  { id: "c3", name: "Priya Nair", handle: "@priya", image: require("./assets/img/contact-priya-nair.jpg") },
+  { id: "c4", name: "Tom Alvarez", handle: "@tomas", image: require("./assets/img/contact-tom-alvarez.jpg") },
+  { id: "c5", name: "Sara Lindqvist", handle: "@sara", image: require("./assets/img/contact-sara-lindqvist.jpg") },
 ];
 
 const CARDS: PayCard[] = [
@@ -180,6 +184,8 @@ export interface TradeResult {
 
 interface WalletState {
   userName: string;
+  /** Bundled portrait for the wallet owner, shown on Home and Profile. */
+  userImage: number;
   userHandle: string;
   /** Orbit payment link shown on the Request screen. */
   payLink: string;
@@ -241,7 +247,17 @@ export function WalletProvider({ children }: { children: ReactNode }) {
   const [balances, setBalances] = useState<Record<string, number>>(OPENING_BALANCES);
   const [transactions, setTransactions] = useState<WalletTx[]>(SEED_TXS);
   const [currency, setCurrency] = useState<DisplayCurrency>("USD");
-  const [backdrop, setBackdrop] = useState<BackdropMode>("dark");
+  // The host (template list) passes its current backdrop mode as a route
+  // param (`backdrop`) when opening a template, so the template opens on
+  // the same background the owner just picked. Standalone there is no
+  // param and the template keeps its dark default. Read once on mount
+  // (lazy initialiser) so navigating inside the template never resets it.
+  const params = useLocalSearchParams();
+  const [backdrop, setBackdrop] = useState<BackdropMode>(() => {
+    const p = params.backdrop;
+    const v = Array.isArray(p) ? p[0] : p;
+    return v === "dark" || v === "light" || v === "image" ? v : "dark";
+  });
   const darkMode = backdrop !== "light";
   const setDarkMode = useCallback((v: boolean) => {
     setBackdrop(v ? "dark" : "light");
@@ -419,6 +435,7 @@ export function WalletProvider({ children }: { children: ReactNode }) {
     const changePct24h = totalUSD > 0 ? (changeUSD24h / (totalUSD - changeUSD24h)) * 100 : 0;
     return {
       userName: "Jordan Ellis",
+      userImage: require("./assets/img/user-jordan-ellis.jpg"),
       userHandle: "@jordan.orbit",
       payLink: "orbit.pay/jordan.orbit",
       assets: ASSET_DEFS,

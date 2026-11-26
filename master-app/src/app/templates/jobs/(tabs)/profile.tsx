@@ -12,7 +12,7 @@ import {
   SettingRow,
   T,
 } from "../ui";
-import { ALL_SKILLS } from "../data";
+import { ALL_SKILLS, USER_IMAGE } from "../data";
 
 export default function ProfileScreen() {
   const jobs = useJobs();
@@ -60,7 +60,7 @@ export default function ProfileScreen() {
     <Screen title="Profile" subtitle="Your candidate profile">
       {/* Header */}
       <View style={styles.header}>
-        <Avatar name={p.name} size="lg" isDark={jobs.darkMode} />
+        <Avatar name={p.name} source={USER_IMAGE} size="lg" isDark={jobs.darkMode} />
         <View style={styles.headerText}>
           <T variant="heading">{p.name}</T>
           <T variant="body" muted>

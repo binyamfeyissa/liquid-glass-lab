@@ -44,13 +44,14 @@ export default function ProfileScreen() {
     bio: me.bio,
     interests: me.interests,
     colors: ["#c2452d", "#8a5a34"],
+    image: require("../assets/img/alex.jpg"),
   };
 
   return (
     <Screen title="Profile" subtitle="Your card and your settings">
       {/* Header */}
       <View style={styles.header}>
-        <Avatar name={me.name || "You"} size="lg" isDark={kindred.darkMode} />
+        <Avatar name={me.name || "You"} size="lg" isDark={kindred.darkMode} source={previewProfile.image} />
         <View style={styles.headerText}>
           <View style={styles.headerNameRow}>
             <T variant="heading">{me.name}</T>

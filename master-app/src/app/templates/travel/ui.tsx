@@ -24,7 +24,8 @@ import {
 import { ChevronRight, Heart } from "lucide-react-native";
 import { router } from "expo-router";
 
-import { useTravel, type BackdropMode, type ChatMsg, type Stay } from "./state";
+import type { ImageSourcePropType } from "react-native";
+import { hostImageByName, useTravel, type BackdropMode, type ChatMsg, type Stay } from "./state";
 
 /* ------------------------------------------------------------------ */
 /*  Type faces — the journal and the ledger.                           */
@@ -250,10 +251,10 @@ export function NavRow({
 }
 
 /* ------------------------------------------------------------------ */
-/*  Plate — the composed visual for a place. No photos: one flat       */
-/*  plate per place, its fixture hue mixed 80% toward the mode's       */
-/*  neutral so the catalogue stays quiet, and the place name set in    */
-/*  serif ink, like the cover of a journal.                            */
+/*  Plate — the visual for a place. The place's bundled photo fills    */
+/*  the frame, with the place name set in serif ink over a scrim;      */
+/*  without a photo, one flat plate in the fixture hue, mixed 80%      */
+/*  toward the mode's neutral, carries the name instead.               */
 /* ------------------------------------------------------------------ */
 
 function hexRgb(hex: string): [number, number, number] {
@@ -280,12 +281,15 @@ export function Plate({
   height,
   radius = 16,
   fontSize,
+  image,
 }: {
   colors: [string, string];
   label: string;
   height: number;
   radius?: number;
   fontSize?: number;
+  /** Bundled photo; the flat plate is the fallback. */
+  image?: ImageSourcePropType;
 }) {
   const { darkMode } = useTravel();
   return (
@@ -297,12 +301,25 @@ export function Plate({
         backgroundColor: plateColor(colors, darkMode),
       }}
     >
+      {image ? (
+        <Image
+          source={image}
+          style={[StyleSheet.absoluteFill, { width: "100%", height: "100%" }]}
+          resizeMode="cover"
+        />
+      ) : null}
+      {image ? (
+        <View
+          style={[StyleSheet.absoluteFill, { backgroundColor: "rgba(0,0,0,0.30)" }]}
+        />
+      ) : null}
       <View style={styles.plateLabelWrap}>
         <Text
           isDark={darkMode}
           variant="title"
           style={[
             styles.plateLabel,
+            image ? { color: "#ffffff" } : null,
             fontSize ? { fontSize, lineHeight: fontSize * 1.15 } : null,
           ]}
         >
@@ -355,6 +372,7 @@ export function StayCard({ stay, wide = false }: { stay: Stay; wide?: boolean })
           height={wide ? 150 : 120}
           radius={12}
           fontSize={30}
+          image={stay.image}
         />
         <View style={styles.heartOverlay}>
           <HeartButton stayId={stay.id} />
@@ -411,7 +429,7 @@ export function Message({
       {/* MessageAvatar */}
       {!mine ? (
         <View style={styles.messageAvatar}>
-          <Avatar name={senderName} size="sm" isDark={darkMode} />
+          <Avatar name={senderName} source={hostImageByName(senderName)} size="sm" isDark={darkMode} />
         </View>
       ) : null}
 
@@ -447,7 +465,7 @@ export function TypingIndicator({ senderName }: { senderName: string }) {
   return (
     <View style={styles.messageRow}>
       <View style={styles.messageAvatar}>
-        <Avatar name={senderName} size="sm" isDark={darkMode} />
+        <Avatar name={senderName} source={hostImageByName(senderName)} size="sm" isDark={darkMode} />
       </View>
       <View style={styles.messageColumn}>
         <Glass isDark={darkMode} style={[styles.bubble, styles.bubbleTheirs]}>

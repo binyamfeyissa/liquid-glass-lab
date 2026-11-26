@@ -4,6 +4,7 @@ import { router } from "expo-router";
 import { Avatar, Button, Input, Select, Switch } from "glacia-native";
 
 import { useHomes } from "../state";
+import { USER_IMAGE } from "../data";
 import {
   BackdropControl,
   ListCard,
@@ -54,7 +55,7 @@ export default function ProfileScreen() {
   return (
     <Screen title="Profile" subtitle="Your buyer details and app settings">
       <View style={styles.header}>
-        <Avatar name={homes.profile.name} size="lg" isDark={homes.darkMode} />
+        <Avatar name={homes.profile.name} source={USER_IMAGE} size="lg" isDark={homes.darkMode} />
         <View style={styles.headerText}>
           <T variant="heading">{homes.profile.name}</T>
           <T variant="body" muted>

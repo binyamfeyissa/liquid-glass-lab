@@ -56,6 +56,7 @@ export default function ArtistScreen() {
         name: album,
         year: first.year,
         colors: first.colors,
+        image: first.image,
         count: artistTracks.filter((t) => t.album === album).length,
         firstTrackId: first.id,
       };
@@ -80,7 +81,7 @@ export default function ArtistScreen() {
       {/* Artist header */}
       <Card isDark={darkMode} padding={20}>
         <View style={styles.artistHead}>
-          <Avatar name={artist.name} size="lg" isDark={darkMode} />
+          <Avatar name={artist.name} size="lg" isDark={darkMode} source={artist.image} />
           <View style={styles.flex}>
             <Serif variant="title">{artist.name}</Serif>
             <View style={styles.listeners}>
@@ -131,7 +132,7 @@ export default function ArtistScreen() {
               onPress={() => tunes.playTrack(album.firstTrackId, trackIds)}
               accessibilityLabel={`Play ${album.name} by ${artist.name}`}
             >
-              <Artwork title={album.name} colors={album.colors} size={64} />
+              <Artwork title={album.name} colors={album.colors} size={64} image={album.image} />
               <Serif variant="body" numberOfLines={1} style={styles.albumTitle}>
                 {album.name}
               </Serif>

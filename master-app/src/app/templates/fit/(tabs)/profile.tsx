@@ -4,6 +4,7 @@ import { router } from "expo-router";
 import { Avatar, Card, Switch } from "glacia-native";
 
 import { useFit } from "../state";
+import { USER_IMAGE } from "../data";
 import {
   BackdropControl,
   Figure,
@@ -24,7 +25,7 @@ export default function ProfileScreen() {
       {/* Identity + lifetime stats */}
       <Card isDark={fit.darkMode} padding={20}>
         <View style={styles.identityRow}>
-          <Avatar name={fit.userName} size="lg" isDark={fit.darkMode} />
+          <Avatar name={fit.userName} size="lg" isDark={fit.darkMode} source={USER_IMAGE} />
           <View style={styles.flex1}>
             <T variant="heading">{fit.userName}</T>
             <T variant="caption" muted>

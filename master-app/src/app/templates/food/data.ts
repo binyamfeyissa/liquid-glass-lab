@@ -41,9 +41,13 @@ export interface Restaurant {
   deliveryFee: number;
   /** Flat colour field for the composed visual tile (second entry: darker shade). */
   colors: [string, string];
+  /** Bundled photo for the restaurant visual (assets/img). */
+  image?: number;
   tagline: string;
   menu: MenuSection[];
 }
+
+export const USER_IMAGE = require("./assets/img/alex-rivera.jpg");
 
 export const RESTAURANTS: Restaurant[] = [
   {
@@ -56,6 +60,7 @@ export const RESTAURANTS: Restaurant[] = [
     eta: "25–35 min",
     deliveryFee: 2.49,
     colors: ["#b35477", "#8f4260"],
+    image: require("./assets/img/sakura-house.jpg"),
     tagline: "Chef's-counter sushi, rolled to order",
     menu: [
       {
@@ -95,6 +100,7 @@ export const RESTAURANTS: Restaurant[] = [
     eta: "20–30 min",
     deliveryFee: 0.99,
     colors: ["#bc4630", "#9c3826"],
+    image: require("./assets/img/nonnas-slice.jpg"),
     tagline: "Wood-fired pies from a 60-year-old starter",
     menu: [
       {
@@ -133,6 +139,7 @@ export const RESTAURANTS: Restaurant[] = [
     eta: "15–25 min",
     deliveryFee: 1.49,
     colors: ["#a85f27", "#8a4c1f"],
+    image: require("./assets/img/ember-oak.jpg"),
     tagline: "Dry-aged patties smashed on oak-fired steel",
     menu: [
       {
@@ -171,6 +178,7 @@ export const RESTAURANTS: Restaurant[] = [
     eta: "10–20 min",
     deliveryFee: 1.29,
     colors: ["#5c7a35", "#49612b"],
+    image: require("./assets/img/verde-bowl.jpg"),
     tagline: "Grain bowls and salads built in the morning",
     menu: [
       {
@@ -207,6 +215,7 @@ export const RESTAURANTS: Restaurant[] = [
     eta: "15–20 min",
     deliveryFee: 0.0,
     colors: ["#b98a2f", "#97702a"],
+    image: require("./assets/img/smash-district.jpg"),
     tagline: "Free delivery, no-frills smash burgers",
     menu: [
       {
@@ -237,6 +246,7 @@ export const RESTAURANTS: Restaurant[] = [
     eta: "15–20 min",
     deliveryFee: 0.0,
     colors: ["#7d639e", "#644e80"],
+    image: require("./assets/img/sugar-cloud.jpg"),
     tagline: "Small-batch cakes and cloud-soft pastries",
     menu: [
       {

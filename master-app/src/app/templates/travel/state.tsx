@@ -7,6 +7,9 @@ import React, {
   type ReactNode,
 } from "react";
 
+import { useLocalSearchParams } from "expo-router";
+import type { ImageSourcePropType } from "react-native";
+
 /**
  * The whole template keeps its data in this one client-side store. There is
  * no backend and no persistence: state lives in memory for the session, so
@@ -28,6 +31,8 @@ export const FX: Record<Currency, { rate: number; symbol: string }> = {
 
 export interface Destination {
   id: string;
+  /** Bundled photo of the place; the colour plate is the fallback. */
+  image: ImageSourcePropType;
   city: string;
   country: string;
   /** Cheapest nightly rate in USD among its stays. */
@@ -40,6 +45,8 @@ export interface Destination {
 
 export interface StayReview {
   author: string;
+  /** Bundled portrait of the reviewer; the initials avatar is the fallback. */
+  image?: number;
   dateLabel: string;
   rating: number;
   text: string;
@@ -47,6 +54,12 @@ export interface StayReview {
 
 export interface Stay {
   id: string;
+  /** Bundled photo of the stay; the colour plate is the fallback. */
+  image: ImageSourcePropType;
+  /** Bundled bedroom photo, for the gallery's "Sleep" panel. */
+  sleepImage: ImageSourcePropType;
+  /** Bundled portrait of the host. */
+  hostImage: number;
   title: string;
   destinationId: string;
   type: string;
@@ -103,6 +116,8 @@ export interface Thread {
 
 interface TravelState {
   userName: string;
+  /** Bundled portrait of the signed-in user, for the header avatars. */
+  userImage: number;
 
   destinations: Destination[];
   stays: Stay[];
@@ -138,18 +153,34 @@ interface TravelState {
 
 const TravelContext = createContext<TravelState | null>(null);
 
+/** Bundled host portrait by host name (threads carry only the name). */
+export function hostImageByName(name: string): number | undefined {
+  const map: Record<string, number> = {
+    "Inês Duarte": require("./assets/img/host-ines-duarte.jpg"),
+    "Yuki Tanaka": require("./assets/img/host-yuki-tanaka.jpg"),
+    "Yasmine El Fassi": require("./assets/img/host-yasmine-el-fassi.jpg"),
+    "Sigríður Jónsdóttir": require("./assets/img/host-sigridur-jonsdottir.jpg"),
+    "Lindiwe Nkosi": require("./assets/img/host-lindiwe-nkosi.jpg"),
+    "Rosa Quispe": require("./assets/img/host-rosa-quispe.jpg"),
+  };
+  return map[name];
+}
+
 export const DESTINATIONS: Destination[] = [
-  { id: "lisbon", city: "Lisbon", country: "Portugal", priceFrom: 84, rating: 4.87, colors: ["#f59e0b", "#ef4444"], tagline: "Trams, tiles and Atlantic light" },
-  { id: "kyoto", city: "Kyoto", country: "Japan", priceFrom: 112, rating: 4.92, colors: ["#ec4899", "#8b5cf6"], tagline: "Temples and quiet lanes" },
-  { id: "marrakech", city: "Marrakech", country: "Morocco", priceFrom: 67, rating: 4.78, colors: ["#f97316", "#b45309"], tagline: "Souks, riads and mint tea" },
-  { id: "reykjavik", city: "Reykjavík", country: "Iceland", priceFrom: 138, rating: 4.83, colors: ["#38bdf8", "#6366f1"], tagline: "Northern lights and hot lagoons" },
-  { id: "cape-town", city: "Cape Town", country: "South Africa", priceFrom: 95, rating: 4.85, colors: ["#10b981", "#0ea5e9"], tagline: "Table Mountain to the sea" },
-  { id: "cusco", city: "Cusco", country: "Peru", priceFrom: 58, rating: 4.8, colors: ["#eab308", "#dc2626"], tagline: "Gateway to Machu Picchu" },
+  { id: "lisbon", image: require("./assets/img/dest-lisbon.jpg"), city: "Lisbon", country: "Portugal", priceFrom: 84, rating: 4.87, colors: ["#f59e0b", "#ef4444"], tagline: "Trams, tiles and Atlantic light" },
+  { id: "kyoto", image: require("./assets/img/dest-kyoto.jpg"), city: "Kyoto", country: "Japan", priceFrom: 112, rating: 4.92, colors: ["#ec4899", "#8b5cf6"], tagline: "Temples and quiet lanes" },
+  { id: "marrakech", image: require("./assets/img/dest-marrakech.jpg"), city: "Marrakech", country: "Morocco", priceFrom: 67, rating: 4.78, colors: ["#f97316", "#b45309"], tagline: "Souks, riads and mint tea" },
+  { id: "reykjavik", image: require("./assets/img/dest-reykjavik.jpg"), city: "Reykjavík", country: "Iceland", priceFrom: 138, rating: 4.83, colors: ["#38bdf8", "#6366f1"], tagline: "Northern lights and hot lagoons" },
+  { id: "cape-town", image: require("./assets/img/dest-cape-town.jpg"), city: "Cape Town", country: "South Africa", priceFrom: 95, rating: 4.85, colors: ["#10b981", "#0ea5e9"], tagline: "Table Mountain to the sea" },
+  { id: "cusco", image: require("./assets/img/dest-cusco.jpg"), city: "Cusco", country: "Peru", priceFrom: 58, rating: 4.8, colors: ["#eab308", "#dc2626"], tagline: "Gateway to Machu Picchu" },
 ];
 
 export const STAYS: Stay[] = [
   {
     id: "alfama-loft",
+    image: require("./assets/img/stay-alfama-loft.jpg"),
+    sleepImage: require("./assets/img/bed-alfama-loft.jpg"),
+    hostImage: require("./assets/img/host-ines-duarte.jpg"),
     title: "Sunlit Alfama loft with river view",
     destinationId: "lisbon",
     type: "Entire loft",
@@ -168,12 +199,15 @@ export const STAYS: Stay[] = [
     hostSince: 2018,
     colors: ["#f59e0b", "#ef4444"],
     reviews: [
-      { author: "Hannah M.", dateLabel: "October 2026", rating: 5, text: "The balcony view is even better than the photos. Inês left pastéis de nata for our arrival — perfect stay." },
-      { author: "Tom R.", dateLabel: "September 2026", rating: 5, text: "Spotless, quiet despite the central location, and the tram passes right below. Would book again." },
+      { author: "Hannah M.", image: require("./assets/img/reviewer-hannah-m.jpg"), dateLabel: "October 2026", rating: 5, text: "The balcony view is even better than the photos. Inês left pastéis de nata for our arrival — perfect stay." },
+      { author: "Tom R.", image: require("./assets/img/reviewer-tom-r.jpg"), dateLabel: "September 2026", rating: 5, text: "Spotless, quiet despite the central location, and the tram passes right below. Would book again." },
     ],
   },
   {
     id: "bairro-studio",
+    image: require("./assets/img/stay-bairro-studio.jpg"),
+    sleepImage: require("./assets/img/bed-bairro-studio.jpg"),
+    hostImage: require("./assets/img/host-ines-duarte.jpg"),
     title: "Design studio in Bairro Alto",
     destinationId: "lisbon",
     type: "Entire studio",
@@ -192,11 +226,14 @@ export const STAYS: Stay[] = [
     hostSince: 2018,
     colors: ["#fb923c", "#db2777"],
     reviews: [
-      { author: "Priya S.", dateLabel: "October 2026", rating: 5, text: "Great desk setup and the wifi handled video calls all week. Lovely host." },
+      { author: "Priya S.", image: require("./assets/img/reviewer-priya-s.jpg"), dateLabel: "October 2026", rating: 5, text: "Great desk setup and the wifi handled video calls all week. Lovely host." },
     ],
   },
   {
     id: "gion-machiya",
+    image: require("./assets/img/stay-gion-machiya.jpg"),
+    sleepImage: require("./assets/img/bed-gion-machiya.jpg"),
+    hostImage: require("./assets/img/host-yuki-tanaka.jpg"),
     title: "Restored machiya townhouse in Gion",
     destinationId: "kyoto",
     type: "Entire townhouse",
@@ -215,12 +252,15 @@ export const STAYS: Stay[] = [
     hostSince: 2016,
     colors: ["#ec4899", "#8b5cf6"],
     reviews: [
-      { author: "Claire D.", dateLabel: "November 2026", rating: 5, text: "Felt like living in old Kyoto. Yuki's guide to the neighbourhood shrines was a highlight of our trip." },
-      { author: "Marcus L.", dateLabel: "October 2026", rating: 5, text: "Immaculate and serene. The garden at dawn is unforgettable." },
+      { author: "Claire D.", image: require("./assets/img/reviewer-claire-d.jpg"), dateLabel: "November 2026", rating: 5, text: "Felt like living in old Kyoto. Yuki's guide to the neighbourhood shrines was a highlight of our trip." },
+      { author: "Marcus L.", image: require("./assets/img/reviewer-marcus-l.jpg"), dateLabel: "October 2026", rating: 5, text: "Immaculate and serene. The garden at dawn is unforgettable." },
     ],
   },
   {
     id: "arashiyama-flat",
+    image: require("./assets/img/stay-arashiyama-flat.jpg"),
+    sleepImage: require("./assets/img/bed-arashiyama-flat.jpg"),
+    hostImage: require("./assets/img/host-yuki-tanaka.jpg"),
     title: "Riverside flat near the bamboo grove",
     destinationId: "kyoto",
     type: "Entire apartment",
@@ -239,11 +279,14 @@ export const STAYS: Stay[] = [
     hostSince: 2016,
     colors: ["#a78bfa", "#2563eb"],
     reviews: [
-      { author: "Sofia G.", dateLabel: "September 2026", rating: 5, text: "Peaceful, spotless, and the river view from breakfast is gorgeous." },
+      { author: "Sofia G.", image: require("./assets/img/reviewer-sofia-g.jpg"), dateLabel: "September 2026", rating: 5, text: "Peaceful, spotless, and the river view from breakfast is gorgeous." },
     ],
   },
   {
     id: "medina-riad",
+    image: require("./assets/img/stay-medina-riad.jpg"),
+    sleepImage: require("./assets/img/bed-medina-riad.jpg"),
+    hostImage: require("./assets/img/host-yasmine-el-fassi.jpg"),
     title: "Courtyard riad in the medina",
     destinationId: "marrakech",
     type: "Entire riad",
@@ -262,12 +305,15 @@ export const STAYS: Stay[] = [
     hostSince: 2015,
     colors: ["#f97316", "#b45309"],
     reviews: [
-      { author: "Jonas K.", dateLabel: "October 2026", rating: 5, text: "An oasis. The rooftop breakfasts and Yasmine's restaurant tips made the trip." },
-      { author: "Amara O.", dateLabel: "August 2026", rating: 5, text: "Beautiful rooms, wonderful staff, and the pool after a hot day in the souks is bliss." },
+      { author: "Jonas K.", image: require("./assets/img/reviewer-jonas-k.jpg"), dateLabel: "October 2026", rating: 5, text: "An oasis. The rooftop breakfasts and Yasmine's restaurant tips made the trip." },
+      { author: "Amara O.", image: require("./assets/img/reviewer-amara-o.jpg"), dateLabel: "August 2026", rating: 5, text: "Beautiful rooms, wonderful staff, and the pool after a hot day in the souks is bliss." },
     ],
   },
   {
     id: "kasbah-room",
+    image: require("./assets/img/stay-kasbah-room.jpg"),
+    sleepImage: require("./assets/img/bed-kasbah-room.jpg"),
+    hostImage: require("./assets/img/host-yasmine-el-fassi.jpg"),
     title: "Terrace room above the kasbah",
     destinationId: "marrakech",
     type: "Private room",
@@ -286,11 +332,14 @@ export const STAYS: Stay[] = [
     hostSince: 2015,
     colors: ["#fbbf24", "#ea580c"],
     reviews: [
-      { author: "Leo P.", dateLabel: "September 2026", rating: 4, text: "Simple, warm and welcoming. The terrace view at sunset is the best in the medina." },
+      { author: "Leo P.", image: require("./assets/img/reviewer-leo-p.jpg"), dateLabel: "September 2026", rating: 4, text: "Simple, warm and welcoming. The terrace view at sunset is the best in the medina." },
     ],
   },
   {
     id: "aurora-cabin",
+    image: require("./assets/img/stay-aurora-cabin.jpg"),
+    sleepImage: require("./assets/img/bed-aurora-cabin.jpg"),
+    hostImage: require("./assets/img/host-sigridur-jonsdottir.jpg"),
     title: "Aurora cabin with private hot tub",
     destinationId: "reykjavik",
     type: "Entire cabin",
@@ -309,12 +358,15 @@ export const STAYS: Stay[] = [
     hostSince: 2019,
     colors: ["#38bdf8", "#6366f1"],
     reviews: [
-      { author: "Emma W.", dateLabel: "November 2026", rating: 5, text: "We saw the lights three nights in a row from the hot tub. Pure magic." },
-      { author: "Kenji H.", dateLabel: "October 2026", rating: 5, text: "Cosy, warm and brilliantly equipped. The aurora alarm works." },
+      { author: "Emma W.", image: require("./assets/img/reviewer-emma-w.jpg"), dateLabel: "November 2026", rating: 5, text: "We saw the lights three nights in a row from the hot tub. Pure magic." },
+      { author: "Kenji H.", image: require("./assets/img/reviewer-kenji-h.jpg"), dateLabel: "October 2026", rating: 5, text: "Cosy, warm and brilliantly equipped. The aurora alarm works." },
     ],
   },
   {
     id: "harbour-flat",
+    image: require("./assets/img/stay-harbour-flat.jpg"),
+    sleepImage: require("./assets/img/bed-harbour-flat.jpg"),
+    hostImage: require("./assets/img/host-sigridur-jonsdottir.jpg"),
     title: "Harbour-view flat in Old Town",
     destinationId: "reykjavik",
     type: "Entire apartment",
@@ -333,11 +385,14 @@ export const STAYS: Stay[] = [
     hostSince: 2019,
     colors: ["#22d3ee", "#818cf8"],
     reviews: [
-      { author: "Nora F.", dateLabel: "September 2026", rating: 5, text: "Perfect location and the harbour view never gets old." },
+      { author: "Nora F.", image: require("./assets/img/reviewer-nora-f.jpg"), dateLabel: "September 2026", rating: 5, text: "Perfect location and the harbour view never gets old." },
     ],
   },
   {
     id: "bo-kaap-house",
+    image: require("./assets/img/stay-bo-kaap-house.jpg"),
+    sleepImage: require("./assets/img/bed-bo-kaap-house.jpg"),
+    hostImage: require("./assets/img/host-lindiwe-nkosi.jpg"),
     title: "Colourful Bo-Kaap house with mountain view",
     destinationId: "cape-town",
     type: "Entire house",
@@ -356,11 +411,14 @@ export const STAYS: Stay[] = [
     hostSince: 2017,
     colors: ["#10b981", "#0ea5e9"],
     reviews: [
-      { author: "David B.", dateLabel: "October 2026", rating: 5, text: "The mountain view from the kitchen table is unreal. Lindiwe is a superb host." },
+      { author: "David B.", image: require("./assets/img/reviewer-david-b.jpg"), dateLabel: "October 2026", rating: 5, text: "The mountain view from the kitchen table is unreal. Lindiwe is a superb host." },
     ],
   },
   {
     id: "sea-point-flat",
+    image: require("./assets/img/stay-sea-point-flat.jpg"),
+    sleepImage: require("./assets/img/bed-sea-point-flat.jpg"),
+    hostImage: require("./assets/img/host-lindiwe-nkosi.jpg"),
     title: "Sea Point flat on the promenade",
     destinationId: "cape-town",
     type: "Entire apartment",
@@ -379,11 +437,14 @@ export const STAYS: Stay[] = [
     hostSince: 2017,
     colors: ["#34d399", "#3b82f6"],
     reviews: [
-      { author: "Mia T.", dateLabel: "August 2026", rating: 5, text: "Woke up to the ocean every day. The promenade at golden hour is unbeatable." },
+      { author: "Mia T.", image: require("./assets/img/reviewer-mia-t.jpg"), dateLabel: "August 2026", rating: 5, text: "Woke up to the ocean every day. The promenade at golden hour is unbeatable." },
     ],
   },
   {
     id: "san-blas-casa",
+    image: require("./assets/img/stay-san-blas-casa.jpg"),
+    sleepImage: require("./assets/img/bed-san-blas-casa.jpg"),
+    hostImage: require("./assets/img/host-rosa-quispe.jpg"),
     title: "Colonial casa in San Blas",
     destinationId: "cusco",
     type: "Entire house",
@@ -402,11 +463,14 @@ export const STAYS: Stay[] = [
     hostSince: 2018,
     colors: ["#eab308", "#dc2626"],
     reviews: [
-      { author: "Felix A.", dateLabel: "October 2026", rating: 5, text: "Charming house, kind host, and Rosa's Machu Picchu advice saved us hours of queuing." },
+      { author: "Felix A.", image: require("./assets/img/reviewer-felix-a.jpg"), dateLabel: "October 2026", rating: 5, text: "Charming house, kind host, and Rosa's Machu Picchu advice saved us hours of queuing." },
     ],
   },
   {
     id: "plaza-room",
+    image: require("./assets/img/stay-plaza-room.jpg"),
+    sleepImage: require("./assets/img/bed-plaza-room.jpg"),
+    hostImage: require("./assets/img/host-rosa-quispe.jpg"),
     title: "Bright room two blocks from Plaza de Armas",
     destinationId: "cusco",
     type: "Private room",
@@ -425,7 +489,7 @@ export const STAYS: Stay[] = [
     hostSince: 2018,
     colors: ["#facc15", "#f97316"],
     reviews: [
-      { author: "Ines V.", dateLabel: "September 2026", rating: 5, text: "Simple, spotless and so welcoming. Great value this close to the plaza." },
+      { author: "Ines V.", image: require("./assets/img/reviewer-ines-v.jpg"), dateLabel: "September 2026", rating: 5, text: "Simple, spotless and so welcoming. Great value this close to the plaza." },
     ],
   },
 ];
@@ -531,7 +595,17 @@ export function TravelProvider({ children }: { children: ReactNode }) {
   const [bookings, setBookings] = useState<Booking[]>(SEED_BOOKINGS);
   const [threads, setThreads] = useState<Thread[]>(SEED_THREADS);
   const [currency, setCurrency] = useState<Currency>("USD");
-  const [backdrop, setBackdrop] = useState<BackdropMode>("dark");
+  // The host (template list) passes its current backdrop mode as a route
+  // param (`backdrop`) when opening a template, so the template opens on
+  // the same background the owner just picked. Standalone there is no
+  // param and the template keeps its dark default. Read once on mount
+  // (lazy initialiser) so navigating inside the template never resets it.
+  const params = useLocalSearchParams();
+  const [backdrop, setBackdrop] = useState<BackdropMode>(() => {
+    const p = params.backdrop;
+    const v = Array.isArray(p) ? p[0] : p;
+    return v === "dark" || v === "light" || v === "image" ? v : "dark";
+  });
   const darkMode = backdrop !== "light";
   const [notifications, setNotifications] = useState(true);
   const [tripReminders, setTripReminders] = useState(true);
@@ -632,6 +706,7 @@ export function TravelProvider({ children }: { children: ReactNode }) {
   const value = useMemo<TravelState>(
     () => ({
       userName: "Jordan Ellis",
+      userImage: require("./assets/img/jordan-ellis.jpg"),
       destinations: DESTINATIONS,
       stays: STAYS,
       stayById,

@@ -7,6 +7,9 @@ import React, {
   type ReactNode,
 } from "react";
 
+import { useLocalSearchParams } from "expo-router";
+import type { ImageSourcePropType } from "react-native";
+
 /**
  * The whole template keeps its data in this one client-side store. There is
  * no backend and no persistence: state lives in memory for the session, so
@@ -40,6 +43,8 @@ export interface User {
   followers: number;
   following: number;
   gradient: number;
+  /** Bundled portrait photo; the initials avatar is the fallback. */
+  image?: number;
 }
 
 export interface Post {
@@ -51,6 +56,8 @@ export interface Post {
   gradient: number | null;
   /** Big word shown on the media tile (a place, a mood, a project). */
   mediaLabel?: string;
+  /** Bundled photo for the post's media tile; the gradient plate is the fallback. */
+  image?: ImageSourcePropType;
   tag?: string;
   /** Base like count, not counting the signed-in user. */
   likes: number;
@@ -68,6 +75,8 @@ export interface Comment {
 export interface StorySegment {
   text: string;
   gradient: number;
+  /** Bundled photo for the story tile; the gradient plate is the fallback. */
+  image?: ImageSourcePropType;
 }
 
 export interface Story {
@@ -160,6 +169,7 @@ const SocialContext = createContext<SocialState | null>(null);
 const ME: User = {
   id: ME_ID,
   name: "Alex Rivera",
+  image: require("./assets/img/alex-rivera.jpg"),
   handle: "@alexmakes",
   bio: "Building glass things. Design engineer, weekend ceramicist, chronic poster.",
   followers: 1248,
@@ -169,18 +179,19 @@ const ME: User = {
 
 const USERS: User[] = [
   ME,
-  { id: "maya", name: "Maya Chen", handle: "@maya.builds", bio: "Product designer. Previously fintech, now indie. I post process, not polish.", followers: 8931, following: 412, gradient: 0 },
-  { id: "daniel", name: "Daniel Osei", handle: "@danielosei", bio: "Photographer of cities that never sleep. Prints in the link.", followers: 22140, following: 308, gradient: 1 },
-  { id: "priya", name: "Priya Nair", handle: "@priyareads", bio: "Essayist. One book a week, one thread about it. Host of the Marginalia podcast.", followers: 5402, following: 690, gradient: 3 },
-  { id: "sara", name: "Sara Lindqvist", handle: "@saralnd", bio: "Trail runner & route cartographer. Chasing light in the far north.", followers: 3177, following: 254, gradient: 4 },
-  { id: "tom", name: "Tom Alvarez", handle: "@tomascooks", bio: "Chef. Small kitchen, loud flavours. Recipe tests every Friday.", followers: 12804, following: 521, gradient: 0 },
-  { id: "june", name: "June Park", handle: "@junepark", bio: "Electronic musician. Modular synths and field recordings.", followers: 4760, following: 389, gradient: 2 },
-  { id: "leo", name: "Leo Kim", handle: "@leobuilds", bio: "Robotics tinkerer. If it has wheels, I've probably crashed it.", followers: 2013, following: 447, gradient: 1 },
+  { id: "maya", image: require("./assets/img/maya-chen.jpg"), name: "Maya Chen", handle: "@maya.builds", bio: "Product designer. Previously fintech, now indie. I post process, not polish.", followers: 8931, following: 412, gradient: 0 },
+  { id: "daniel", image: require("./assets/img/daniel-osei.jpg"), name: "Daniel Osei", handle: "@danielosei", bio: "Photographer of cities that never sleep. Prints in the link.", followers: 22140, following: 308, gradient: 1 },
+  { id: "priya", image: require("./assets/img/priya-nair.jpg"), name: "Priya Nair", handle: "@priyareads", bio: "Essayist. One book a week, one thread about it. Host of the Marginalia podcast.", followers: 5402, following: 690, gradient: 3 },
+  { id: "sara", image: require("./assets/img/sara-lindqvist.jpg"), name: "Sara Lindqvist", handle: "@saralnd", bio: "Trail runner & route cartographer. Chasing light in the far north.", followers: 3177, following: 254, gradient: 4 },
+  { id: "tom", image: require("./assets/img/tom-alvarez.jpg"), name: "Tom Alvarez", handle: "@tomascooks", bio: "Chef. Small kitchen, loud flavours. Recipe tests every Friday.", followers: 12804, following: 521, gradient: 0 },
+  { id: "june", image: require("./assets/img/june-park.jpg"), name: "June Park", handle: "@junepark", bio: "Electronic musician. Modular synths and field recordings.", followers: 4760, following: 389, gradient: 2 },
+  { id: "leo", image: require("./assets/img/leo-kim.jpg"), name: "Leo Kim", handle: "@leobuilds", bio: "Robotics tinkerer. If it has wheels, I've probably crashed it.", followers: 2013, following: 447, gradient: 1 },
 ];
 
 const SEED_POSTS: Post[] = [
   {
     id: "p1",
+    image: require("./assets/img/post-ship-it.jpg"),
     authorId: "maya",
     text: "Shipped the new onboarding today. Three screens, no tutorial carousel, and activation is already up 18%. Deleting steps is the best design tool there is.",
     timeLabel: "12m",
@@ -191,6 +202,7 @@ const SEED_POSTS: Post[] = [
   },
   {
     id: "p2",
+    image: require("./assets/img/post-lisbon.jpg"),
     authorId: "daniel",
     text: "Lisbon at 6am, before the trams start arguing with the hills. Some cities you visit; this one you tune into.",
     timeLabel: "48m",
@@ -210,6 +222,7 @@ const SEED_POSTS: Post[] = [
   },
   {
     id: "p4",
+    image: require("./assets/img/post-trail.jpg"),
     authorId: "sara",
     text: "68km across the Kungsleden this weekend. Weather window held for exactly one summit photo. Worth every frozen toe.",
     timeLabel: "4h",
@@ -220,6 +233,7 @@ const SEED_POSTS: Post[] = [
   },
   {
     id: "p5",
+    image: require("./assets/img/post-noodles.jpg"),
     authorId: "tom",
     text: "Friday recipe test: charred scallion oil noodles. Five ingredients, eleven minutes, zero leftovers. Recipe drops tonight.",
     timeLabel: "6h",
@@ -230,6 +244,7 @@ const SEED_POSTS: Post[] = [
   },
   {
     id: "p6",
+    image: require("./assets/img/post-harbour.jpg"),
     authorId: "june",
     text: "Recorded the harbour at dawn — gulls, rigging, one very committed foghorn — and granulated it into a pad. New track 'Low Water' is up.",
     timeLabel: "9h",
@@ -240,6 +255,7 @@ const SEED_POSTS: Post[] = [
   },
   {
     id: "p7",
+    image: require("./assets/img/post-glass.jpg"),
     authorId: ME_ID,
     text: "Week three of the glass component library. The refraction finally behaves on scroll. Screenshots soon, code sooner.",
     timeLabel: "1d",
@@ -265,34 +281,34 @@ const SEED_STORIES: Story[] = [
   {
     userId: "maya",
     segments: [
-      { text: "Launch day. Deep breath.", gradient: 2 },
-      { text: "The team wall of sticky notes that got us here.", gradient: 0 },
-      { text: "We did it. Activation +18%.", gradient: 3 },
+      { text: "Launch day. Deep breath.", gradient: 2, image: require("./assets/img/story-maya-launch.jpg") },
+      { text: "The team wall of sticky notes that got us here.", gradient: 0, image: require("./assets/img/story-maya-notes.jpg") },
+      { text: "We did it. Activation +18%.", gradient: 3, image: require("./assets/img/story-maya-win.jpg") },
     ],
   },
   {
     userId: "daniel",
     segments: [
-      { text: "Lisbon, 6:02am.", gradient: 0 },
-      { text: "Tram 28, empty for once.", gradient: 1 },
+      { text: "Lisbon, 6:02am.", gradient: 0, image: require("./assets/img/story-daniel-lisbon.jpg") },
+      { text: "Tram 28, empty for once.", gradient: 1, image: require("./assets/img/story-daniel-tram.jpg") },
     ],
   },
   {
     userId: "sara",
     segments: [
-      { text: "Summit. Finally.", gradient: 3 },
-      { text: "The descent is a different sport.", gradient: 4 },
+      { text: "Summit. Finally.", gradient: 3, image: require("./assets/img/story-sara-summit.jpg") },
+      { text: "The descent is a different sport.", gradient: 4, image: require("./assets/img/story-sara-descent.jpg") },
     ],
   },
   {
     userId: "tom",
-    segments: [{ text: "Test kitchen Friday. Oil's hot.", gradient: 0 }],
+    segments: [{ text: "Test kitchen Friday. Oil's hot.", gradient: 0, image: require("./assets/img/story-tom-kitchen.jpg") }],
   },
   {
     userId: "june",
     segments: [
-      { text: "Harbour recordings, take one.", gradient: 1 },
-      { text: "The foghorn is the lead vocalist now.", gradient: 2 },
+      { text: "Harbour recordings, take one.", gradient: 1, image: require("./assets/img/story-june-harbour.jpg") },
+      { text: "The foghorn is the lead vocalist now.", gradient: 2, image: require("./assets/img/story-june-foghorn.jpg") },
     ],
   },
 ];
@@ -365,7 +381,17 @@ export function SocialProvider({ children }: { children: ReactNode }) {
   const [followingIds, setFollowingIds] = useState<string[]>(["maya", "daniel"]);
   const [notifications, setNotifications] = useState<AppNotification[]>(SEED_NOTIFICATIONS);
   const [conversations, setConversations] = useState<Conversation[]>(SEED_CONVERSATIONS);
-  const [backdrop, setBackdrop] = useState<BackdropMode>("dark");
+  // The host (template list) passes its current backdrop mode as a route
+  // param (`backdrop`) when opening a template, so the template opens on
+  // the same background the owner just picked. Standalone there is no
+  // param and the template keeps its dark default. Read once on mount
+  // (lazy initialiser) so navigating inside the template never resets it.
+  const params = useLocalSearchParams();
+  const [backdrop, setBackdrop] = useState<BackdropMode>(() => {
+    const p = params.backdrop;
+    const v = Array.isArray(p) ? p[0] : p;
+    return v === "dark" || v === "light" || v === "image" ? v : "dark";
+  });
   const darkMode = backdrop !== "light";
   const setDarkMode = useCallback((value: boolean) => {
     setBackdrop(value ? "dark" : "light");

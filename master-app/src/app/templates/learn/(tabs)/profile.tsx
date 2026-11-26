@@ -4,6 +4,7 @@ import { router } from "expo-router";
 import { Avatar, Card, Select, Switch } from "glacia-native";
 
 import { useLearn } from "../state";
+import { USER_IMAGE } from "../data";
 import {
   BackdropControl,
   Figure,
@@ -32,7 +33,7 @@ export default function ProfileScreen() {
     <Screen title="Profile" subtitle="Your learner stats and Glasshouse settings">
       {/* Learner header */}
       <View style={styles.header}>
-        <Avatar name={learn.userName} size="lg" isDark={learn.darkMode} />
+        <Avatar name={learn.userName} source={USER_IMAGE} size="lg" isDark={learn.darkMode} />
         <View style={styles.headerText}>
           <T variant="heading">{learn.userName}</T>
           <T variant="caption" muted>

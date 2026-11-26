@@ -266,9 +266,9 @@ export function NavRow({
 }
 
 /* ------------------------------------------------------------------ */
-/*  ProductVisual — the composed "photo". One flat, toned colour       */
-/*  field from the finish's own world, and the product's initial set   */
-/*  large. The tiles carry the colour; nothing else does.              */
+/*  ProductVisual — the product photo. The product's bundled photo     */
+/*  fills the frame; without one, the finish's flat toned colour       */
+/*  field and the product's initial carry the tile.                    */
 /* ------------------------------------------------------------------ */
 
 export function ProductVisual({
@@ -287,11 +287,19 @@ export function ProductVisual({
   const { tone } = finishOf(product, finish ?? product.finishes[0].name);
   return (
     <View style={{ height, borderRadius: radius, overflow: "hidden", backgroundColor: tone }}>
-      <View style={styles.visualCenter}>
-        <Text isDark={darkMode} variant="title" style={styles.visualInitial}>
-          {product.name.charAt(0)}
-        </Text>
-      </View>
+      {product.image ? (
+        <Image
+          source={product.image}
+          style={[StyleSheet.absoluteFill, { width: "100%", height: "100%" }]}
+          resizeMode="cover"
+        />
+      ) : (
+        <View style={styles.visualCenter}>
+          <Text isDark={darkMode} variant="title" style={styles.visualInitial}>
+            {product.name.charAt(0)}
+          </Text>
+        </View>
+      )}
       {product.badge && height >= 100 ? (
         <View style={styles.visualBadge}>
           <Badge tone="muted" isDark={darkMode}>

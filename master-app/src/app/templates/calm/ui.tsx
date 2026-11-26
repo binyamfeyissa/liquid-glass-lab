@@ -21,7 +21,7 @@ import {
 import { ChevronRight } from "lucide-react-native";
 
 import { useStillwater, type BackdropMode } from "./state";
-import { formatDuration, type Session } from "./data";
+import { formatDuration, type Category, type Session } from "./data";
 
 /* ------------------------------------------------------------------ */
 /*  The one accent: desaturated sage.                                  */
@@ -271,10 +271,29 @@ export function Artwork({
       : mixHex(session.art[0], "#232325", 0.45);
   return (
     <View
-      style={[styles.artwork, { height, borderRadius: radius, backgroundColor: plate }]}
-    />
+      style={[
+        styles.artwork,
+        { height, borderRadius: radius, backgroundColor: plate, overflow: "hidden" },
+      ]}
+    >
+      {session.image ? (
+        <Image
+          source={session.image}
+          resizeMode="cover"
+          style={{ width: "100%", height: "100%" }}
+        />
+      ) : null}
+    </View>
   );
 }
+
+/** One representative cover per category, for the category avatar. */
+const CATEGORY_IMAGES: Record<Category, number> = {
+  Sleep: require("./assets/img/drift-into-sleep.jpg"),
+  Focus: require("./assets/img/focus-flow.jpg"),
+  Anxiety: require("./assets/img/calm-the-spiral.jpg"),
+  Morning: require("./assets/img/first-light.jpg"),
+};
 
 /* ------------------------------------------------------------------ */
 /*  SessionRow — one catalogue entry, used on Home and Library.        */
@@ -300,7 +319,7 @@ export function SessionRow({
         },
       ]}
     >
-      <Avatar name={session.category} isDark={darkMode} />
+      <Avatar name={session.category} isDark={darkMode} source={CATEGORY_IMAGES[session.category]} />
       <View style={styles.settingText}>
         <T variant="body" numberOfLines={1}>
           {session.title}

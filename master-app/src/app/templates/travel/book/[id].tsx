@@ -81,7 +81,7 @@ export default function BookScreen() {
 
         <ListCard>
           <View style={styles.summaryInner}>
-            <Plate colors={stay.colors} label={dest?.city ?? "Wayfare"} height={110} radius={12} fontSize={26} />
+            <Plate colors={stay.colors} label={dest?.city ?? "Wayfare"} height={110} radius={12} fontSize={26} image={stay.image} />
             <T variant="body" style={styles.summaryTitle}>
               {stay.title}
             </T>
@@ -140,7 +140,7 @@ export default function BookScreen() {
 
       <ListCard>
         <View style={styles.summaryInner}>
-          <Plate colors={stay.colors} label={dest?.city ?? "Wayfare"} height={110} radius={12} fontSize={26} />
+          <Plate colors={stay.colors} label={dest?.city ?? "Wayfare"} height={110} radius={12} fontSize={26} image={stay.image} />
           <T variant="body" style={styles.summaryTitle}>
             {stay.title}
           </T>

@@ -73,7 +73,7 @@ export default function NotificationsScreen() {
               {i > 0 ? <RowSeparator /> : null}
               <View style={styles.row}>
                 <View style={styles.avatarWrap}>
-                  <Avatar name={actor.name} size="md" isDark={social.darkMode} />
+                  <Avatar name={actor.name} source={actor.image} size="md" isDark={social.darkMode} />
                   <View
                     style={[
                       styles.kindBadge,

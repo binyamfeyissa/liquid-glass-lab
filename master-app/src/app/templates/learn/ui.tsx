@@ -297,11 +297,23 @@ export function NavRow({
 export function CourseCover({
   course,
   height = 120,
+  image,
 }: {
   course: Course;
   height?: number;
+  /** Bundled cover photo; when provided it replaces the flat plate.
+      Falls back to course.image. */
+  image?: number;
 }) {
   const { backdrop } = useLearn();
+  const photo = image ?? course.image;
+  if (photo) {
+    return (
+      <View style={[styles.cover, { height }]}>
+        <Image source={photo} resizeMode="cover" style={StyleSheet.absoluteFill} />
+      </View>
+    );
+  }
   const onPlate = backdrop === "light" ? "#1f1b16" : "#f7f4ee";
   return (
     <View
@@ -345,7 +357,7 @@ export function CourseCard({
       onPress={onPress}
       accessibilityLabel={`${course.title}, view course`}
     >
-      <CourseCover course={course} height={104} />
+      <CourseCover course={course} height={104} image={course.image} />
       <View style={styles.courseBody}>
         <View style={styles.courseMetaRow}>
           <Badge tone="muted" isDark={learn.darkMode}>

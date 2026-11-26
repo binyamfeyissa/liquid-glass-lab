@@ -174,7 +174,7 @@ export default function ArticleScreen() {
           min read
         </Figure>
 
-        <CoverArt article={article} height={192} large />
+        <CoverArt article={article} height={192} large image={article.image} />
 
         <View style={styles.body}>
           {article.body.map((paragraph, i) => (

@@ -56,7 +56,7 @@ export default function FeedScreen() {
         contentContainerStyle={styles.stories}
       >
         <View style={styles.storyItem}>
-          <Avatar name={social.me.name} size="lg" isDark={social.darkMode} />
+          <Avatar name={social.me.name} source={social.me.image} size="lg" isDark={social.darkMode} />
           <T variant="caption" numberOfLines={1} style={styles.storyName}>
             You
           </T>

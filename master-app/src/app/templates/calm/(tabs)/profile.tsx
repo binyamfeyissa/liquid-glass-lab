@@ -29,7 +29,7 @@ export default function ProfileScreen() {
     <Screen title="Profile" subtitle="Name, goal, reminders and background">
       {/* Header */}
       <View style={styles.header}>
-        <Avatar name={app.userName || "Guest"} size="lg" isDark={app.darkMode} status="online" />
+        <Avatar name={app.userName || "Guest"} size="lg" isDark={app.darkMode} status="online" source={app.userImage} />
         <View style={styles.headerText}>
           <T variant="heading">{app.userName}</T>
           <T variant="body" muted>

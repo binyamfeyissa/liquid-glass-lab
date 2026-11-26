@@ -35,6 +35,9 @@ export interface Job {
   applicants: number;
 }
 
+/** Bundled portrait for the signed-in candidate (Jordan Ellis). */
+export const USER_IMAGE = require("./assets/img/user-jordan-ellis.jpg");
+
 export const CATEGORIES: Category[] = [
   "Engineering",
   "Design",

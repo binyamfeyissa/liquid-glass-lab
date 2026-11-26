@@ -20,6 +20,8 @@ export interface Session {
   blurb: string;
   /** Two-stop artwork gradient for the composed cover panel. */
   art: [string, string];
+  /** Bundled cover photo, shown in place of the flat plate. */
+  image: number;
   featured?: boolean;
 }
 
@@ -33,6 +35,7 @@ export const SESSIONS: Session[] = [
     plays: "1.2M",
     blurb: "A slow body scan that loosens the day, breath by breath, until sleep takes over.",
     art: ["#1e3a8a", "#7c3aed"],
+    image: require("./assets/img/drift-into-sleep.jpg"),
     featured: true,
   },
   {
@@ -44,6 +47,7 @@ export const SESSIONS: Session[] = [
     plays: "864K",
     blurb: "Yoga-nidra style guided rest for nights when the mind won't switch off.",
     art: ["#0f172a", "#155e75"],
+    image: require("./assets/img/deep-rest.jpg"),
   },
   {
     id: "rainy-cabin",
@@ -54,6 +58,7 @@ export const SESSIONS: Session[] = [
     plays: "642K",
     blurb: "A short story and soft pacing designed to pair with the rain mixer.",
     art: ["#164e63", "#3b0764"],
+    image: require("./assets/img/rainy-cabin.jpg"),
   },
   {
     id: "focus-flow",
@@ -64,6 +69,7 @@ export const SESSIONS: Session[] = [
     plays: "918K",
     blurb: "Ten minutes to clear the desk in your head before deep work.",
     art: ["#065f46", "#0ea5e9"],
+    image: require("./assets/img/focus-flow.jpg"),
     featured: true,
   },
   {
@@ -75,6 +81,7 @@ export const SESSIONS: Session[] = [
     plays: "377K",
     blurb: "Attention training: one object, gently returned to, again and again.",
     art: ["#134e4a", "#65a30d"],
+    image: require("./assets/img/single-task-mind.jpg"),
   },
   {
     id: "reset-between-meetings",
@@ -85,6 +92,7 @@ export const SESSIONS: Session[] = [
     plays: "529K",
     blurb: "A five-minute palate cleanser so the last call doesn't leak into the next.",
     art: ["#0e7490", "#2563eb"],
+    image: require("./assets/img/reset-between-meetings.jpg"),
   },
   {
     id: "calm-the-spiral",
@@ -95,6 +103,7 @@ export const SESSIONS: Session[] = [
     plays: "1.5M",
     blurb: "Grounding for racing thoughts: name it, breathe it down, let it pass.",
     art: ["#7c2d12", "#db2777"],
+    image: require("./assets/img/calm-the-spiral.jpg"),
     featured: true,
   },
   {
@@ -106,6 +115,7 @@ export const SESSIONS: Session[] = [
     plays: "288K",
     blurb: "For presentations, interviews and hard conversations: arrive settled.",
     art: ["#9a3412", "#b45309"],
+    image: require("./assets/img/steady-before-speaking.jpg"),
   },
   {
     id: "let-the-day-go",
@@ -116,6 +126,7 @@ export const SESSIONS: Session[] = [
     plays: "703K",
     blurb: "An evening release practice for replaying-the-day minds.",
     art: ["#831843", "#6d28d9"],
+    image: require("./assets/img/let-the-day-go.jpg"),
   },
   {
     id: "first-light",
@@ -126,6 +137,7 @@ export const SESSIONS: Session[] = [
     plays: "811K",
     blurb: "Wake the body before the phone: breath, light and one clear intention.",
     art: ["#b45309", "#f59e0b"],
+    image: require("./assets/img/first-light.jpg"),
     featured: true,
   },
   {
@@ -137,6 +149,7 @@ export const SESSIONS: Session[] = [
     plays: "196K",
     blurb: "A journaling companion — prompts spaced with silence to write into.",
     art: ["#a16207", "#059669"],
+    image: require("./assets/img/morning-pages-mind.jpg"),
   },
   {
     id: "commute-calm",
@@ -147,6 +160,7 @@ export const SESSIONS: Session[] = [
     plays: "445K",
     blurb: "Eyes-open practice for trains and traffic. Arrive as yourself.",
     art: ["#0369a1", "#a16207"],
+    image: require("./assets/img/commute-calm.jpg"),
   },
 ];
 
@@ -158,12 +172,14 @@ export interface SoundDef {
   id: string;
   name: string;
   detail: string;
+  /** Bundled photo for the sound's avatar, if it has a clear subject. */
+  image?: number;
 }
 
 export const SOUNDS: SoundDef[] = [
-  { id: "rain", name: "Rain", detail: "Steady rainfall on a cabin roof" },
-  { id: "ocean", name: "Ocean", detail: "Slow waves, long shore" },
-  { id: "forest", name: "Forest", detail: "Night pines and distant owls" },
+  { id: "rain", name: "Rain", detail: "Steady rainfall on a cabin roof", image: require("./assets/img/rainy-cabin.jpg") },
+  { id: "ocean", name: "Ocean", detail: "Slow waves, long shore", image: require("./assets/img/ocean-sound.jpg") },
+  { id: "forest", name: "Forest", detail: "Night pines and distant owls", image: require("./assets/img/forest-sound.jpg") },
   { id: "noise", name: "White noise", detail: "Even static that masks the street" },
 ];
 

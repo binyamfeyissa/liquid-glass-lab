@@ -95,7 +95,7 @@ export default function SendScreen() {
       <Screen title="Check it is right" subtitle="Step 2 of 3 · Payments are instant and cannot be recalled">
         <ListCard>
           <View style={styles.confirmBody}>
-            <Avatar name={recipient.name} size="lg" isDark={bank.darkMode} />
+            <Avatar name={recipient.name} size="lg" isDark={bank.darkMode} source={recipient.image} />
             <T variant="heading">{recipient.name}</T>
             <T variant="caption" muted>
               {recipient.handle} · Northwind Pay
@@ -184,7 +184,7 @@ export default function SendScreen() {
                   pressed && { opacity: 0.8 },
                 ]}
               >
-                <Avatar name={r.name} size="md" isDark={bank.darkMode} />
+                <Avatar name={r.name} size="md" isDark={bank.darkMode} source={r.image} />
                 <View style={styles.recipientText}>
                   <T variant="body">{r.name}</T>
                   <T variant="caption" muted>

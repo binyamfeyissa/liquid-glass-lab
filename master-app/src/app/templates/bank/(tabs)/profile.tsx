@@ -23,7 +23,7 @@ export default function ProfileScreen() {
     <Screen title="Profile" subtitle="Your details, security and app settings">
       {/* Profile header */}
       <View style={styles.header}>
-        <Avatar name={bank.userName} size="lg" isDark={bank.darkMode} status="online" />
+        <Avatar name={bank.userName} size="lg" isDark={bank.darkMode} status="online" source={bank.userImage} />
         <View style={styles.headerText}>
           <T variant="heading">{bank.userName}</T>
           <T variant="body" muted>

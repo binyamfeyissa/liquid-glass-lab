@@ -63,6 +63,8 @@ export const RIDE_CLASSES: RideClass[] = [
 
 export interface Driver {
   id: string;
+  /** Bundled portrait (assets/img/). */
+  image: number;
   name: string;
   rating: number;
   trips: number;
@@ -71,9 +73,9 @@ export interface Driver {
 }
 
 export const DRIVERS: Driver[] = [
-  { id: "d1", name: "Marcus Webb", rating: 4.94, trips: 3210, car: "Toyota Corolla · Silver", plate: "DRF-4821" },
-  { id: "d2", name: "Ana Souza", rating: 4.89, trips: 1875, car: "Honda Civic · White", plate: "DRF-9034" },
-  { id: "d3", name: "Ken Watanabe", rating: 4.97, trips: 5402, car: "Tesla Model 3 · Blue", plate: "DRF-6118" },
+  { id: "d1", image: require("./assets/img/driver-marcus-webb.jpg"), name: "Marcus Webb", rating: 4.94, trips: 3210, car: "Toyota Corolla · Silver", plate: "DRF-4821" },
+  { id: "d2", image: require("./assets/img/driver-ana-souza.jpg"), name: "Ana Souza", rating: 4.89, trips: 1875, car: "Honda Civic · White", plate: "DRF-9034" },
+  { id: "d3", image: require("./assets/img/driver-ken-watanabe.jpg"), name: "Ken Watanabe", rating: 4.97, trips: 5402, car: "Tesla Model 3 · Blue", plate: "DRF-6118" },
 ];
 
 /** The driver a class dispatches: deterministic, so quotes are stable. */
@@ -81,6 +83,9 @@ export function driverForClass(classId: string): Driver {
   const idx = RIDE_CLASSES.findIndex((c) => c.id === classId);
   return DRIVERS[Math.max(0, idx) % DRIVERS.length];
 }
+
+/** Bundled portrait for the signed-in rider (Jordan Ellis). */
+export const USER_IMAGE = require("./assets/img/user-jordan-ellis.jpg");
 
 export interface Fare {
   base: number;

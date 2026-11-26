@@ -44,7 +44,7 @@ export default function LibraryScreen() {
                   accessibilityLabel={`Open ${show.title}`}
                   style={styles.showRow}
                 >
-                  <Artwork title={show.title} colors={show.colors} size={48} />
+                  <Artwork title={show.title} colors={show.colors} size={48} image={show.image} />
                   <View style={styles.flex}>
                     <T variant="body" numberOfLines={1}>
                       {show.title}

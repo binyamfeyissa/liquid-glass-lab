@@ -9,6 +9,8 @@ export type Level = "Beginner" | "Intermediate" | "Advanced";
 export type LessonType = "video" | "reading" | "exercise";
 
 export interface Instructor {
+  /** Bundled portrait (assets/img/). */
+  image: number;
   name: string;
   role: string;
   bio: string;
@@ -33,6 +35,8 @@ export interface Section {
 
 export interface Course {
   id: string;
+  /** Bundled cover photo (assets/img/). */
+  image: number;
   title: string;
   tagline: string;
   category: string;
@@ -54,6 +58,9 @@ export interface QuizQuestion {
   explanation: string;
 }
 
+/** Bundled portrait for the signed-in learner (Jordan Ellis). */
+export const USER_IMAGE = require("./assets/img/user-jordan-ellis.jpg");
+
 export const CATEGORIES = [
   "All",
   "Design",
@@ -64,6 +71,7 @@ export const CATEGORIES = [
 ] as const;
 
 const MAYA: Instructor = {
+  image: require("./assets/img/instructor-maya-lindgren.jpg"),
   name: "Maya Lindgren",
   role: "Interface designer · ex-IDEO",
   bio: "Maya has spent twelve years designing translucent, layered interfaces for fintech and media products, and teaches the material-first process she uses in client work.",
@@ -72,6 +80,7 @@ const MAYA: Instructor = {
 };
 
 const JONAS: Instructor = {
+  image: require("./assets/img/instructor-jonas-weber.jpg"),
   name: "Jonas Weber",
   role: "React Native lead",
   bio: "Jonas leads mobile engineering at a Berlin health-tech scale-up and has shipped eleven production React Native apps, three of them featured by the stores.",
@@ -80,6 +89,7 @@ const JONAS: Instructor = {
 };
 
 const PRIYA: Instructor = {
+  image: require("./assets/img/instructor-priya-nair.jpg"),
   name: "Priya Nair",
   role: "TypeScript consultant",
   bio: "Priya helps platform teams turn loose JavaScript codebases into typed, refactor-safe systems. She maintains two widely used open-source type utilities.",
@@ -88,6 +98,7 @@ const PRIYA: Instructor = {
 };
 
 const THEO: Instructor = {
+  image: require("./assets/img/instructor-theo-marchetti.jpg"),
   name: "Theo Marchetti",
   role: "Data storyteller",
   bio: "Theo turns raw event data into decisions for product teams. His visualisation work has appeared in three annual industry reports.",
@@ -96,6 +107,7 @@ const THEO: Instructor = {
 };
 
 const SARA: Instructor = {
+  image: require("./assets/img/instructor-sara-okafor.jpg"),
   name: "Sara Okafor",
   role: "Product strategist",
   bio: "Sara has launched fourteen subscription products and now coaches founders on pricing, positioning and the first ninety days after launch.",
@@ -104,6 +116,7 @@ const SARA: Instructor = {
 };
 
 const LEO: Instructor = {
+  image: require("./assets/img/instructor-leo-tanaka.jpg"),
   name: "Leo Tanaka",
   role: "Photographer & colourist",
   bio: "Leo shoots editorial and travel work on three continents. His grading presets are used by over forty thousand photographers.",
@@ -114,6 +127,7 @@ const LEO: Instructor = {
 export const COURSES: Course[] = [
   {
     id: "liquid-glass",
+    image: require("./assets/img/course-liquid-glass.jpg"),
     title: "Liquid Glass Interface Design",
     tagline: "Design interfaces that feel like real material — depth, blur and light.",
     category: "Design",
@@ -241,6 +255,7 @@ export const COURSES: Course[] = [
   },
   {
     id: "react-native-craft",
+    image: require("./assets/img/course-react-native-craft.jpg"),
     title: "React Native Craft",
     tagline: "Architecture, performance and shipping — the habits behind apps that last.",
     category: "Development",
@@ -357,6 +372,7 @@ export const COURSES: Course[] = [
   },
   {
     id: "typescript-deep-dive",
+    image: require("./assets/img/course-typescript-deep-dive.jpg"),
     title: "TypeScript Deep Dive",
     tagline: "Types as a design tool — model state so illegal states cannot compile.",
     category: "Development",
@@ -446,6 +462,7 @@ export const COURSES: Course[] = [
   },
   {
     id: "data-storytelling",
+    image: require("./assets/img/course-data-storytelling.jpg"),
     title: "Data Storytelling & Visualisation",
     tagline: "Turn event data into charts that make decisions happen.",
     category: "Data",
@@ -524,6 +541,7 @@ export const COURSES: Course[] = [
   },
   {
     id: "sql-foundations",
+    image: require("./assets/img/course-sql-foundations.jpg"),
     title: "SQL Foundations for Builders",
     tagline: "Query with confidence — joins, windows and the queries products run on.",
     category: "Data",
@@ -613,6 +631,7 @@ export const COURSES: Course[] = [
   },
   {
     id: "product-launch",
+    image: require("./assets/img/course-product-launch.jpg"),
     title: "Launch Your First Product",
     tagline: "Pricing, positioning and the first ninety days, from a coach who has done it.",
     category: "Business",
@@ -691,6 +710,7 @@ export const COURSES: Course[] = [
   },
   {
     id: "photo-grading",
+    image: require("./assets/img/course-photo-grading.jpg"),
     title: "Photo Editing & Colour Grading",
     tagline: "A repeatable grading workflow — from flat RAW files to a signature look.",
     category: "Photography",
@@ -780,6 +800,7 @@ export const COURSES: Course[] = [
   },
   {
     id: "ux-research",
+    image: require("./assets/img/course-ux-research.jpg"),
     title: "UX Research Essentials",
     tagline: "Interview, observe and synthesise — evidence for design decisions.",
     category: "Design",

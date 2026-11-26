@@ -5,7 +5,7 @@ import { Avatar, Button, Chip, Field, Input } from "glacia-native";
 
 import { useJobs } from "../state";
 import { Figure, JobCard, ListCard, RowSeparator, SectionTitle, T } from "../ui";
-import { CATEGORIES, matchScore, type Category } from "../data";
+import { CATEGORIES, USER_IMAGE, matchScore, type Category } from "../data";
 
 type Filter = Category | "All";
 
@@ -51,7 +51,7 @@ export default function HomeScreen() {
     >
       {/* Header — the candidate, not a greeting */}
       <View style={styles.header}>
-        <Avatar name={jobs.profile.name} size="lg" isDark={jobs.darkMode} />
+        <Avatar name={jobs.profile.name} source={USER_IMAGE} size="lg" isDark={jobs.darkMode} />
         <View style={styles.headerText}>
           <T variant="heading">{jobs.profile.name}</T>
           <T variant="caption" muted>

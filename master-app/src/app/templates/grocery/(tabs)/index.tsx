@@ -3,7 +3,7 @@ import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { router } from "expo-router";
 import { Avatar, Card, Chip } from "glacia-native";
 
-import { AISLES, PRODUCTS, productsInAisle } from "../data";
+import { AISLES, PRODUCTS, USER_IMAGE, productsInAisle } from "../data";
 import { useBasket } from "../state";
 import {
   AddControl,
@@ -40,7 +40,7 @@ export default function HomeScreen() {
       >
         {/* Header — the store, then the person */}
         <View style={styles.header}>
-          <Avatar name={basket.userName} size="lg" isDark={basket.darkMode} />
+          <Avatar name={basket.userName} size="lg" isDark={basket.darkMode} source={USER_IMAGE} />
           <View style={styles.flex}>
             <T variant="caption" muted>
               Basket

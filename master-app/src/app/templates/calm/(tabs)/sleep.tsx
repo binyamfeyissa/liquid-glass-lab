@@ -94,7 +94,7 @@ export default function SleepScreen() {
                 {i > 0 ? <RowSeparator /> : null}
                 <View style={styles.soundRow}>
                   <View style={styles.soundHead}>
-                    <Avatar name={sound.name} isDark={app.darkMode} />
+                    <Avatar name={sound.name} isDark={app.darkMode} source={sound.image} />
                     <T variant="body" style={styles.soundName}>
                       {sound.name}
                     </T>

@@ -23,7 +23,7 @@ export default function PortfolioScreen() {
     <Screen>
       {/* Header */}
       <View style={styles.header}>
-        <Avatar name={wallet.userName} size="md" isDark={wallet.darkMode} />
+        <Avatar name={wallet.userName} size="md" isDark={wallet.darkMode} source={wallet.userImage} />
         <View style={styles.headerText}>
           <T variant="caption" muted>
             {wallet.userHandle}

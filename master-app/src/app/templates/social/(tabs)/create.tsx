@@ -65,7 +65,7 @@ export default function CreateScreen() {
       ) : (
         <>
           <View style={styles.authorRow}>
-            <Avatar name={social.me.name} size="md" isDark={social.darkMode} />
+            <Avatar name={social.me.name} source={social.me.image} size="md" isDark={social.darkMode} />
             <View>
               <T variant="body">{social.me.name}</T>
               <T variant="caption" muted>

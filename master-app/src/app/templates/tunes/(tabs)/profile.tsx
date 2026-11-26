@@ -27,7 +27,7 @@ export default function ProfileScreen() {
       {/* Listener card */}
       <Card isDark={darkMode} padding={20}>
         <View style={styles.header}>
-          <Avatar name={tunes.userName} size="lg" isDark={darkMode} />
+          <Avatar name={tunes.userName} size="lg" isDark={darkMode} source={tunes.userImage} />
           <View style={styles.flex}>
             <T variant="heading">{tunes.userName}</T>
             <T variant="caption" muted style={styles.sub}>

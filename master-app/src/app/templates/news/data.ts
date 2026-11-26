@@ -6,6 +6,9 @@
  * experience can be judged as a buyer would see it.
  */
 
+/** Bundled portrait for the signed-in reader (Alex Rivera). */
+export const USER_IMAGE = require("./assets/img/user-alex-rivera.jpg");
+
 export const TOPICS = [
   "World",
   "Tech",
@@ -19,6 +22,8 @@ export type Topic = (typeof TOPICS)[number];
 
 export interface Article {
   id: string;
+  /** Bundled cover photo (assets/img/). */
+  image: number;
   topic: Topic;
   headline: string;
   /** One-line summary shown under the headline in lists and on the article. */
@@ -49,6 +54,7 @@ export interface Article {
 export const ARTICLES: Article[] = [
   {
     id: "a1",
+    image: require("./assets/img/article-a1-port-cities.jpg"),
     topic: "World",
     headline: "Port cities sign a shared pact to rebuild their storm walls together",
     dek: "Twelve coastal cities will pool engineers, money and hard lessons as sea defences move from local projects to a shared network.",
@@ -73,6 +79,7 @@ export const ARTICLES: Article[] = [
   },
   {
     id: "a2",
+    image: require("./assets/img/article-a2-dumbphone.jpg"),
     topic: "Tech",
     headline: "The quiet comeback of the dumbphone",
     dek: "Sales of basic handsets have tripled in two years. The buyers are not nostalgic — they are tired, and they have done the maths on their attention.",
@@ -95,6 +102,7 @@ export const ARTICLES: Article[] = [
   },
   {
     id: "a3",
+    image: require("./assets/img/article-a3-four-day-week.jpg"),
     topic: "Business",
     headline: "Four-day weeks stop being a perk and start being a schedule",
     dek: "What began as a pandemic experiment is hardening into rosters, contracts and hiring strategy at mid-size firms.",
@@ -117,6 +125,7 @@ export const ARTICLES: Article[] = [
   },
   {
     id: "a4",
+    image: require("./assets/img/article-a4-whale-song.jpg"),
     topic: "Science",
     headline: "A deep-sea observatory hears the ocean's slowest conversation",
     dek: "Hydrophones anchored two kilometres down have recorded years of whale song — and the phrases are spreading between oceans like rumours.",
@@ -139,6 +148,7 @@ export const ARTICLES: Article[] = [
   },
   {
     id: "a5",
+    image: require("./assets/img/article-a5-lending-library.jpg"),
     topic: "Culture",
     headline: "The lending library is back — and it lends everything except books",
     dek: "Tools, tents, projectors, a pasta machine shaped like a train: neighbourhood lending libraries are quietly becoming the most interesting shelves in town.",
@@ -160,6 +170,7 @@ export const ARTICLES: Article[] = [
   },
   {
     id: "a6",
+    image: require("./assets/img/article-a6-sprinter.jpg"),
     topic: "Sport",
     headline: "At 41, Mara Iversen is somehow getting faster",
     dek: "The veteran sprinter's late-career surge has sports scientists re-examining everything they assumed about ageing and speed.",
@@ -181,6 +192,7 @@ export const ARTICLES: Article[] = [
   },
   {
     id: "a7",
+    image: require("./assets/img/article-a7-modular-laptop.jpg"),
     topic: "Tech",
     headline: "Your next laptop may arrive as a box of parts — on purpose",
     dek: "Modular machines that owners can repair and upgrade themselves have moved from hobbyist curiosity to the big brands' roadmaps.",
@@ -202,6 +214,7 @@ export const ARTICLES: Article[] = [
   },
   {
     id: "a8",
+    image: require("./assets/img/article-a8-night-trains.jpg"),
     topic: "World",
     headline: "Night trains are selling out. The railways are scrambling to add more.",
     dek: "Sleeper routes once headed for the scrapyard now have waiting lists, as travellers trade airport queues for couchettes and border crossings at dawn.",
@@ -224,6 +237,7 @@ export const ARTICLES: Article[] = [
   },
   {
     id: "a9",
+    image: require("./assets/img/article-a9-two-hour-film.jpg"),
     topic: "Culture",
     headline: "The two-hour film is becoming an endangered species",
     dek: "Average runtimes keep creeping up, but a stubborn school of directors is making the case for ninety tight minutes.",
@@ -245,6 +259,7 @@ export const ARTICLES: Article[] = [
   },
   {
     id: "a10",
+    image: require("./assets/img/article-a10-corner-bakery.jpg"),
     topic: "Business",
     headline: "The corner bakery learned to sell out by noon — and stopped trying to grow",
     dek: "A family bakery's decision to cap production instead of expanding has become a case study in enough.",
@@ -266,6 +281,7 @@ export const ARTICLES: Article[] = [
   },
   {
     id: "a11",
+    image: require("./assets/img/article-a11-sideways-rain-planet.jpg"),
     topic: "Science",
     headline: "Astronomers find a planet where it rains sideways, forever",
     dek: "A tidally locked world 400 light-years away has a permanent storm band — and it is teaching scientists how atmospheres move heat.",
@@ -287,6 +303,7 @@ export const ARTICLES: Article[] = [
   },
   {
     id: "a12",
+    image: require("./assets/img/article-a12-supporters-trust.jpg"),
     topic: "Sport",
     headline: "The supporters' trust now owns the club. The hard part started after the party.",
     dek: "Fan ownership delivered romance and a famous victory. Then came the accounts, the plumbing, and the real work of running a football club.",
@@ -308,6 +325,7 @@ export const ARTICLES: Article[] = [
   },
   {
     id: "a13",
+    image: require("./assets/img/article-a13-handwriting.jpg"),
     topic: "Culture",
     headline: "Handwriting's defenders have a new argument: your brain",
     dek: "As keyboards finish their takeover of the classroom, researchers keep finding that the pen does something for memory that typing does not.",
@@ -329,6 +347,7 @@ export const ARTICLES: Article[] = [
   },
   {
     id: "a14",
+    image: require("./assets/img/article-a14-fungus.jpg"),
     topic: "Science",
     headline: "A fungus in the walls turns out to be eating the pollution",
     dek: "The black mould nobody wanted is breaking down industrial solvents — and remediation teams are learning to farm it instead of fighting it.",

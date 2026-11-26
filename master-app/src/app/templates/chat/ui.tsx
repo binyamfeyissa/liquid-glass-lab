@@ -277,6 +277,7 @@ export function ContactAvatar({
       size={size}
       status={contact.presence}
       isDark={darkMode}
+      source={contact.image}
     />
   );
 }
@@ -298,12 +299,15 @@ export function ContactAvatar({
 export function Message({
   message,
   senderName,
+  senderImage,
   showSenderName,
   onLongPress,
 }: {
   message: ChatMessage;
   /** Name of the sender (for the avatar + the group sender label). */
   senderName: string;
+  /** Bundled portrait of the sender, if known. */
+  senderImage?: number;
   /** Groups show who said what; 1:1 threads don't need it. */
   showSenderName?: boolean;
   onLongPress?: () => void;
@@ -316,7 +320,7 @@ export function Message({
       {/* MessageAvatar */}
       {!mine ? (
         <View style={styles.messageAvatar}>
-          <Avatar name={senderName} size="sm" isDark={darkMode} />
+          <Avatar name={senderName} size="sm" isDark={darkMode} source={senderImage} />
         </View>
       ) : null}
 
@@ -360,13 +364,19 @@ export function Message({
 }
 
 /** The bubble shown while the other side is typing: three quiet dots. */
-export function TypingIndicator({ senderName }: { senderName: string }) {
+export function TypingIndicator({
+  senderName,
+  senderImage,
+}: {
+  senderName: string;
+  senderImage?: number;
+}) {
   const { darkMode, backdrop } = useChat();
   const dot = { backgroundColor: secondaryInk(backdrop) };
   return (
     <View style={styles.messageRow}>
       <View style={styles.messageAvatar}>
-        <Avatar name={senderName} size="sm" isDark={darkMode} />
+        <Avatar name={senderName} size="sm" isDark={darkMode} source={senderImage} />
       </View>
       <View style={styles.messageColumn}>
         <Glass isDark={darkMode} style={[styles.bubble, styles.bubbleTheirs]}>

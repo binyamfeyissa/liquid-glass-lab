@@ -118,7 +118,7 @@ export default function QueueScreen() {
                     <Figure variant="caption" muted style={styles.position}>
                       {index + 1}
                     </Figure>
-                    <Artwork title={track.title} colors={track.colors} size={44} />
+                    <Artwork title={track.title} colors={track.colors} size={44} image={track.image} />
                     <View style={styles.flex}>
                       <Serif variant="body" numberOfLines={1}>
                         {track.title}

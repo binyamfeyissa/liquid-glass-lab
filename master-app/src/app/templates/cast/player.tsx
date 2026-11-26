@@ -88,7 +88,7 @@ export default function PlayerScreen() {
 
       {/* Composed show artwork */}
       <View style={styles.artWrap}>
-        <Artwork title={show.title} colors={show.colors} size={260} radius={20} />
+        <Artwork title={show.title} colors={show.colors} size={260} radius={20} image={show.image} />
       </View>
 
       {/* Title block */}

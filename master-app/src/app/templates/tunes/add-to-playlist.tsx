@@ -92,7 +92,7 @@ export default function AddToPlaylistScreen() {
                   pressed && { backgroundColor: pressedColor(darkMode) },
                 ]}
               >
-                <Artwork title={playlist.name} colors={playlist.colors} size={48} />
+                <Artwork title={playlist.name} colors={playlist.colors} size={48} image={playlist.image} />
                 <View style={styles.flex}>
                   <Serif variant="body" numberOfLines={1}>
                     {playlist.name}

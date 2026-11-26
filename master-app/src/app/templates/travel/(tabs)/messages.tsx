@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, View } from "react-native";
 import { router } from "expo-router";
 import { Avatar, Badge } from "glacia-native";
 
-import { useTravel, type Thread } from "../state";
+import { hostImageByName, useTravel, type Thread } from "../state";
 import { Figure, ListCard, RowSeparator, Screen, T } from "../ui";
 
 export default function MessagesScreen() {
@@ -36,7 +36,7 @@ function ThreadRow({ thread }: { thread: Thread }) {
       accessibilityLabel={`Chat with ${thread.hostName} about ${stay?.title ?? "a stay"}`}
       style={({ pressed }) => [styles.row, pressed && styles.pressed]}
     >
-      <Avatar name={thread.hostName} size="md" isDark={darkMode} />
+      <Avatar name={thread.hostName} source={hostImageByName(thread.hostName)} size="md" isDark={darkMode} />
       <View style={styles.flex}>
         <View style={styles.titleRow}>
           <T variant="body" style={styles.flex} numberOfLines={1}>

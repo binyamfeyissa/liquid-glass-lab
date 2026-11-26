@@ -110,7 +110,7 @@ export default function StoryViewerScreen() {
 
       {/* Author row */}
       <View style={styles.authorRow}>
-        <Avatar name={user.name} size="md" isDark={social.darkMode} />
+        <Avatar name={user.name} source={user.image} size="md" isDark={social.darkMode} />
         <View style={styles.flex1}>
           <T variant="body">{user.name}</T>
           <T variant="caption" muted>
@@ -133,6 +133,7 @@ export default function StoryViewerScreen() {
           height={430}
           radius={20}
           fontSize={30}
+          image={segment.image}
         />
         <Pressable
           style={styles.tapLeft}

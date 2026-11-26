@@ -9,6 +9,8 @@ import React, {
   type ReactNode,
 } from "react";
 
+import { useLocalSearchParams } from "expo-router";
+
 import {
   PLAYLIST_SEEDS,
   TRACKS,
@@ -87,6 +89,8 @@ interface TunesState {
 
   /* Settings */
   userName: string;
+  /** Bundled portrait for the listener, shown on the Profile tab. */
+  userImage: number;
   backdrop: BackdropMode;
   setBackdrop: (value: BackdropMode) => void;
   /** Derived: true unless the backdrop is the broken-white light mode. */
@@ -162,7 +166,17 @@ export function TunesProvider({ children }: { children: ReactNode }) {
   ]);
 
   const [userName] = useState("Alex Morgan");
-  const [backdrop, setBackdrop] = useState<BackdropMode>("dark");
+  // The host (template list) passes its current backdrop mode as a route
+  // param (`backdrop`) when opening a template, so the template opens on
+  // the same background the owner just picked. Standalone there is no
+  // param and the template keeps its dark default. Read once on mount
+  // (lazy initialiser) so navigating inside the template never resets it.
+  const params = useLocalSearchParams();
+  const [backdrop, setBackdrop] = useState<BackdropMode>(() => {
+    const p = params.backdrop;
+    const v = Array.isArray(p) ? p[0] : p;
+    return v === "dark" || v === "light" || v === "image" ? v : "dark";
+  });
   const darkMode = backdrop !== "light";
   const setDarkMode = useCallback((value: boolean) => {
     setBackdrop(value ? "dark" : "light");
@@ -447,6 +461,7 @@ export function TunesProvider({ children }: { children: ReactNode }) {
     recentSearches,
     recordSearch,
     userName,
+    userImage: require("./assets/img/user-alex-morgan.jpg"),
     backdrop,
     setBackdrop,
     darkMode,

@@ -249,7 +249,7 @@ export function PhotoPanel({
   height = 340,
   children,
 }: {
-  profile: Pick<Profile, "name" | "colors">;
+  profile: Pick<Profile, "name" | "colors" | "image">;
   height?: number;
   children?: ReactNode;
 }) {
@@ -265,20 +265,28 @@ export function PhotoPanel({
     .toUpperCase();
   return (
     <View style={[styles.photo, { height, backgroundColor: plate }]}>
-      <View style={styles.photoCenter}>
-        <Text
-          variant="title"
-          isDark={darkMode}
-          style={{
-            fontFamily: SERIF,
-            fontSize: 72,
-            letterSpacing: 0,
-            color: backdrop === "light" ? "#3a332c" : "#f5efe6",
-          }}
-        >
-          {initials}
-        </Text>
-      </View>
+      {profile.image ? (
+        <Image
+          source={profile.image}
+          resizeMode="cover"
+          style={[StyleSheet.absoluteFill, { width: "100%", height: "100%" }]}
+        />
+      ) : (
+        <View style={styles.photoCenter}>
+          <Text
+            variant="title"
+            isDark={darkMode}
+            style={{
+              fontFamily: SERIF,
+              fontSize: 72,
+              letterSpacing: 0,
+              color: backdrop === "light" ? "#3a332c" : "#f5efe6",
+            }}
+          >
+            {initials}
+          </Text>
+        </View>
+      )}
       {children}
     </View>
   );
@@ -390,9 +398,12 @@ export function ProfileCardView({
 export function MessageBubble({
   message,
   senderName,
+  senderImage,
 }: {
   message: ChatMessage;
   senderName: string;
+  /** Bundled portrait of the sender, if known. */
+  senderImage?: number;
 }) {
   const { darkMode, backdrop } = useKindred();
   const mine = message.senderId === "me";
@@ -400,7 +411,7 @@ export function MessageBubble({
     <View style={[styles.messageRow, mine && styles.messageRowMine]}>
       {!mine ? (
         <View style={styles.messageAvatar}>
-          <Avatar name={senderName} size="sm" isDark={darkMode} />
+          <Avatar name={senderName} size="sm" isDark={darkMode} source={senderImage} />
         </View>
       ) : null}
       <View style={[styles.messageColumn, mine && styles.messageColumnMine]}>

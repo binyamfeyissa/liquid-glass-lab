@@ -309,16 +309,24 @@ export function ProductVisual({
         justifyContent: "center",
       }}
     >
-      <Text
-        isDark={darkMode}
-        variant="title"
-        style={{
-          fontSize,
-          color: darkMode ? "rgba(237,237,237,0.92)" : "rgba(31,27,22,0.85)",
-        }}
-      >
-        {product.name.charAt(0)}
-      </Text>
+      {product.image ? (
+        <Image
+          source={product.image}
+          style={{ width: "100%", height: "100%" }}
+          resizeMode="cover"
+        />
+      ) : (
+        <Text
+          isDark={darkMode}
+          variant="title"
+          style={{
+            fontSize,
+            color: darkMode ? "rgba(237,237,237,0.92)" : "rgba(31,27,22,0.85)",
+          }}
+        >
+          {product.name.charAt(0)}
+        </Text>
+      )}
       {product.badge ? (
         <View style={styles.visualBadge}>
           <Badge tone="muted" isDark={darkMode}>

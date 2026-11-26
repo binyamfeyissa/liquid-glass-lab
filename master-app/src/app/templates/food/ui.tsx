@@ -291,12 +291,20 @@ export function RestaurantVisual({
       accessibilityElementsHidden
       importantForAccessibility="no"
     >
-      <T
-        variant="title"
-        style={[styles.visualInitial, { fontSize: initialSize }]}
-      >
-        {restaurant.name.charAt(0)}
-      </T>
+      {restaurant.image ? (
+        <Image
+          source={restaurant.image}
+          style={{ width: "100%", height: "100%" }}
+          resizeMode="cover"
+        />
+      ) : (
+        <T
+          variant="title"
+          style={[styles.visualInitial, { fontSize: initialSize }]}
+        >
+          {restaurant.name.charAt(0)}
+        </T>
+      )}
     </View>
   );
 }
@@ -306,9 +314,17 @@ export function RestaurantThumb({ restaurant }: { restaurant: Restaurant }) {
   const [base] = restaurant.colors;
   return (
     <View style={[styles.thumb, { backgroundColor: base }]}>
-      <T variant="heading" style={styles.thumbInitial}>
-        {restaurant.name.charAt(0)}
-      </T>
+      {restaurant.image ? (
+        <Image
+          source={restaurant.image}
+          style={{ width: "100%", height: "100%" }}
+          resizeMode="cover"
+        />
+      ) : (
+        <T variant="heading" style={styles.thumbInitial}>
+          {restaurant.name.charAt(0)}
+        </T>
+      )}
     </View>
   );
 }

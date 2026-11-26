@@ -3,7 +3,7 @@ import { StyleSheet, View } from "react-native";
 import { Avatar, Button, Field, Input, Switch } from "glacia-native";
 
 import { useFood } from "../state";
-import { RESTAURANTS } from "../data";
+import { RESTAURANTS, USER_IMAGE } from "../data";
 import { RestaurantCard } from "../cards";
 import {
   BackdropControl,
@@ -50,7 +50,7 @@ export default function ProfileScreen() {
     <Screen title="Profile" subtitle="Your account, places and favourites">
       {/* Header */}
       <View style={styles.header}>
-        <Avatar name={food.userName} size="lg" isDark={food.darkMode} />
+        <Avatar name={food.userName} size="lg" isDark={food.darkMode} source={USER_IMAGE} />
         <View style={styles.flex1}>
           <T variant="heading">{food.userName}</T>
           <T variant="caption" muted>

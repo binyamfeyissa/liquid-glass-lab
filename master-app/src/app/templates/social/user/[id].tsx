@@ -38,10 +38,10 @@ export default function UserProfileScreen() {
         Back
       </Button>
 
-      <GradientTile gradient={user.gradient} label={user.name} height={110} radius={20} fontSize={26} />
+      <GradientTile gradient={user.gradient} label={user.name} height={110} radius={20} fontSize={26} image={user.image} />
 
       <View style={styles.header}>
-        <Avatar name={user.name} size="lg" isDark={social.darkMode} />
+        <Avatar name={user.name} source={user.image} size="lg" isDark={social.darkMode} />
         <View style={styles.flex1}>
           <T variant="heading">{user.name}</T>
           <T variant="body" muted>

@@ -45,6 +45,7 @@ export default function ProfileScreen() {
       <View style={styles.header}>
         <Avatar
           name={social.me.name}
+          source={social.me.image}
           size="lg"
           isDark={social.darkMode}
           status={social.activityStatus ? "online" : undefined}

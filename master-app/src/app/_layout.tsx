@@ -143,6 +143,10 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     borderRadius: 999,
     backgroundColor: "rgba(20, 20, 21, 0.55)",
+    // Owner request (2026-11-26): invisible for his video recordings, but
+    // still tappable — the pill keeps its place and hit area (top-left),
+    // only its paint is hidden. opacity: 0 does not disable touch.
+    opacity: 0,
   },
   backText: { color: "#ffffff" },
 });

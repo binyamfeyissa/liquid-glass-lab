@@ -151,10 +151,10 @@ function PressableHeader({
   name: string;
   handle: string;
 }) {
-  const { darkMode } = useSocial();
+  const { darkMode, userById } = useSocial();
   return (
     <View style={styles.headerMain}>
-      <Avatar name={name} size="md" isDark={darkMode} />
+      <Avatar name={name} source={userById(userId).image} size="md" isDark={darkMode} />
       <View>
         <T variant="body">{name}</T>
         <T variant="caption" muted>

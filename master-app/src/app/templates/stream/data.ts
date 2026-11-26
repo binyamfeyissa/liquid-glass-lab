@@ -1,13 +1,16 @@
 /**
  * Lumen Play's catalogue: fictional films and series. Everything is a
  * fixture — playback is simulated in the store, there are no video files
- * and no network. Each title carries two colours; the artwork composes
- * them into one flat tonal plate per title (no image assets anywhere).
+ * and no network. Each title carries two colours and one bundled
+ * royalty-free photo; the artwork shows the photo, with the flat tonal
+ * plate composed from the colours as the fallback.
  *
  * A "playable" is the unit playback and progress attach to: for a movie
  * it is the title itself (playable id = title id); for a series it is an
  * episode (playable id = episode id).
  */
+
+import type { ImageSourcePropType } from "react-native";
 
 export type Maturity = "family" | "teen" | "adult";
 
@@ -28,6 +31,8 @@ export interface Season {
 
 export interface Title {
   id: string;
+  /** Bundled poster-style photo; the tonal plate is the fallback. */
+  image: ImageSourcePropType;
   name: string;
   kind: "movie" | "series";
   year: number;
@@ -54,6 +59,7 @@ export interface Title {
 export const TITLES: Title[] = [
   {
     id: "harbor-lights",
+    image: require("./assets/img/harbor-lights.jpg"),
     name: "Harbor Lights",
     kind: "series",
     year: 2024,
@@ -90,6 +96,7 @@ export const TITLES: Title[] = [
   },
   {
     id: "orbital",
+    image: require("./assets/img/orbital.jpg"),
     name: "Orbital",
     kind: "series",
     year: 2026,
@@ -123,6 +130,7 @@ export const TITLES: Title[] = [
   },
   {
     id: "last-cartographer",
+    image: require("./assets/img/last-cartographer.jpg"),
     name: "The Last Cartographer",
     kind: "movie",
     year: 2025,
@@ -140,6 +148,7 @@ export const TITLES: Title[] = [
   },
   {
     id: "night-kitchen",
+    image: require("./assets/img/night-kitchen.jpg"),
     name: "The Night Kitchen",
     kind: "series",
     year: 2025,
@@ -167,6 +176,7 @@ export const TITLES: Title[] = [
   },
   {
     id: "static-bloom",
+    image: require("./assets/img/static-bloom.jpg"),
     name: "Static Bloom",
     kind: "movie",
     year: 2026,
@@ -184,6 +194,7 @@ export const TITLES: Title[] = [
   },
   {
     id: "deep-field",
+    image: require("./assets/img/deep-field.jpg"),
     name: "Deep Field",
     kind: "movie",
     year: 2026,
@@ -200,6 +211,7 @@ export const TITLES: Title[] = [
   },
   {
     id: "cold-trail",
+    image: require("./assets/img/cold-trail.jpg"),
     name: "Cold Trail",
     kind: "series",
     year: 2024,
@@ -226,6 +238,7 @@ export const TITLES: Title[] = [
   },
   {
     id: "understudy",
+    image: require("./assets/img/understudy.jpg"),
     name: "The Understudy",
     kind: "movie",
     year: 2025,
@@ -242,6 +255,7 @@ export const TITLES: Title[] = [
   },
   {
     id: "quiet-harvest",
+    image: require("./assets/img/quiet-harvest.jpg"),
     name: "A Quiet Harvest",
     kind: "movie",
     year: 2024,
@@ -258,6 +272,7 @@ export const TITLES: Title[] = [
   },
   {
     id: "long-now",
+    image: require("./assets/img/long-now.jpg"),
     name: "The Long Now",
     kind: "series",
     year: 2025,
@@ -282,6 +297,7 @@ export const TITLES: Title[] = [
   },
   {
     id: "starfall-academy",
+    image: require("./assets/img/starfall-academy.jpg"),
     name: "Starfall Academy",
     kind: "series",
     year: 2026,
@@ -308,6 +324,7 @@ export const TITLES: Title[] = [
   },
   {
     id: "night-ferry",
+    image: require("./assets/img/night-ferry.jpg"),
     name: "Night Ferry",
     kind: "movie",
     year: 2023,
@@ -324,6 +341,7 @@ export const TITLES: Title[] = [
   },
   {
     id: "paper-moons",
+    image: require("./assets/img/paper-moons.jpg"),
     name: "Paper Moons",
     kind: "movie",
     year: 2026,
@@ -341,6 +359,7 @@ export const TITLES: Title[] = [
   },
   {
     id: "glass-observatory",
+    image: require("./assets/img/glass-observatory.jpg"),
     name: "The Glass Observatory",
     kind: "movie",
     year: 2024,

@@ -118,7 +118,7 @@ export default function DiscoverScreen() {
                   onPress={() => router.push(`/templates/cast/show/${show.id}`)}
                   accessibilityLabel={`Open ${show.title} by ${show.author}`}
                 >
-                  <Artwork title={show.title} colors={show.colors} size={64} />
+                  <Artwork title={show.title} colors={show.colors} size={64} image={show.image} />
                   <T variant="body" numberOfLines={1} style={styles.cardTitle}>
                     {show.title}
                   </T>

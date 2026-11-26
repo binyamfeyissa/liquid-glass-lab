@@ -250,11 +250,14 @@ export function Artwork({
   colors,
   size = 52,
   radius,
+  image,
 }: {
   title: string;
   colors: [string, string];
   size?: number;
   radius?: number;
+  /** Bundled cover art — when provided it replaces the colour plate. */
+  image?: number;
 }) {
   const { backdrop } = useTunes();
   const r = radius ?? Math.min(20, Math.max(8, Math.round(size * 0.25)));
@@ -262,6 +265,15 @@ export function Artwork({
     backdrop === "light"
       ? mixHex(colors[0], "#8a8578", 0.5)
       : mixHex(colors[0], "#232325", 0.45);
+  if (image) {
+    return (
+      <Image
+        source={image}
+        resizeMode="cover"
+        style={{ width: size, height: size, borderRadius: r }}
+      />
+    );
+  }
   return (
     <View
       style={[
@@ -317,7 +329,7 @@ export function TrackRow({
         pressed && { backgroundColor: pressedColor(darkMode) },
       ]}
     >
-      <Artwork title={track.title} colors={track.colors} size={48} />
+      <Artwork title={track.title} colors={track.colors} size={48} image={track.image} />
       <View style={styles.flex}>
         <Serif
           variant="body"

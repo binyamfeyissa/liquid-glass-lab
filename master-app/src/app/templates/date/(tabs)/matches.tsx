@@ -51,6 +51,7 @@ export default function MatchesScreen() {
                       name={profile.name}
                       size="lg"
                       isDark={kindred.darkMode}
+                      source={profile.image}
                     />
                     <Badge
                       tone="muted"
@@ -104,6 +105,7 @@ export default function MatchesScreen() {
                       name={profile.name}
                       size="md"
                       isDark={kindred.darkMode}
+                      source={profile.image}
                     />
                     <View style={styles.rowText}>
                       <View style={styles.rowNameLine}>

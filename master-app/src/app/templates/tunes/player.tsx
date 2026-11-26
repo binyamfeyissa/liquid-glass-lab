@@ -80,7 +80,7 @@ export default function PlayerScreen() {
 
       {/* The album's flat plate, set large */}
       <View style={styles.artWrap}>
-        <Artwork title={track.title} colors={track.colors} size={280} radius={20} />
+        <Artwork title={track.title} colors={track.colors} size={280} radius={20} image={track.image} />
       </View>
 
       {/* Title + artist + like */}

@@ -50,7 +50,7 @@ export default function ShowScreen() {
       </View>
 
       <View style={styles.artWrap}>
-        <Artwork title={show.title} colors={show.colors} size={180} radius={20} />
+        <Artwork title={show.title} colors={show.colors} size={180} radius={20} image={show.image} />
       </View>
 
       <T variant="title" style={styles.centerText}>

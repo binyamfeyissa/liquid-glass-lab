@@ -56,7 +56,7 @@ export default function ProfileScreen() {
     <Screen title="Profile" subtitle="Your favourites, addresses and app settings">
       {/* Profile header */}
       <View style={styles.header}>
-        <Avatar name={shop.userName} size="lg" isDark={shop.darkMode} status="online" />
+        <Avatar name={shop.userName} source={shop.userImage} size="lg" isDark={shop.darkMode} status="online" />
         <View style={styles.headerText}>
           <T variant="heading">{shop.userName}</T>
           <T variant="body" muted>

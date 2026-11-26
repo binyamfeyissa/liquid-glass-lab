@@ -3,7 +3,7 @@ import { StyleSheet, View } from "react-native";
 import { router } from "expo-router";
 import { Avatar, Chip, Select, Switch } from "glacia-native";
 
-import { TOPICS } from "../data";
+import { TOPICS, USER_IMAGE } from "../data";
 import { FONT_STEPS, useSignal } from "../state";
 import {
   BackdropControl,
@@ -24,7 +24,7 @@ export default function ProfileScreen() {
     <Screen title="Profile" subtitle="Reading, topics and settings">
       {/* Reader header */}
       <View style={styles.header}>
-        <Avatar name={signal.userName} size="lg" isDark={signal.darkMode} />
+        <Avatar name={signal.userName} source={USER_IMAGE} size="lg" isDark={signal.darkMode} />
         <View style={styles.headerText}>
           <T variant="heading">{signal.userName}</T>
           <T variant="body" muted>

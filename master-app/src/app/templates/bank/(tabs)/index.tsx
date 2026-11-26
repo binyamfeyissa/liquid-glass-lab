@@ -121,7 +121,7 @@ export default function HomeScreen() {
     >
       {/* Greeting header */}
       <View style={styles.header}>
-        <Avatar name={bank.userName} size="lg" isDark={bank.darkMode} />
+        <Avatar name={bank.userName} size="lg" isDark={bank.darkMode} source={bank.userImage} />
         <View style={styles.headerText}>
           <T variant="caption" muted>
             Northwind Bank

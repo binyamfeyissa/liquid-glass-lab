@@ -46,7 +46,7 @@ export default function MessagesScreen() {
                   pressed && { backgroundColor: pressedFill(social.backdrop) },
                 ]}
               >
-                <Avatar name={user.name} size="md" isDark={social.darkMode} />
+                <Avatar name={user.name} source={user.image} size="md" isDark={social.darkMode} />
                 <View style={styles.flex1}>
                   <View style={styles.nameRow}>
                     <T variant="body">{user.name}</T>

@@ -20,6 +20,7 @@ const CURRENCIES: Currency[] = ["USD", "EUR"];
 export default function ProfileScreen() {
   const {
     userName,
+    userImage,
     bookings,
     savedIds,
     threads,
@@ -40,7 +41,7 @@ export default function ProfileScreen() {
       {/* Header */}
       <Card isDark={darkMode} padding={20}>
         <View style={styles.header}>
-          <Avatar name={userName} size="lg" isDark={darkMode} />
+          <Avatar name={userName} source={userImage} size="lg" isDark={darkMode} />
           <View style={styles.flex}>
             <T variant="heading">{userName}</T>
             <T variant="caption" muted>

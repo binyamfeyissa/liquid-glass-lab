@@ -7,6 +7,8 @@ import React, {
   type ReactNode,
 } from "react";
 
+import { useLocalSearchParams } from "expo-router";
+
 /**
  * The whole template keeps its data in this one client-side store. There is
  * no backend: screens read and write here, so an edit on one screen is
@@ -54,6 +56,8 @@ export type NotificationKey = Exclude<keyof NotificationSettings, "quietHoursInd
 
 interface AppState {
   profile: ProfileData;
+  /** Bundled portrait for the profile owner, shown on the Profile screen. */
+  profileImage: number;
   saveProfile: (next: ProfileData) => void;
 
   notifications: NotificationSettings;
@@ -114,7 +118,17 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     textSize: "default",
   });
 
-  const [backdrop, setBackdrop] = useState<BackdropMode>("dark");
+  // The host (template list) passes its current backdrop mode as a route
+  // param (`backdrop`) when opening a template, so the template opens on
+  // the same background the owner just picked. Standalone there is no
+  // param and the template keeps its dark default. Read once on mount
+  // (lazy initialiser) so navigating inside the template never resets it.
+  const params = useLocalSearchParams();
+  const [backdrop, setBackdrop] = useState<BackdropMode>(() => {
+    const p = params.backdrop;
+    const v = Array.isArray(p) ? p[0] : p;
+    return v === "dark" || v === "light" || v === "image" ? v : "dark";
+  });
   const isDark = backdrop !== "light";
 
   const [twoFactor, setTwoFactor] = useState(true);
@@ -175,6 +189,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const value = useMemo<AppState>(() => {
     return {
       profile,
+      profileImage: require("./assets/img/user-jordan-ellis.jpg"),
       saveProfile,
       notifications,
       setNotification,

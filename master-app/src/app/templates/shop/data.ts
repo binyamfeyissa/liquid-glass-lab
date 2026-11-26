@@ -1,11 +1,12 @@
 /**
  * The Lumen catalogue. These are the same pieces the web Storefront sells —
  * same names, prices and finishes — trimmed to the twelve best suited to a
- * phone-sized shop. There are no product photos anywhere in this template:
- * every visual is composed at render time from the finish's one flat,
- * toned colour field and the product's initial (see ProductVisual in
- * ui.tsx).
+ * phone-sized shop. Every product carries one bundled royalty-free photo
+ * (see ProductVisual in ui.tsx); the finish's flat toned colour field and
+ * the product's initial remain as the fallback when no photo is set.
  */
+
+import type { ImageSourcePropType } from "react-native";
 
 export type Category = "Drinkware" | "Tableware" | "Lighting" | "Decor";
 
@@ -17,6 +18,8 @@ export interface Finish {
 
 export interface Product {
   id: string;
+  /** Bundled product photo (local asset); the colour plate is the fallback. */
+  image: ImageSourcePropType;
   name: string;
   price: number;
   compareAt?: number;
@@ -41,6 +44,7 @@ const SHIPPING: { label: string; body: string } = {
 export const PRODUCTS: Product[] = [
   {
     id: "aurora-carafe",
+    image: require("./assets/img/aurora-carafe.jpg"),
     name: "Aurora Carafe",
     price: 68,
     category: "Drinkware",
@@ -64,6 +68,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: "halo-tumblers-set",
+    image: require("./assets/img/halo-tumblers.jpg"),
     name: "Halo Tumblers · Set of 4",
     price: 54,
     compareAt: 68,
@@ -88,6 +93,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: "ember-wine-glasses",
+    image: require("./assets/img/ember-wine-glasses.jpg"),
     name: "Ember Wine Glasses · Pair",
     price: 72,
     category: "Drinkware",
@@ -110,6 +116,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: "fjord-whisky-set",
+    image: require("./assets/img/fjord-whisky-set.jpg"),
     name: "Fjord Whisky Set",
     price: 88,
     category: "Drinkware",
@@ -130,6 +137,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: "strata-dinner-plates",
+    image: require("./assets/img/strata-dinner-plates.jpg"),
     name: "Strata Dinner Plates · Set of 4",
     price: 96,
     category: "Tableware",
@@ -153,6 +161,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: "ripple-serving-bowl",
+    image: require("./assets/img/ripple-serving-bowl.jpg"),
     name: "Ripple Serving Bowl",
     price: 58,
     compareAt: 72,
@@ -175,6 +184,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: "dune-dessert-cups",
+    image: require("./assets/img/dune-dessert-cups.jpg"),
     name: "Dune Dessert Cups · Set of 4",
     price: 46,
     category: "Tableware",
@@ -195,6 +205,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: "orb-table-lamp",
+    image: require("./assets/img/orb-table-lamp.jpg"),
     name: "Orb Table Lamp",
     price: 148,
     category: "Lighting",
@@ -217,6 +228,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: "cascade-pendant",
+    image: require("./assets/img/cascade-pendant.jpg"),
     name: "Cascade Pendant",
     price: 189,
     compareAt: 229,
@@ -239,6 +251,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: "lumen-wall-sconce",
+    image: require("./assets/img/lumen-wall-sconce.jpg"),
     name: "Lumen Wall Sconce",
     price: 118,
     category: "Lighting",
@@ -260,6 +273,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: "tide-vase-tall",
+    image: require("./assets/img/tide-vase.jpg"),
     name: "Tide Vase · Tall",
     price: 78,
     category: "Decor",
@@ -283,6 +297,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: "mira-wall-mirror",
+    image: require("./assets/img/mira-wall-mirror.jpg"),
     name: "Mira Wall Mirror",
     price: 132,
     category: "Decor",

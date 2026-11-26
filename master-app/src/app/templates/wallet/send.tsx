@@ -80,7 +80,7 @@ export default function SendScreen() {
       <Screen title="Check it's right" subtitle="Payments can't be recalled">
         <ListCard>
           <View style={styles.confirmBody}>
-            <Avatar name={contact.name} size="lg" isDark={wallet.darkMode} />
+            <Avatar name={contact.name} size="lg" isDark={wallet.darkMode} source={contact.image} />
             <T variant="heading">{contact.name}</T>
             <T variant="caption" muted>
               {contact.handle} · Orbit Pay
@@ -143,7 +143,7 @@ export default function SendScreen() {
                   pressed && { opacity: 0.8 },
                 ]}
               >
-                <Avatar name={c.name} size="md" isDark={wallet.darkMode} />
+                <Avatar name={c.name} size="md" isDark={wallet.darkMode} source={c.image} />
                 <View style={styles.flex}>
                   <T variant="body">{c.name}</T>
                   <T variant="caption" muted>

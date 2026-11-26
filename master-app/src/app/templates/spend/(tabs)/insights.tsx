@@ -2,7 +2,7 @@ import React, { useMemo, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Avatar, Card, SegmentedControl } from "glacia-native";
 
-import { CURRENT_MONTH, MONTHS, monthKeyOf, useTally } from "../state";
+import { CATEGORY_IMAGES, CURRENT_MONTH, MONTHS, monthKeyOf, useTally } from "../state";
 import {
   CategoryBar,
   Figure,
@@ -138,7 +138,7 @@ export default function InsightsScreen() {
           <SectionTitle>Biggest expense</SectionTitle>
           <ListCard>
             <View style={styles.biggestRow}>
-              <Avatar name={biggest.category} size="lg" isDark={tally.darkMode} />
+              <Avatar name={biggest.category} source={CATEGORY_IMAGES[biggest.category]} size="lg" isDark={tally.darkMode} />
               <View style={styles.biggestText}>
                 <T variant="body">{biggest.title}</T>
                 <T variant="caption" muted style={styles.biggestMeta}>

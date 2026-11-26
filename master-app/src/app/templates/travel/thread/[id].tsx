@@ -14,7 +14,7 @@ import {
 } from "glacia-native";
 import { ChevronLeft } from "lucide-react-native";
 
-import { useTravel, type ChatMsg } from "../state";
+import { hostImageByName, useTravel, type ChatMsg } from "../state";
 import { Message, T, TypingIndicator } from "../ui";
 
 export default function ThreadScreen() {
@@ -76,7 +76,7 @@ export default function ThreadScreen() {
         >
           <ChevronLeft size={18} color={darkMode ? colors.dark.foreground : colors.light.foreground} />
         </Button>
-        <Avatar name={thread.hostName} size="sm" isDark={darkMode} />
+        <Avatar name={thread.hostName} source={hostImageByName(thread.hostName)} size="sm" isDark={darkMode} />
         <View style={styles.flex}>
           <T variant="body" numberOfLines={1}>
             {thread.hostName}

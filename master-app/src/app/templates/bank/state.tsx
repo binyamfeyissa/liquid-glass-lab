@@ -7,6 +7,8 @@ import React, {
   type ReactNode,
 } from "react";
 
+import { useLocalSearchParams } from "expo-router";
+
 /**
  * The whole template keeps its data in this one client-side store. There is
  * no backend and no persistence: state lives in memory for the session, so
@@ -54,6 +56,8 @@ export interface Recipient {
   id: string;
   name: string;
   handle: string;
+  /** Bundled portrait, shown in the send flow and on person transfers. */
+  image?: number;
 }
 
 export interface Bill {
@@ -75,6 +79,8 @@ export interface MonthInsight {
 
 interface BankState {
   userName: string;
+  /** Bundled portrait of the signed-in user. */
+  userImage: number;
   userHandle: string;
 
   accounts: Account[];
@@ -174,12 +180,12 @@ const SEED_TRANSACTIONS: Transaction[] = [
   { id: "t18", accountId: "checking", title: "City Electric", detail: "Utility bill", category: "Bills", amount: -92.41, dateLabel: "Wed" },
 ];
 
-const RECIPIENTS: Recipient[] = [
-  { id: "r1", name: "Maya Chen", handle: "@maya" },
-  { id: "r2", name: "Daniel Osei", handle: "@daniel" },
-  { id: "r3", name: "Priya Nair", handle: "@priya" },
-  { id: "r4", name: "Tom Alvarez", handle: "@tomas" },
-  { id: "r5", name: "Sara Lindqvist", handle: "@sara" },
+export const RECIPIENTS: Recipient[] = [
+  { id: "r1", name: "Maya Chen", handle: "@maya", image: require("./assets/img/maya-chen.jpg") },
+  { id: "r2", name: "Daniel Osei", handle: "@daniel", image: require("./assets/img/daniel-osei.jpg") },
+  { id: "r3", name: "Priya Nair", handle: "@priya", image: require("./assets/img/priya-nair.jpg") },
+  { id: "r4", name: "Tom Alvarez", handle: "@tomas", image: require("./assets/img/tom-alvarez.jpg") },
+  { id: "r5", name: "Sara Lindqvist", handle: "@sara", image: require("./assets/img/sara-lindqvist.jpg") },
 ];
 
 const SEED_BILLS: Bill[] = [
@@ -230,7 +236,17 @@ export function BankProvider({ children }: { children: ReactNode }) {
   const [cardOnlinePayments, setCardOnlinePayments] = useState(true);
   const [cardInternational, setCardInternational] = useState(false);
   const [hideBalances, setHideBalances] = useState(false);
-  const [backdrop, setBackdrop] = useState<BackdropMode>("dark");
+  // The host (template list) passes its current backdrop mode as a route
+  // param (`backdrop`) when opening a template, so the template opens on
+  // the same background the owner just picked. Standalone there is no
+  // param and the template keeps its dark default. Read once on mount
+  // (lazy initialiser) so navigating inside the template never resets it.
+  const params = useLocalSearchParams();
+  const [backdrop, setBackdrop] = useState<BackdropMode>(() => {
+    const p = params.backdrop;
+    const v = Array.isArray(p) ? p[0] : p;
+    return v === "dark" || v === "light" || v === "image" ? v : "dark";
+  });
   const darkMode = backdrop !== "light";
   const setDarkMode = useCallback((value: boolean) => {
     setBackdrop(value ? "dark" : "light");
@@ -320,6 +336,7 @@ export function BankProvider({ children }: { children: ReactNode }) {
       .reduce((sum, t) => sum - t.amount, 0);
     return {
       userName: "Jordan Ellis",
+      userImage: require("./assets/img/jordan-ellis.jpg"),
       userHandle: "@jordanellis",
       accounts: ACCOUNTS,
       balanceOf,

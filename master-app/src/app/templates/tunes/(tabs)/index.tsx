@@ -47,7 +47,7 @@ export default function HomeScreen() {
               accessibilityLabel={`Play ${track.title}`}
               style={styles.railItem}
             >
-              <Artwork title={track.title} colors={track.colors} size={96} />
+              <Artwork title={track.title} colors={track.colors} size={96} image={track.image} />
               <Serif variant="caption" numberOfLines={1} style={styles.railTitle}>
                 {track.title}
               </Serif>
@@ -76,6 +76,7 @@ export default function HomeScreen() {
                 title={playlist.name}
                 colors={playlist.colors}
                 size={64}
+                image={playlist.image}
               />
               <Serif variant="body" numberOfLines={1} style={styles.cardTitle}>
                 {playlist.name}

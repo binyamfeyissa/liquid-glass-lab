@@ -12,6 +12,7 @@ import {
 } from "glacia-native";
 
 import { useHealth } from "../state";
+import { USER_IMAGE } from "../data";
 import {
   BackdropControl,
   chromeColors,
@@ -72,7 +73,7 @@ export default function ProfileScreen() {
     <Screen title="Profile" subtitle="Your details, goals and app settings">
       {/* Header */}
       <View style={styles.header}>
-        <Avatar name={app.userName} size="lg" isDark={app.darkMode} />
+        <Avatar name={app.userName} size="lg" isDark={app.darkMode} source={USER_IMAGE} />
         <View style={styles.flex1}>
           <T variant="heading">{app.userName}</T>
           <T variant="body" muted>

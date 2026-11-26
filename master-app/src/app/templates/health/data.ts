@@ -7,6 +7,9 @@
  * 14 days whenever the template is opened.
  */
 
+/** The user's bundled portrait (assets/img). */
+export const USER_IMAGE = require("./assets/img/alex-morgan.jpg");
+
 export type Metric = "steps" | "water" | "sleep" | "weight" | "mood";
 
 export interface Entry {

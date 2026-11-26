@@ -157,6 +157,11 @@ export default function ConversationScreen() {
                   ? chat.me.name
                   : chat.contactById(item.message.senderId).name
               }
+              senderImage={
+                item.message.senderId === "me"
+                  ? chat.me.image
+                  : chat.contactById(item.message.senderId).image
+              }
               showSenderName={isGroup}
               onLongPress={() => setSelected(item.message)}
             />
@@ -168,7 +173,16 @@ export default function ConversationScreen() {
           listRef.current?.scrollToEnd({ animated: true })
         }
         ListFooterComponent={
-          typing ? <TypingIndicator senderName={typingName} /> : undefined
+          typing ? (
+            <TypingIndicator
+              senderName={typingName}
+              senderImage={
+                isGroup
+                  ? chat.contactById(conversation.memberIds[0]).image
+                  : contact?.image
+              }
+            />
+          ) : undefined
         }
       />
 

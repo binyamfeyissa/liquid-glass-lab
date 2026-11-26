@@ -49,7 +49,7 @@ function MiniPlayer() {
       accessibilityLabel={`Now playing: ${episode.title} from ${show.title}. Open the full player.`}
       style={styles.mini}
     >
-      <Artwork title={show.title} colors={show.colors} size={40} />
+      <Artwork title={show.title} colors={show.colors} size={40} image={show.image} />
       <View style={styles.miniText}>
         <T variant="body" numberOfLines={1}>
           {episode.title}

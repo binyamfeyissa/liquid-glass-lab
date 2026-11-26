@@ -8,7 +8,7 @@
     "expo-clipboard": "~58.0.0",
     "expo-router": "~58.0.32",
     "expo-status-bar": "~58.0.5",
-    "glacia-native": "^0.6.4",
+    "glacia-native": "^0.6.5",
     "lucide-react-native": "^1.80.0",
     "react": "19.3.0",
     "react-dom": "19.3.0",

@@ -100,7 +100,7 @@ export default function ExploreScreen() {
                   pressed && { backgroundColor: pressedFill(social.backdrop) },
                 ]}
               >
-                <Avatar name={user.name} size="md" isDark={social.darkMode} />
+                <Avatar name={user.name} source={user.image} size="md" isDark={social.darkMode} />
                 <View style={styles.flex1}>
                   <T variant="body">{user.name}</T>
                   <T variant="caption" muted numberOfLines={1}>

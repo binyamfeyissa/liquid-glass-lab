@@ -141,7 +141,7 @@ export default function TitleScreen() {
       </View>
 
       <View style={styles.posterWrap}>
-        <Artwork name={title.name} colors={title.colors} width={300} height={190} radius={20} />
+        <Artwork name={title.name} colors={title.colors} width={300} height={190} radius={20} image={title.image} />
       </View>
 
       <T variant="title" style={styles.name}>

@@ -8,6 +8,8 @@ import React, {
   type ReactNode,
 } from "react";
 
+import { useLocalSearchParams } from "expo-router";
+
 /**
  * The whole template keeps its data in this one client-side store. There is
  * no backend and no persistence: state lives in memory for the session, so
@@ -27,6 +29,8 @@ export interface Profile {
   interests: string[];
   /** Two warm colours for the composed "photo" panel. */
   colors: [string, string];
+  /** Bundled portrait photo, shown in place of the flat plate. */
+  image: number;
   /** Liking this profile in Discover is an instant match. */
   likesYouBack?: boolean;
   /** This profile shows up under "Likes you" until you decide. */
@@ -76,6 +80,7 @@ export const PROFILES: Profile[] = [
     bio: "I sketch buildings by day and hunt down the city's best bakeries on weekends. Looking for someone who'll split the last croissant — or at least negotiate fairly.",
     interests: ["Coffee", "Art", "Travel", "Photography"],
     colors: ["#f59e0b", "#ef4444"],
+    image: require("./assets/img/maya.jpg"),
     likesYouBack: true,
   },
   {
@@ -87,6 +92,7 @@ export const PROFILES: Profile[] = [
     bio: "Year-six teacher, weekend trail runner. I will absolutely challenge you to a board game and lose graciously about 40% of the time.",
     interests: ["Running", "Reading", "Hiking"],
     colors: ["#38bdf8", "#6366f1"],
+    image: require("./assets/img/jordan.jpg"),
   },
   {
     id: "priya",
@@ -97,6 +103,7 @@ export const PROFILES: Profile[] = [
     bio: "Design nerd, amateur chef, professional plant rescuer. My sourdough starter is called Clint Yeastwood and yes, I'm proud of that.",
     interests: ["Cooking", "Foodie", "Photography", "Art"],
     colors: ["#a78bfa", "#ec4899"],
+    image: require("./assets/img/priya.jpg"),
   },
   {
     id: "sam",
@@ -107,6 +114,7 @@ export const PROFILES: Profile[] = [
     bio: "I mix live gigs and collect vinyl I have no shelf space for. Best first date: a record fair and strong opinions about side B.",
     interests: ["Live music", "Film", "Tech"],
     colors: ["#34d399", "#0ea5e9"],
+    image: require("./assets/img/sam.jpg"),
   },
   {
     id: "elena",
@@ -117,6 +125,7 @@ export const PROFILES: Profile[] = [
     bio: "I study kelp forests and freedive whenever the water lets me. Tell me your favourite coastline and I'll plan the trip.",
     interests: ["Travel", "Hiking", "Photography", "Reading"],
     colors: ["#22d3ee", "#34d399"],
+    image: require("./assets/img/elena.jpg"),
     likesYouBack: true,
   },
   {
@@ -128,6 +137,7 @@ export const PROFILES: Profile[] = [
     bio: "Sous-chef by night, farmers-market regular by morning. I judge a city by its noodle soups and I'm always mid-research.",
     interests: ["Cooking", "Foodie", "Travel"],
     colors: ["#fb923c", "#f43f5e"],
+    image: require("./assets/img/noah.jpg"),
   },
   {
     id: "aisha",
@@ -138,6 +148,7 @@ export const PROFILES: Profile[] = [
     bio: "Children's book illustrator with a studio full of half-finished sketchbooks. Dog person — my rescue spaniel, Fig, approves all matches.",
     interests: ["Art", "Dogs", "Reading", "Coffee"],
     colors: ["#f472b6", "#a78bfa"],
+    image: require("./assets/img/aisha.jpg"),
   },
   {
     id: "leo",
@@ -148,6 +159,7 @@ export const PROFILES: Profile[] = [
     bio: "I teach people to climb things safely and cook things questionably. Sundays are for long routes and longer lunches.",
     interests: ["Climbing", "Hiking", "Cooking"],
     colors: ["#facc15", "#fb923c"],
+    image: require("./assets/img/leo.jpg"),
   },
   // ——— "Likes you" ———
   {
@@ -159,6 +171,7 @@ export const PROFILES: Profile[] = [
     bio: "Salsa on Tuesdays, swing on Fridays, and a firm believer that every kitchen is a dance floor waiting to happen.",
     interests: ["Dancing", "Live music", "Coffee"],
     colors: ["#fb7185", "#f59e0b"],
+    image: require("./assets/img/sofia.jpg"),
     likedYou: true,
   },
   {
@@ -170,6 +183,7 @@ export const PROFILES: Profile[] = [
     bio: "Documentary photographer, darkroom enthusiast. I develop film the slow way and make coffee the slower way.",
     interests: ["Photography", "Film", "Travel", "Coffee"],
     colors: ["#60a5fa", "#34d399"],
+    image: require("./assets/img/marcus.jpg"),
     likedYou: true,
   },
   {
@@ -181,6 +195,7 @@ export const PROFILES: Profile[] = [
     bio: "Sunrise classes, evening pottery, and a garden that's mostly tomatoes and optimism. Balance in all things — including dessert.",
     interests: ["Yoga", "Cooking", "Art"],
     colors: ["#4ade80", "#22d3ee"],
+    image: require("./assets/img/hana.jpg"),
     likedYou: true,
   },
   // ——— Already matched when the app opens ———
@@ -193,6 +208,7 @@ export const PROFILES: Profile[] = [
     bio: "Features writer, pub-quiz anchor, firm believer in the long walk as a first date.",
     interests: ["Reading", "Film", "Running"],
     colors: ["#818cf8", "#e879f9"],
+    image: require("./assets/img/grace.jpg"),
   },
   {
     id: "daniel",
@@ -203,6 +219,7 @@ export const PROFILES: Profile[] = [
     bio: "Builds apps, restores old radios, and keeps a sourdough starter alive against all odds.",
     interests: ["Tech", "Cooking", "Live music"],
     colors: ["#38bdf8", "#4ade80"],
+    image: require("./assets/img/daniel.jpg"),
   },
 ];
 
@@ -308,7 +325,17 @@ let messageSeq = 0;
 const nextMessageId = () => `m${++messageSeq}`;
 
 export function KindredProvider({ children }: { children: ReactNode }) {
-  const [backdrop, setBackdrop] = useState<BackdropMode>("dark");
+  // The host (template list) passes its current backdrop mode as a route
+  // param (`backdrop`) when opening a template, so the template opens on
+  // the same background the owner just picked. Standalone there is no
+  // param and the template keeps its dark default. Read once on mount
+  // (lazy initialiser) so navigating inside the template never resets it.
+  const params = useLocalSearchParams();
+  const [backdrop, setBackdrop] = useState<BackdropMode>(() => {
+    const p = params.backdrop;
+    const v = Array.isArray(p) ? p[0] : p;
+    return v === "dark" || v === "light" || v === "image" ? v : "dark";
+  });
   const darkMode = backdrop !== "light";
   const setDarkMode = useCallback((value: boolean) => {
     setBackdrop(value ? "dark" : "light");

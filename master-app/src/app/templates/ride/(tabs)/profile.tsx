@@ -4,6 +4,7 @@ import { router } from "expo-router";
 import { Avatar, Button, Field, Input, Switch } from "glacia-native";
 
 import { useRide } from "../state";
+import { USER_IMAGE } from "../data";
 import {
   BackdropControl,
   Figure,
@@ -47,7 +48,7 @@ export default function ProfileScreen() {
     <Screen title="Profile" subtitle="Your details, places, payment and settings">
       {/* Header with rider rating */}
       <View style={styles.header}>
-        <Avatar name={ride.userName} size="lg" isDark={ride.darkMode} status="online" />
+        <Avatar name={ride.userName} source={USER_IMAGE} size="lg" isDark={ride.darkMode} status="online" />
         <View style={styles.headerText}>
           <T variant="heading">{ride.userName}</T>
           <View style={styles.ratingRow}>

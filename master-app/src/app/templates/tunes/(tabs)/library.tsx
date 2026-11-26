@@ -7,7 +7,7 @@ import {
 } from "glacia-native";
 import { ChevronRight, Heart } from "lucide-react-native";
 
-import { formatLongDuration, trackById } from "../data";
+import { LIKED_SONGS_IMAGE, formatLongDuration, trackById } from "../data";
 import { LIKED_PLAYLIST_ID, useTunes } from "../state";
 import {
   Artwork,
@@ -69,7 +69,7 @@ export default function LibraryScreen() {
         accessibilityLabel="Open Liked Songs"
       >
         <View style={styles.likedRow}>
-          <Artwork title="Liked Songs" colors={["#db2777", "#7c3aed"]} size={56} />
+          <Artwork title="Liked Songs" colors={["#db2777", "#7c3aed"]} size={56} image={LIKED_SONGS_IMAGE} />
           <View style={styles.flex}>
             <Serif variant="heading">Liked Songs</Serif>
             <T variant="caption" muted style={styles.sub}>
@@ -101,6 +101,7 @@ export default function LibraryScreen() {
                   title={playlist.name}
                   colors={playlist.colors}
                   size={48}
+                  image={playlist.image}
                 />
                 <View style={styles.flex}>
                   <Serif variant="body" numberOfLines={1}>

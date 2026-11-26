@@ -77,7 +77,7 @@ export default function TripDetailScreen() {
         <SectionTitle>Driver</SectionTitle>
         <ListCard>
           <View style={styles.driverRow}>
-            <Avatar name={trip.driver.name} size="md" isDark={ride.darkMode} />
+            <Avatar name={trip.driver.name} source={trip.driver.image} size="md" isDark={ride.darkMode} />
             <View style={styles.routeText}>
               <T variant="body">{trip.driver.name}</T>
               <T variant="caption" muted>

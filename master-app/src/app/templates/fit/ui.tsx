@@ -380,6 +380,15 @@ export function WorkoutTile({
   workout: Workout;
   size?: number;
 }) {
+  if (workout.image) {
+    return (
+      <Image
+        source={workout.image}
+        style={{ width: size, height: size, borderRadius: size * 0.3 }}
+        resizeMode="cover"
+      />
+    );
+  }
   return (
     <View
       style={[

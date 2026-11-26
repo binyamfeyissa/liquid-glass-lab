@@ -64,7 +64,7 @@ export default function HomeScreen() {
                 accessibilityLabel={`Open ${show.title}`}
                 style={styles.railItem}
               >
-                <Artwork title={show.title} colors={show.colors} size={96} />
+                <Artwork title={show.title} colors={show.colors} size={96} image={show.image} />
                 <T variant="caption" numberOfLines={1} style={styles.railTitle}>
                   {show.title}
                 </T>

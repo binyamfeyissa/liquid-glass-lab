@@ -24,7 +24,7 @@ const STATS: { value: string; label: string }[] = [
 ];
 
 export default function ProfileScreen() {
-  const { profile, notifications, glaciaDark, backdrop } = useAppState();
+  const { profile, profileImage, notifications, glaciaDark, backdrop } = useAppState();
   const [planOpen, setPlanOpen] = useState(false);
 
   const alertsOn = [
@@ -42,7 +42,7 @@ export default function ProfileScreen() {
         {/* Identity */}
         <Card isDark={glaciaDark} padding={20}>
           <View style={styles.identityRow}>
-            <Avatar name={profile.name} size="lg" isDark={glaciaDark} />
+            <Avatar name={profile.name} size="lg" isDark={glaciaDark} source={profileImage} />
             <View style={styles.identityText}>
               <Serif variant="heading">{profile.name}</Serif>
               <T variant="caption" muted>

@@ -104,7 +104,7 @@ export default function PropertyScreen() {
       >
         {[0, 1, 2].map((variant) => (
           <View key={variant} style={styles.gallerySlide}>
-            <PropertyVisual property={property} height={232} variant={variant} radius={16} />
+            <PropertyVisual property={property} height={232} variant={variant} radius={16} image={property.image} />
             <View style={styles.galleryTag}>
               <Badge tone="muted" isDark={darkMode}>
                 {variant === 0 ? "Front" : variant === 1 ? "Golden hour" : "Evening"}

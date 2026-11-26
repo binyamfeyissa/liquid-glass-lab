@@ -15,7 +15,7 @@ import { ModeToggle } from "../backdrop";
 export default function MasterHome() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
-  const { isDark } = useBackdropMode();
+  const { isDark, mode } = useBackdropMode();
   const [query, setQuery] = useState("");
 
   const shown = useMemo(() => {
@@ -67,7 +67,16 @@ export default function MasterHome() {
           }
           renderItem={({ item }) => (
             <Pressable
-              onPress={() => router.push(`/templates/${item.slug}`)}
+              // Pass the host's current backdrop mode so the template opens
+              // on the same background. The template reads `backdrop` as its
+              // initial mode (its own store defaults to dark otherwise and
+              // never sees the host's mode). Owner fix 2026-11-26.
+              onPress={() =>
+                router.push({
+                  pathname: `/templates/${item.slug}`,
+                  params: { backdrop: mode },
+                })
+              }
               accessibilityRole="button"
               accessibilityLabel={`${item.name} — ${item.app}`}
               style={({ pressed }) => [

@@ -28,6 +28,18 @@ export interface Job {
   colors: [string, string];
 }
 
+/** The rider's bundled portrait (assets/img). */
+export const USER_IMAGE = require("./assets/img/alex-rider.jpg");
+
+/** Restaurant photo by name, for the composed restaurant tile. */
+export const RESTAURANT_IMAGES: Record<string, number> = {
+  "Sakura House": require("./assets/img/sakura-house.jpg"),
+  "Nonna's Trattoria": require("./assets/img/nonnas-trattoria.jpg"),
+  "Green Bowl": require("./assets/img/green-bowl.jpg"),
+  "Burger Barn": require("./assets/img/burger-barn.jpg"),
+  "Taco Mesa": require("./assets/img/taco-mesa.jpg"),
+};
+
 /** Offers rotate in this order; declining one shows the next. */
 export const OFFERS: Job[] = [
   {

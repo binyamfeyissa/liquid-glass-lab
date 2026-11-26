@@ -103,6 +103,7 @@ export default function StayDetailScreen() {
                   height={230}
                   radius={20}
                   fontSize={28}
+                  image={[stay.image, stay.sleepImage, dest?.image][i]}
                 />
               </View>
             ))}
@@ -145,7 +146,7 @@ export default function StayDetailScreen() {
         {/* Host */}
         <ListCard>
           <View style={styles.hostRow}>
-            <Avatar name={stay.hostName} size="md" isDark={darkMode} />
+            <Avatar name={stay.hostName} source={stay.hostImage} size="md" isDark={darkMode} />
             <View style={styles.flex}>
               <T variant="body">Hosted by {stay.hostName}</T>
               <T variant="caption" muted>
@@ -191,7 +192,7 @@ export default function StayDetailScreen() {
               <ListCard key={review.author}>
                 <View style={styles.reviewInner}>
                   <View style={styles.hostRowPlain}>
-                    <Avatar name={review.author} size="sm" isDark={darkMode} />
+                    <Avatar name={review.author} source={review.image} size="sm" isDark={darkMode} />
                     <View style={styles.flex}>
                       <T variant="body">{review.author}</T>
                       <T variant="caption" muted>

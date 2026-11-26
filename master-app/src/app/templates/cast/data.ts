@@ -17,6 +17,8 @@ export interface Show {
   /** Update cadence, e.g. "Weekly". */
   cadence: string;
   colors: [string, string];
+  /** Bundled cover photo, shown in place of the flat plate. */
+  image: number;
 }
 
 export interface Episode {
@@ -45,6 +47,7 @@ export const SHOWS: Show[] = [
     rating: "4.9",
     cadence: "Weekly",
     colors: ["#0e7490", "#2563eb"],
+    image: require("./assets/img/deep-dive.jpg"),
   },
   {
     id: "cold-open",
@@ -56,6 +59,7 @@ export const SHOWS: Show[] = [
     rating: "4.8",
     cadence: "Weekly",
     colors: ["#7f1d1d", "#334155"],
+    image: require("./assets/img/cold-open.jpg"),
   },
   {
     id: "small-talk",
@@ -67,6 +71,7 @@ export const SHOWS: Show[] = [
     rating: "4.7",
     cadence: "Twice weekly",
     colors: ["#f59e0b", "#db2777"],
+    image: require("./assets/img/small-talk.jpg"),
   },
   {
     id: "ledger",
@@ -78,6 +83,7 @@ export const SHOWS: Show[] = [
     rating: "4.8",
     cadence: "Weekly",
     colors: ["#166534", "#0f766e"],
+    image: require("./assets/img/ledger.jpg"),
   },
   {
     id: "field-notes",
@@ -89,6 +95,7 @@ export const SHOWS: Show[] = [
     rating: "4.9",
     cadence: "Fortnightly",
     colors: ["#65a30d", "#0e7490"],
+    image: require("./assets/img/field-notes.jpg"),
   },
   {
     id: "slow-mornings",
@@ -100,6 +107,7 @@ export const SHOWS: Show[] = [
     rating: "4.8",
     cadence: "Weekly",
     colors: ["#7c3aed", "#0ea5e9"],
+    image: require("./assets/img/slow-mornings.jpg"),
   },
 ];
 

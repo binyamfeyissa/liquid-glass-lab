@@ -61,7 +61,7 @@ export default function HomeScreen() {
           accessibilityLabel={`Featured: ${featured.title}, ${money(featured.price)}`}
         >
           <View>
-            <PropertyVisual property={featured} height={208} />
+            <PropertyVisual property={featured} height={208} image={featured.image} />
             <View style={styles.featuredBadge}>
               <Badge tone="muted" isDark={darkMode}>
                 {featured.status}

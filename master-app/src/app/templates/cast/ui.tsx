@@ -223,11 +223,14 @@ export function Artwork({
   colors,
   size = 52,
   radius,
+  image,
 }: {
   title: string;
   colors: [string, string];
   size?: number;
   radius?: number;
+  /** Bundled cover photo; when present it replaces the flat plate. */
+  image?: number;
 }) {
   const { backdrop } = useCast();
   const r = radius ?? Math.round(size * 0.24);
@@ -247,12 +250,20 @@ export function Artwork({
         },
       ]}
     >
-      <T
-        variant={size >= 120 ? "title" : "label"}
-        style={{ color: backdrop === "light" ? "#1f1b16" : "#f7f4ee" }}
-      >
-        {initialsOfTitle(title)}
-      </T>
+      {image ? (
+        <Image
+          source={image}
+          resizeMode="cover"
+          style={{ width: size, height: size, borderRadius: r }}
+        />
+      ) : (
+        <T
+          variant={size >= 120 ? "title" : "label"}
+          style={{ color: backdrop === "light" ? "#1f1b16" : "#f7f4ee" }}
+        >
+          {initialsOfTitle(title)}
+        </T>
+      )}
     </View>
   );
 }
@@ -303,7 +314,7 @@ export function EpisodeRow({
         },
       ]}
     >
-      <Artwork title={show.title} colors={show.colors} size={52} />
+      <Artwork title={show.title} colors={show.colors} size={52} image={show.image} />
       <View style={styles.flex}>
         <T
           variant="body"

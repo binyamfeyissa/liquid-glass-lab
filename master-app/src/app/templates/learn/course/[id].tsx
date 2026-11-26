@@ -82,7 +82,7 @@ export default function CourseScreen() {
       </Button>
 
       <Card isDark={learn.darkMode} padding={0}>
-        <CourseCover course={course} height={150} />
+        <CourseCover course={course} height={150} image={course.image} />
       </Card>
 
       <View>
@@ -210,7 +210,7 @@ export default function CourseScreen() {
         <SectionTitle>Your instructor</SectionTitle>
         <Card isDark={learn.darkMode} padding={20}>
           <View style={styles.instructorHead}>
-            <Avatar name={course.instructor.name} size="lg" isDark={learn.darkMode} />
+            <Avatar name={course.instructor.name} source={course.instructor.image} size="lg" isDark={learn.darkMode} />
             <View style={styles.instructorText}>
               <T variant="heading">{course.instructor.name}</T>
               <T variant="caption" muted>

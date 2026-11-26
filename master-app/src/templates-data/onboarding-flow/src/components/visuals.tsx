@@ -83,10 +83,10 @@ export function AnalyticsVisual() {
 
 /* ---------------- Screen 2 — team availability ---------------- */
 
-const TEAM: Array<{ name: string; note: string; inFocus: boolean; status: 'online' | 'busy' | 'offline' }> = [
-  { name: 'Sarah Chen', note: 'Product designer · free until 15:00', inFocus: true, status: 'online' },
-  { name: 'Alex Rivera', note: 'Engineer · in a design review', inFocus: false, status: 'busy' },
-  { name: 'Elena Rostova', note: 'Data lead · reviewing the Q3 model', inFocus: true, status: 'online' },
+const TEAM: Array<{ name: string; note: string; inFocus: boolean; status: 'online' | 'busy' | 'offline'; image: number }> = [
+  { name: 'Sarah Chen', note: 'Product designer · free until 15:00', inFocus: true, status: 'online', image: require('../../assets/img/person-sarah-chen.jpg') },
+  { name: 'Alex Rivera', note: 'Engineer · in a design review', inFocus: false, status: 'busy', image: require('../../assets/img/person-alex-rivera.jpg') },
+  { name: 'Elena Rostova', note: 'Data lead · reviewing the Q3 model', inFocus: true, status: 'online', image: require('../../assets/img/person-elena-rostova.jpg') },
 ];
 
 export function TeamVisual() {
@@ -100,15 +100,22 @@ export function TeamVisual() {
           Your team is in flow
         </Text>
         <View style={styles.avatarStack}>
-          <Avatar isDark={darkMode} name="Sarah Chen" size="sm" />
-          <Avatar isDark={darkMode} name="Alex Rivera" size="sm" style={styles.avatarOverlap} />
-          <Avatar isDark={darkMode} name="Elena Rostova" size="sm" style={styles.avatarOverlap} />
+          {TEAM.map((person, i) => (
+            <Avatar
+              key={person.name}
+              isDark={darkMode}
+              name={person.name}
+              size="sm"
+              source={person.image}
+              style={i > 0 ? styles.avatarOverlap : undefined}
+            />
+          ))}
         </View>
       </Row>
       <View style={styles.stack}>
         {TEAM.map((person) => (
           <Row key={person.name} style={styles.personRow}>
-            <Avatar isDark={darkMode} name={person.name} size="md" status={person.status} />
+            <Avatar isDark={darkMode} name={person.name} size="md" status={person.status} source={person.image} />
             <View style={styles.personText}>
               <Text isDark={darkMode} variant="label">
                 {person.name}

@@ -4,7 +4,7 @@ import { router } from "expo-router";
 import { Avatar, Button, Card, Chip, Progress } from "glacia-native";
 
 import { useLearn } from "../state";
-import { CATEGORIES, COURSES, findLesson } from "../data";
+import { CATEGORIES, COURSES, USER_IMAGE, findLesson } from "../data";
 import {
   CourseCard,
   Figure,
@@ -38,7 +38,7 @@ export default function HomeScreen() {
     >
       {/* Learner header — names the place, not a greeting */}
       <View style={styles.header}>
-        <Avatar name={learn.userName} size="lg" isDark={learn.darkMode} />
+        <Avatar name={learn.userName} source={USER_IMAGE} size="lg" isDark={learn.darkMode} />
         <View style={styles.headerText}>
           <T variant="caption" muted>
             Glasshouse

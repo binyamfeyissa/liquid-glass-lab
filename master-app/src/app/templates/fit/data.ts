@@ -36,9 +36,13 @@ export interface Workout {
   calories: number;
   /** One flat, toned colour field for the composed cover tile. */
   tone: string;
+  /** Bundled photo for the workout tile (assets/img). */
+  image?: number;
   blurb: string;
   exercises: Exercise[];
 }
+
+export const USER_IMAGE = require("./assets/img/jordan-ellis.jpg");
 
 export const WORKOUTS: Workout[] = [
   {
@@ -49,6 +53,7 @@ export const WORKOUTS: Workout[] = [
     durationMin: 38,
     calories: 310,
     tone: "#8c4a2f",
+    image: require("./assets/img/full-body-strength.jpg"),
     blurb: "Squat, push, pull and hinge — the whole body in one session",
     exercises: [
       { name: "Goblet Squats", sets: 4, reps: "10 reps", restSec: 45, monogram: "GS" },
@@ -67,6 +72,7 @@ export const WORKOUTS: Workout[] = [
     durationMin: 32,
     calories: 285,
     tone: "#4a5a6a",
+    image: require("./assets/img/upper-body-power.jpg"),
     blurb: "Heavy pressing and pulling for chest, back and arms",
     exercises: [
       { name: "Dumbbell Bench Press", sets: 4, reps: "8 reps", restSec: 60, monogram: "BP" },
@@ -84,6 +90,7 @@ export const WORKOUTS: Workout[] = [
     durationMin: 40,
     calories: 340,
     tone: "#5f6b3a",
+    image: require("./assets/img/leg-day-foundation.jpg"),
     blurb: "Quads, glutes and calves with joint-friendly progressions",
     exercises: [
       { name: "Back Squats", sets: 4, reps: "8 reps", restSec: 60, monogram: "BS" },
@@ -102,6 +109,7 @@ export const WORKOUTS: Workout[] = [
     durationMin: 30,
     calories: 360,
     tone: "#a34d28",
+    image: require("./assets/img/endurance-run-intervals.jpg"),
     blurb: "Alternating fast and easy efforts to build your engine",
     exercises: [
       { name: "Easy Warm-Up Jog", sets: 1, reps: "5 min", restSec: 30, monogram: "WJ" },
@@ -119,6 +127,7 @@ export const WORKOUTS: Workout[] = [
     durationMin: 25,
     calories: 190,
     tone: "#2f5f5a",
+    image: require("./assets/img/low-impact-cardio.jpg"),
     blurb: "Steady, joint-friendly movement that still gets the heart up",
     exercises: [
       { name: "March in Place", sets: 3, reps: "60 sec", restSec: 20, monogram: "MP" },
@@ -136,6 +145,7 @@ export const WORKOUTS: Workout[] = [
     durationMin: 20,
     calories: 265,
     tone: "#8c3b2e",
+    image: require("./assets/img/hiit-ignite.jpg"),
     blurb: "Short, sharp intervals. Twenty minutes, nowhere to hide",
     exercises: [
       { name: "Burpees", sets: 4, reps: "30 sec", restSec: 30, monogram: "BU" },
@@ -154,6 +164,7 @@ export const WORKOUTS: Workout[] = [
     durationMin: 15,
     calories: 120,
     tone: "#8a6414",
+    image: require("./assets/img/core-crusher.jpg"),
     blurb: "A quick core burner that fits anywhere in your day",
     exercises: [
       { name: "Dead Bugs", sets: 3, reps: "12 reps", restSec: 25, monogram: "DB" },
@@ -171,6 +182,7 @@ export const WORKOUTS: Workout[] = [
     durationMin: 18,
     calories: 75,
     tone: "#4f6248",
+    image: require("./assets/img/morning-mobility.jpg"),
     blurb: "Wake up hips, spine and shoulders before the day starts",
     exercises: [
       { name: "Cat-Cow Flow", sets: 2, reps: "8 reps", restSec: 15, monogram: "CC" },
@@ -189,6 +201,7 @@ export const WORKOUTS: Workout[] = [
     durationMin: 22,
     calories: 85,
     tone: "#6b4a5e",
+    image: require("./assets/img/deep-stretch.jpg"),
     blurb: "Slow holds to undo a hard week of training (or sitting)",
     exercises: [
       { name: "Pigeon Pose", sets: 2, reps: "60 sec / side", restSec: 15, monogram: "PP" },

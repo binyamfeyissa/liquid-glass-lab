@@ -26,7 +26,7 @@ export default function ProfileScreen() {
     <Screen title="Profile" subtitle="Display, security and settings">
       {/* Profile header */}
       <View style={styles.header}>
-        <Avatar name={wallet.userName} size="lg" isDark={wallet.darkMode} />
+        <Avatar name={wallet.userName} size="lg" isDark={wallet.darkMode} source={wallet.userImage} />
         <View style={styles.headerText}>
           <T variant="heading">{wallet.userName}</T>
           <T variant="body" muted>

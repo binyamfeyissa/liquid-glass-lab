@@ -432,7 +432,7 @@ export function TripRow({ trip, onPress }: { trip: Trip; onPress?: () => void })
   const { darkMode } = useRide();
   const body = (
     <>
-      <Avatar name={trip.destinationLabel} size="md" isDark={darkMode} />
+      <Avatar name={trip.driver.name} source={trip.driver.image} size="md" isDark={darkMode} />
       <View style={styles.settingText}>
         <T variant="body" numberOfLines={1}>
           {trip.destinationLabel}

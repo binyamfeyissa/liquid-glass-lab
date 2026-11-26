@@ -8,6 +8,8 @@ import React, {
   type ReactNode,
 } from "react";
 
+import { useLocalSearchParams } from "expo-router";
+
 /**
  * The whole template keeps its data in this one client-side store. There is
  * no backend and no persistence: state lives in memory for the session, so
@@ -33,6 +35,8 @@ export interface Contact {
   presence: Presence;
   /** "Active now", "Last seen 2h ago", … */
   presenceLabel: string;
+  /** Bundled portrait. */
+  image?: number;
 }
 
 export interface ChatMessage {
@@ -69,7 +73,7 @@ export interface CallEntry {
 }
 
 interface ChatState {
-  me: { name: string; handle: string };
+  me: { name: string; handle: string; image: number };
   myStatus: string;
   setMyStatus: (value: string) => void;
 
@@ -113,14 +117,14 @@ interface ChatState {
 const ChatContext = createContext<ChatState | null>(null);
 
 export const CONTACTS: Contact[] = [
-  { id: "lena", name: "Lena Fischer", handle: "@lena", about: "Product designer · Berlin. Glass half full.", presence: "online", presenceLabel: "Active now" },
-  { id: "marcus", name: "Marcus Webb", handle: "@marcus", about: "Ops lead. Coffee first, questions later.", presence: "busy", presenceLabel: "Active 12m ago" },
-  { id: "priya", name: "Priya Nair", handle: "@priya", about: "iOS engineer · she/her", presence: "online", presenceLabel: "Active now" },
-  { id: "tomas", name: "Tom Alvarez", handle: "@tomas", about: "Probably on a mountain somewhere.", presence: "offline", presenceLabel: "Last seen yesterday" },
-  { id: "sara", name: "Sara Lindqvist", handle: "@sara", about: "Illustrator & type nerd", presence: "online", presenceLabel: "Active now" },
-  { id: "daniel", name: "Daniel Osei", handle: "@daniel", about: "Founder, Northwind", presence: "offline", presenceLabel: "Last seen 2h ago" },
-  { id: "june", name: "June Park", handle: "@june", about: "Design systems, all day", presence: "online", presenceLabel: "Active now" },
-  { id: "omar", name: "Omar Haddad", handle: "@omar", about: "Trail runner · Beirut → Lisbon", presence: "offline", presenceLabel: "Last seen Mon" },
+  { id: "lena", name: "Lena Fischer", handle: "@lena", about: "Product designer · Berlin. Glass half full.", presence: "online", presenceLabel: "Active now", image: require("./assets/img/lena-fischer.jpg") },
+  { id: "marcus", name: "Marcus Webb", handle: "@marcus", about: "Ops lead. Coffee first, questions later.", presence: "busy", presenceLabel: "Active 12m ago", image: require("./assets/img/marcus-webb.jpg") },
+  { id: "priya", name: "Priya Nair", handle: "@priya", about: "iOS engineer · she/her", presence: "online", presenceLabel: "Active now", image: require("./assets/img/priya-nair.jpg") },
+  { id: "tomas", name: "Tom Alvarez", handle: "@tomas", about: "Probably on a mountain somewhere.", presence: "offline", presenceLabel: "Last seen yesterday", image: require("./assets/img/tom-alvarez.jpg") },
+  { id: "sara", name: "Sara Lindqvist", handle: "@sara", about: "Illustrator & type nerd", presence: "online", presenceLabel: "Active now", image: require("./assets/img/sara-lindqvist.jpg") },
+  { id: "daniel", name: "Daniel Osei", handle: "@daniel", about: "Founder, Northwind", presence: "offline", presenceLabel: "Last seen 2h ago", image: require("./assets/img/daniel-osei.jpg") },
+  { id: "june", name: "June Park", handle: "@june", about: "Design systems, all day", presence: "online", presenceLabel: "Active now", image: require("./assets/img/june-park.jpg") },
+  { id: "omar", name: "Omar Haddad", handle: "@omar", about: "Trail runner · Beirut → Lisbon", presence: "offline", presenceLabel: "Last seen Mon", image: require("./assets/img/omar-haddad.jpg") },
 ];
 
 const SEED_CONVERSATIONS: Conversation[] = [
@@ -217,7 +221,17 @@ export function ChatProvider({ children }: { children: ReactNode }) {
   const [calls, setCalls] = useState<CallEntry[]>(SEED_CALLS);
   const [typingIn, setTypingIn] = useState<string | null>(null);
   const [myStatus, setMyStatus] = useState("Building interfaces out of glass");
-  const [backdrop, setBackdrop] = useState<BackdropMode>("dark");
+  // The host (template list) passes its current backdrop mode as a route
+  // param (`backdrop`) when opening a template, so the template opens on
+  // the same background the owner just picked. Standalone there is no
+  // param and the template keeps its dark default. Read once on mount
+  // (lazy initialiser) so navigating inside the template never resets it.
+  const params = useLocalSearchParams();
+  const [backdrop, setBackdrop] = useState<BackdropMode>(() => {
+    const p = params.backdrop;
+    const v = Array.isArray(p) ? p[0] : p;
+    return v === "dark" || v === "light" || v === "image" ? v : "dark";
+  });
   const darkMode = backdrop !== "light";
   const setDarkMode = useCallback((value: boolean) => {
     setBackdrop(value ? "dark" : "light");
@@ -387,7 +401,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
 
   const value = useMemo<ChatState>(
     () => ({
-      me: { name: "Alex Carter", handle: "@alex" },
+      me: { name: "Alex Carter", handle: "@alex", image: require("./assets/img/alex-carter.jpg") },
       myStatus,
       setMyStatus,
       contacts: CONTACTS,

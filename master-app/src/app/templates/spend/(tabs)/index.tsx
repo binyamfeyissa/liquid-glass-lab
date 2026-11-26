@@ -52,7 +52,7 @@ export default function HomeScreen() {
     >
       {/* Header — the month and the person, kept quiet */}
       <View style={styles.header}>
-        <Avatar name={tally.userName} size="lg" isDark={tally.darkMode} />
+        <Avatar name={tally.userName} source={tally.userImage} size="lg" isDark={tally.darkMode} />
         <View style={styles.headerText}>
           <T variant="caption" muted>
             November 2026

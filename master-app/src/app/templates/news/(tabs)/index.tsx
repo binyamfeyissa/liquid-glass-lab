@@ -117,7 +117,7 @@ export default function TopScreen() {
         accessibilityLabel={lead.headline}
       >
         <Card isDark={darkMode} padding={0} style={styles.leadCard}>
-          <CoverArt article={lead} height={176} large />
+          <CoverArt article={lead} height={176} large image={lead.image} />
           <View style={styles.leadBody}>
             <View style={styles.leadKicker}>
               <T variant="caption" style={{ color: accentFor(darkMode) }}>

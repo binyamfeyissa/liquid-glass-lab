@@ -4,7 +4,7 @@ import { router } from "expo-router";
 import { Avatar, Badge, Button, Card } from "glacia-native";
 
 import { useFit } from "../state";
-import { TODAYS_WORKOUT_ID, workoutById } from "../data";
+import { TODAYS_WORKOUT_ID, USER_IMAGE, workoutById } from "../data";
 import {
   Figure,
   ListCard,
@@ -36,7 +36,7 @@ export default function TodayScreen() {
     >
       {/* Header — the context is today, not a greeting */}
       <View style={styles.header}>
-        <Avatar name={fit.userName} size="lg" isDark={fit.darkMode} />
+        <Avatar name={fit.userName} size="lg" isDark={fit.darkMode} source={USER_IMAGE} />
         <View style={styles.flex1}>
           <T variant="caption" muted>
             {todayLabel}

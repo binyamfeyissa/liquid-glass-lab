@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, View } from "react-native";
 import { router } from "expo-router";
 import { Avatar, Badge, Button, Card, Field, Input, Switch } from "glacia-native";
 
-import { productById } from "../data";
+import { USER_IMAGE, productById } from "../data";
 import { useBasket } from "../state";
 import {
   BackdropControl,
@@ -48,7 +48,7 @@ export default function ProfileScreen() {
       <Screen title="Profile" subtitle="Addresses, favourites and preferences">
         {/* Identity */}
         <View style={styles.identity}>
-          <Avatar name={basket.userName} size="lg" isDark={basket.darkMode} />
+          <Avatar name={basket.userName} size="lg" isDark={basket.darkMode} source={USER_IMAGE} />
           <View style={styles.flex}>
             <T variant="heading">{basket.userName}</T>
             <T variant="caption" muted style={styles.description}>

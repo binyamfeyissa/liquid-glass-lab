@@ -4,6 +4,7 @@ import { router } from "expo-router";
 import { Avatar, Badge, Button, Card, Switch } from "glacia-native";
 
 import { STAGES, useFleet } from "../state";
+import { USER_IMAGE } from "../data";
 import {
   Figure,
   ListCard,
@@ -30,7 +31,7 @@ export default function HomeScreen() {
           description={fleet.online ? "Online" : "Offline"}
         >
           <View style={styles.headerRight}>
-            <Avatar name={fleet.riderName} size="md" isDark={fleet.darkMode} />
+            <Avatar name={fleet.riderName} size="md" isDark={fleet.darkMode} source={USER_IMAGE} />
             <Switch
               isDark={fleet.darkMode}
               value={fleet.online}

@@ -30,7 +30,7 @@ function CommentRow({ comment }: { comment: Comment }) {
 
   return (
     <View style={styles.commentRow}>
-      <Avatar name={author.name} size="sm" isDark={social.darkMode} />
+      <Avatar name={author.name} source={author.image} size="sm" isDark={social.darkMode} />
       <View style={styles.flex1}>
         <View style={styles.commentHead}>
           <T variant="body">{author.name}</T>

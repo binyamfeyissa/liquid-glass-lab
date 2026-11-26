@@ -11,7 +11,7 @@ import { useTravel } from "../state";
 import { Figure, Plate, Screen, SectionTitle, StayCard, T } from "../ui";
 
 export default function ExploreScreen() {
-  const { userName, destinations, stays, price, darkMode } = useTravel();
+  const { userName, userImage, destinations, stays, price, darkMode } = useTravel();
   const trending = [...destinations].sort((a, b) => b.rating - a.rating).slice(0, 4);
   const popular = [...stays].sort((a, b) => b.reviewsCount - a.reviewsCount).slice(0, 4);
 
@@ -32,7 +32,7 @@ export default function ExploreScreen() {
               City, stay name or travellers
             </T>
           </View>
-          <Avatar name={userName} size="sm" isDark={darkMode} />
+          <Avatar name={userName} source={userImage} size="sm" isDark={darkMode} />
         </View>
       </Card>
 
@@ -53,7 +53,7 @@ export default function ExploreScreen() {
               onPress={() => router.push({ pathname: "/templates/travel/search", params: { q: d.city } })}
               accessibilityLabel={`${d.city}, ${d.country}`}
             >
-              <Plate colors={d.colors} label={d.city} height={110} radius={12} fontSize={28} />
+              <Plate colors={d.colors} label={d.city} height={110} radius={12} fontSize={28} image={d.image} />
               <View style={styles.destMeta}>
                 <T variant="caption" muted numberOfLines={1}>
                   {d.tagline}

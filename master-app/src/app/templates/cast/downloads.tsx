@@ -112,7 +112,7 @@ function DownloadRow({ episode }: { episode: Episode }) {
         },
       ]}
     >
-      <Artwork title={show.title} colors={show.colors} size={48} />
+      <Artwork title={show.title} colors={show.colors} size={48} image={show.image} />
       <View style={styles.flex}>
         <T variant="body" numberOfLines={2}>
           {episode.title}

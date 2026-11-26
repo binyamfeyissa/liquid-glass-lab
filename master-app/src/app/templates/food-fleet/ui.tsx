@@ -20,7 +20,7 @@ import {
 } from "glacia-native";
 import { ChevronRight, Star } from "lucide-react-native";
 
-import type { Job } from "./data";
+import { RESTAURANT_IMAGES, type Job } from "./data";
 import { useFleet, type BackdropMode } from "./state";
 
 /* ------------------------------------------------------------------ */
@@ -294,12 +294,24 @@ export function RestaurantTile({
   name,
   colors,
   size = 44,
+  image,
 }: {
   name: string;
   colors: [string, string];
   size?: number;
+  image?: number;
 }) {
   const { darkMode } = useFleet();
+  const photo = image ?? RESTAURANT_IMAGES[name];
+  if (photo) {
+    return (
+      <Image
+        source={photo}
+        style={{ width: size, height: size, borderRadius: 12 }}
+        resizeMode="cover"
+      />
+    );
+  }
   return (
     <View
       style={[

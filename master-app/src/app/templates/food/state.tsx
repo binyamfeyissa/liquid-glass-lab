@@ -7,6 +7,8 @@ import React, {
   type ReactNode,
 } from "react";
 
+import { useLocalSearchParams } from "expo-router";
+
 import { itemById, restaurantById, type MenuItem, type Restaurant } from "./data";
 
 /**
@@ -169,7 +171,17 @@ export function FoodProvider({ children }: { children: ReactNode }) {
   const [orders, setOrders] = useState<Order[]>(SEED_ORDERS);
   const [favourites, setFavourites] = useState<string[]>(["sakura"]);
   const [addresses, setAddresses] = useState<Address[]>(SEED_ADDRESSES);
-  const [backdrop, setBackdrop] = useState<BackdropMode>("dark");
+  // The host (template list) passes its current backdrop mode as a route
+  // param (`backdrop`) when opening a template, so the template opens on
+  // the same background the owner just picked. Standalone there is no
+  // param and the template keeps its dark default. Read once on mount
+  // (lazy initialiser) so navigating inside the template never resets it.
+  const params = useLocalSearchParams();
+  const [backdrop, setBackdrop] = useState<BackdropMode>(() => {
+    const p = params.backdrop;
+    const v = Array.isArray(p) ? p[0] : p;
+    return v === "dark" || v === "light" || v === "image" ? v : "dark";
+  });
   const darkMode = backdrop !== "light";
   const setDarkMode = useCallback((value: boolean) => {
     setBackdrop(value ? "dark" : "light");
