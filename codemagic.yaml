@@ -509,10 +509,7 @@ workflows:
           export PATH="$HOME/.maestro/bin:$PATH"
           BUNDLE_ID=$(cat "$CM_BUILD_DIR/bundle-id.txt")
           mkdir -p "$CM_BUILD_DIR/capture"
-          # TEMPORARY (round-3 diagnostic): run the bank backdrop diagnostic
-          # flow instead of the recording flow, until the 6-template
-          # Light/Photo failure is root-caused. Restore bank-flow.yaml after.
-          sed "s/__BUNDLE_ID__/$BUNDLE_ID/" capture/bank-diag.yaml > "$CM_BUILD_DIR/bank-flow.yaml"
+          sed "s/__BUNDLE_ID__/$BUNDLE_ID/" capture/bank-flow.yaml > "$CM_BUILD_DIR/bank-flow.yaml"
           cat "$CM_BUILD_DIR/bank-flow.yaml"
           cd "$CM_BUILD_DIR/capture"
           echo "=== Maestro screenshots run started $(date -u +%H:%M:%S) UTC ==="

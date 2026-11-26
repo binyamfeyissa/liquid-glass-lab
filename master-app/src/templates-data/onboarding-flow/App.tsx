@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SafeAreaView, StyleSheet, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
+import { useNavigation } from 'expo-router';
 import { GlassProvider } from 'glacia-native';
 import { Backdrop } from './src/components/Backdrop';
 import { FinishScreen } from './src/screens/FinishScreen';
@@ -29,6 +30,18 @@ function Shell() {
   const [stage, setStage] = useState<Stage>('intro');
   const [run, setRun] = useState(0);
   const { backdrop, darkMode } = useBackdrop();
+  const navigation = useNavigation();
+
+  // This screen has no Stack of its own (it is a single host-Stack screen),
+  // so there is no screenOptions to set its status-bar style from its own
+  // mode. The host Stack's style follows the host mode (light by default),
+  // which would leave dark text on this flow's dark backdrop. Set the
+  // native-stack option from this flow's mode instead.
+  useEffect(() => {
+    navigation.setOptions({
+      statusBarStyle: darkMode ? 'light' : 'dark',
+    });
+  }, [navigation, darkMode]);
 
   return (
     <>

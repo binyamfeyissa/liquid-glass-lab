@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
-import { Tabs } from "expo-router";
+import { Tabs, useNavigation } from "expo-router";
 import { GlassProvider } from "glacia-native";
 
 import { AppStateProvider, useAppState } from "./state";
@@ -16,6 +16,19 @@ import { GlaciaTabBar } from "./GlaciaTabBar";
  */
 function Shell() {
   const { glaciaDark, isDark } = useAppState();
+  const navigation = useNavigation();
+
+  // This template's root is a Tabs navigator, not a Stack, so there is no
+  // Stack screenOptions to set the status-bar style from its own mode
+  // (Tabs screenOptions does not accept statusBarStyle). The host Stack's
+  // style follows the host mode (light by default), which would leave dark
+  // text on this template's dark backdrop. Set the native-stack option for
+  // this screen from the template mode instead.
+  useEffect(() => {
+    navigation.setOptions({
+      statusBarStyle: isDark ? "light" : "dark",
+    });
+  }, [navigation, isDark]);
 
   return (
     <View style={styles.root}>
