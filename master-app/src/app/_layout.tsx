@@ -25,15 +25,15 @@ import { TEMPLATES } from "../templates";
  * top-left returns to this home list. Templates keep their own design
  * and navigation untouched; the pill is host chrome only.
  *
- * The pill is an overlay, so the template navigator reserves space for it
- * (see Shell): without the reserve the pill sits on top of every
- * template's title — bank "Jordan Ellis", social "Orbit", health "Today"
- * all ran underneath it in the run-4 screenshots. The reserve is
- * insets.top + the pill band (8 top gap + ~32 pill + 8 clearance), so the
- * first template row always starts below the pill.
+ * The pill is an overlay, so every template screen reserves its band in
+ * its OWN content padding (Screen/content styles use paddingTop 112:
+ * status bar + pill + clearance). The reserve MUST live in the
+ * templates, not here: padding the Stack container here (round-3 first
+ * attempt) left a 107pt band of the host backdrop across the top of
+ * every dark/photo template, because the container's background — not
+ * the template's — paints that strip. The pill bottom sits at
+ * insets.top + ~42, so 112 clears it with ~10pt to spare.
  */
-const BACK_PILL_CLEARANCE = 48;
-
 function BackToTemplates() {
   const router = useRouter();
   const segments = useSegments();
@@ -73,25 +73,14 @@ const NavigationTheme = {
 
 function Shell() {
   const { isDark } = useBackdropMode();
-  const segments = useSegments();
-  const insets = useSafeAreaInsets();
-  const inTemplates = segments[0] === "templates";
 
   return (
     <View style={styles.root}>
-      <StatusBar style={isDark ? "light" : "dark"} />
+      <HostStatusBar />
       <GlassProvider isDark={isDark} style={StyleSheet.absoluteFill}>
         <Backdrop />
       </GlassProvider>
-      <View
-        style={[
-          styles.root,
-          // Inside a template the floating back pill overlays the top of
-          // the navigator: reserve its band so no template title, avatar
-          // or action can slide underneath it. Home keeps no reserve.
-          inTemplates ? { paddingTop: insets.top + BACK_PILL_CLEARANCE } : null,
-        ]}
-      >
+      <View style={styles.root}>
         <Stack
           screenOptions={{
             headerShown: false,
@@ -108,6 +97,21 @@ function Shell() {
       <BackToTemplates />
     </View>
   );
+}
+
+/**
+ * Host status bar, driven ONLY by the host backdrop mode. It used to
+ * live in Shell, which re-renders on every navigation (useSegments) —
+ * and React Native's StatusBar stack then re-applied the host style
+ * after each template's own StatusBar had mounted, so the time stayed
+ * dark-on-dark inside dark templates (run-4 bank-01: "04:24" unreadable).
+ * This component never sees the segments, so it only re-renders when the
+ * host mode itself changes; a template's StatusBar mounts after it and
+ * wins while the template is focused, and unmounting restores the host's.
+ */
+function HostStatusBar() {
+  const { isDark } = useBackdropMode();
+  return <StatusBar style={isDark ? "light" : "dark"} />;
 }
 
 export default function RootLayout() {

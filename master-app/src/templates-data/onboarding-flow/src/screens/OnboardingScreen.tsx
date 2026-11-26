@@ -121,6 +121,9 @@ export function OnboardingScreen({ onFinish }: { onFinish: () => void }) {
           size="lg"
           accessibilityLabel={isLast ? 'Get started with Northwind' : 'Next screen'}
           onPress={() => (isLast ? onFinish() : goTo(page + 1))}
+          // minWidth: without a definite width the fallback button
+          // collapses to a circle and the label spills out both sides.
+          style={styles.nextButton}
         >
           {isLast ? 'Get started' : 'Next'}
         </Button>
@@ -132,7 +135,10 @@ export function OnboardingScreen({ onFinish }: { onFinish: () => void }) {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    paddingTop: 12,
+    // 112, not 12: the host's floating "‹ Templates" pill sits at
+    // insets.top + 8 (~67–101pt); the header row and progress track must
+    // start below it. (Standalone build: this is just extra top space.)
+    paddingTop: 112,
     paddingBottom: 20,
   },
   header: {
@@ -192,5 +198,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 12,
+  },
+  nextButton: {
+    minWidth: 120,
   },
 });

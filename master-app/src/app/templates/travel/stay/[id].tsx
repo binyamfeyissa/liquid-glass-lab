@@ -254,7 +254,7 @@ const styles = StyleSheet.create({
   flex: { flex: 1 },
   root: { flex: 1 },
   missing: { flex: 1, alignItems: "center", justifyContent: "center", gap: 16 },
-  content: { paddingHorizontal: 24, paddingTop: 64, gap: 20 },
+  content: { paddingHorizontal: 24, paddingTop: 112, gap: 20 },
   headerRow: { flexDirection: "row", alignItems: "center", gap: 12 },
   placeName: { fontFamily: SERIF },
   dots: {

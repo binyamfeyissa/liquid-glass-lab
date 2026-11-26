@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
   root: { flex: 1 },
   header: {
     paddingHorizontal: 24,
-    paddingTop: 64,
+    paddingTop: 112,
     gap: 16,
   },
   titleRow: {
