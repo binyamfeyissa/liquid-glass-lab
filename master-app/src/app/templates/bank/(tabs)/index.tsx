@@ -5,15 +5,24 @@ import {
   Avatar,
   Badge,
   Button,
-  Card,
   Field,
   IconButton,
   Input,
   Sheet,
+  colors,
 } from "glacia-native";
+import {
+  ArrowDownLeft,
+  ArrowUpRight,
+  Ellipsis,
+  Eye,
+  EyeOff,
+  Plus,
+} from "lucide-react-native";
 
 import { useBank } from "../state";
 import {
+  AccountRow,
   Amount,
   ListCard,
   NavRow,
@@ -21,11 +30,18 @@ import {
   SectionTitle,
   T,
   TransactionRow,
+  accentColor,
   money,
 } from "../ui";
 
 type SheetKind = "request" | "topup" | "more" | null;
 
+/**
+ * Home — the dashboard. The total balance is plain text on the backdrop
+ * (28–40pt, tabular), not a glass card: glass is spent only on the four
+ * action circles, the grouped lists and the TabBar. Send is the primary
+ * action (green-tinted icon); Request / Top up / More are plain glass.
+ */
 export default function HomeScreen() {
   const bank = useBank();
   const [sheet, setSheet] = useState<SheetKind>(null);
@@ -36,6 +52,13 @@ export default function HomeScreen() {
 
   const checking = bank.accounts[0];
   const recent = bank.transactions.slice(0, 5);
+  const foreground = colors[bank.darkMode ? "dark" : "light"].foreground;
+  const accent = accentColor(bank.backdrop);
+  /** Neutral glass wash for the non-primary action circles: the library
+   *  IconButton fallback paints an untinted circle solid system-blue, so
+   *  the tint is set explicitly. On the engine the same tint is a neutral
+   *  wash over the glass. Send keeps the green tint + a white glyph. */
+  const neutralTint = colors[bank.darkMode ? "dark" : "light"].glass;
 
   const closeSheet = () => {
     setSheet(null);
@@ -58,7 +81,39 @@ export default function HomeScreen() {
     setTopUpDone(true);
   };
 
+  const actions = [
+    {
+      label: "Send",
+      icon: <ArrowUpRight size={22} color="#FFFFFF" />,
+      onPress: () => router.push("/templates/bank/send"),
+      a11y: "Send money",
+      primary: true,
+    },
+    {
+      label: "Request",
+      icon: <ArrowDownLeft size={22} color={foreground} />,
+      onPress: () => setSheet("request"),
+      a11y: "Request money",
+      primary: false,
+    },
+    {
+      label: "Top up",
+      icon: <Plus size={22} color={foreground} />,
+      onPress: () => setSheet("topup"),
+      a11y: "Top up account",
+      primary: false,
+    },
+    {
+      label: "More",
+      icon: <Ellipsis size={22} color={foreground} />,
+      onPress: () => setSheet("more"),
+      a11y: "More actions",
+      primary: false,
+    },
+  ];
+
   return (
+    <View style={styles.screen}>
     <ScrollView
       style={styles.screen}
       contentContainerStyle={styles.content}
@@ -77,98 +132,77 @@ export default function HomeScreen() {
           accessibilityLabel={bank.hideBalances ? "Show balances" : "Hide balances"}
           onPress={() => bank.setHideBalances(!bank.hideBalances)}
           isDark={bank.darkMode}
+          tint={neutralTint}
           icon={
-            <T variant="caption">{bank.hideBalances ? "Show" : "Hide"}</T>
+            bank.hideBalances ? (
+              <EyeOff size={20} color={foreground} />
+            ) : (
+              <Eye size={20} color={foreground} />
+            )
           }
         />
       </View>
 
-      {/* Total balance */}
-      <Card isDark={bank.darkMode} padding={20}>
+      {/* Total balance — plain text on the backdrop, no glass card. */}
+      <View style={styles.balanceBlock}>
         <T variant="label" muted>
-          Total balance · {bank.accounts.length} accounts
+          Total balance
         </T>
-        <Amount value={bank.totalBalance} variant="title" signed={false} style={styles.total} />
+        <Amount
+          value={bank.totalBalance}
+          variant="title"
+          signed={false}
+          style={styles.total}
+        />
         <T variant="caption" muted>
-          {bank.hideBalances ? "Balances hidden" : "Across checking, savings and goals"}
+          {bank.hideBalances
+            ? "Balances hidden"
+            : `${bank.accounts.length} accounts · Checking, savings and goals`}
         </T>
-      </Card>
-
-      {/* Quick actions */}
-      <View style={styles.actions}>
-        <Button
-          size="sm"
-          isDark={bank.darkMode}
-          accessibilityLabel="Send money"
-          variant="filled"
-          onPress={() => router.push("/templates/bank/send")}
-          style={styles.action}
-        >
-          Send
-        </Button>
-        <Button
-          size="sm"
-          isDark={bank.darkMode}
-          accessibilityLabel="Request money"
-          variant="filled"
-          onPress={() => setSheet("request")}
-          style={styles.action}
-        >
-          Request
-        </Button>
-        <Button
-          size="sm"
-          isDark={bank.darkMode}
-          accessibilityLabel="Top up account"
-          variant="filled"
-          onPress={() => setSheet("topup")}
-          style={styles.action}
-        >
-          Top up
-        </Button>
-        <Button
-          size="sm"
-          isDark={bank.darkMode}
-          accessibilityLabel="More actions"
-          onPress={() => setSheet("more")}
-          style={styles.action}
-        >
-          More
-        </Button>
       </View>
 
-      {/* Accounts row */}
+      {/* Quick actions — icon + label, Send primary in the bank green. */}
+      <View style={styles.actions}>
+        {actions.map((action) => (
+          <Pressable
+            key={action.label}
+            onPress={action.onPress}
+            accessibilityRole="button"
+            accessibilityLabel={action.a11y}
+            style={styles.action}
+          >
+            <IconButton
+              accessibilityLabel={action.a11y}
+              onPress={action.onPress}
+              isDark={bank.darkMode}
+              size="lg"
+              tint={action.primary ? accent : neutralTint}
+              icon={action.icon}
+            />
+            <T
+              variant="caption"
+              style={[styles.actionLabel, action.primary && { color: accent }]}
+            >
+              {action.label}
+            </T>
+          </Pressable>
+        ))}
+      </View>
+
+      {/* Accounts — one grouped list, same rows as the Accounts tab. */}
       <View>
         <SectionTitle>Accounts</SectionTitle>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.accountRow}
-        >
-          {bank.accounts.map((account) => (
-            <Card
-              key={account.id}
-              isDark={bank.darkMode}
-              padding={16}
-              style={styles.accountCard}
-              onPress={() => router.push(`/templates/bank/account/${account.id}`)}
-              accessibilityLabel={`${account.name}, view details`}
-            >
-              <T variant="label" muted>
-                {account.name}
-              </T>
-              <Amount
-                value={bank.balanceOf(account.id)}
-                variant="heading"
-                signed={false}
-                style={styles.accountBalance}
+        <ListCard>
+          {bank.accounts.map((account, i) => (
+            <React.Fragment key={account.id}>
+              {i > 0 ? <RowSeparator /> : null}
+              <AccountRow
+                account={account}
+                onPress={() => router.push(`/templates/bank/account/${account.id}`)}
               />
-              <T variant="caption" muted>
-                ••{account.last4} · {account.kind}
-              </T>
-            </Card>
+            </React.Fragment>
           ))}
-        </ScrollView>
+        </ListCard>
       </View>
 
       {/* Bills teaser */}
@@ -193,7 +227,9 @@ export default function HomeScreen() {
             accessibilityRole="button"
             accessibilityLabel="See all activity"
           >
-            <T variant="label">See all</T>
+            <T variant="label" style={{ color: accent }}>
+              See all
+            </T>
           </Pressable>
         </View>
         <ListCard>
@@ -208,7 +244,12 @@ export default function HomeScreen() {
           ))}
         </ListCard>
       </View>
+    </ScrollView>
 
+    {/* Sheets sit outside the ScrollView: the fallback Sheet is an
+       absolutely-positioned panel, so inside the scroll content its
+       bottom:0 lands below the fold. At the screen root it anchors to
+       the viewport. The engine Sheet portals itself either way. */}
       {/* ---- Sheets ---- */}
       <Sheet visible={sheet === "request"} onDismiss={closeSheet} isDark={bank.darkMode} height={380}>
         <View style={styles.sheetBody}>
@@ -222,7 +263,7 @@ export default function HomeScreen() {
                 Your payment link northwind.pay/{bank.userHandle.replace("@", "")} was
                 shared. Requests this session: {bank.requestCount + 1}.
               </T>
-              <Button accessibilityLabel="Done" variant="filled" onPress={closeSheet} isDark={bank.darkMode}>
+              <Button accessibilityLabel="Done" variant="filled" tint={accent} onPress={closeSheet} isDark={bank.darkMode}>
                 Done
               </Button>
             </>
@@ -241,6 +282,7 @@ export default function HomeScreen() {
                 isDark={bank.darkMode}
                 accessibilityLabel="Send request link"
                 variant="filled"
+                tint={accent}
                 onPress={() => {
                   bank.addRequest();
                   setRequestSent(true);
@@ -265,7 +307,7 @@ export default function HomeScreen() {
                 The money is in your Main Checking (••{checking.last4}) and shows in
                 your activity.
               </T>
-              <Button accessibilityLabel="Done" variant="filled" onPress={closeSheet} isDark={bank.darkMode}>
+              <Button accessibilityLabel="Done" variant="filled" tint={accent} onPress={closeSheet} isDark={bank.darkMode}>
                 Done
               </Button>
             </>
@@ -285,7 +327,7 @@ export default function HomeScreen() {
                   isDark={bank.darkMode}
                 />
               </Field>
-              <Button accessibilityLabel="Confirm top up" variant="filled" onPress={submitTopUp} isDark={bank.darkMode}>
+              <Button accessibilityLabel="Confirm top up" variant="filled" tint={accent} onPress={submitTopUp} isDark={bank.darkMode}>
                 Add money
               </Button>
             </>
@@ -326,7 +368,7 @@ export default function HomeScreen() {
           </ListCard>
         </View>
       </Sheet>
-    </ScrollView>
+    </View>
   );
 }
 
@@ -344,16 +386,19 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   headerText: { flex: 1 },
-  total: { marginTop: 8, marginBottom: 4, fontVariant: ["tabular-nums"] },
+  balanceBlock: { gap: 4 },
+  total: {
+    fontSize: 40,
+    lineHeight: 46,
+    fontWeight: "700",
+    fontVariant: ["tabular-nums"],
+  },
   actions: {
     flexDirection: "row",
-    flexWrap: "wrap",
     gap: 8,
   },
-  action: { flexGrow: 1, flexBasis: "21%" },
-  accountRow: { gap: 12, paddingRight: 4 },
-  accountCard: { width: 218 },
-  accountBalance: { marginTop: 8, marginBottom: 4 },
+  action: { flex: 1, alignItems: "center", gap: 6 },
+  actionLabel: { fontWeight: "600" },
   sectionHead: {
     flexDirection: "row",
     alignItems: "flex-end",

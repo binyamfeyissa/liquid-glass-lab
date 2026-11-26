@@ -4,7 +4,7 @@ import { router } from "expo-router";
 import { Button, Card } from "glacia-native";
 
 import { useBank } from "./state";
-import { T } from "./ui";
+import { T, accentColor } from "./ui";
 
 export default function SignedOutScreen() {
   const bank = useBank();
@@ -22,12 +22,16 @@ export default function SignedOutScreen() {
           isDark={bank.darkMode}
           accessibilityLabel="Sign in"
           variant="filled"
+          tint={accentColor(bank.backdrop)}
           onPress={() => {
             bank.setSignedOut(false);
             router.replace("/templates/bank/(tabs)");
           }}
           style={styles.button}
         >{`Sign in as ${bank.userName}`}</Button>
+        <T variant="caption" muted style={styles.foot}>
+          Northwind Bank · Template build — no real money moves anywhere
+        </T>
       </Card>
     </View>
   );
@@ -42,5 +46,6 @@ const styles = StyleSheet.create({
   card: { alignItems: "center", gap: 8 },
   logo: {},
   sub: { textAlign: "center" },
+  foot: { textAlign: "center", marginTop: 8 },
   button: { marginTop: 8, alignSelf: "stretch" },
 });

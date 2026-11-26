@@ -1,17 +1,30 @@
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { router } from "expo-router";
-import { Button, Card, Progress, SegmentedControl } from "glacia-native";
+import { Button, Progress, SegmentedControl, Separator } from "glacia-native";
 
 import { useBank } from "./state";
 import { ListCard, Screen, SectionTitle, T, accentColor, money } from "./ui";
 
+/**
+ * Insights — same shape as before (the library has no charts; Progress
+ * bars are the honest visualisation), but the three summary figures
+ * are plain text in one row, not three glass cards. No metrics
+ * invented: in, out, kept and the kept-% note only.
+ */
 export default function InsightsScreen() {
   const bank = useBank();
   const [monthIndex, setMonthIndex] = useState(0);
   const month = bank.insights[monthIndex];
   const saved = month.income - month.spent;
   const maxCategory = Math.max(...month.categories.map((c) => c.amount));
+  const accent = accentColor(bank.backdrop);
+
+  const summary = [
+    { label: "Money in", value: month.income, green: true },
+    { label: "Money out", value: month.spent, green: false },
+    { label: "Kept", value: saved, green: true },
+  ];
 
   return (
     <Screen title="Insights" subtitle="Spending by category">
@@ -24,28 +37,24 @@ export default function InsightsScreen() {
       />
 
       <View style={styles.summaryRow}>
-        <Card isDark={bank.darkMode} padding={16} style={styles.summaryCard}>
-          <T variant="label" muted>
-            Money in
-          </T>
-          <T variant="heading" style={[styles.income, { color: accentColor(bank.backdrop) }]}>
-            {money(month.income)}
-          </T>
-        </Card>
-        <Card isDark={bank.darkMode} padding={16} style={styles.summaryCard}>
-          <T variant="label" muted>
-            Money out
-          </T>
-          <T variant="heading">{money(month.spent)}</T>
-        </Card>
-        <Card isDark={bank.darkMode} padding={16} style={styles.summaryCard}>
-          <T variant="label" muted>
-            Kept
-          </T>
-          <T variant="heading" style={[styles.income, { color: accentColor(bank.backdrop) }]}>
-            {money(saved)}
-          </T>
-        </Card>
+        {summary.map((s, i) => (
+          <React.Fragment key={s.label}>
+            {i > 0 ? (
+              <Separator orientation="vertical" isDark={bank.darkMode} />
+            ) : null}
+            <View style={styles.summaryCell}>
+              <T variant="label" muted>
+                {s.label}
+              </T>
+              <T
+                variant="heading"
+                style={[styles.summaryValue, s.green && { color: accent }]}
+              >
+                {money(s.value)}
+              </T>
+            </View>
+          </React.Fragment>
+        ))}
       </View>
 
       <View>
@@ -62,6 +71,7 @@ export default function InsightsScreen() {
                 </View>
                 <Progress
                   value={Math.round((c.amount / maxCategory) * 100)}
+                  tint={accent}
                   isDark={bank.darkMode}
                   accessibilityLabel={`${c.category} spending`}
                 />
@@ -73,7 +83,7 @@ export default function InsightsScreen() {
 
       <T variant="caption" muted style={styles.note}>
         You kept {Math.round((saved / month.income) * 100)}% of what came in during{" "}
-        {month.label}. Transfers between your own accounts don't count as spending.
+        {month.label}. Transfers between your own accounts do not count as spending.
       </T>
 
       <Button accessibilityLabel="Back" variant="ghost" onPress={() => router.back()} isDark={bank.darkMode}>
@@ -84,9 +94,9 @@ export default function InsightsScreen() {
 }
 
 const styles = StyleSheet.create({
-  summaryRow: { flexDirection: "row", gap: 8 },
-  summaryCard: { flex: 1 },
-  income: { marginTop: 4, fontVariant: ["tabular-nums"] },
+  summaryRow: { flexDirection: "row", alignItems: "stretch", gap: 12 },
+  summaryCell: { flex: 1, gap: 4 },
+  summaryValue: { fontVariant: ["tabular-nums"] },
   bars: { padding: 16, gap: 16 },
   barRow: { gap: 8 },
   barHead: {

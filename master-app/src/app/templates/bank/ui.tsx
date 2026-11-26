@@ -12,7 +12,7 @@ import {
 import { colors, Avatar, Badge, Card, SegmentedControl, Separator, Text, type TextProps } from "glacia-native";
 import { ChevronRight } from "lucide-react-native";
 
-import { useBank, type BackdropMode, type Transaction } from "./state";
+import { useBank, type Account, type BackdropMode, type Transaction } from "./state";
 
 /* ------------------------------------------------------------------ */
 /*  Theme tokens — one graphite/warm ramp, one deep-green accent.      */
@@ -166,7 +166,7 @@ export function Screen({
 
 export function SectionTitle({ children }: { children: ReactNode }) {
   return (
-    <T variant="label" muted style={styles.sectionTitle}>
+    <T variant="label" muted style={[styles.sectionTitle, styles.sectionTitleText]}>
       {children}
     </T>
   );
@@ -265,6 +265,74 @@ export function NavRow({
 }
 
 /* ------------------------------------------------------------------ */
+/*  DetailRow — one label/value pair in a grouped list (account and    */
+/*  transaction detail). Plain rows, no glass panel of their own: the  */
+/*  surrounding ListCard is the only glass on the screen.              */
+/* ------------------------------------------------------------------ */
+
+export function DetailRow({
+  label,
+  children,
+}: {
+  label: string;
+  children: ReactNode;
+}) {
+  return (
+    <View style={styles.detailRow}>
+      <T variant="body" muted style={styles.detailLabel}>
+        {label}
+      </T>
+      <View style={styles.detailValue}>{children}</View>
+    </View>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  AccountRow — one account in a grouped list: name and number on the */
+/*  left, live balance on the right, chevron. Used on Home and on the  */
+/*  Accounts tab so the two screens read as one list, not two designs. */
+/* ------------------------------------------------------------------ */
+
+export function AccountRow({
+  account,
+  onPress,
+}: {
+  account: Account;
+  onPress: () => void;
+}) {
+  const { balanceOf, darkMode } = useBank();
+  return (
+    <Pressable
+      onPress={onPress}
+      accessibilityRole="button"
+      accessibilityLabel={`${account.name}, view details`}
+      style={({ pressed }) => [
+        styles.accountRow,
+        pressed && {
+          backgroundColor: darkMode ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.05)",
+        },
+      ]}
+    >
+      <View style={styles.settingText}>
+        <T variant="body" numberOfLines={1}>
+          {account.name}
+        </T>
+        <T variant="caption" muted style={styles.settingDescription}>
+          ••{account.last4} · {account.kind}
+        </T>
+      </View>
+      <Amount
+        value={balanceOf(account.id)}
+        variant="body"
+        signed={false}
+        style={styles.accountRowBalance}
+      />
+      <ChevronRight size={20} color={colors[darkMode ? "dark" : "light"].muted} />
+    </Pressable>
+  );
+}
+
+/* ------------------------------------------------------------------ */
 /*  TransactionRow — one movement of money, used on Home, Accounts     */
 /*  and Activity. Every row leads with a Glacia Avatar: the person     */
 /*  no emoji, no colour of its own.                                    */
@@ -295,7 +363,7 @@ export function TransactionRow({
           </Badge>
         ) : null}
       </View>
-      <Amount value={tx.amount} positive />
+      <Amount value={tx.amount} positive style={styles.txAmount} />
     </>
   );
   if (!onPress) return <View style={styles.txRow}>{body}</View>;
@@ -336,6 +404,29 @@ const styles = StyleSheet.create({
     marginBottom: 8,
     marginLeft: 4,
   },
+  sectionTitleText: {
+    textTransform: "uppercase",
+    letterSpacing: 0.6,
+  },
+  detailRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    gap: 16,
+  },
+  detailLabel: { flexShrink: 0 },
+  detailValue: { flex: 1, alignItems: "flex-end" },
+  accountRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    gap: 12,
+    borderRadius: 12,
+  },
+  accountRowBalance: { fontVariant: ["tabular-nums"], fontWeight: "600" },
   settingRow: {
     flexDirection: "row",
     alignItems: "center",
@@ -371,6 +462,7 @@ const styles = StyleSheet.create({
     gap: 12,
     borderRadius: 12,
   },
+  txAmount: { fontWeight: "600" },
   disputeBadge: {
     marginTop: 4,
   },

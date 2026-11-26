@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React from "react";
 import { StyleSheet, View } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
-import { Button, Card } from "glacia-native";
+import { Button } from "glacia-native";
 
 import { useBank } from "../state";
 import {
   Amount,
-  MONO,
+  DetailRow,
   ListCard,
+  MONO,
   RowSeparator,
   Screen,
   SectionTitle,
@@ -15,10 +16,15 @@ import {
   TransactionRow,
 } from "../ui";
 
+/**
+ * Account detail — deliberately a different feel from the dashboard:
+ * grouped Settings-style lists, balance as plain text, the number as
+ * one revealable row. No dashboard card.
+ */
 export default function AccountDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const bank = useBank();
-  const [revealed, setRevealed] = useState(false);
+  const [revealed, setRevealed] = React.useState(false);
 
   const account = bank.accounts.find((a) => a.id === id);
   if (!account) {
@@ -35,26 +41,46 @@ export default function AccountDetailScreen() {
 
   return (
     <Screen title={account.name} subtitle={account.kind}>
-      <Card isDark={bank.darkMode} padding={20}>
+      <View>
         <T variant="label" muted>
           Balance
         </T>
-        <Amount value={bank.balanceOf(account.id)} variant="title" signed={false} style={styles.balance} />
-        <T variant="label" muted style={styles.numberLabel}>
-          Account number
-        </T>
-        <T variant="heading" style={styles.number}>
-          {revealed ? account.number : `•••• •••• •••• ${account.last4}`}
-        </T>
+        <Amount
+          value={bank.balanceOf(account.id)}
+          variant="title"
+          signed={false}
+          style={styles.balance}
+        />
+      </View>
+
+      <View>
+        <SectionTitle>Details</SectionTitle>
+        <ListCard>
+          {/* Number on its own line: the 19-char mono number does not fit
+             beside its label in a side-by-side row at 390pt. */}
+          <View style={styles.numberBlock}>
+            <T variant="label" muted>
+              Account number
+            </T>
+            <T variant="body" style={styles.number}>
+              {revealed ? account.number : `•••• •••• •••• ${account.last4}`}
+            </T>
+          </View>
+          <RowSeparator />
+          <DetailRow label="Type">
+            <T variant="body">{account.kind}</T>
+          </DetailRow>
+        </ListCard>
         <Button
           isDark={bank.darkMode}
           accessibilityLabel={revealed ? "Hide account number" : "Reveal account number"}
+          variant="ghost"
           onPress={() => setRevealed(!revealed)}
           style={styles.reveal}
         >
           {revealed ? "Hide number" : "Reveal number"}
         </Button>
-      </Card>
+      </View>
 
       <View>
         <SectionTitle>Activity · {account.name}</SectionTitle>
@@ -87,9 +113,15 @@ export default function AccountDetailScreen() {
 }
 
 const styles = StyleSheet.create({
-  balance: { marginTop: 8, marginBottom: 16, fontVariant: ["tabular-nums"] },
-  numberLabel: { marginBottom: 4 },
+  balance: {
+    marginTop: 4,
+    fontSize: 34,
+    lineHeight: 40,
+    fontWeight: "700",
+    fontVariant: ["tabular-nums"],
+  },
   number: { fontFamily: MONO, fontVariant: ["tabular-nums"] },
-  reveal: { marginTop: 14, alignSelf: "flex-start" },
+  numberBlock: { paddingVertical: 12, paddingHorizontal: 16, gap: 4 },
+  reveal: { marginTop: 8, alignSelf: "flex-start" },
   empty: { padding: 16 },
 });

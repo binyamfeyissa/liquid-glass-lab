@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import { router } from "expo-router";
 import { Badge, Button } from "glacia-native";
+import { Landmark, Receipt, Shield, Wifi, Zap } from "lucide-react-native";
 
 import { useBank, type Bill } from "./state";
 import {
@@ -11,24 +12,36 @@ import {
   Screen,
   SectionTitle,
   T,
+  accentColor,
   money,
 } from "./ui";
 
+/** One small neutral icon per biller — identification, not decoration. */
+const BILL_ICONS: Record<string, typeof Zap> = {
+  b1: Zap,
+  b2: Wifi,
+  b3: Shield,
+  b4: Landmark,
+};
+
 function BillRow({ bill }: { bill: Bill }) {
   const bank = useBank();
+  const Icon = BILL_ICONS[bill.id] ?? Receipt;
+  const iconColor = bank.darkMode ? "#EBEBF599" : "#3C3C4399";
   return (
     <View style={styles.row}>
+      <Icon size={20} color={iconColor} />
       <View style={styles.text}>
         <T variant="body">{bill.name}</T>
         <T variant="caption" muted style={styles.detail}>
           {bill.detail}
         </T>
         <T variant="caption" muted>
-          {bill.paid ? bill.dueLabel : bill.dueLabel}
+          {bill.dueLabel}
         </T>
       </View>
       <View style={styles.right}>
-        <Amount value={-bill.amount} />
+        <Amount value={-bill.amount} style={styles.billAmount} />
         {bill.paid ? (
           <Badge tone="muted" isDark={bank.darkMode}>
             Paid
@@ -38,6 +51,7 @@ function BillRow({ bill }: { bill: Bill }) {
             isDark={bank.darkMode}
             accessibilityLabel={`Pay ${bill.name}, ${bill.amount} dollars`}
             variant="filled"
+            tint={accentColor(bank.backdrop)}
             size="sm"
             onPress={() => bank.payBill(bill.id)}
           >
@@ -119,6 +133,7 @@ const styles = StyleSheet.create({
   text: { flex: 1 },
   detail: { marginTop: 2 },
   right: { alignItems: "flex-end", gap: 8 },
+  billAmount: { fontWeight: "600" },
   empty: { padding: 16 },
   note: { paddingHorizontal: 4 },
 });

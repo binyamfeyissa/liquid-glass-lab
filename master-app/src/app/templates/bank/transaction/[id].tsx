@@ -1,11 +1,16 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
-import { Badge, Button, Card } from "glacia-native";
+import { Badge, Button } from "glacia-native";
 
 import { useBank } from "../state";
-import { Amount, Screen, T } from "../ui";
+import { Amount, DetailRow, ListCard, RowSeparator, Screen, T, accentColor } from "../ui";
 
+/**
+ * Transaction detail — title and amount as plain text, then one
+ * grouped list of label/value rows. Dispute logic unchanged: the
+ * toggle flips `disputed` on the transaction in the shared store.
+ */
 export default function TransactionDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const bank = useBank();
@@ -25,51 +30,51 @@ export default function TransactionDetailScreen() {
 
   return (
     <Screen title="Payment details" subtitle={tx.dateLabel}>
-      <Card isDark={bank.darkMode} padding={20} contentStyle={styles.body}>
+      <View style={styles.head}>
         <T variant="heading">{tx.title}</T>
-        <Amount value={tx.amount} variant="title" positive />
-        <View style={styles.rows}>
-          <View style={styles.row}>
-            <T variant="body" muted>
-              Category
-            </T>
-            <T variant="body">{tx.category}</T>
-          </View>
-          <View style={styles.row}>
-            <T variant="body" muted>
-              Details
-            </T>
-            <T variant="body">{tx.detail}</T>
-          </View>
-          <View style={styles.row}>
-            <T variant="body" muted>
-              Account
-            </T>
-            <T variant="body">
-              {account ? `${account.name} ••${account.last4}` : "—"}
-            </T>
-          </View>
-          <View style={styles.row}>
-            <T variant="body" muted>
-              Status
-            </T>
-            {tx.disputed ? (
-              <Badge tone="destructive" isDark={bank.darkMode}>
-                Disputed
-              </Badge>
-            ) : (
-              <Badge tone="muted" isDark={bank.darkMode}>
-                Completed
-              </Badge>
-            )}
-          </View>
-        </View>
-      </Card>
+        <Amount
+          value={tx.amount}
+          variant="title"
+          positive
+          style={styles.amount}
+        />
+      </View>
+
+      <ListCard>
+        <DetailRow label="Category">
+          <T variant="body">{tx.category}</T>
+        </DetailRow>
+        <RowSeparator />
+        <DetailRow label="Details">
+          <T variant="body" style={styles.detailValue}>
+            {tx.detail}
+          </T>
+        </DetailRow>
+        <RowSeparator />
+        <DetailRow label="Account">
+          <T variant="body">
+            {account ? `${account.name} ••${account.last4}` : "—"}
+          </T>
+        </DetailRow>
+        <RowSeparator />
+        <DetailRow label="Status">
+          {tx.disputed ? (
+            <Badge tone="destructive" isDark={bank.darkMode}>
+              Disputed
+            </Badge>
+          ) : (
+            <Badge tone="muted" isDark={bank.darkMode}>
+              Completed
+            </Badge>
+          )}
+        </DetailRow>
+      </ListCard>
 
       <Button
         isDark={bank.darkMode}
         accessibilityLabel={tx.disputed ? "Cancel dispute" : "Dispute this payment"}
         variant={tx.disputed ? "glass" : "filled"}
+        tint={accentColor(bank.backdrop)}
         onPress={() => bank.toggleDisputed(tx.id)}
       >
         {tx.disputed ? "Cancel dispute" : "Dispute this payment"}
@@ -87,13 +92,13 @@ export default function TransactionDetailScreen() {
 }
 
 const styles = StyleSheet.create({
-  body: { gap: 8 },
-  rows: { marginTop: 8, gap: 12 },
-  row: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    gap: 16,
+  head: { gap: 4 },
+  amount: {
+    fontSize: 34,
+    lineHeight: 40,
+    fontWeight: "700",
+    fontVariant: ["tabular-nums"],
   },
+  detailValue: { textAlign: "right" },
   note: { paddingHorizontal: 4 },
 });

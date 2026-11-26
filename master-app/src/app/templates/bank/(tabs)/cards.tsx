@@ -11,6 +11,7 @@ import {
   SectionTitle,
   SettingRow,
   T,
+  accentColor,
   money,
 } from "../ui";
 
@@ -80,6 +81,7 @@ export default function CardsScreen() {
         isDark={bank.darkMode}
         accessibilityLabel={detailsRevealed ? "Hide card details" : "Show card details"}
         variant="filled"
+        tint={accentColor(bank.backdrop)}
         onPress={() => setDetailsRevealed(!detailsRevealed)}
       >
         {detailsRevealed ? "Hide card details" : "Show card details"}
@@ -97,6 +99,7 @@ export default function CardsScreen() {
               value={bank.cardFrozen}
               onValueChange={bank.setCardFrozen}
               accessibilityLabel="Freeze card"
+              accentColor={accentColor(bank.backdrop)}
               isDark={bank.darkMode}
             />
           </SettingRow>
@@ -109,6 +112,7 @@ export default function CardsScreen() {
               value={bank.cardOnlinePayments}
               onValueChange={bank.setCardOnlinePayments}
               accessibilityLabel="Online payments"
+              accentColor={accentColor(bank.backdrop)}
               isDark={bank.darkMode}
             />
           </SettingRow>
@@ -121,6 +125,7 @@ export default function CardsScreen() {
               value={bank.cardInternational}
               onValueChange={bank.setCardInternational}
               accessibilityLabel="International use"
+              accentColor={accentColor(bank.backdrop)}
               isDark={bank.darkMode}
             />
           </SettingRow>
@@ -142,6 +147,7 @@ export default function CardsScreen() {
             </View>
             <Progress
               value={limitUsed}
+              tint={accentColor(bank.backdrop)}
               isDark={bank.darkMode}
               accessibilityLabel="Daily limit used"
             />

@@ -13,6 +13,7 @@ import {
   SectionTitle,
   SettingRow,
   T,
+  accentColor,
 } from "../ui";
 
 export default function ProfileScreen() {
@@ -78,6 +79,7 @@ export default function ProfileScreen() {
               value={bank.hideBalances}
               onValueChange={bank.setHideBalances}
               accessibilityLabel="Hide balances"
+              accentColor={accentColor(bank.backdrop)}
               isDark={bank.darkMode}
             />
           </SettingRow>
@@ -90,6 +92,7 @@ export default function ProfileScreen() {
               value={bank.notifications}
               onValueChange={bank.setNotifications}
               accessibilityLabel="Notifications"
+              accentColor={accentColor(bank.backdrop)}
               isDark={bank.darkMode}
             />
           </SettingRow>
@@ -107,6 +110,7 @@ export default function ProfileScreen() {
               value={bank.biometrics}
               onValueChange={bank.setBiometrics}
               accessibilityLabel="Biometric sign-in"
+              accentColor={accentColor(bank.backdrop)}
               isDark={bank.darkMode}
             />
           </SettingRow>
@@ -119,6 +123,7 @@ export default function ProfileScreen() {
               value={bank.cardFrozen}
               onValueChange={bank.setCardFrozen}
               accessibilityLabel="Card frozen"
+              accentColor={accentColor(bank.backdrop)}
               isDark={bank.darkMode}
             />
           </SettingRow>
@@ -129,6 +134,7 @@ export default function ProfileScreen() {
         isDark={bank.darkMode}
         accessibilityLabel="Log out"
         variant="glass"
+        tint={accentColor(bank.backdrop)}
         onPress={() => {
           bank.setSignedOut(true);
           router.replace("/templates/bank/signed-out");

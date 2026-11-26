@@ -1,13 +1,20 @@
 import React, { useMemo, useState } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 import { router } from "expo-router";
-import { Avatar, Badge, Button, Card, Field, Input } from "glacia-native";
+import { Avatar, Badge, Button, Field, Input } from "glacia-native";
+import { CheckCircle2 } from "lucide-react-native";
 
 import { useBank, type Recipient } from "./state";
-import { ListCard, Screen, SectionTitle, T, money } from "./ui";
+import { ListCard, Screen, SectionTitle, T, accentColor, money } from "./ui";
 
 type Step = "pick" | "confirm" | "done";
 
+/**
+ * Send — 3 steps, all validation unchanged (recipient required;
+ * amount > $0; amount ≤ checking balance; top-up ≤ $10,000 lives on
+ * Home). The amount is the primary focus on step 1: it comes first,
+ * with a large live preview above the field, then the recipient list.
+ */
 export default function SendScreen() {
   const bank = useBank();
   const [step, setStep] = useState<Step>("pick");
@@ -22,6 +29,7 @@ export default function SendScreen() {
     () => Number(amountText.replace(/[^0-9.]/g, "")),
     [amountText],
   );
+  const accent = accentColor(bank.backdrop);
 
   const validate = (): boolean => {
     if (!recipient) {
@@ -43,21 +51,24 @@ export default function SendScreen() {
   if (step === "done" && recipient) {
     return (
       <Screen title="Money sent" subtitle="From Main Checking">
-        <Card isDark={bank.darkMode} padding={20} contentStyle={styles.doneCard}>
+        <View style={styles.doneBody}>
+          <CheckCircle2 size={48} color={accent} />
           <T variant="heading">
             {money(amount)} to {recipient.name}
           </T>
-          <T variant="body" muted>
-            From Main Checking ••{checking.last4} · New balance {money(bank.balanceOf("checking"))}
+          <T variant="body" muted style={styles.doneSub}>
+            From Main Checking ••{checking.last4} · New balance{" "}
+            {money(bank.balanceOf("checking"))}
           </T>
           <Badge tone="muted" isDark={bank.darkMode}>
             Delivered
           </Badge>
-        </Card>
+        </View>
         <Button
           isDark={bank.darkMode}
           accessibilityLabel="Back to home"
           variant="filled"
+          tint={accent}
           onPress={() => router.replace("/templates/bank/(tabs)")}
         >
           Back to home
@@ -81,7 +92,7 @@ export default function SendScreen() {
 
   if (step === "confirm" && recipient) {
     return (
-      <Screen title="Check it is right" subtitle="Payments are instant and cannot be recalled">
+      <Screen title="Check it is right" subtitle="Step 2 of 3 · Payments are instant and cannot be recalled">
         <ListCard>
           <View style={styles.confirmBody}>
             <Avatar name={recipient.name} size="lg" isDark={bank.darkMode} />
@@ -107,6 +118,7 @@ export default function SendScreen() {
           isDark={bank.darkMode}
           accessibilityLabel={`Send ${money(amount)} to ${recipient.name}`}
           variant="filled"
+          tint={accent}
           onPress={() => {
             bank.sendMoney(recipient, amount, note);
             setStep("done");
@@ -125,7 +137,35 @@ export default function SendScreen() {
   }
 
   return (
-    <Screen title="Send money" subtitle={`From Main Checking · ${money(balance)} available`}>
+    <Screen title="Send money" subtitle={`Step 1 of 3 · From Main Checking · ${money(balance)} available`}>
+      {/* Amount first — the primary focus of this step. */}
+      <View>
+        <T
+          variant="title"
+          style={[
+            styles.amountPreview,
+            { color: amount > 0 ? accent : undefined },
+          ]}
+        >
+          {amountText.trim() && !Number.isNaN(amount) && amount > 0
+            ? money(amount)
+            : "$0.00"}
+        </T>
+        <Field label="Amount" error={error} isDark={bank.darkMode}>
+          <Input
+            value={amountText}
+            onChangeText={setAmountText}
+            placeholder="0.00"
+            keyboardType="numeric"
+            size="lg"
+            accessibilityLabel="Amount to send"
+            invalid={!!error}
+            isDark={bank.darkMode}
+            prefix={<T variant="body" muted>$</T>}
+          />
+        </Field>
+      </View>
+
       <View>
         <SectionTitle>Who to</SectionTitle>
         <ListCard>
@@ -162,19 +202,6 @@ export default function SendScreen() {
         </ListCard>
       </View>
 
-      <Field label="Amount" error={error} isDark={bank.darkMode}>
-        <Input
-          value={amountText}
-          onChangeText={setAmountText}
-          placeholder="0.00"
-          keyboardType="numeric"
-          accessibilityLabel="Amount to send"
-          invalid={!!error}
-          isDark={bank.darkMode}
-          prefix={<T variant="body" muted>$</T>}
-        />
-      </Field>
-
       <Field label="Note (optional)" isDark={bank.darkMode}>
         <Input
           value={note}
@@ -189,6 +216,7 @@ export default function SendScreen() {
         isDark={bank.darkMode}
         accessibilityLabel="Review payment"
         variant="filled"
+        tint={accent}
         onPress={() => {
           if (validate()) setStep("confirm");
         }}
@@ -215,11 +243,19 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(53, 160, 106, 0.12)",
   },
   recipientText: { flex: 1 },
+  amountPreview: {
+    fontSize: 40,
+    lineHeight: 46,
+    fontWeight: "700",
+    fontVariant: ["tabular-nums"],
+    marginBottom: 12,
+  },
   confirmBody: {
     padding: 20,
     alignItems: "center",
     gap: 8,
   },
   confirmAmount: { marginTop: 8, fontVariant: ["tabular-nums"] },
-  doneCard: { alignItems: "center", gap: 8 },
+  doneBody: { alignItems: "center", gap: 10, paddingTop: 16 },
+  doneSub: { textAlign: "center" },
 });

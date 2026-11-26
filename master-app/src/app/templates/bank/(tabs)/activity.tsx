@@ -1,7 +1,8 @@
 import React, { useMemo, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { router } from "expo-router";
-import { Chip, Input } from "glacia-native";
+import { Chip, Input, colors } from "glacia-native";
+import { Search } from "lucide-react-native";
 
 import { useBank, type Category } from "../state";
 import {
@@ -52,6 +53,12 @@ export default function ActivityScreen() {
         placeholder="Search payments, shops, people…"
         accessibilityLabel="Search activity"
         isDark={bank.darkMode}
+        prefix={
+          <Search
+            size={18}
+            color={colors[bank.darkMode ? "dark" : "light"].muted}
+          />
+        }
       />
       <ScrollView
         horizontal
