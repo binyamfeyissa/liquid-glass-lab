@@ -241,9 +241,7 @@ export default function BookScreen() {
             }),
           )
         }
-      >
-        Confirm booking · {price(breakdown.total)}
-      </Button>
+      >{`Confirm booking · ${price(breakdown.total)}`}</Button>
       <T variant="caption" muted style={styles.center}>
         Demo booking — no payment taken. Free cancellation for 48 hours, then a
         full refund until 7 days before check-in.

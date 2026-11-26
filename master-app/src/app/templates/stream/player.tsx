@@ -297,9 +297,7 @@ export default function PlayerScreen() {
           isDark={darkMode}
           onPress={() => router.push(`/templates/stream/title/${owner.id}`)}
           style={styles.titlePageButton}
-        >
-          About this {owner.kind === "movie" ? "film" : "series"}
-        </Button>
+        >{`About this ${owner.kind === "movie" ? "film" : "series"}`}</Button>
       ) : null}
     </ScrollView>
   );

@@ -24,7 +24,16 @@ import { TEMPLATES } from "../templates";
  * Back affordance: while inside a template, a small floating pill at the
  * top-left returns to this home list. Templates keep their own design
  * and navigation untouched; the pill is host chrome only.
+ *
+ * The pill is an overlay, so the template navigator reserves space for it
+ * (see Shell): without the reserve the pill sits on top of every
+ * template's title — bank "Jordan Ellis", social "Orbit", health "Today"
+ * all ran underneath it in the run-4 screenshots. The reserve is
+ * insets.top + the pill band (8 top gap + ~32 pill + 8 clearance), so the
+ * first template row always starts below the pill.
  */
+const BACK_PILL_CLEARANCE = 48;
+
 function BackToTemplates() {
   const router = useRouter();
   const segments = useSegments();
@@ -64,6 +73,9 @@ const NavigationTheme = {
 
 function Shell() {
   const { isDark } = useBackdropMode();
+  const segments = useSegments();
+  const insets = useSafeAreaInsets();
+  const inTemplates = segments[0] === "templates";
 
   return (
     <View style={styles.root}>
@@ -71,7 +83,15 @@ function Shell() {
       <GlassProvider isDark={isDark} style={StyleSheet.absoluteFill}>
         <Backdrop />
       </GlassProvider>
-      <View style={styles.root}>
+      <View
+        style={[
+          styles.root,
+          // Inside a template the floating back pill overlays the top of
+          // the navigator: reserve its band so no template title, avatar
+          // or action can slide underneath it. Home keeps no reserve.
+          inTemplates ? { paddingTop: insets.top + BACK_PILL_CLEARANCE } : null,
+        ]}
+      >
         <Stack
           screenOptions={{
             headerShown: false,
@@ -111,7 +131,7 @@ const styles = StyleSheet.create({
     left: 16,
     zIndex: 10,
     paddingHorizontal: 12,
-    paddingVertical: 8,
+    paddingVertical: 6,
     borderRadius: 999,
     backgroundColor: "rgba(20, 20, 21, 0.55)",
   },

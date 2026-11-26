@@ -145,9 +145,7 @@ export default function AddExpenseScreen() {
         />
       </Field>
 
-      <Button isDark={tally.darkMode} accessibilityLabel="Save" variant="filled" size="lg" onPress={save}>
-        Save {isExpense ? "expense" : "income"}
-      </Button>
+      <Button isDark={tally.darkMode} accessibilityLabel="Save" variant="filled" size="lg" onPress={save}>{`Save ${isExpense ? "expense" : "income"}`}</Button>
       <Button isDark={tally.darkMode} accessibilityLabel="Cancel" variant="ghost" onPress={() => router.back()}>
         Cancel
       </Button>

@@ -151,9 +151,7 @@ export default function OfferScreen() {
             router.replace("/templates/food-fleet/active");
           }}
           style={styles.action}
-        >
-          Accept · {money(offer.payout)}
-        </Button>
+        >{`Accept · ${money(offer.payout)}`}</Button>
       </View>
     </Screen>
   );

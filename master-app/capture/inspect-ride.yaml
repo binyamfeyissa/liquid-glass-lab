@@ -52,11 +52,11 @@ appId: __BUNDLE_ID__
 - waitForAnimationToEnd
 - scrollUntilVisible:
     element:
-      text: "^Light$"
+      text: "Background Light"
     direction: DOWN
     visibilityPercentage: 50
 - tapOn:
-    text: "^Light$"
+    text: "Background Light"
 - waitForAnimationToEnd
 - openLink: "glacia-master://templates/ride"
 - tapOn:
@@ -73,11 +73,11 @@ appId: __BUNDLE_ID__
 - waitForAnimationToEnd
 - scrollUntilVisible:
     element:
-      text: "^Photo$"
+      text: "Background Photo"
     direction: DOWN
     visibilityPercentage: 50
 - tapOn:
-    text: "^Photo$"
+    text: "Background Photo"
 - waitForAnimationToEnd
 - openLink: "glacia-master://templates/ride"
 - tapOn:

@@ -113,18 +113,14 @@ export default function HomeScreen() {
           isDark={darkMode}
           variant="glass"
           style={styles.shortcut}
-        >
-          Queue ({cast.queue.length})
-        </Button>
+        >{`Queue (${cast.queue.length})`}</Button>
         <Button
           accessibilityLabel="Open downloads"
           onPress={() => router.push("/templates/cast/downloads")}
           isDark={darkMode}
           variant="glass"
           style={styles.shortcut}
-        >
-          Downloads ({cast.downloadedIds.length})
-        </Button>
+        >{`Downloads (${cast.downloadedIds.length})`}</Button>
       </View>
     </Screen>
   );

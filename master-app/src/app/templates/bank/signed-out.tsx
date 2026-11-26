@@ -27,9 +27,7 @@ export default function SignedOutScreen() {
             router.replace("/templates/bank/(tabs)");
           }}
           style={styles.button}
-        >
-          Sign in as {bank.userName}
-        </Button>
+        >{`Sign in as ${bank.userName}`}</Button>
       </Card>
     </View>
   );

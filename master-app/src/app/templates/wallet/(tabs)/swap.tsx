@@ -165,9 +165,7 @@ export default function SwapScreen() {
           setDoneLabel(summary);
           setAmountText("");
         }}
-      >
-        Swap {from.symbol} → {to.symbol}
-      </Button>
+      >{`Swap ${from.symbol} → ${to.symbol}`}</Button>
       <T variant="caption" muted style={styles.note}>
         Simulated rates — no real exchange is involved
       </T>

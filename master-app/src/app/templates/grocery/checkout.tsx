@@ -262,9 +262,7 @@ export default function CheckoutScreen() {
         size="lg"
         disabled={basket.cart.length === 0}
         onPress={() => setPlaced(basket.placeOrder())}
-      >
-        Place order · {money(basket.cartTotal)}
-      </Button>
+      >{`Place order · ${money(basket.cartTotal)}`}</Button>
     </ScrollView>
   );
 }

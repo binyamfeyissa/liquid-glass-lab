@@ -52,11 +52,11 @@ appId: __BUNDLE_ID__
 - waitForAnimationToEnd
 - scrollUntilVisible:
     element:
-      text: "^Light$"
+      text: "Background Light"
     direction: DOWN
     visibilityPercentage: 50
 - tapOn:
-    text: "^Light$"
+    text: "Background Light"
 - waitForAnimationToEnd
 - openLink: "glacia-master://templates/bank"
 - tapOn:
@@ -64,6 +64,17 @@ appId: __BUNDLE_ID__
     optional: true
 - waitForAnimationToEnd
 - takeScreenshot: bank-04-light
+# Extra (round 3): the Activity screen in the SAME light mode, for the
+# bank V3 chip check — unselected filter chips were invisible pre-fix
+# (white text, no pill, on a light background). Dark-mode Activity is
+# covered by the -03 cards screen's siblings; light is the case that
+# failed, so this shot is taken here, before the photo switch below.
+- openLink: "glacia-master://templates/bank/activity"
+- tapOn:
+    text: "^Open$"
+    optional: true
+- waitForAnimationToEnd
+- takeScreenshot: bank-06-activity
 # Shot 5 (photo): the template's own BackdropControl on its
 # Profile tab, then back to the main screen.
 - openLink: "glacia-master://templates/bank/profile"
@@ -73,11 +84,11 @@ appId: __BUNDLE_ID__
 - waitForAnimationToEnd
 - scrollUntilVisible:
     element:
-      text: "^Photo$"
+      text: "Background Photo"
     direction: DOWN
     visibilityPercentage: 50
 - tapOn:
-    text: "^Photo$"
+    text: "Background Photo"
 - waitForAnimationToEnd
 - openLink: "glacia-master://templates/bank"
 - tapOn:

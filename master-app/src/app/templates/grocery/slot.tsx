@@ -133,9 +133,7 @@ export default function SlotScreen() {
         size="lg"
         disabled={!selectedWindow || selectedWindow.state === "full"}
         onPress={save}
-      >
-        Confirm · {day.label}, {selectedWindow?.label ?? ""}
-      </Button>
+      >{`Confirm · ${day.label}, ${selectedWindow?.label ?? ""}`}</Button>
     </ScrollView>
   );
 }

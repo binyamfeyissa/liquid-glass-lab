@@ -201,9 +201,7 @@ export default function CartScreen() {
             variant="filled"
             size="lg"
             onPress={() => router.push("/templates/grocery/checkout")}
-          >
-            Checkout · {money(basket.cartTotal)}
-          </Button>
+          >{`Checkout · ${money(basket.cartTotal)}`}</Button>
         </>
       )}
     </ScrollView>

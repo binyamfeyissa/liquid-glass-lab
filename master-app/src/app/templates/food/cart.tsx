@@ -125,9 +125,7 @@ export default function CartScreen() {
               {food.promoCode ? (
                 <ListCard>
                   <View style={styles.promoApplied}>
-                    <Badge tone="muted" isDark={food.darkMode}>
-                      {food.promoCode} — 10% off
-                    </Badge>
+                    <Badge tone="muted" isDark={food.darkMode}>{`${food.promoCode} — 10% off`}</Badge>
                     <T variant="body" muted style={styles.flex1}>
                       You save {money(food.promoDiscount)} on this order
                     </T>
@@ -213,9 +211,7 @@ export default function CartScreen() {
             variant="filled"
             size="lg"
             onPress={() => router.push("/templates/food/checkout")}
-          >
-            Checkout · {money(total)}
-          </Button>
+          >{`Checkout · ${money(total)}`}</Button>
         </View>
       ) : null}
     </View>

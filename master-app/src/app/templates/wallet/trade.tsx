@@ -128,9 +128,7 @@ export default function TradeScreen() {
             setResult(r);
             setStep("done");
           }}
-        >
-          Confirm {side === "buy" ? "purchase" : "sale"}
-        </Button>
+        >{`Confirm ${side === "buy" ? "purchase" : "sale"}`}</Button>
         <Button
           isDark={wallet.darkMode}
           accessibilityLabel="Back to edit trade"
@@ -204,9 +202,7 @@ export default function TradeScreen() {
         onPress={() => {
           if (validate()) setStep("review");
         }}
-      >
-        Review {side === "buy" ? "purchase" : "sale"}
-      </Button>
+      >{`Review ${side === "buy" ? "purchase" : "sale"}`}</Button>
       <Button isDark={wallet.darkMode} accessibilityLabel="Cancel trade" variant="ghost" onPress={() => router.back()}>
         Cancel
       </Button>

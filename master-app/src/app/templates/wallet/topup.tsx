@@ -127,9 +127,7 @@ export default function TopUpScreen() {
               accessibilityLabel={`Quick amount ${q} dollars`}
               variant={amount === q ? "filled" : "glass"}
               onPress={() => setAmountText(String(q))}
-            >
-              ${q}
-            </Button>
+            >{`$${q}`}</Button>
           </View>
         ))}
       </View>
@@ -160,9 +158,7 @@ export default function TopUpScreen() {
           wallet.topUp(card, amount);
           setStep("done");
         }}
-      >
-        Add {amount > 0 ? wallet.fmt(amount) : "money"}
-      </Button>
+      >{`Add ${amount > 0 ? wallet.fmt(amount) : "money"}`}</Button>
       <Button isDark={wallet.darkMode} accessibilityLabel="Cancel top up" variant="ghost" onPress={() => router.back()}>
         Cancel
       </Button>

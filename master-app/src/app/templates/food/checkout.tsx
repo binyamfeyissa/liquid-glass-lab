@@ -237,9 +237,7 @@ export default function CheckoutScreen() {
           variant="filled"
           size="lg"
           onPress={placeOrder}
-        >
-          Place order · {money(total)}
-        </Button>
+        >{`Place order · ${money(total)}`}</Button>
       </View>
     </View>
   );

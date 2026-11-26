@@ -36,7 +36,10 @@ function MetricCard({
 }) {
   const app = useHealth();
   return (
-    <Card isDark={app.darkMode} padding={16} style={styles.metricCard}>
+    // Padding 12, not 16: the half-width card's content is only ~133pt at
+    // padding 16, and the Water Stepper needs 132pt — it poked past the
+    // card's right edge. At 12 the content is ~141pt and the Stepper fits.
+    <Card isDark={app.darkMode} padding={12} style={styles.metricCard}>
       <T variant="label" muted>
         {label}
       </T>
@@ -92,15 +95,20 @@ export default function TodayScreen() {
         >
           Log entry
         </Button>
-        <Button
-          isDark={app.darkMode}
-          accessibilityLabel="Open history"
-          variant="ghost"
-          onPress={() => router.push("/templates/health/history")}
-          style={styles.actionBtn}
-        >
-          History
-        </Button>
+        {/* The ghost Button drops `style` (library GhostButton takes none),
+            so the flex:1 that should make History as wide as Log entry is
+            lost and History squeezes to content size. The wrapper View
+            carries the flex instead. */}
+        <View style={styles.actionBtn}>
+          <Button
+            isDark={app.darkMode}
+            accessibilityLabel="Open history"
+            variant="ghost"
+            onPress={() => router.push("/templates/health/history")}
+          >
+            History
+          </Button>
+        </View>
       </View>
 
       {/* Steps + water */}
@@ -266,6 +274,7 @@ const styles = StyleSheet.create({
   metricBar: { marginTop: 12 },
   quickAdds: {
     flexDirection: "row",
+    flexWrap: "wrap",
     gap: 8,
     marginTop: 12,
   },

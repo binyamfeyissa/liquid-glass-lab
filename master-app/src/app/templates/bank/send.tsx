@@ -111,9 +111,7 @@ export default function SendScreen() {
             bank.sendMoney(recipient, amount, note);
             setStep("done");
           }}
-        >
-          Send {money(amount)}
-        </Button>
+        >{`Send ${money(amount)}`}</Button>
         <Button
           isDark={bank.darkMode}
           accessibilityLabel="Back to edit payment"

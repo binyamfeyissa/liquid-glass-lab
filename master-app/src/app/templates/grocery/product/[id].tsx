@@ -104,9 +104,7 @@ export default function ProductScreen() {
               basket.addToCart(product.id, qty);
               setToast(true);
             }}
-          >
-            Add to cart · {money(product.price * qty)}
-          </Button>
+          >{`Add to cart · ${money(product.price * qty)}`}</Button>
         </View>
 
         {/* Nutrition facts */}

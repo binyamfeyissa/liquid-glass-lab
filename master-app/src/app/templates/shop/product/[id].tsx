@@ -131,9 +131,7 @@ export default function ProductDetailScreen() {
           size="lg"
           onPress={addToCart}
           style={styles.addButton}
-        >
-          Add to cart · {money(product.price * qty)}
-        </Button>
+        >{`Add to cart · ${money(product.price * qty)}`}</Button>
       </View>
 
       {/* Details accordion */}

@@ -57,9 +57,7 @@ export default function HomeScreen() {
               </T>
             </View>
           </View>
-          <Badge tone="muted" isDark={app.darkMode}>
-            {app.streakDays}-day streak
-          </Badge>
+          <Badge tone="muted" isDark={app.darkMode}>{`${app.streakDays}-day streak`}</Badge>
         </View>
         <Progress
           value={goalPct}

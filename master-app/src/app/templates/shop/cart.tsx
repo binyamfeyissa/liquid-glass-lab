@@ -216,9 +216,7 @@ export default function CartScreen() {
             variant="filled"
             size="lg"
             onPress={() => router.push("/templates/shop/checkout")}
-          >
-            Checkout · {money(total)}
-          </Button>
+          >{`Checkout · ${money(total)}`}</Button>
           <Button
             isDark={shop.darkMode}
             accessibilityLabel="Clear cart"

@@ -108,9 +108,7 @@ export default function LibraryScreen() {
         onPress={() => router.push("/templates/cast/downloads")}
         isDark={darkMode}
         variant="glass"
-      >
-        Downloads · {cast.downloadedMB} MB on this device
-      </Button>
+      >{`Downloads · ${cast.downloadedMB} MB on this device`}</Button>
     </Screen>
   );
 }

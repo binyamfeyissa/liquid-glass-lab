@@ -43,9 +43,7 @@ export default function TodayScreen() {
           </T>
           <T variant="heading">{fit.userName}</T>
         </View>
-        <Badge tone="muted" isDark={fit.darkMode}>
-          {fit.streakDays} day streak
-        </Badge>
+        <Badge tone="muted" isDark={fit.darkMode}>{`${fit.streakDays} day streak`}</Badge>
       </View>
 
       {/* Today's activity */}
@@ -136,6 +134,9 @@ export default function TodayScreen() {
                 accessibilityLabel="Preview today's workout"
                 onPress={() => router.push(`/templates/fit/workout/${plan.id}`)}
                 isDark={fit.darkMode}
+                // flex:1: without a definite width the fallback button
+                // collapses to a circle and "Preview" spills out both sides.
+                style={styles.flex1}
               >
                 Preview
               </Button>

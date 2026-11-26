@@ -106,9 +106,7 @@ export default function SendScreen() {
             wallet.send(contact, amount, note);
             setStep("done");
           }}
-        >
-          Send {wallet.fmt(amount)}
-        </Button>
+        >{`Send ${wallet.fmt(amount)}`}</Button>
         <Button
           isDark={wallet.darkMode}
           accessibilityLabel="Back to edit payment"

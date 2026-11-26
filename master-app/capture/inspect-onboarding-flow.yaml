@@ -31,51 +31,51 @@ appId: __BUNDLE_ID__
 - takeScreenshot: onboarding-flow-01-main
 # Shot 2 (dark): pager page 2.
 - tapOn:
-    text: "^Next$"
+    text: "Next screen"
 - waitForAnimationToEnd
 - takeScreenshot: onboarding-flow-02-page2
 # Shot 3 (dark): the FinishScreen, via Skip (shown on every non-last page).
 - tapOn:
-    text: "^Skip$"
+    text: "Skip the introduction"
 - waitForAnimationToEnd
 - takeScreenshot: onboarding-flow-03-finish
 # Shot 4 (light): the FinishScreen's own BackdropControl, then replay.
 - scrollUntilVisible:
     element:
-      text: "^Light$"
+      text: "Background Light"
     direction: DOWN
     visibilityPercentage: 50
 - tapOn:
-    text: "^Light$"
+    text: "Background Light"
 - waitForAnimationToEnd
 - scrollUntilVisible:
     element:
-      text: "^Replay the intro$"
+      text: "Replay the introduction"
     direction: DOWN
     visibilityPercentage: 50
 - tapOn:
-    text: "^Replay the intro$"
+    text: "Replay the introduction"
 - waitForAnimationToEnd
 - takeScreenshot: onboarding-flow-04-light
 # Shot 5 (photo): same, Photo segment.
 - tapOn:
-    text: "^Skip$"
+    text: "Skip the introduction"
 - waitForAnimationToEnd
 - scrollUntilVisible:
     element:
-      text: "^Photo$"
+      text: "Background Photo"
     direction: DOWN
     visibilityPercentage: 50
 - tapOn:
-    text: "^Photo$"
+    text: "Background Photo"
 - waitForAnimationToEnd
 - scrollUntilVisible:
     element:
-      text: "^Replay the intro$"
+      text: "Replay the introduction"
     direction: DOWN
     visibilityPercentage: 50
 - tapOn:
-    text: "^Replay the intro$"
+    text: "Replay the introduction"
 - waitForAnimationToEnd
 - takeScreenshot: onboarding-flow-05-photo
 - openLink: "glacia-master://"

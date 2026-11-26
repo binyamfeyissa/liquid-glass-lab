@@ -444,9 +444,7 @@ export function PostCard({ post, preview = false }: { post: Post; preview?: bool
           </View>
         </View>
         {post.tag ? (
-          <Badge tone="muted" isDark={social.darkMode}>
-            #{post.tag}
-          </Badge>
+          <Badge tone="muted" isDark={social.darkMode}>{`#${post.tag}`}</Badge>
         ) : null}
       </View>
 

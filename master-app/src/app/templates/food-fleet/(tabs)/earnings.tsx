@@ -101,9 +101,7 @@ export default function EarningsScreen() {
               disabled={balance <= 0}
               onPress={fleet.cashOut}
               style={styles.cashButton}
-            >
-              Cash out {money(balance)}
-            </Button>
+            >{`Cash out ${money(balance)}`}</Button>
           )}
         </Card>
       </View>

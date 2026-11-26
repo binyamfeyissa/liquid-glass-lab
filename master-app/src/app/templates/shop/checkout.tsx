@@ -131,9 +131,7 @@ export default function CheckoutScreen() {
             size="lg"
             onPress={() => router.replace(`/templates/shop/order/${placed.id}`)}
             style={styles.successButton}
-          >
-            View order {placed.number}
-          </Button>
+          >{`View order ${placed.number}`}</Button>
           <Button
             isDark={shop.darkMode}
             accessibilityLabel="Continue shopping"
@@ -352,9 +350,7 @@ export default function CheckoutScreen() {
         variant="filled"
         size="lg"
         onPress={placeOrder}
-      >
-        Place order · {money(total)}
-      </Button>
+      >{`Place order · ${money(total)}`}</Button>
     </ScrollView>
   );
 }

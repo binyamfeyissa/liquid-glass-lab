@@ -121,10 +121,7 @@ export default function CompleteScreen() {
         variant="filled"
         size="lg"
         onPress={() => ride.payTrip(trip.id, tip, rating)}
-      >
-        Pay {money(trip.fare.total + tip)}
-        {ride.defaultCard ? ` · ${ride.defaultCard.brand} ••${ride.defaultCard.last4}` : ""}
-      </Button>
+      >{`Pay ${money(trip.fare.total + tip)}${ride.defaultCard ? ` · ${ride.defaultCard.brand} ••${ride.defaultCard.last4}` : ""}`}</Button>
       <T variant="caption" muted style={styles.foot}>
         Template build — no real payment is taken
       </T>

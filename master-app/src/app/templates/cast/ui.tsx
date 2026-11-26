@@ -313,7 +313,7 @@ export function EpisodeRow({
           {episode.title}
         </T>
         <View style={styles.metaLine}>
-          <T variant="caption" muted>
+          <T variant="caption" muted numberOfLines={1} style={{ flexShrink: 1 }}>
             {showTitle ? `${show.title} · ` : ""}
             {episode.dateLabel} ·
           </T>

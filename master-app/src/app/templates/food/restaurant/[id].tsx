@@ -108,10 +108,7 @@ export default function RestaurantScreen() {
             variant="filled"
             size="lg"
             onPress={() => router.push("/templates/food/cart")}
-          >
-            View cart · {cartHere} item{cartHere === 1 ? "" : "s"} ·{" "}
-            {money(food.cartSubtotal)}
-          </Button>
+          >{`View cart · ${cartHere} item${cartHere === 1 ? "" : "s"} ·${" "}${money(food.cartSubtotal)}`}</Button>
         </View>
       ) : null}
     </View>

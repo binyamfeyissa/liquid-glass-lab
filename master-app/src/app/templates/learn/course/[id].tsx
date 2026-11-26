@@ -150,9 +150,7 @@ export default function CourseScreen() {
                 variant="filled"
                 onPress={() => openLesson(firstIncomplete)}
                 style={styles.cta}
-              >
-                Continue: {firstIncomplete.title}
-              </Button>
+              >{`Continue: ${firstIncomplete.title}`}</Button>
             ) : null}
           </>
         ) : (
