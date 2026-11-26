@@ -10,7 +10,6 @@ appId: __BUNDLE_ID__
 - tapOn:
     text: "^Open$"
     optional: true
-    timeout: 2000
 - waitForAnimationToEnd
 - assertVisible: "Templates"
 - tapOn: "Backdrop: light. Tap to change."
@@ -19,7 +18,6 @@ appId: __BUNDLE_ID__
     element:
       text: "Bank — Northwind Bank"
     direction: DOWN
-    timeout: 15000
     visibilityPercentage: 50
 - tapOn: "Bank — Northwind Bank"
 - waitForAnimationToEnd
@@ -28,7 +26,6 @@ appId: __BUNDLE_ID__
 - tapOn:
     text: "^Open$"
     optional: true
-    timeout: 2000
 - waitForAnimationToEnd
 - tapOn: "Backdrop: dark. Tap to change."
 - waitForAnimationToEnd
@@ -36,7 +33,6 @@ appId: __BUNDLE_ID__
     element:
       text: "Food — Forkful"
     direction: DOWN
-    timeout: 15000
     visibilityPercentage: 50
 - tapOn: "Food — Forkful"
 - waitForAnimationToEnd
@@ -45,7 +41,6 @@ appId: __BUNDLE_ID__
 - tapOn:
     text: "^Open$"
     optional: true
-    timeout: 2000
 - waitForAnimationToEnd
 - tapOn: "Backdrop: image. Tap to change."
 - waitForAnimationToEnd

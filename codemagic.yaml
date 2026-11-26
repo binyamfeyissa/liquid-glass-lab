@@ -795,7 +795,7 @@ workflows:
           find "$HOME/.maestro" -path '*/screenshots/*.png' -exec cp {} "$CM_BUILD_DIR/capture/maestro-steps/" \; 2>/dev/null || true
           echo "--- PNGs collected in capture/ ---"
           ls -la "$CM_BUILD_DIR/capture/"*.png 2>/dev/null || echo "WARNING: no takeScreenshot PNGs collected"
-          ls "$CM_BUILD_DIR/capture/maestro-steps/"*.png 2>/dev/null | wc -l | xargs echo "maestro step screenshots:"
+          ls "$CM_BUILD_DIR/capture/maestro-steps/"*.png 2>/dev/null | wc -l | xargs echo "maestro step screenshots:" || true
           # Diagnostic dump (saved as an artifact). The `head -100` pipe
           # MUST carry `|| true`: with pipefail, head closing the pipe
           # makes find die on SIGPIPE (141) and set -e kills the step.

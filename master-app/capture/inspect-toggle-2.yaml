@@ -10,7 +10,6 @@ appId: __BUNDLE_ID__
 - tapOn:
     text: "^Open$"
     optional: true
-    timeout: 2000
 - waitForAnimationToEnd
 - assertVisible: "Templates"
 - tapOn: "Backdrop: light. Tap to change."
@@ -19,7 +18,6 @@ appId: __BUNDLE_ID__
     element:
       text: "Health — Vitalis"
     direction: DOWN
-    timeout: 15000
     visibilityPercentage: 50
 - tapOn: "Health — Vitalis"
 - waitForAnimationToEnd
@@ -28,7 +26,6 @@ appId: __BUNDLE_ID__
 - tapOn:
     text: "^Open$"
     optional: true
-    timeout: 2000
 - waitForAnimationToEnd
 - tapOn: "Backdrop: dark. Tap to change."
 - waitForAnimationToEnd
@@ -36,7 +33,6 @@ appId: __BUNDLE_ID__
     element:
       text: "Shop — Lumen"
     direction: DOWN
-    timeout: 15000
     visibilityPercentage: 50
 - tapOn: "Shop — Lumen"
 - waitForAnimationToEnd
@@ -45,7 +41,6 @@ appId: __BUNDLE_ID__
 - tapOn:
     text: "^Open$"
     optional: true
-    timeout: 2000
 - waitForAnimationToEnd
 - tapOn: "Backdrop: image. Tap to change."
 - waitForAnimationToEnd

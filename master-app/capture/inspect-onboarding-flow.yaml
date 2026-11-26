@@ -19,14 +19,12 @@ appId: __BUNDLE_ID__
 - tapOn:
     text: "^Open$"
     optional: true
-    timeout: 2000
 - waitForAnimationToEnd
 - assertVisible: "Templates"
 - scrollUntilVisible:
     element:
       text: "Onboarding Flow — Northwind Onboarding"
     direction: DOWN
-    timeout: 15000
     visibilityPercentage: 50
 - tapOn: "Onboarding Flow — Northwind Onboarding"
 - waitForAnimationToEnd
@@ -46,7 +44,6 @@ appId: __BUNDLE_ID__
     element:
       text: "^Light$"
     direction: DOWN
-    timeout: 15000
     visibilityPercentage: 50
 - tapOn:
     text: "^Light$"
@@ -55,7 +52,6 @@ appId: __BUNDLE_ID__
     element:
       text: "^Replay the intro$"
     direction: DOWN
-    timeout: 15000
     visibilityPercentage: 50
 - tapOn:
     text: "^Replay the intro$"
@@ -69,7 +65,6 @@ appId: __BUNDLE_ID__
     element:
       text: "^Photo$"
     direction: DOWN
-    timeout: 15000
     visibilityPercentage: 50
 - tapOn:
     text: "^Photo$"
@@ -78,7 +73,6 @@ appId: __BUNDLE_ID__
     element:
       text: "^Replay the intro$"
     direction: DOWN
-    timeout: 15000
     visibilityPercentage: 50
 - tapOn:
     text: "^Replay the intro$"
@@ -88,5 +82,4 @@ appId: __BUNDLE_ID__
 - tapOn:
     text: "^Open$"
     optional: true
-    timeout: 2000
 - waitForAnimationToEnd
