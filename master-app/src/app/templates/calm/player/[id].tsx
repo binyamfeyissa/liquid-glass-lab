@@ -23,7 +23,7 @@ import {
   formatClock,
   formatDuration,
 } from "../data";
-import { Artwork, BUTTON_PAD, BackButton, Figure, FILLED_TINT, T, accentColor, neutralTint } from "../ui";
+import { Artwork, BackButton, Figure, FILLED_TINT, T, accentColor } from "../ui";
 
 type PlayerStatus = "ready" | "playing" | "paused" | "completed" | "goodnight";
 
@@ -196,20 +196,19 @@ export default function PlayerScreen() {
         </View>
       </View>
 
-      {/* Transport — fixed-width skip buttons so the flex play button
-          never squeezes them (the old flex:1 play row); the play action
-          is the one filled control, in deep sage, with its icon. Skip
-          buttons stay text-only: an icon-only button would be empty on
-          the fallback floor, which never renders button icons. */}
+      {/* Transport — the flex play button never squeezes the skips
+          (the old flex:1 play row); the play action is the one filled
+          control, in deep sage, with its icon. Skip buttons are ghost
+          text: a glass pill's fallback label is white onTint,
+          unreadable on the light glass tint, and an icon-only button
+          would be empty on the fallback floor, which never renders
+          button icons. */}
       <View style={styles.transport}>
         <Button
           isDark={app.darkMode}
           accessibilityLabel="Back 30 seconds"
-          variant="glass"
-          tint={neutralTint(app.darkMode)}
-          contentStyle={BUTTON_PAD}
+          variant="ghost"
           onPress={() => skip(-30)}
-          style={styles.skipButton}
         >
           −30s
         </Button>
@@ -233,11 +232,8 @@ export default function PlayerScreen() {
         <Button
           isDark={app.darkMode}
           accessibilityLabel="Forward 30 seconds"
-          variant="glass"
-          tint={neutralTint(app.darkMode)}
-          contentStyle={BUTTON_PAD}
+          variant="ghost"
           onPress={() => skip(30)}
-          style={styles.skipButton}
         >
           +30s
         </Button>
@@ -309,7 +305,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 12,
   },
-  skipButton: { width: 76, flexShrink: 0 },
   playButton: { flex: 1 },
   controlLabel: {
     marginBottom: 8,

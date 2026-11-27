@@ -10,7 +10,6 @@ import { useStillwater } from "../state";
 import { CATEGORIES, SESSIONS, formatClock, formatDuration, type Category } from "../data";
 import {
   Artwork,
-  BUTTON_PAD,
   CategoryCard,
   Figure,
   FILLED_TINT,
@@ -20,7 +19,6 @@ import {
   SessionRow,
   T,
   accentColor,
-  neutralTint,
 } from "../ui";
 
 type Filter = Category | "All";
@@ -126,9 +124,7 @@ export default function HomeScreen() {
           <Button
             isDark={app.darkMode}
             accessibilityLabel="Start a breathing exercise"
-            variant="glass"
-            tint={neutralTint(app.darkMode)}
-            contentStyle={BUTTON_PAD}
+            variant="ghost"
             onPress={() => router.push("/templates/calm/breathing")}
           >
             Breathe

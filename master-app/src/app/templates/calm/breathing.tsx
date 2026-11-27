@@ -8,7 +8,7 @@ import PlayIcon from "@hugeicons/core-free-icons/PlayIcon";
 
 import { useStillwater } from "./state";
 import { BREATH_PATTERNS, CYCLE_OPTIONS } from "./data";
-import { BackButton, BUTTON_PAD, FILLED_TINT, ListCard, RowSeparator, SAGE, SectionTitle, T, accentColor, neutralTint } from "./ui";
+import { BackButton, BUTTON_PAD, FILLED_TINT, ListCard, RowSeparator, SAGE, SectionTitle, T, accentColor } from "./ui";
 
 /**
  * Guided breathing. A timer-driven state machine walks the pattern's
@@ -213,10 +213,10 @@ export default function BreathingScreen() {
                 <Button
                   isDark={app.darkMode}
                   accessibilityLabel={`Use the ${p.name} pattern`}
-                  variant={p.id === patternId ? "filled" : "glass"}
+                  variant={p.id === patternId ? "filled" : "ghost"}
                   size="sm"
-                  tint={p.id === patternId ? FILLED_TINT : neutralTint(app.darkMode)}
-                  contentStyle={BUTTON_PAD}
+                  tint={p.id === patternId ? FILLED_TINT : undefined}
+                  contentStyle={p.id === patternId ? BUTTON_PAD : undefined}
                   onPress={() => {
                     setPatternId(p.id);
                     reset(p);

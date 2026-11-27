@@ -19,7 +19,6 @@ import {
   type TextProps,
 } from "glacia-native";
 import { HugeiconsIcon } from "@hugeicons/react-native";
-import ArrowLeft01Icon from "@hugeicons/core-free-icons/ArrowLeft01Icon";
 import ChevronRightIcon from "@hugeicons/core-free-icons/ChevronRightIcon";
 import { useStillwater, type BackdropMode } from "./state";
 import { formatDuration, type Category, type Session } from "./data";
@@ -45,13 +44,6 @@ export function accentColor(mode: BackdropMode): string {
  *  text reads on it in light and dark, where the pale dark-mode accent
  *  (#9db29a) would not. Same fill as the breathing circle. */
 export const FILLED_TINT = SAGE.deep;
-
-/** Neutral tint for glass buttons: the theme's glass token, so the
- *  fallback floor renders a neutral pill instead of system blue, and
- *  the engine gets a neutral wash over the glass (bank's pattern). */
-export function neutralTint(darkMode: boolean): string {
-  return colors[darkMode ? "dark" : "light"].glass;
-}
 
 /** Horizontal padding every content-sized button needs: the fallback
  *  floor gives the button's content view no padding of its own, so a
@@ -279,20 +271,20 @@ export function NavRow({
   );
 }
 
-/** The shared glass back button for stack screens (Player, Breathing):
- *  a left-arrow icon plus the word "Back" — the icon alone would be a
- *  bare glyph on the fallback floor, the word alone is plain. */
+/** The shared back button for stack screens (Player, Breathing).
+ *  Ghost, like bank's back buttons: a glass pill's fallback label is
+ *  white onTint, unreadable on the light glass tint in light mode,
+ *  while ghost text is always the foreground colour. Text-only: the
+ *  library's ghost button has no icon slot, so no arrow is passed
+ *  (it would be silently dropped). */
 export function BackButton({ onPress }: { onPress: () => void }) {
   const { darkMode } = useStillwater();
   return (
     <Button
       isDark={darkMode}
       accessibilityLabel="Back"
-      variant="glass"
-      tint={neutralTint(darkMode)}
-      contentStyle={BUTTON_PAD}
+      variant="ghost"
       onPress={onPress}
-      icon={<HugeiconsIcon icon={ArrowLeft01Icon} size={18} color={colors[darkMode ? "dark" : "light"].foreground} />}
     >
       Back
     </Button>
