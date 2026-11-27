@@ -23,7 +23,7 @@ export default function ProfileScreen() {
   const tracksPlayed = new Set(tunes.history.map((h) => h.trackId)).size;
 
   return (
-    <Screen title="Profile" subtitle="Your listening, your settings">
+    <Screen belowTabBar title="Profile" subtitle="Your listening, your settings">
       {/* Listener card */}
       <Card isDark={darkMode} padding={20}>
         <View style={styles.header}>

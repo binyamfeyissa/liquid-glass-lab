@@ -12,7 +12,7 @@ export default function ActivityScreen() {
   const past = ride.trips.filter((t) => t.status !== "unpaid");
 
   return (
-    <Screen title="Activity" subtitle="Your trips, receipts and ratings">
+    <Screen belowTabBar title="Activity" subtitle="Your trips, receipts and ratings">
       {unpaid.length > 0 ? (
         <View>
           <SectionTitle>Needs payment</SectionTitle>

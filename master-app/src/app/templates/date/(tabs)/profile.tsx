@@ -48,7 +48,7 @@ export default function ProfileScreen() {
   };
 
   return (
-    <Screen title="Profile" subtitle="Your card and your settings">
+    <Screen belowTabBar title="Profile" subtitle="Your card and your settings">
       {/* Header */}
       <View style={styles.header}>
         <Avatar name={me.name || "You"} size="lg" isDark={kindred.darkMode} source={previewProfile.image} />

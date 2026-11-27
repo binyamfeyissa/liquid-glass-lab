@@ -21,7 +21,7 @@ export default function ProfileScreen() {
   const signal = useSignal();
 
   return (
-    <Screen title="Profile" subtitle="Reading, topics and settings">
+    <Screen belowTabBar title="Profile" subtitle="Reading, topics and settings">
       {/* Reader header */}
       <View style={styles.header}>
         <Avatar name={signal.userName} source={USER_IMAGE} size="lg" isDark={signal.darkMode} />

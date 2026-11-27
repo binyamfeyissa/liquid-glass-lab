@@ -60,7 +60,7 @@ export default function PrivacyScreen() {
   const otherSessions = sessions.filter((s) => !s.current);
 
   return (
-    <Screen title="Privacy & security" subtitle="Password, two-factor, and where you are signed in.">
+    <Screen belowTabBar title="Privacy & security" subtitle="Password, two-factor, and where you are signed in.">
       {/* Change password */}
       <View>
         <SectionTitle>Change password</SectionTitle>

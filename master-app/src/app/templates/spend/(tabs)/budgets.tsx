@@ -44,7 +44,7 @@ export default function BudgetsScreen() {
   };
 
   return (
-    <Screen title="Budgets" subtitle="Monthly limits for November">
+    <Screen belowTabBar title="Budgets" subtitle="Monthly limits for November">
       <Card isDark={tally.darkMode} padding={24}>
         <T variant="label" muted>
           All budgets

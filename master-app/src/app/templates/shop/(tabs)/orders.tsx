@@ -10,7 +10,7 @@ export default function OrdersScreen() {
   const shop = useShop();
 
   return (
-    <Screen title="Orders" subtitle="Everything you have ordered from Lumen">
+    <Screen belowTabBar title="Orders" subtitle="Everything you have ordered from Lumen">
       {shop.orders.length === 0 ? (
         <ListCard>
           <View style={styles.empty}>

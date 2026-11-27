@@ -24,7 +24,7 @@ export default function MatchesScreen() {
   });
 
   return (
-    <Screen
+    <Screen belowTabBar
       title="Matches"
       subtitle="People you've liked who liked you back"
     >

@@ -79,7 +79,7 @@ export default function MyListScreen() {
   );
 
   return (
-    <Screen title="My List" subtitle="Saved titles and downloads on this device">
+    <Screen belowTabBar title="My List" subtitle="Saved titles and downloads on this device">
       {/* Saved titles */}
       <View>
         <SectionTitle>Saved titles</SectionTitle>

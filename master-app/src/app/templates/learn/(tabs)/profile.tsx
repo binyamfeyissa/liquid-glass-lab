@@ -30,7 +30,7 @@ export default function ProfileScreen() {
   const learn = useLearn();
 
   return (
-    <Screen title="Profile" subtitle="Your learner stats and Glasshouse settings">
+    <Screen belowTabBar title="Profile" subtitle="Your learner stats and Glasshouse settings">
       {/* Learner header */}
       <View style={styles.header}>
         <Avatar name={learn.userName} source={USER_IMAGE} size="lg" isDark={learn.darkMode} />

@@ -21,7 +21,7 @@ export default function SavedScreen() {
   const savedHomes = PROPERTIES.filter((p) => favourites.includes(p.id));
 
   return (
-    <Screen
+    <Screen belowTabBar
       title="Saved"
       subtitle="Your favourite homes and the viewings you have booked"
     >

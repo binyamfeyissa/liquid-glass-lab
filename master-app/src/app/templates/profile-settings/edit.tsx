@@ -62,7 +62,7 @@ export default function EditProfileScreen() {
   }
 
   return (
-    <Screen title="Edit profile" subtitle="Edit the details people see.">
+    <Screen belowTabBar title="Edit profile" subtitle="Edit the details people see.">
       <View>
         <SectionTitle>Public profile</SectionTitle>
         <View style={styles.fields}>

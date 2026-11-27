@@ -77,7 +77,7 @@ export default function OrdersScreen() {
   const basket = useBasket();
   return (
     <View style={styles.root}>
-      <Screen title="Orders" subtitle="Scheduled deliveries and order history">
+      <Screen belowTabBar title="Orders" subtitle="Scheduled deliveries and order history">
         {basket.orders.length === 0 ? (
           <View style={styles.empty}>
             <T variant="heading">No orders yet</T>

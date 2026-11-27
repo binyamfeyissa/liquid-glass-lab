@@ -38,7 +38,7 @@ export default function ProfileScreen() {
 
   return (
     <>
-      <Screen title="Profile" subtitle="Account, plan and settings.">
+      <Screen belowTabBar title="Profile" subtitle="Account, plan and settings.">
         {/* Identity */}
         <Card isDark={glaciaDark} padding={20}>
           <View style={styles.identityRow}>

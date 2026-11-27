@@ -47,7 +47,7 @@ export default function ContactsScreen() {
   }, [chat.contacts, query]);
 
   return (
-    <Screen title="Contacts" subtitle={`${chat.contacts.length} people on Relay`}>
+    <Screen belowTabBar title="Contacts" subtitle={`${chat.contacts.length} people on Relay`}>
       <Input
         value={query}
         onChangeText={setQuery}

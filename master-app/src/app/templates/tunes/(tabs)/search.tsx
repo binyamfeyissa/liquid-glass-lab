@@ -32,7 +32,7 @@ export default function SearchScreen() {
   const searching = query.trim().length > 0;
 
   return (
-    <Screen title="Search" subtitle="Every track in the Waveform catalogue">
+    <Screen belowTabBar title="Search" subtitle="Every track in the Waveform catalogue">
       <Input
         value={query}
         onChangeText={setQuery}

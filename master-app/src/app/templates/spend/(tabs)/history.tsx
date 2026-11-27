@@ -65,7 +65,7 @@ export default function HistoryScreen() {
     .reduce((sum, t) => sum - t.amount, 0);
 
   return (
-    <Screen title="History" subtitle="Every transaction, grouped by day">
+    <Screen belowTabBar title="History" subtitle="Every transaction, grouped by day">
       <Input
         value={query}
         onChangeText={setQuery}

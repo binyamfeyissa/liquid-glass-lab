@@ -53,7 +53,7 @@ export default function ProfileScreen() {
   };
 
   return (
-    <Screen title="Profile" subtitle="Your buyer details and app settings">
+    <Screen belowTabBar title="Profile" subtitle="Your buyer details and app settings">
       <View style={styles.header}>
         <Avatar name={homes.profile.name} source={USER_IMAGE} size="lg" isDark={homes.darkMode} />
         <View style={styles.headerText}>

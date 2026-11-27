@@ -75,7 +75,7 @@ export default function TrendsScreen() {
   const meta = METRIC_META[metric];
 
   return (
-    <Screen title="Trends" subtitle="From the entries in your log — sample data">
+    <Screen belowTabBar title="Trends" subtitle="From the entries in your log — sample data">
       <SegmentedControl
         segments={METRICS.map((m) => METRIC_META[m].label)}
         selectedIndex={metricIndex}

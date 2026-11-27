@@ -23,7 +23,7 @@ export default function CardsScreen() {
   const limitUsed = Math.min(100, Math.round((bank.spentToday / bank.dailyLimit) * 100));
 
   return (
-    <Screen title="Cards" subtitle="Debit card ending in 4821">
+    <Screen belowTabBar title="Cards" subtitle="Debit card ending in 4821">
       {/* The card visual */}
       <Card
         isDark={bank.darkMode}

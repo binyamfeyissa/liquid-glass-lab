@@ -18,7 +18,7 @@ export default function BookmarksScreen() {
   );
 
   return (
-    <Screen
+    <Screen belowTabBar
       title="Bookmarks"
       subtitle={
         saved.length === 0

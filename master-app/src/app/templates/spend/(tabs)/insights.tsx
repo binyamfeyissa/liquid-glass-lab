@@ -56,7 +56,7 @@ export default function InsightsScreen() {
   }, [tally.transactions, month.key]);
 
   return (
-    <Screen title="Insights">
+    <Screen belowTabBar title="Insights">
       <SegmentedControl
         segments={MONTHS.map((m) => m.short)}
         selectedIndex={monthIndex}

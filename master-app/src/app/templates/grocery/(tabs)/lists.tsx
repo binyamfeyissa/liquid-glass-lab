@@ -151,7 +151,7 @@ export default function ListsScreen() {
 
   return (
     <View style={styles.root}>
-      <Screen title="Shopping lists" subtitle="Your saved shopping lists">
+      <Screen belowTabBar title="Shopping lists" subtitle="Your saved shopping lists">
         <Button
           isDark={basket.darkMode}
           accessibilityLabel="Create a new shopping list"

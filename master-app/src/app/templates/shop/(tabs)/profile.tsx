@@ -53,7 +53,7 @@ export default function ProfileScreen() {
   };
 
   return (
-    <Screen title="Profile" subtitle="Your favourites, addresses and app settings">
+    <Screen belowTabBar title="Profile" subtitle="Your favourites, addresses and app settings">
       {/* Profile header */}
       <View style={styles.header}>
         <Avatar name={shop.userName} source={shop.userImage} size="lg" isDark={shop.darkMode} status="online" />

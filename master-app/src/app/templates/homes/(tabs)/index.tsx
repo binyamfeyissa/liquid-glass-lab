@@ -41,7 +41,7 @@ export default function HomeScreen() {
   }, [filter, query, featured.id]);
 
   return (
-    <Screen title="Haven" subtitle="All homes currently for sale">
+    <Screen belowTabBar title="Haven" subtitle="All homes currently for sale">
       <Input
         value={query}
         onChangeText={setQuery}

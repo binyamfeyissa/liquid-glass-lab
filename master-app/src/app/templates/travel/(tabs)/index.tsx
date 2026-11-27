@@ -16,7 +16,7 @@ export default function ExploreScreen() {
   const popular = [...stays].sort((a, b) => b.reviewsCount - a.reviewsCount).slice(0, 4);
 
   return (
-    <Screen title="Explore" subtitle="Twelve stays across six destinations">
+    <Screen belowTabBar title="Explore" subtitle="Twelve stays across six destinations">
       {/* Search header — a tappable field that opens the Search screen. */}
       <Card
         isDark={darkMode}

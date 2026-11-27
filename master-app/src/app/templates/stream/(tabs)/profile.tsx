@@ -32,7 +32,7 @@ export default function ProfileScreen() {
   ).length;
 
   return (
-    <Screen title="Profile" subtitle="Viewer profile, playback and app settings">
+    <Screen belowTabBar title="Profile" subtitle="Viewer profile, playback and app settings">
       {/* Profile header */}
       <View style={styles.header}>
         <Avatar name={stream.viewerName} source={stream.viewerImage} size="lg" isDark={darkMode} />

@@ -42,7 +42,7 @@ export default function NotificationsScreen() {
   );
 
   return (
-    <Screen title="Notifications" subtitle="Choose what Northwind can interrupt you for.">
+    <Screen belowTabBar title="Notifications" subtitle="Choose what Northwind can interrupt you for.">
       <View>
         <SectionTitle>Push notifications</SectionTitle>
         <ListCard>{PUSH_ROWS.map((row, i) => renderRow(row, i === PUSH_ROWS.length - 1))}</ListCard>

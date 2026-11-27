@@ -25,7 +25,7 @@ export default function TripsScreen() {
   }, [bookings, filter]);
 
   return (
-    <Screen title="Trips">
+    <Screen belowTabBar title="Trips">
       <SegmentedControl
         isDark={darkMode}
         segments={FILTERS}

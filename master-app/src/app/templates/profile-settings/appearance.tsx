@@ -21,7 +21,7 @@ export default function AppearanceScreen() {
     : `rgba(255, 255, 255, ${(0.12 + (intensity / 100) * 0.6).toFixed(3)})`;
 
   return (
-    <Screen title="Appearance" subtitle="Background, glass and text size.">
+    <Screen belowTabBar title="Appearance" subtitle="Background, glass and text size.">
       <View>
         <SectionTitle>Background</SectionTitle>
         <Card isDark={glaciaDark} padding={20}>

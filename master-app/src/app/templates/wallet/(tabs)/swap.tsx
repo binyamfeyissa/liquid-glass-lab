@@ -64,7 +64,7 @@ export default function SwapScreen() {
   };
 
   return (
-    <Screen title="Swap" subtitle="One asset for another, at simulated rates">
+    <Screen belowTabBar title="Swap" subtitle="One asset for another, at simulated rates">
       {doneLabel ? (
         <Card isDark={wallet.darkMode} padding={20} contentStyle={styles.doneCard}>
           <T variant="heading">Swap complete</T>

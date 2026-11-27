@@ -47,7 +47,7 @@ export default function NotificationsScreen() {
   const social = useSocial();
 
   return (
-    <Screen
+    <Screen belowTabBar
       title="Activity"
       subtitle={
         social.unreadNotifications > 0

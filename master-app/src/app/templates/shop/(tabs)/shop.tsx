@@ -76,7 +76,7 @@ export default function ShopScreen() {
       : shop.products.filter((p) => p.category === filter);
 
   return (
-    <Screen title="Shop" subtitle="Glassware and homeware, blown and fused in small batches">
+    <Screen belowTabBar title="Shop" subtitle="Glassware and homeware, blown and fused in small batches">
       <View style={styles.cartRow}>
         <T variant="body" muted style={styles.flex}>
           {shop.cartCount > 0

@@ -38,7 +38,7 @@ export default function ActivityScreen() {
   }, [wallet.transactions, query, filter]);
 
   return (
-    <Screen title="Activity" subtitle="All movements across your assets">
+    <Screen belowTabBar title="Activity" subtitle="All movements across your assets">
       <Input
         value={query}
         onChangeText={setQuery}

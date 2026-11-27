@@ -43,7 +43,7 @@ export default function ActivityScreen() {
   const totalCal = entries.reduce((s, h) => s + h.calories, 0);
 
   return (
-    <Screen
+    <Screen belowTabBar
       title="Activity"
       subtitle={
         range === 0

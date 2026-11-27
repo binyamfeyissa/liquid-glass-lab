@@ -50,7 +50,7 @@ export default function HomeScreen() {
     .sort((a, b) => (a.trendingRank ?? 99) - (b.trendingRank ?? 99));
 
   return (
-    <Screen
+    <Screen belowTabBar
       title="Lumen Play"
       subtitle="Featured title, continue watching and genre rails"
     >

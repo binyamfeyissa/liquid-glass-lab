@@ -28,7 +28,7 @@ export default function EarningsScreen() {
   const barNeutral = fleet.backdrop === "light" ? "#cfc8b8" : "#3a3a3e";
 
   return (
-    <Screen title="Earnings" subtitle="This week, day by day">
+    <Screen belowTabBar title="Earnings" subtitle="This week, day by day">
       {/* Week bars — plain Views; glacia-native has no charts */}
       <View>
         <SectionTitle>Last 7 days</SectionTitle>

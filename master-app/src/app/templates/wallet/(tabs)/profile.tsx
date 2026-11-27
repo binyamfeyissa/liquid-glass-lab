@@ -23,7 +23,7 @@ export default function ProfileScreen() {
   const currencyIndex = CURRENCIES.indexOf(wallet.currency);
 
   return (
-    <Screen title="Profile" subtitle="Display, security and settings">
+    <Screen belowTabBar title="Profile" subtitle="Display, security and settings">
       {/* Profile header */}
       <View style={styles.header}>
         <Avatar name={wallet.userName} size="lg" isDark={wallet.darkMode} source={wallet.userImage} />

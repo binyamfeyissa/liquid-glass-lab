@@ -22,7 +22,7 @@ export default function AccountsScreen() {
   const bank = useBank();
 
   return (
-    <Screen title="Accounts" subtitle="Number and activity for each account">
+    <Screen belowTabBar title="Accounts" subtitle="Number and activity for each account">
       <View>
         <T variant="label" muted>
           Combined balance

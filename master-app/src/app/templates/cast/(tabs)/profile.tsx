@@ -27,7 +27,7 @@ export default function ProfileScreen() {
   const { darkMode } = cast;
 
   return (
-    <Screen title="Profile" subtitle="Listening stats and settings">
+    <Screen belowTabBar title="Profile" subtitle="Listening stats and settings">
       <Card isDark={darkMode} padding={16} style={styles.profileCard}>
         <Avatar name={cast.userName} size="lg" isDark={darkMode} source={cast.userImage} />
         <View style={styles.flex}>

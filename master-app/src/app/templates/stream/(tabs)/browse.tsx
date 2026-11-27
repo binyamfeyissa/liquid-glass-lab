@@ -33,7 +33,7 @@ export default function BrowseScreen() {
   }, [genre, kindIndex, query, stream.maturity]);
 
   return (
-    <Screen title="Browse" subtitle="Every film and series in the catalogue">
+    <Screen belowTabBar title="Browse" subtitle="Every film and series in the catalogue">
       <Input
         value={query}
         onChangeText={setQuery}

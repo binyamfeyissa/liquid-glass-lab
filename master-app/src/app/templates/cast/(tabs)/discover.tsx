@@ -57,7 +57,7 @@ export default function DiscoverScreen() {
   );
 
   return (
-    <Screen
+    <Screen belowTabBar
       title="Discover"
       subtitle="Six shows, new episodes weekly"
     >

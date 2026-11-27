@@ -26,7 +26,7 @@ export default function ProfileScreen() {
   };
 
   return (
-    <Screen title="Profile" subtitle="Name, goal, reminders and background">
+    <Screen belowTabBar title="Profile" subtitle="Name, goal, reminders and background">
       {/* Header */}
       <View style={styles.header}>
         <Avatar name={app.userName || "Guest"} size="lg" isDark={app.darkMode} status="online" source={app.userImage} />

@@ -13,7 +13,7 @@ export default function SavedScreen() {
     .filter((j): j is NonNullable<typeof j> => !!j);
 
   return (
-    <Screen
+    <Screen belowTabBar
       title="Saved"
       subtitle="Jobs you bookmarked for a closer look"
     >

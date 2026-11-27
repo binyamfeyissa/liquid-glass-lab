@@ -127,19 +127,36 @@ export function BackdropControl() {
 /*  Screen — scrollable page shell with a title block.                 */
 /* ------------------------------------------------------------------ */
 
+/** Bottom clearance for tab screens: the floating TabBar is 64pt tall
+ *  + 8pt top pad + the bottom safe-area inset (up to 34pt home indicator,
+ *  48pt Android 3-button nav) — and in this template the mini player
+ *  (~56pt + 8pt gap) stacks above the bar whenever something is playing,
+ *  so 192pt lets the last row scroll fully clear of bar + mini player. */
+export const TAB_BAR_CLEARANCE = 192;
+
 export function Screen({
   title,
   subtitle,
   children,
+  belowTabBar,
 }: {
   title: string;
   subtitle?: string;
   children: ReactNode;
+  /** True on tab screens: the floating TabBar overlays the scene, so the
+   *  scroll content gets TAB_BAR_CLEARANCE of bottom padding and the last
+   *  row can scroll up above the bar instead of hiding behind it. False
+   *  (default) on stack/detail screens, which have no bar over them. */
+  belowTabBar?: boolean;
 }) {
   return (
     <ScrollView
       style={styles.screen}
-      contentContainerStyle={styles.screenContent}
+      contentContainerStyle={
+        belowTabBar
+          ? [styles.screenContent, { paddingBottom: TAB_BAR_CLEARANCE }]
+          : styles.screenContent
+      }
       showsVerticalScrollIndicator={false}
     >
       <T variant="title">

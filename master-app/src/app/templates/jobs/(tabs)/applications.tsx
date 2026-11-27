@@ -61,7 +61,7 @@ export default function ApplicationsScreen() {
   );
 
   return (
-    <Screen
+    <Screen belowTabBar
       title="Applications"
       subtitle="Every application and where it stands"
     >

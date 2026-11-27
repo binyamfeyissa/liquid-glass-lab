@@ -10,7 +10,7 @@ export default function LikesScreen() {
   const kindred = useKindred();
 
   return (
-    <Screen
+    <Screen belowTabBar
       title="Likes you"
       subtitle="People who already liked your profile — like back and it's a match"
     >

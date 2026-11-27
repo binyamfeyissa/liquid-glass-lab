@@ -38,7 +38,7 @@ export default function SleepScreen() {
   };
 
   return (
-    <Screen
+    <Screen belowTabBar
       title="Sleep"
       subtitle="Sounds, a timer, and a bedtime"
     >

@@ -66,7 +66,7 @@ export default function SearchScreen() {
   };
 
   return (
-    <Screen title="Search" subtitle="Every posting on Northbound">
+    <Screen belowTabBar title="Search" subtitle="Every posting on Northbound">
       <Field label="Keywords" isDark={jobs.darkMode}>
         <Input
           value={jobs.searchQuery}

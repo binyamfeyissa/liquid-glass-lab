@@ -20,7 +20,7 @@ export default function PortfolioScreen() {
   const wallet = useWallet();
 
   return (
-    <Screen>
+    <Screen belowTabBar>
       {/* Header */}
       <View style={styles.header}>
         <Avatar name={wallet.userName} size="md" isDark={wallet.darkMode} source={wallet.userImage} />

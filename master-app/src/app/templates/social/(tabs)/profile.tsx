@@ -40,7 +40,7 @@ export default function ProfileScreen() {
   };
 
   return (
-    <Screen title="Profile">
+    <Screen belowTabBar title="Profile">
       {/* Header */}
       <View style={styles.header}>
         <Avatar

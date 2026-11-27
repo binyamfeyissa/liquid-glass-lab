@@ -14,7 +14,7 @@ export default function ForYouScreen() {
     .sort((a, b) => a.minutesAgo - b.minutesAgo);
 
   return (
-    <Screen
+    <Screen belowTabBar
       title="For You"
       subtitle="Stories from the topics you follow"
     >

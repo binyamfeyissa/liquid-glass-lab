@@ -37,7 +37,7 @@ export default function SearchScreen() {
   );
 
   return (
-    <Screen title="Search" subtitle="Restaurants and dishes near you">
+    <Screen belowTabBar title="Search" subtitle="Restaurants and dishes near you">
       <Input
         value={query}
         onChangeText={setQuery}

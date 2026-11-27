@@ -45,7 +45,7 @@ export default function ProfileScreen() {
 
   return (
     <View style={styles.root}>
-      <Screen title="Profile" subtitle="Addresses, favourites and preferences">
+      <Screen belowTabBar title="Profile" subtitle="Addresses, favourites and preferences">
         {/* Identity */}
         <View style={styles.identity}>
           <Avatar name={basket.userName} size="lg" isDark={basket.darkMode} source={USER_IMAGE} />

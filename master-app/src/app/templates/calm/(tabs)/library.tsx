@@ -21,7 +21,7 @@ export default function LibraryScreen() {
   );
 
   return (
-    <Screen
+    <Screen belowTabBar
       title="Library"
       subtitle={`${SESSIONS.length} guided sessions — sleep, focus, anxiety and mornings`}
     >

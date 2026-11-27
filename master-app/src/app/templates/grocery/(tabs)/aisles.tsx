@@ -49,7 +49,7 @@ export default function AislesScreen() {
   const basket = useBasket();
   return (
     <View style={styles.root}>
-      <Screen title="Aisles" subtitle="All seven aisles">
+      <Screen belowTabBar title="Aisles" subtitle="All seven aisles">
         <ListCard>
           {AISLES.map((aisle, i) => (
             <View key={aisle.id}>

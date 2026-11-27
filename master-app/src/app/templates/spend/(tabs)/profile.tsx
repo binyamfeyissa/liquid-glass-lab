@@ -22,7 +22,7 @@ export default function ProfileScreen() {
   const spent = tally.spentForMonth(CURRENT_MONTH);
 
   return (
-    <Screen title="Profile" subtitle="Your details and settings">
+    <Screen belowTabBar title="Profile" subtitle="Your details and settings">
       {/* Profile header */}
       <View style={styles.header}>
         <Avatar name={tally.userName} source={tally.userImage} size="lg" isDark={tally.darkMode} status="online" />

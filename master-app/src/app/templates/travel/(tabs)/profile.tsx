@@ -37,7 +37,7 @@ export default function ProfileScreen() {
   const unreadTotal = threads.reduce((sum, t) => sum + t.unread, 0);
 
   return (
-    <Screen title="Profile">
+    <Screen belowTabBar title="Profile">
       {/* Header */}
       <Card isDark={darkMode} padding={20}>
         <View style={styles.header}>

@@ -53,7 +53,7 @@ export function GlaciaTabBar({ state, emitter, navigateToTab, insets }: BottomTa
   const activeRoute = state.routes[state.index];
 
   return (
-    <View style={[styles.wrap, { paddingBottom: Math.max(insets.bottom, 10) }]}>
+    <View pointerEvents="box-none" style={[styles.wrap, { paddingBottom: Math.max(insets.bottom, 10) }]}>
       <TabBar
         isDark={darkMode}
         activeId={activeRoute.key}
@@ -87,6 +87,17 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   wrap: {
+    // Floating, not in-flow: expo-router's BottomTabView renders the tab
+    // bar as a flex child BELOW the screens container, so an in-flow bar
+    // owns a strip the scene can never scroll behind (that strip is the
+    // "opaque layer" hiding the content). Absolute over the scene, the
+    // pill floats like Telegram's and the list scrolls visibly
+    // behind/around it. box-none on the wrapper View above lets touches
+    // pass through the strip around the pill to the scrolling content.
+    position: "absolute",
+    left: 0,
+    right: 0,
+    bottom: 0,
     paddingHorizontal: 16,
     paddingTop: 8,
   },

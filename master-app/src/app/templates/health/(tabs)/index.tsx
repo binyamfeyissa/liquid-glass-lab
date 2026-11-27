@@ -80,7 +80,7 @@ export default function TodayScreen() {
   const habitsDone = app.habits.filter((h) => app.checkedOn(h.id, today)).length;
 
   return (
-    <Screen
+    <Screen belowTabBar
       title="Today"
       subtitle="Today's log — sample data, typed in by hand"
     >

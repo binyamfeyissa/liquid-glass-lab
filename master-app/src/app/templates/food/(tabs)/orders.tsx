@@ -13,7 +13,7 @@ export default function OrdersScreen() {
   const past = food.orders.filter((o) => o.statusIndex >= ORDER_STEPS.length - 1);
 
   return (
-    <Screen title="Orders" subtitle="Track live orders and reorder favourites">
+    <Screen belowTabBar title="Orders" subtitle="Track live orders and reorder favourites">
       {active.length > 0 ? (
         <View>
           <SectionTitle>Live</SectionTitle>

@@ -23,7 +23,7 @@ export default function HomeScreen() {
   const feedDimmed = !fleet.online || !offer;
 
   return (
-    <Screen title="Today">
+    <Screen belowTabBar title="Today">
       {/* Rider header + online switch */}
       <ListCard>
         <SettingRow

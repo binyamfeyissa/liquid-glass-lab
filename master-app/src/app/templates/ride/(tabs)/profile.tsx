@@ -45,7 +45,7 @@ export default function ProfileScreen() {
   };
 
   return (
-    <Screen title="Profile" subtitle="Your details, places, payment and settings">
+    <Screen belowTabBar title="Profile" subtitle="Your details, places, payment and settings">
       {/* Header with rider rating */}
       <View style={styles.header}>
         <Avatar name={ride.userName} source={USER_IMAGE} size="lg" isDark={ride.darkMode} status="online" />

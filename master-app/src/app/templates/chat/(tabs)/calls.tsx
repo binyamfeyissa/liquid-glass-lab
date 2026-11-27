@@ -41,7 +41,7 @@ export default function CallsScreen() {
   const chat = useChat();
 
   return (
-    <Screen title="Calls" subtitle="Voice and video, newest first">
+    <Screen belowTabBar title="Calls" subtitle="Voice and video, newest first">
       <ListCard>
         {chat.calls.map((entry, index) => (
           <React.Fragment key={entry.id}>

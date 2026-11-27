@@ -57,7 +57,7 @@ export default function ProfileScreen() {
     name !== p.name || email !== p.email || title !== p.title || location !== p.location;
 
   return (
-    <Screen title="Profile" subtitle="Your candidate profile">
+    <Screen belowTabBar title="Profile" subtitle="Your candidate profile">
       {/* Header */}
       <View style={styles.header}>
         <Avatar name={p.name} source={USER_IMAGE} size="lg" isDark={jobs.darkMode} />

@@ -20,7 +20,7 @@ export default function WorkoutsScreen() {
   );
 
   return (
-    <Screen
+    <Screen belowTabBar
       title="Workouts"
       subtitle={`${filtered.length} of ${fit.workouts.length} sessions shown`}
     >

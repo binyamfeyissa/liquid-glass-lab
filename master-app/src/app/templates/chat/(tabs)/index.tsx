@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
   listContent: {
     paddingHorizontal: 12,
     paddingTop: 12,
-    paddingBottom: 16,
+    paddingBottom: 128,
   },
   row: {
     flexDirection: "row",

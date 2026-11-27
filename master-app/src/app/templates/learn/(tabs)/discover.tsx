@@ -27,7 +27,7 @@ export default function DiscoverScreen() {
   }, [query, category]);
 
   return (
-    <Screen
+    <Screen belowTabBar
       title="Discover"
       subtitle="Eight courses, taught by people who do the work"
     >

@@ -25,7 +25,7 @@ export default function GoalsScreen() {
   const remaining = Math.max(0, fit.weeklyGoal - done);
 
   return (
-    <Screen title="Goals" subtitle="Targets for this week">
+    <Screen belowTabBar title="Goals" subtitle="Targets for this week">
       {/* Weekly workout goal */}
       <View>
         <SectionTitle>Weekly workouts</SectionTitle>

@@ -46,7 +46,7 @@ export default function AboutScreen() {
 
   return (
     <>
-      <Screen title="About" subtitle="This app, its rules, and its parts.">
+      <Screen belowTabBar title="About" subtitle="This app, its rules, and its parts.">
         <Card isDark={glaciaDark} padding={22}>
           <View
             style={[

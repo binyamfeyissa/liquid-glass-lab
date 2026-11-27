@@ -80,7 +80,7 @@ export default function HomeScreen() {
     : null;
 
   return (
-    <Screen title="Drift" subtitle="Where to?">
+    <Screen belowTabBar title="Drift" subtitle="Where to?">
       <Card isDark={ride.darkMode} padding={0} style={styles.mapCard}>
         <MapPanel height={210} destinationLabel={destination?.label} />
       </Card>

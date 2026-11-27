@@ -10,7 +10,7 @@ export default function MessagesScreen() {
   const { threads } = useTravel();
 
   return (
-    <Screen title="Messages" subtitle="Chats with hosts">
+    <Screen belowTabBar title="Messages" subtitle="Chats with hosts">
       <ListCard>
         {threads.map((thread, i) => (
           <View key={thread.id}>

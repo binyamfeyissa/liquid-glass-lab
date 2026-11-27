@@ -47,7 +47,7 @@ export default function ProfileScreen() {
   };
 
   return (
-    <Screen title="Profile" subtitle="Your account, places and favourites">
+    <Screen belowTabBar title="Profile" subtitle="Your account, places and favourites">
       {/* Header */}
       <View style={styles.header}>
         <Avatar name={food.userName} size="lg" isDark={food.darkMode} source={USER_IMAGE} />

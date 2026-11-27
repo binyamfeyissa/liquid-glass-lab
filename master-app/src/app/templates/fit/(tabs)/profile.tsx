@@ -21,7 +21,7 @@ export default function ProfileScreen() {
   const fit = useFit();
 
   return (
-    <Screen title="Profile" subtitle="Your training, your settings">
+    <Screen belowTabBar title="Profile" subtitle="Your training, your settings">
       {/* Identity + lifetime stats */}
       <Card isDark={fit.darkMode} padding={20}>
         <View style={styles.identityRow}>

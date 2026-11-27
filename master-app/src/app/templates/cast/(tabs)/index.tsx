@@ -28,7 +28,7 @@ export default function HomeScreen() {
   const yourShows = cast.followedShowIds.map(showById);
 
   return (
-    <Screen
+    <Screen belowTabBar
       title="Airwave"
       subtitle="Your shows and new episodes"
     >

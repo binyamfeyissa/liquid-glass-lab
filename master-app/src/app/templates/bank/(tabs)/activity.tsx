@@ -46,7 +46,7 @@ export default function ActivityScreen() {
   }, [bank.transactions, query, filter]);
 
   return (
-    <Screen title="Activity" subtitle="Every movement, across all accounts.">
+    <Screen belowTabBar title="Activity" subtitle="Every movement, across all accounts.">
       <Input
         value={query}
         onChangeText={setQuery}

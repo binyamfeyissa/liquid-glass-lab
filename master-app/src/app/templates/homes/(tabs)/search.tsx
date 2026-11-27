@@ -71,7 +71,7 @@ export default function SearchScreen() {
   }, [query, band, bedsIndex, type, sort]);
 
   return (
-    <Screen title="Search" subtitle="All homes, with filters for price, type and bedrooms">
+    <Screen belowTabBar title="Search" subtitle="All homes, with filters for price, type and bedrooms">
       <View>
         <SectionTitle>Find a home</SectionTitle>
         <View style={styles.filters}>

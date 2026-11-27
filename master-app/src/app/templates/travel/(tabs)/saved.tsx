@@ -13,7 +13,7 @@ export default function SavedScreen() {
     .filter((s): s is NonNullable<typeof s> => !!s);
 
   return (
-    <Screen title="Saved">
+    <Screen belowTabBar title="Saved">
       {saved.length === 0 ? (
         <Card isDark={darkMode} padding={24} style={styles.empty}>
           <T variant="heading" style={styles.center}>

@@ -20,7 +20,7 @@ export default function ProfileScreen() {
   const bank = useBank();
 
   return (
-    <Screen title="Profile" subtitle="Your details, security and app settings">
+    <Screen belowTabBar title="Profile" subtitle="Your details, security and app settings">
       {/* Profile header */}
       <View style={styles.header}>
         <Avatar name={bank.userName} size="lg" isDark={bank.darkMode} status="online" source={bank.userImage} />

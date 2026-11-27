@@ -27,7 +27,7 @@ export default function HomeScreen() {
   const newReleaseIds = newReleases.map((t) => t.id);
 
   return (
-    <Screen
+    <Screen belowTabBar
       title="Waveform"
       subtitle="Recent listening, playlists and new releases"
     >

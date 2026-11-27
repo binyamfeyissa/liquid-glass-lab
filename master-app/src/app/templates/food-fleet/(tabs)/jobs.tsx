@@ -11,7 +11,7 @@ export default function JobsScreen() {
   const finished = fleet.jobs;
 
   return (
-    <Screen title="Jobs" subtitle="Everything on today's shift">
+    <Screen belowTabBar title="Jobs" subtitle="Everything on today's shift">
       {active ? (
         <View>
           <SectionTitle>In progress</SectionTitle>

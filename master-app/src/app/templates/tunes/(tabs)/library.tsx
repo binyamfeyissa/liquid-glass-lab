@@ -60,7 +60,7 @@ export default function LibraryScreen() {
   const openPlaylist = (id: string) => router.push(`/templates/tunes/playlist/${id}`);
 
   return (
-    <Screen title="Your Library" subtitle="Playlists, liked songs and your own mixes">
+    <Screen belowTabBar title="Your Library" subtitle="Playlists, liked songs and your own mixes">
       {/* Liked Songs — the automatic playlist fed by every heart. */}
       <Card
         isDark={darkMode}

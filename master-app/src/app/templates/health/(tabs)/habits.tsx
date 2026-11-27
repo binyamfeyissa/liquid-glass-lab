@@ -105,7 +105,7 @@ export default function HabitsScreen() {
   }
 
   return (
-    <Screen
+    <Screen belowTabBar
       title="Habits"
       subtitle="Checked off day by day — streaks from your check history"
     >

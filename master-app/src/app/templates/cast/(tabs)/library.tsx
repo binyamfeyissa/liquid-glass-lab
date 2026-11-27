@@ -29,7 +29,7 @@ export default function LibraryScreen() {
   const played = cast.playedIds.map(episodeById);
 
   return (
-    <Screen title="Library" subtitle="Followed shows, progress and played episodes">
+    <Screen belowTabBar title="Library" subtitle="Followed shows, progress and played episodes">
       {/* Followed shows */}
       <View>
         <SectionTitle>Followed shows</SectionTitle>

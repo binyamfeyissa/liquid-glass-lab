@@ -27,7 +27,7 @@ export default function ProfileScreen() {
   };
 
   return (
-    <Screen title="Profile" subtitle="Rider details and app settings">
+    <Screen belowTabBar title="Profile" subtitle="Rider details and app settings">
       {/* Header */}
       <View style={styles.header}>
         <Avatar name={fleet.riderName || "Rider"} size="lg" isDark={fleet.darkMode} source={USER_IMAGE} />

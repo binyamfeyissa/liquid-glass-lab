@@ -18,7 +18,7 @@ export default function ProgressScreen() {
   const todayIndex = app.weekMinutes.length - 1;
 
   return (
-    <Screen title="Progress" subtitle="Your minutes, streak and history">
+    <Screen belowTabBar title="Progress" subtitle="Your minutes, streak and history">
       {/* Stats — one ledger line, figures only */}
       <Card isDark={app.darkMode} padding={20}>
         <View style={styles.statGrid}>

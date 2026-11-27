@@ -33,7 +33,7 @@ export default function LearningScreen() {
     completedCourses.length > 0 || (quiz && quiz.passed && quizCourse);
 
   return (
-    <Screen
+    <Screen belowTabBar
       title="My Learning"
       subtitle="Everything you are enrolled in, with progress from the lessons you finish"
     >
