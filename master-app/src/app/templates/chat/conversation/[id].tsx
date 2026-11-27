@@ -25,11 +25,18 @@ import ChevronLeftIcon from "@hugeicons/core-free-icons/ChevronLeftIcon";
 import PhoneIcon from "@hugeicons/core-free-icons/PhoneIcon";
 import Video01Icon from "@hugeicons/core-free-icons/Video01Icon";
 import { useChat, type ChatMessage } from "../state";
-import { ContactAvatar, DaySeparator, Message, T, TypingIndicator } from "../ui";
+import { accentColor, ContactAvatar, DaySeparator, Message, T, TypingIndicator } from "../ui";
 
 type ListItem =
   | { type: "day"; key: string; label: string }
-  | { type: "message"; key: string; message: ChatMessage };
+  | {
+      type: "message";
+      key: string;
+      message: ChatMessage;
+      isFirstInRun: boolean;
+      isLastInRun: boolean;
+      isLastOverall: boolean;
+    };
 
 export default function ConversationScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -49,16 +56,32 @@ export default function ConversationScreen() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, messages.length]);
 
+  // Runs: consecutive messages from one sender, within one day. The day
+  // separator resets a run, so a run never crosses days.
   const items = useMemo<ListItem[]>(() => {
     const out: ListItem[] = [];
     let lastDay = "";
-    for (const message of messages) {
+    let prevSender: string | null = null;
+    messages.forEach((message, index) => {
       if (message.dayLabel !== lastDay) {
         out.push({ type: "day", key: `day-${message.dayLabel}`, label: message.dayLabel });
         lastDay = message.dayLabel;
+        prevSender = null;
       }
-      out.push({ type: "message", key: message.id, message });
-    }
+      const next = messages[index + 1];
+      const isFirstInRun = prevSender !== message.senderId;
+      const isLastInRun =
+        !next || next.senderId !== message.senderId || next.dayLabel !== message.dayLabel;
+      out.push({
+        type: "message",
+        key: message.id,
+        message,
+        isFirstInRun,
+        isLastInRun,
+        isLastOverall: index === messages.length - 1,
+      });
+      prevSender = message.senderId;
+    });
     return out;
   }, [messages]);
 
@@ -117,7 +140,7 @@ export default function ConversationScreen() {
             <Avatar name={title} size="md" isDark={chat.darkMode} />
           )}
           <View style={styles.headerText}>
-            <T variant="body" numberOfLines={1}>
+            <T variant="body" numberOfLines={1} style={styles.headerName}>
               {title}
             </T>
             <T variant="caption" muted numberOfLines={1}>
@@ -166,6 +189,9 @@ export default function ConversationScreen() {
                   : chat.contactById(item.message.senderId).image
               }
               showSenderName={isGroup}
+              isFirstInRun={item.isFirstInRun}
+              isLastInRun={item.isLastInRun}
+              isLastOverall={item.isLastOverall}
               onLongPress={() => setSelected(item.message)}
             />
           )
@@ -189,7 +215,9 @@ export default function ConversationScreen() {
         }
       />
 
-      {/* Composer */}
+      {/* Composer — the send button is a solid accent circle (IconButton
+          tint), white arrow, dimmed while the draft is empty: the
+          Messages pattern, not another glass disc. */}
       <View style={[styles.composer, { paddingBottom: Math.max(insets.bottom, 12) }]}>
         <View style={styles.composerInput}>
           <Input
@@ -205,9 +233,12 @@ export default function ConversationScreen() {
           />
         </View>
         <IconButton
-          icon={<HugeiconsIcon icon={ArrowUp01Icon} size={20} color={colors[chat.darkMode ? "dark" : "light"].foreground} />}
+          icon={({ color, size }: { color: string; size: number }) => (
+            <HugeiconsIcon icon={ArrowUp01Icon} size={size} color={color} />
+          )}
           accessibilityLabel="Send message"
           isDark={chat.darkMode}
+          tint={draft.trim() ? accentColor(chat.backdrop) : undefined}
           disabled={!draft.trim()}
           onPress={send}
         />
@@ -277,6 +308,7 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   headerText: { flex: 1 },
+  headerName: { fontWeight: "600" },
   threadContent: {
     paddingBottom: 12,
   },

@@ -1,10 +1,12 @@
 import React, { useMemo, useState } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 import { router } from "expo-router";
-import { Button, Input } from "glacia-native";
+import { colors, Button, Input } from "glacia-native";
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import Search01Icon from "@hugeicons/core-free-icons/Search01Icon";
 
 import { useChat, type Contact } from "./state";
-import { ContactAvatar, ListCard, pressedFill, RowSeparator, Screen, T } from "./ui";
+import { ContactAvatar, pressedFill, RowSeparator, Screen, T } from "./ui";
 
 function PickerRow({ contact, onPress }: { contact: Contact; onPress: () => void }) {
   const chat = useChat();
@@ -52,6 +54,13 @@ export default function NewChatScreen() {
         placeholder="Search contacts"
         accessibilityLabel="Search contacts"
         isDark={chat.darkMode}
+        prefix={
+          <HugeiconsIcon
+            icon={Search01Icon}
+            size={16}
+            color={colors[chat.darkMode ? "dark" : "light"].muted}
+          />
+        }
       />
       <Button
         isDark={chat.darkMode}
@@ -62,7 +71,7 @@ export default function NewChatScreen() {
         Create a group instead
       </Button>
       {visible.length > 0 ? (
-        <ListCard>
+        <View>
           {visible.map((contact, index) => (
             <React.Fragment key={contact.id}>
               {index > 0 ? <RowSeparator /> : null}
@@ -75,7 +84,7 @@ export default function NewChatScreen() {
               />
             </React.Fragment>
           ))}
-        </ListCard>
+        </View>
       ) : (
         <T variant="body" muted style={styles.empty}>
           No contacts match “{query}”
@@ -93,9 +102,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingVertical: 12,
-    paddingHorizontal: 16,
     gap: 12,
-    borderRadius: 12,
   },
   rowText: { flex: 1 },
   rowSub: { marginTop: 4 },

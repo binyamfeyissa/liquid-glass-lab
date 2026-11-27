@@ -16,11 +16,13 @@ import { useLocalSearchParams } from "expo-router";
  * sending a message, creating a group or ending a call updates every screen
  * immediately. Restarting the app resets the fixtures.
  *
- * A note on the message thread UI: the published glacia-native 0.6.0 package
+ * A note on the message thread UI: the published glacia-native 0.6.7 package
  * does not export a Message component family, so the thread is composed from
- * Glacia primitives (Glass bubbles, Avatar, Text) in `ui.tsx`, following the
- * classic Message / MessageBubble / MessageAvatar / MessageContent /
- * MessageTimestamp structure.
+ * Glacia primitives (Avatar, Text) and plain solid Views in `ui.tsx`,
+ * following the classic Message / MessageBubble / MessageAvatar /
+ * MessageContent / MessageTimestamp structure. Bubbles are deliberately
+ * NOT glass: incoming is a solid neutral surface, outgoing the solid
+ * accent (prompt §7).
  */
 
 export type Presence = "online" | "busy" | "offline";

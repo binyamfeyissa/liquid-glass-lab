@@ -1,10 +1,12 @@
 import React, { useMemo, useState } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 import { router } from "expo-router";
-import { Badge, Button, Field, Input } from "glacia-native";
+import { colors, Button, Field, Input } from "glacia-native";
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import CheckmarkCircle02Icon from "@hugeicons/core-free-icons/CheckmarkCircle02Icon";
 
 import { useChat, type Contact } from "./state";
-import { ContactAvatar, ListCard, RowSeparator, Screen, SectionTitle, selectedFill, T } from "./ui";
+import { accentColor, ContactAvatar, RowSeparator, Screen, SectionTitle, selectedFill, T } from "./ui";
 
 function MemberRow({
   contact,
@@ -16,6 +18,7 @@ function MemberRow({
   onToggle: () => void;
 }) {
   const chat = useChat();
+  const theme = colors[chat.darkMode ? "dark" : "light"];
   return (
     <Pressable
       onPress={onToggle}
@@ -37,11 +40,11 @@ function MemberRow({
           {contact.presenceLabel}
         </T>
       </View>
-      {selected ? (
-        <Badge tone="muted" isDark={chat.darkMode}>
-          Added
-        </Badge>
-      ) : null}
+      <HugeiconsIcon
+        icon={CheckmarkCircle02Icon}
+        size={22}
+        color={selected ? accentColor(chat.backdrop) : theme.muted}
+      />
     </Pressable>
   );
 }
@@ -103,18 +106,16 @@ export default function NewGroupScreen() {
 
       <View>
         <SectionTitle>Members</SectionTitle>
-        <ListCard>
-          {chat.contacts.map((contact, index) => (
-            <React.Fragment key={contact.id}>
-              {index > 0 ? <RowSeparator /> : null}
-              <MemberRow
-                contact={contact}
-                selected={selectedIds.includes(contact.id)}
-                onToggle={() => toggle(contact.id)}
-              />
-            </React.Fragment>
-          ))}
-        </ListCard>
+        {chat.contacts.map((contact, index) => (
+          <React.Fragment key={contact.id}>
+            {index > 0 ? <RowSeparator /> : null}
+            <MemberRow
+              contact={contact}
+              selected={selectedIds.includes(contact.id)}
+              onToggle={() => toggle(contact.id)}
+            />
+          </React.Fragment>
+        ))}
       </View>
 
       <Button
@@ -138,9 +139,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingVertical: 12,
-    paddingHorizontal: 16,
     gap: 12,
-    borderRadius: 12,
   },
   rowText: { flex: 1 },
   rowSub: { marginTop: 4 },

@@ -1,4 +1,4 @@
-import React, { type ReactNode } from "react";
+import React, { useState, type ReactNode } from "react";
 import {
   Image,
   Platform,
@@ -13,7 +13,7 @@ import {
   colors,
   Avatar,
   Card,
-  Glass,
+  initialsOf,
   SegmentedControl,
   Separator,
   Text,
@@ -37,6 +37,14 @@ export function accentColor(mode: BackdropMode): string {
 /** My bubbles carry the accent, kept quiet. */
 export function bubbleTint(mode: BackdropMode): string {
   return mode === "light" ? "#2a63c8" : "#33507f";
+}
+
+/** Incoming bubbles: a solid neutral surface, one step off the backdrop —
+ *  graphite on graphite, a deeper warm tone on broken white, the same
+ *  graphite over the palm photo (dark text theme there). Solid, never
+ *  glass: the thread must read as text first, not as panels. */
+export function theirsBubbleFill(mode: BackdropMode): string {
+  return mode === "light" ? "#e9e3d7" : "#2c2c2e";
 }
 
 /** Pressed-row fill: a step of the template's own ramp, per mode. */
@@ -183,6 +191,15 @@ export function Screen({
 
 /* ------------------------------------------------------------------ */
 /*  List vocabulary shared by the screens.                             */
+/*                                                                     */
+/*  Lists are plain iOS rows with hairline separators, not cards: the  */
+/*  conversation list, contacts, calls and pickers all read as one     */
+/*  continuous list. ListCard stays only for the Settings-style        */
+/*  grouped sections (Profile, contact About, group members sit in a  */
+/*  plain list too). A plain row is 12pt vertical padding, no side     */
+/*  padding of its own; its separator starts at the text edge —        */
+/*  avatar (36) + gap (12) = 48pt inset inside a Screen, 60pt inside  */
+/*  the Chats list (which adds 12pt of its own side padding).          */
 /* ------------------------------------------------------------------ */
 
 export function SectionTitle({ children }: { children: ReactNode }) {
@@ -208,9 +225,9 @@ export function ListCard({
   );
 }
 
-export function RowSeparator() {
+export function RowSeparator({ inset = 48 }: { inset?: number }) {
   const { darkMode } = useChat();
-  return <Separator isDark={darkMode} inset={16} />;
+  return <Separator isDark={darkMode} inset={inset} />;
 }
 
 /** A label + optional description on the left, a control on the right. */
@@ -299,18 +316,99 @@ export function ContactAvatar({
   );
 }
 
+/** Group avatar, Apple Messages style: the first two members' photos
+ *  overlapped inside one circle, so a group reads as people, not as a
+ *  generic initials tile. */
+export function GroupAvatar({ memberIds }: { memberIds: string[] }) {
+  const chat = useChat();
+  const first = chat.contactById(memberIds[0]);
+  const second = memberIds.length > 1 ? chat.contactById(memberIds[1]) : null;
+  const { darkMode } = chat;
+  return (
+    <View
+      style={[
+        styles.groupAvatar,
+        { backgroundColor: colors[darkMode ? "dark" : "light"].wash },
+      ]}
+    >
+      <View style={[styles.groupAvatarHalf, { top: 0, left: 0 }]}>
+        <Avatar name={first.name} size="sm" isDark={darkMode} source={first.image} />
+      </View>
+      {second ? (
+        <View style={[styles.groupAvatarHalf, { bottom: 0, right: 0 }]}>
+          <Avatar name={second.name} size="sm" isDark={darkMode} source={second.image} />
+        </View>
+      ) : null}
+    </View>
+  );
+}
+
+/** A large round portrait for profile and call heroes — the photo is
+ *  content, not a control, so it is a plain Image; if it ever fails to
+ *  load it falls back to initials on the same wash, in Glacia Text. */
+export function HeroPhoto({
+  image,
+  name,
+  size = 96,
+}: {
+  image?: number;
+  name: string;
+  size?: number;
+}) {
+  const { darkMode } = useChat();
+  const [failed, setFailed] = useState(false);
+  if (image && !failed) {
+    return (
+      <Image
+        source={image}
+        onError={() => setFailed(true)}
+        accessibilityLabel={`Photo of ${name}`}
+        style={{ width: size, height: size, borderRadius: size / 2 }}
+      />
+    );
+  }
+  return (
+    <View
+      style={{
+        width: size,
+        height: size,
+        borderRadius: size / 2,
+        backgroundColor: colors[darkMode ? "dark" : "light"].wash,
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <Text
+        isDark={darkMode}
+        style={{ fontSize: size * 0.36, fontWeight: "600" }}
+      >
+        {initialsOf(name)}
+      </Text>
+    </View>
+  );
+}
+
 /* ------------------------------------------------------------------ */
 /*  The Message family.                                                */
 /*                                                                     */
-/*  The published glacia-native 0.6.0 package does not export Message  */
+/*  The published glacia-native 0.6.7 package does not export Message  */
 /*  components, so the thread is composed here from Glacia primitives  */
-/*  (Glass, Avatar, Text), keeping the classic structure:              */
+/*  (Avatar, Text) and plain Views, keeping the classic structure:     */
 /*                                                                     */
 /*    Message          — the row: alignment + avatar slot              */
-/*    MessageAvatar    — the sender's initials avatar                  */
-/*    MessageBubble    — the glass bubble surface                      */
+/*    MessageAvatar    — the sender's photo, last message of a run     */
+/*    MessageBubble    — a SOLID surface, never glass: mine in the     */
+/*                       accent, theirs one neutral step off the       */
+/*                       backdrop (prompt §7: bubbles are not glass)   */
 /*    MessageContent   — the message text                              */
-/*    MessageTimestamp — the small time label under the bubble         */
+/*    MessageTimestamp — the small time label, only on the last        */
+/*                       message of a run (mine adds "· Sent" only    */
+/*                       on the very last message of the thread)       */
+/*                                                                     */
+/*  Consecutive messages from one sender form a run: the avatar and    */
+/*  the tail corner belong to the run's last bubble only, the sender    */
+/*  name (groups) to its first, and the gap inside a run is 2pt        */
+/*  against 12pt between runs — so a run reads as one thought.         */
 /* ------------------------------------------------------------------ */
 
 export function Message({
@@ -318,6 +416,9 @@ export function Message({
   senderName,
   senderImage,
   showSenderName,
+  isFirstInRun,
+  isLastInRun,
+  isLastOverall,
   onLongPress,
 }: {
   message: ChatMessage;
@@ -327,22 +428,37 @@ export function Message({
   senderImage?: number;
   /** Groups show who said what; 1:1 threads don't need it. */
   showSenderName?: boolean;
+  /** First message of a consecutive same-sender run. */
+  isFirstInRun: boolean;
+  /** Last message of a consecutive same-sender run. */
+  isLastInRun: boolean;
+  /** The very last message of the whole thread. */
+  isLastOverall: boolean;
   onLongPress?: () => void;
 }) {
   const { darkMode, backdrop } = useChat();
   const mine = message.senderId === "me";
 
   return (
-    <View style={[styles.messageRow, mine && styles.messageRowMine]}>
-      {/* MessageAvatar */}
+    <View
+      style={[
+        styles.messageRow,
+        mine && styles.messageRowMine,
+        { marginTop: isFirstInRun ? 12 : 2 },
+      ]}
+    >
+      {/* MessageAvatar — only the run's last incoming bubble carries it;
+          earlier bubbles keep the empty slot so the column stays aligned. */}
       {!mine ? (
         <View style={styles.messageAvatar}>
-          <Avatar name={senderName} size="sm" isDark={darkMode} source={senderImage} />
+          {isLastInRun ? (
+            <Avatar name={senderName} size="sm" isDark={darkMode} source={senderImage} />
+          ) : null}
         </View>
       ) : null}
 
       <View style={[styles.messageColumn, mine && styles.messageColumnMine]}>
-        {showSenderName && !mine ? (
+        {showSenderName && !mine && isFirstInRun ? (
           <T variant="caption" muted style={styles.messageSender}>
             {senderName}
           </T>
@@ -355,10 +471,18 @@ export function Message({
           accessibilityLabel={`Message from ${mine ? "you" : senderName}: ${message.text}`}
           style={styles.bubblePressable}
         >
-          <Glass
-            isDark={darkMode}
-            tintColor={mine ? bubbleTint(backdrop) : undefined}
-            style={[styles.bubble, mine ? styles.bubbleMine : styles.bubbleTheirs]}
+          <View
+            style={[
+              styles.bubble,
+              {
+                backgroundColor: mine
+                  ? bubbleTint(backdrop)
+                  : theirsBubbleFill(backdrop),
+              },
+              mine
+                ? isLastInRun && styles.bubbleMineTail
+                : isLastInRun && styles.bubbleTheirsTail,
+            ]}
           >
             <Text
               isDark={darkMode}
@@ -367,20 +491,23 @@ export function Message({
             >
               {message.text}
             </Text>
-          </Glass>
+          </View>
         </Pressable>
 
-        {/* MessageTimestamp */}
-        <Figure variant="caption" muted style={styles.messageTime}>
-          {message.timeLabel}
-          {mine ? " · Sent" : ""}
-        </Figure>
+        {/* MessageTimestamp — only the run's last bubble carries one. */}
+        {isLastInRun ? (
+          <Figure variant="caption" muted style={styles.messageTime}>
+            {message.timeLabel}
+            {mine && isLastOverall ? " · Sent" : ""}
+          </Figure>
+        ) : null}
       </View>
     </View>
   );
 }
 
-/** The bubble shown while the other side is typing: three quiet dots. */
+/** The bubble shown while the other side is typing: three quiet dots in
+ *  the same solid incoming surface as a real message. */
 export function TypingIndicator({
   senderName,
   senderImage,
@@ -391,18 +518,24 @@ export function TypingIndicator({
   const { darkMode, backdrop } = useChat();
   const dot = { backgroundColor: secondaryInk(backdrop) };
   return (
-    <View style={styles.messageRow}>
+    <View style={[styles.messageRow, { marginTop: 12 }]}>
       <View style={styles.messageAvatar}>
         <Avatar name={senderName} size="sm" isDark={darkMode} source={senderImage} />
       </View>
       <View style={styles.messageColumn}>
-        <Glass isDark={darkMode} style={[styles.bubble, styles.bubbleTheirs]}>
+        <View
+          style={[
+            styles.bubble,
+            styles.bubbleTheirsTail,
+            { backgroundColor: theirsBubbleFill(backdrop) },
+          ]}
+        >
           <View style={styles.typingDots}>
             <View style={[styles.typingDot, dot]} />
             <View style={[styles.typingDot, dot]} />
             <View style={[styles.typingDot, dot]} />
           </View>
-        </Glass>
+        </View>
       </View>
     </View>
   );
@@ -466,12 +599,22 @@ const styles = StyleSheet.create({
   navDetail: {
     flexShrink: 0,
   },
+  groupAvatar: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    overflow: "hidden",
+  },
+  groupAvatarHalf: {
+    position: "absolute",
+    width: 28,
+    height: 28,
+  },
   messageRow: {
     flexDirection: "row",
     alignItems: "flex-end",
     gap: 8,
     paddingHorizontal: 16,
-    marginTop: 12,
   },
   messageRowMine: {
     justifyContent: "flex-end",
@@ -499,10 +642,10 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderRadius: 20,
   },
-  bubbleMine: {
+  bubbleMineTail: {
     borderBottomRightRadius: 8,
   },
-  bubbleTheirs: {
+  bubbleTheirsTail: {
     borderBottomLeftRadius: 8,
   },
   bubbleTextMine: {

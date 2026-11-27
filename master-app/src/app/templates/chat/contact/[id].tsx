@@ -1,10 +1,14 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
-import { Button } from "glacia-native";
+import { colors, Button, IconButton } from "glacia-native";
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import Message01Icon from "@hugeicons/core-free-icons/Message01Icon";
+import PhoneIcon from "@hugeicons/core-free-icons/PhoneIcon";
+import Video01Icon from "@hugeicons/core-free-icons/Video01Icon";
 
 import { useChat } from "../state";
-import { ContactAvatar, ListCard, Screen, SectionTitle, T } from "../ui";
+import { accentColor, HeroPhoto, ListCard, Screen, SectionTitle, T } from "../ui";
 
 export default function ContactProfileScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -21,16 +25,66 @@ export default function ContactProfileScreen() {
     );
   }
 
+  const theme = colors[chat.darkMode ? "dark" : "light"];
+  const message = () => {
+    const convId = chat.directConversationFor(contact.id);
+    router.replace(`/templates/chat/conversation/${convId}`);
+  };
+
   return (
     <Screen title={contact.name} subtitle={contact.presenceLabel}>
       <View style={styles.hero}>
-        <ContactAvatar contact={contact} size="lg" />
+        <HeroPhoto image={contact.image} name={contact.name} size={96} />
         <T variant="heading" style={styles.heroName}>
           {contact.name}
         </T>
         <T variant="body" muted>
           {contact.handle}
         </T>
+      </View>
+
+      {/* Contacts-style action row: one solid accent circle for the
+          primary action (message), glass circles for call and video. */}
+      <View style={styles.actions}>
+        <View style={styles.action}>
+          <IconButton
+            icon={({ color, size }: { color: string; size: number }) => (
+              <HugeiconsIcon icon={Message01Icon} size={size} color={color} />
+            )}
+            accessibilityLabel={`Message ${contact.name}`}
+            isDark={chat.darkMode}
+            size="lg"
+            tint={accentColor(chat.backdrop)}
+            onPress={message}
+          />
+          <T variant="caption" muted>
+            Message
+          </T>
+        </View>
+        <View style={styles.action}>
+          <IconButton
+            icon={<HugeiconsIcon icon={PhoneIcon} size={20} color={theme.foreground} />}
+            accessibilityLabel={`Voice call ${contact.name}`}
+            isDark={chat.darkMode}
+            size="lg"
+            onPress={() => router.push(`/templates/chat/call/${contact.id}?kind=voice`)}
+          />
+          <T variant="caption" muted>
+            Call
+          </T>
+        </View>
+        <View style={styles.action}>
+          <IconButton
+            icon={<HugeiconsIcon icon={Video01Icon} size={20} color={theme.foreground} />}
+            accessibilityLabel={`Video call ${contact.name}`}
+            isDark={chat.darkMode}
+            size="lg"
+            onPress={() => router.push(`/templates/chat/call/${contact.id}?kind=video`)}
+          />
+          <T variant="caption" muted>
+            Video
+          </T>
+        </View>
       </View>
 
       <View>
@@ -40,39 +94,6 @@ export default function ContactProfileScreen() {
             <T variant="body">{contact.about}</T>
           </View>
         </ListCard>
-      </View>
-
-      <View style={styles.actions}>
-        <Button
-          isDark={chat.darkMode}
-          accessibilityLabel={`Message ${contact.name}`}
-          variant="filled"
-          style={styles.actionButton}
-          onPress={() => {
-            const convId = chat.directConversationFor(contact.id);
-            router.replace(`/templates/chat/conversation/${convId}`);
-          }}
-        >
-          Message
-        </Button>
-        <Button
-          isDark={chat.darkMode}
-          accessibilityLabel={`Voice call ${contact.name}`}
-          variant="glass"
-          style={styles.actionButton}
-          onPress={() => router.push(`/templates/chat/call/${contact.id}?kind=voice`)}
-        >
-          Call
-        </Button>
-        <Button
-          isDark={chat.darkMode}
-          accessibilityLabel={`Video call ${contact.name}`}
-          variant="glass"
-          style={styles.actionButton}
-          onPress={() => router.push(`/templates/chat/call/${contact.id}?kind=video`)}
-        >
-          Video
-        </Button>
       </View>
 
       <Button accessibilityLabel="Back" variant="ghost" onPress={() => router.back()} isDark={chat.darkMode}>
@@ -95,7 +116,11 @@ const styles = StyleSheet.create({
   },
   actions: {
     flexDirection: "row",
+    justifyContent: "center",
+    gap: 32,
+  },
+  action: {
+    alignItems: "center",
     gap: 8,
   },
-  actionButton: { flex: 1 },
 });

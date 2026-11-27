@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { Avatar, Button, Field, Input, Switch, Toast } from "glacia-native";
+import { Button, Field, Input, Switch, Toast } from "glacia-native";
 
 import { useChat } from "../state";
-import { BackdropControl, ListCard, Screen, SectionTitle, SettingRow, T } from "../ui";
+import { BackdropControl, HeroPhoto, ListCard, Screen, SectionTitle, SettingRow, T } from "../ui";
 
 export default function ProfileScreen() {
   const chat = useChat();
@@ -20,7 +20,7 @@ export default function ProfileScreen() {
   return (
     <Screen belowTabBar title="Profile" subtitle="Name, status and settings">
       <View style={styles.hero}>
-        <Avatar name={chat.me.name} size="lg" status="online" isDark={chat.darkMode} source={chat.me.image} />
+        <HeroPhoto image={chat.me.image} name={chat.me.name} size={96} />
         <T variant="heading" style={styles.heroName}>
           {chat.me.name}
         </T>
