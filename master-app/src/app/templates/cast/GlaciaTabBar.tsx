@@ -1,8 +1,8 @@
 import React, { type ReactNode } from "react";
-import { Pressable, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { useRouter } from "expo-router";
 import type { BottomTabBarProps } from "expo-router/build/layouts/Tabs";
-import { colors, IconButton, Progress, TabBar } from "glacia-native";
+import { colors, Card, IconButton, Progress, TabBar } from "glacia-native";
 import { HugeiconsIcon } from "@hugeicons/react-native";
 import CompassIcon from "@hugeicons/core-free-icons/CompassIcon";
 import Home01Icon from "@hugeicons/core-free-icons/Home01Icon";
@@ -33,9 +33,10 @@ const ICONS: Record<string, (state: { color: string; size: number }) => ReactNod
 };
 
 /**
- * The mini player: a slim glass strip docked directly above the tab
- * bar whenever an episode is loaded. Tapping it opens the full player;
- * its own play/pause button works without leaving the tab.
+ * The mini player: the library's own Card (Liquid Glass) docked
+ * directly above the tab bar whenever an episode is loaded. Tapping
+ * it opens the full player; its own play/pause button works without
+ * leaving the tab.
  */
 function MiniPlayer() {
   const cast = useCast();
@@ -48,34 +49,36 @@ function MiniPlayer() {
     episode.duration > 0 ? (cast.position / episode.duration) * 100 : 0;
 
   return (
-    <Pressable
+    <Card
+      isDark={cast.darkMode}
+      padding={8}
       onPress={() => router.push("/templates/cast/player")}
-      accessibilityRole="button"
       accessibilityLabel={`Now playing: ${episode.title} from ${show.title}. Open the full player.`}
-      style={styles.mini}
     >
-      <Artwork title={show.title} colors={show.colors} size={40} image={show.image} />
-      <View style={styles.miniText}>
-        <T variant="body" numberOfLines={1}>
-          {episode.title}
-        </T>
-        <T variant="caption" muted numberOfLines={1}>
-          {show.title}
-        </T>
-        <Progress
-          value={progress}
+      <View style={styles.miniRow}>
+        <Artwork title={show.title} colors={show.colors} size={40} image={show.image} />
+        <View style={styles.miniText}>
+          <T variant="body" numberOfLines={1}>
+            {episode.title}
+          </T>
+          <T variant="caption" muted numberOfLines={1}>
+            {show.title}
+          </T>
+          <Progress
+            value={progress}
+            isDark={cast.darkMode}
+            accessibilityLabel="Playback progress"
+            style={styles.miniProgress}
+          />
+        </View>
+        <IconButton
+          accessibilityLabel={cast.isPlaying ? "Pause" : "Play"}
+          onPress={cast.togglePlay}
           isDark={cast.darkMode}
-          accessibilityLabel="Playback progress"
-          style={styles.miniProgress}
+          icon={cast.isPlaying ? <HugeiconsIcon icon={PauseIcon} size={16} color={colors[cast.darkMode ? "dark" : "light"].foreground} /> : <HugeiconsIcon icon={PlayIcon} size={16} color={colors[cast.darkMode ? "dark" : "light"].foreground} />}
         />
       </View>
-      <IconButton
-        accessibilityLabel={cast.isPlaying ? "Pause" : "Play"}
-        onPress={cast.togglePlay}
-        isDark={cast.darkMode}
-        icon={cast.isPlaying ? <HugeiconsIcon icon={PauseIcon} size={16} color={colors[cast.darkMode ? "dark" : "light"].foreground} /> : <HugeiconsIcon icon={PlayIcon} size={16} color={colors[cast.darkMode ? "dark" : "light"].foreground} />}
-      />
-    </Pressable>
+    </Card>
   );
 }
 
@@ -132,14 +135,11 @@ const styles = StyleSheet.create({
     paddingTop: 8,
     gap: 8,
   },
-  mini: {
+  miniRow: {
     flexDirection: "row",
     alignItems: "center",
     gap: 12,
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-    borderRadius: 16,
-    backgroundColor: "rgba(127,127,127,0.16)",
+    paddingHorizontal: 4,
   },
   miniText: {
     flex: 1,

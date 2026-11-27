@@ -1,5 +1,5 @@
 import React from "react";
-import { Pressable, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { useRouter } from "expo-router";
 import { colors, Button } from "glacia-native";
 import { HugeiconsIcon } from "@hugeicons/react-native";
@@ -7,17 +7,21 @@ import ChevronRightIcon from "@hugeicons/core-free-icons/ChevronRightIcon";
 import { episodeById, showById } from "../data";
 import { useCast } from "../state";
 import {
-  Artwork,
   EpisodeRow,
   ListCard,
+  RowSeparator,
   Screen,
   SectionTitle,
+  ShowRow,
   T,
 } from "../ui";
 
 /**
- * Library: followed shows, everything in progress, and the played
- * history — all derived live from the store.
+ * Library: a well-organized personal collection. Followed shows read
+ * as a show list, the episodes you're mid-way through get the one
+ * card on the screen, and the finished history is a plain muted list
+ * — three sections, three shapes, so the screen doesn't read as three
+ * identical stacks of rows.
  */
 export default function LibraryScreen() {
   const cast = useCast();
@@ -38,23 +42,13 @@ export default function LibraryScreen() {
             {shows.map((show, i) => (
               <View key={show.id}>
                 {i > 0 ? <View style={styles.rowGap} /> : null}
-                <Pressable
+                <ShowRow
+                  show={show}
                   onPress={() => router.push(`/templates/cast/show/${show.id}`)}
-                  accessibilityRole="button"
-                  accessibilityLabel={`Open ${show.title}`}
-                  style={styles.showRow}
-                >
-                  <Artwork title={show.title} colors={show.colors} size={48} image={show.image} />
-                  <View style={styles.flex}>
-                    <T variant="body" numberOfLines={1}>
-                      {show.title}
-                    </T>
-                    <T variant="caption" muted>
-                      {show.author} · {show.cadence}
-                    </T>
-                  </View>
-                  <HugeiconsIcon icon={ChevronRightIcon} size={16} color={colors[darkMode ? "dark" : "light"].muted} />
-                </Pressable>
+                  trailing={
+                    <HugeiconsIcon icon={ChevronRightIcon} size={16} color={colors[darkMode ? "dark" : "light"].muted} />
+                  }
+                />
               </View>
             ))}
           </ListCard>
@@ -65,7 +59,7 @@ export default function LibraryScreen() {
         )}
       </View>
 
-      {/* In progress */}
+      {/* In progress — the one card on this screen. */}
       <View>
         <SectionTitle>In progress</SectionTitle>
         {inProgress.length > 0 ? (
@@ -84,18 +78,18 @@ export default function LibraryScreen() {
         )}
       </View>
 
-      {/* Played history */}
+      {/* Played history — a plain list, no card, so it sits quieter. */}
       <View>
         <SectionTitle>Played history</SectionTitle>
         {played.length > 0 ? (
-          <ListCard>
+          <View>
             {played.map((episode, i) => (
               <View key={episode.id}>
-                {i > 0 ? <View style={styles.rowGap} /> : null}
+                {i > 0 ? <RowSeparator /> : null}
                 <EpisodeRow episode={episode} />
               </View>
             ))}
-          </ListCard>
+          </View>
         ) : (
           <T variant="body" muted>
             Episodes you finish will appear here.
@@ -116,15 +110,5 @@ export default function LibraryScreen() {
 const styles = StyleSheet.create({
   rowGap: {
     height: 2,
-  },
-  showRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingVertical: 12,
-    paddingHorizontal: 12,
-    gap: 12,
-  },
-  flex: {
-    flex: 1,
   },
 });

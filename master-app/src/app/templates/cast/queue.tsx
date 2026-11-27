@@ -1,7 +1,7 @@
 import React from "react";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { useRouter } from "expo-router";
-import { colors, Button, Card, IconButton } from "glacia-native";
+import { colors, Button, Card, IconButton, Progress } from "glacia-native";
 import { HugeiconsIcon } from "@hugeicons/react-native";
 import Cancel01Icon from "@hugeicons/core-free-icons/Cancel01Icon";
 import ChevronLeftIcon from "@hugeicons/core-free-icons/ChevronLeftIcon";
@@ -22,6 +22,11 @@ export default function QueueScreen() {
   const current = cast.currentEpisodeId
     ? episodeById(cast.currentEpisodeId)
     : null;
+  const currentProgressSec = current ? cast.progressOf(current.id) : 0;
+  const currentProgressPct =
+    current && current.duration > 0
+      ? (currentProgressSec / current.duration) * 100
+      : 0;
   const queued = cast.queue.map(episodeById);
 
   return (
@@ -49,24 +54,32 @@ export default function QueueScreen() {
             onPress={() => router.push("/templates/cast/player")}
             accessibilityLabel={`Now playing: ${current.title}. Open the player.`}
           >
-            <View style={styles.rowInner}>
-              <Artwork
-                title={showById(current.showId).title}
-                colors={showById(current.showId).colors}
-                size={52}
-                image={showById(current.showId).image}
-              />
-              <View style={styles.flex}>
-                <T variant="body" numberOfLines={2}>
-                  {current.title}
-                </T>
-                <T variant="caption" muted>
-                  {showById(current.showId).title}
+            <View style={styles.nowPlaying}>
+              <View style={styles.rowInner}>
+                <Artwork
+                  title={showById(current.showId).title}
+                  colors={showById(current.showId).colors}
+                  size={64}
+                  image={showById(current.showId).image}
+                />
+                <View style={styles.flex}>
+                  <T variant="body" numberOfLines={2}>
+                    {current.title}
+                  </T>
+                  <T variant="caption" muted>
+                    {showById(current.showId).title}
+                  </T>
+                </View>
+                <T variant="label" style={{ color: accentColor(cast.backdrop) }}>
+                  {cast.isPlaying ? "Playing" : "Paused"}
                 </T>
               </View>
-              <T variant="label" style={{ color: accentColor(cast.backdrop) }}>
-                {cast.isPlaying ? "Playing" : "Paused"}
-              </T>
+              <Progress
+                value={currentProgressPct}
+                isDark={darkMode}
+                accessibilityLabel={`Progress in ${current.title}`}
+                style={styles.nowPlayingProgress}
+              />
             </View>
           </Card>
         </View>
@@ -177,6 +190,12 @@ const styles = StyleSheet.create({
   },
   section: {
     marginTop: 24,
+  },
+  nowPlaying: {
+    gap: 12,
+  },
+  nowPlayingProgress: {
+    width: "100%",
   },
   rowInner: {
     flexDirection: "row",

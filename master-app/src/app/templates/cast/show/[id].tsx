@@ -50,7 +50,7 @@ export default function ShowScreen() {
       </View>
 
       <View style={styles.artWrap}>
-        <Artwork title={show.title} colors={show.colors} size={180} radius={20} image={show.image} />
+        <Artwork title={show.title} colors={show.colors} size={200} radius={20} image={show.image} />
       </View>
 
       <T variant="title" style={styles.centerText}>
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
   },
   description: {
     marginTop: 20,
-    lineHeight: 20,
+    lineHeight: 24,
   },
   listHeader: {
     flexDirection: "row",

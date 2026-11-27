@@ -1,7 +1,7 @@
 import React from "react";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { useRouter } from "expo-router";
-import { colors, Button, Card, IconButton, Progress } from "glacia-native";
+import { colors, Button, IconButton, Progress } from "glacia-native";
 import { HugeiconsIcon } from "@hugeicons/react-native";
 import ChevronLeftIcon from "@hugeicons/core-free-icons/ChevronLeftIcon";
 import Tick01Icon from "@hugeicons/core-free-icons/Tick01Icon";
@@ -41,8 +41,10 @@ export default function DownloadsScreen() {
         <T variant="title">Downloads</T>
       </View>
 
-      {/* Storage meter — computed from the downloaded fixtures' sizes. */}
-      <Card isDark={darkMode} padding={16} style={styles.storageCard}>
+      {/* Storage meter — computed from the downloaded fixtures' sizes.
+          A plain stat, not a glass card: the figure and the bar are
+          the information. */}
+      <View style={styles.storage}>
         <View style={styles.storageRow}>
           <Figure variant="heading">{cast.downloadedMB} MB</Figure>
           <T variant="caption" muted>
@@ -58,7 +60,7 @@ export default function DownloadsScreen() {
         <T variant="caption" muted>
           {downloaded.length} episodes saved for offline listening
         </T>
-      </Card>
+      </View>
 
       {downloaded.length > 0 ? (
         <View style={styles.section}>
@@ -183,7 +185,7 @@ const styles = StyleSheet.create({
     gap: 12,
     marginBottom: 20,
   },
-  storageCard: {
+  storage: {
     gap: 8,
   },
   storageRow: {

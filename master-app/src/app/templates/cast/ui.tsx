@@ -31,6 +31,7 @@ import {
   initialsOfTitle,
   showById,
   type Episode,
+  type Show,
 } from "./data";
 import { useCast, type BackdropMode } from "./state";
 
@@ -232,9 +233,9 @@ export function SettingRow({
 }
 
 /* ------------------------------------------------------------------ */
-/*  Artwork — composed show art: one flat plate, the show's hue mixed   */
-/*  toward the mode neutral, carrying the title's initials like a      */
-/*  printed sleeve. No image assets anywhere.                          */
+/*  Artwork — show art: the bundled cover photo when present, falling  */
+/*  back to one flat plate (the show's hue mixed toward the mode       */
+/*  neutral) carrying the title's initials like a printed sleeve.      */
 /* ------------------------------------------------------------------ */
 
 export function Artwork({
@@ -423,6 +424,62 @@ export function EpisodeRow({
   );
 }
 
+/* ------------------------------------------------------------------ */
+/*  ShowRow — one show in an editorial list. The left side (artwork +  */
+/*  title/author/meta) navigates to the show; the trailing node is a   */
+/*  separate control (a Follow Button in Discover, a plain chevron in  */
+/*  Library), so no pressable nests inside another.                    */
+/* ------------------------------------------------------------------ */
+
+export function ShowRow({
+  show,
+  onPress,
+  trailing,
+}: {
+  show: Show;
+  onPress: () => void;
+  trailing?: ReactNode;
+}) {
+  const { darkMode } = useCast();
+  return (
+    <View style={styles.showRow}>
+      <Pressable
+        onPress={onPress}
+        accessibilityRole="button"
+        accessibilityLabel={`Open ${show.title}`}
+        style={({ pressed }) => [
+          styles.showRowMain,
+          pressed && {
+            backgroundColor: darkMode ? "rgba(255,255,255,0.08)" : "rgba(0,0,0,0.05)",
+          },
+        ]}
+      >
+        <Artwork title={show.title} colors={show.colors} size={64} image={show.image} />
+        <View style={styles.flex}>
+          <T variant="body" numberOfLines={1}>
+            {show.title}
+          </T>
+          <T variant="caption" muted numberOfLines={1}>
+            {show.author}
+          </T>
+          <View style={styles.metaLine}>
+            <T variant="caption" muted>
+              {show.category} ·
+            </T>
+            <Figure variant="caption" muted>
+              {show.rating}
+            </Figure>
+            <T variant="caption" muted>
+              · {show.cadence}
+            </T>
+          </View>
+        </View>
+      </Pressable>
+      {trailing ? <View style={styles.showRowTrailing}>{trailing}</View> : null}
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
   figure: {
     fontFamily: MONO,
@@ -495,5 +552,22 @@ const styles = StyleSheet.create({
   },
   progressBar: {
     flex: 1,
+  },
+  showRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+  },
+  showRowMain: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    paddingVertical: 8,
+    paddingHorizontal: 8,
+    borderRadius: 12,
+  },
+  showRowTrailing: {
+    flexShrink: 0,
   },
 });

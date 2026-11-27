@@ -12,14 +12,19 @@ import {
   ListCard,
   Screen,
   SectionTitle,
+  ShowRow,
   T,
   accentColor,
 } from "../ui";
 
 /**
- * Discover: the whole catalogue. Category chips filter the show grid;
- * the search box matches shows and individual episodes. Following a
- * show from here feeds Home and the Library.
+ * Discover: the whole catalogue, led by one featured show. The
+ * featured show gets a large editorial card — artwork, category,
+ * description and a follow action — and the rest of the catalogue is
+ * a single scannable list of shows, not a grid of identical cards.
+ * Search matches shows and individual episodes; the category chips
+ * filter the list. Following a show from here feeds Home and the
+ * Library.
  */
 export default function DiscoverScreen() {
   const cast = useCast();
@@ -56,6 +61,15 @@ export default function DiscoverScreen() {
     [q],
   );
 
+  // The editorial lead: the first show, only when browsing the whole
+  // catalogue with no search. It is left out of the list below so it
+  // does not appear twice.
+  const featured = category === "All" && q === "" ? shows[0] : null;
+  const listed = featured ? shows.slice(1) : shows;
+  const featuredFollowing = featured ? cast.isFollowing(featured.id) : false;
+  const listTitle =
+    category === "All" ? (featured ? "More shows" : "All shows") : `${category} shows`;
+
   return (
     <Screen belowTabBar
       title="Discover"
@@ -87,6 +101,49 @@ export default function DiscoverScreen() {
         ))}
       </ScrollView>
 
+      {featured ? (
+        <View>
+          <SectionTitle>Featured</SectionTitle>
+          <Card isDark={darkMode} padding={16}>
+            <View style={styles.featuredBody}>
+              <Pressable
+                onPress={() => router.push(`/templates/cast/show/${featured.id}`)}
+                accessibilityRole="button"
+                accessibilityLabel={`Open ${featured.title} by ${featured.author}`}
+                style={styles.featuredMain}
+              >
+                <Artwork title={featured.title} colors={featured.colors} size={120} image={featured.image} />
+                <View style={styles.featuredText}>
+                  <T variant="label" style={{ color: accentColor(cast.backdrop) }}>
+                    {featured.category}
+                  </T>
+                  <T variant="heading" style={styles.featuredTitle}>
+                    {featured.title}
+                  </T>
+                  <T variant="caption" muted>
+                    {featured.author}
+                  </T>
+                  <T variant="body" muted numberOfLines={2} style={styles.featuredDescription}>
+                    {featured.description}
+                  </T>
+                </View>
+              </Pressable>
+              <Button
+                accessibilityLabel={
+                  featuredFollowing ? `Unfollow ${featured.title}` : `Follow ${featured.title}`
+                }
+                variant={featuredFollowing ? "glass" : "filled"}
+                onPress={() => cast.toggleFollow(featured.id)}
+                isDark={darkMode}
+                style={styles.featuredFollow}
+              >
+                {featuredFollowing ? "Following" : "Follow"}
+              </Button>
+            </View>
+          </Card>
+        </View>
+      ) : null}
+
       {episodeMatches.length > 0 ? (
         <View>
           <SectionTitle>Matching episodes</SectionTitle>
@@ -102,53 +159,35 @@ export default function DiscoverScreen() {
       ) : null}
 
       <View>
-        <SectionTitle>
-          {category === "All" ? "All shows" : `${category} shows`}
-        </SectionTitle>
-        {shows.length > 0 ? (
-          <View style={styles.grid}>
-            {shows.map((show) => {
+        <SectionTitle>{listTitle}</SectionTitle>
+        {listed.length > 0 ? (
+          <ListCard>
+            {listed.map((show, i) => {
               const following = cast.isFollowing(show.id);
               return (
-                <Card
-                  key={show.id}
-                  isDark={darkMode}
-                  padding={16}
-                  style={styles.showCard}
-                  onPress={() => router.push(`/templates/cast/show/${show.id}`)}
-                  accessibilityLabel={`Open ${show.title} by ${show.author}`}
-                >
-                  <Artwork title={show.title} colors={show.colors} size={64} image={show.image} />
-                  <T variant="body" numberOfLines={1} style={styles.cardTitle}>
-                    {show.title}
-                  </T>
-                  <T variant="caption" muted numberOfLines={1}>
-                    {show.author}
-                  </T>
-                  <View style={styles.metaLine}>
-                    <Figure variant="caption" muted>
-                      {show.rating}
-                    </Figure>
-                    <T variant="caption" muted>
-                      · {show.cadence}
-                    </T>
-                  </View>
-                  <View style={styles.followButton}>
-                    <Button
-                      accessibilityLabel={
-                        following ? `Unfollow ${show.title}` : `Follow ${show.title}`
-                      }
-                      variant={following ? "glass" : "filled"}
-                      onPress={() => cast.toggleFollow(show.id)}
-                      isDark={darkMode}
-                    >
-                      {following ? "Following" : "Follow"}
-                    </Button>
-                  </View>
-                </Card>
+                <View key={show.id}>
+                  {i > 0 ? <View style={styles.rowGap} /> : null}
+                  <ShowRow
+                    show={show}
+                    onPress={() => router.push(`/templates/cast/show/${show.id}`)}
+                    trailing={
+                      <Button
+                        accessibilityLabel={
+                          following ? `Unfollow ${show.title}` : `Follow ${show.title}`
+                        }
+                        variant={following ? "glass" : "filled"}
+                        onPress={() => cast.toggleFollow(show.id)}
+                        isDark={darkMode}
+                        size="sm"
+                      >
+                        {following ? "Following" : "Follow"}
+                      </Button>
+                    }
+                  />
+                </View>
               );
             })}
-          </View>
+          </ListCard>
         ) : (
           <T variant="body" muted>
             No shows match that search in {category}. Try a different word.
@@ -167,26 +206,26 @@ const styles = StyleSheet.create({
   rowGap: {
     height: 2,
   },
-  grid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: 12,
+  featuredBody: {
+    gap: 16,
   },
-  showCard: {
-    width: "48%",
-    flexGrow: 1,
+  featuredMain: {
+    flexDirection: "row",
+    gap: 16,
+  },
+  featuredText: {
+    flex: 1,
     gap: 4,
   },
-  cardTitle: {
-    marginTop: 8,
+  featuredTitle: {
+    marginTop: 2,
   },
-  metaLine: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 4,
+  featuredDescription: {
+    marginTop: 4,
+    lineHeight: 20,
   },
-  followButton: {
-    marginTop: 8,
-    paddingVertical: 4,
+  featuredFollow: {
+    alignSelf: "flex-start",
+    minWidth: 120,
   },
 });

@@ -41,28 +41,34 @@ export default function ProfileScreen() {
       {/* Stats — all computed from the store, nothing hard-coded. */}
       <View>
         <SectionTitle>Listening stats</SectionTitle>
-        <ListCard>
-          <View style={styles.statLine}>
-            <T variant="body" muted>
-              Time listened
-            </T>
-            <Figure variant="heading">
-              {formatDuration(cast.totalListenedSeconds)}
-            </Figure>
+        <Card isDark={darkMode} padding={16}>
+          <View style={styles.statStrip}>
+            <View style={[styles.statCell, styles.statCellWide]}>
+              <Figure variant="heading" style={styles.statValue}>
+                {formatDuration(cast.totalListenedSeconds)}
+              </Figure>
+              <T variant="caption" muted style={styles.statLabel}>
+                Time listened
+              </T>
+            </View>
+            <View style={styles.statCell}>
+              <Figure variant="heading" style={styles.statValue}>
+                {cast.episodesCompleted}
+              </Figure>
+              <T variant="caption" muted style={styles.statLabel}>
+                Episodes finished
+              </T>
+            </View>
+            <View style={styles.statCell}>
+              <Figure variant="heading" style={styles.statValue}>
+                {cast.followedShowIds.length}
+              </Figure>
+              <T variant="caption" muted style={styles.statLabel}>
+                Shows followed
+              </T>
+            </View>
           </View>
-          <View style={styles.statLine}>
-            <T variant="body" muted>
-              Episodes finished
-            </T>
-            <Figure variant="heading">{cast.episodesCompleted}</Figure>
-          </View>
-          <View style={styles.statLine}>
-            <T variant="body" muted>
-              Shows followed
-            </T>
-            <Figure variant="heading">{cast.followedShowIds.length}</Figure>
-          </View>
-        </ListCard>
+        </Card>
       </View>
 
       {/* Playback & downloads */}
@@ -176,12 +182,23 @@ const styles = StyleSheet.create({
   flex: {
     flex: 1,
   },
-  statLine: {
+  statStrip: {
     flexDirection: "row",
+    gap: 8,
+  },
+  statCell: {
+    flex: 1,
     alignItems: "center",
-    justifyContent: "space-between",
-    paddingVertical: 12,
-    paddingHorizontal: 16,
+    gap: 4,
+  },
+  statCellWide: {
+    flex: 1.4,
+  },
+  statValue: {
+    textAlign: "center",
+  },
+  statLabel: {
+    textAlign: "center",
   },
   backdropBody: {
     padding: 16,

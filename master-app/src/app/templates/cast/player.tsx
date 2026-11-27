@@ -1,8 +1,12 @@
 import React from "react";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { useRouter } from "expo-router";
-import { colors, Button, IconButton, SegmentedControl, Select, Slider } from "glacia-native";
+import { colors, Button, Card, IconButton, SegmentedControl, Select, Slider } from "glacia-native";
 import { HugeiconsIcon } from "@hugeicons/react-native";
+import ChevronDownIcon from "@hugeicons/core-free-icons/ChevronDownIcon";
+import ChevronRightIcon from "@hugeicons/core-free-icons/ChevronRightIcon";
+import GoBackward15SecIcon from "@hugeicons/core-free-icons/GoBackward15SecIcon";
+import GoForward30SecIcon from "@hugeicons/core-free-icons/GoForward30SecIcon";
 import Menu01Icon from "@hugeicons/core-free-icons/Menu01Icon";
 import PauseIcon from "@hugeicons/core-free-icons/PauseIcon";
 import PlayIcon from "@hugeicons/core-free-icons/PlayIcon";
@@ -59,6 +63,7 @@ export default function PlayerScreen() {
   const downloaded = cast.isDownloaded(episode.id);
   const upNextId = cast.queue.find((qid) => qid !== episode.id) ?? cast.queue[0];
   const upNext = upNextId ? episodeById(upNextId) : null;
+  const upNextShow = upNext ? showById(upNext.showId) : null;
 
   return (
     <ScrollView
@@ -72,7 +77,7 @@ export default function PlayerScreen() {
           accessibilityLabel="Back"
           onPress={() => router.back()}
           isDark={darkMode}
-          icon={<T variant="heading">⌄</T>}
+          icon={<HugeiconsIcon icon={ChevronDownIcon} size={20} color={colors[darkMode ? "dark" : "light"].foreground} />}
         />
         <View style={styles.headerText}>
           <T variant="caption" muted>
@@ -92,7 +97,7 @@ export default function PlayerScreen() {
 
       {/* Composed show artwork */}
       <View style={styles.artWrap}>
-        <Artwork title={show.title} colors={show.colors} size={260} radius={20} image={show.image} />
+        <Artwork title={show.title} colors={show.colors} size={288} radius={20} image={show.image} />
       </View>
 
       {/* Title block */}
@@ -155,7 +160,7 @@ export default function PlayerScreen() {
           onPress={() => cast.skipBy(-15)}
           isDark={darkMode}
           size="lg"
-          icon={<Figure variant="body">-15</Figure>}
+          icon={<HugeiconsIcon icon={GoBackward15SecIcon} size={20} color={colors[darkMode ? "dark" : "light"].foreground} />}
         />
         <Button
           accessibilityLabel={cast.isPlaying ? "Pause" : "Play"}
@@ -173,7 +178,7 @@ export default function PlayerScreen() {
           onPress={() => cast.skipBy(30)}
           isDark={darkMode}
           size="lg"
-          icon={<Figure variant="body">+30</Figure>}
+          icon={<HugeiconsIcon icon={GoForward30SecIcon} size={20} color={colors[darkMode ? "dark" : "light"].foreground} />}
         />
         <IconButton
           accessibilityLabel="Next episode"
@@ -294,20 +299,27 @@ export default function PlayerScreen() {
         </Button>
       </View>
 
-      {upNext ? (
-        <Pressable
+      {upNext && upNextShow ? (
+        <Card
+          isDark={darkMode}
+          padding={12}
           onPress={() => router.push("/templates/cast/queue")}
-          accessibilityRole="button"
           accessibilityLabel={`Up next: ${upNext.title}. Open the queue.`}
           style={styles.upNext}
         >
-          <T variant="caption" muted>
-            Up next
-          </T>
-          <T variant="body" numberOfLines={1}>
-            {upNext.title} · {showById(upNext.showId).title}
-          </T>
-        </Pressable>
+          <View style={styles.upNextRow}>
+            <Artwork title={upNextShow.title} colors={upNextShow.colors} size={40} image={upNextShow.image} />
+            <View style={styles.upNextText}>
+              <T variant="caption" muted>
+                Up next
+              </T>
+              <T variant="body" numberOfLines={1}>
+                {upNext.title} · {upNextShow.title}
+              </T>
+            </View>
+            <HugeiconsIcon icon={ChevronRightIcon} size={16} color={colors[darkMode ? "dark" : "light"].muted} />
+          </View>
+        </Card>
       ) : null}
     </ScrollView>
   );
@@ -397,7 +409,14 @@ const styles = StyleSheet.create({
   },
   upNext: {
     marginTop: 24,
+  },
+  upNextRow: {
+    flexDirection: "row",
     alignItems: "center",
-    gap: 4,
+    gap: 12,
+  },
+  upNextText: {
+    flex: 1,
+    gap: 2,
   },
 });
