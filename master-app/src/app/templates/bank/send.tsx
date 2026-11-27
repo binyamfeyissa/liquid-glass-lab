@@ -2,8 +2,8 @@ import React, { useMemo, useState } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 import { router } from "expo-router";
 import { Avatar, Badge, Button, Field, Input } from "glacia-native";
-import { CheckCircle2 } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import CheckmarkCircle02Icon from "@hugeicons/core-free-icons/CheckmarkCircle02Icon";
 import { useBank, type Recipient } from "./state";
 import { ListCard, Screen, SectionTitle, T, accentColor, money } from "./ui";
 
@@ -52,7 +52,7 @@ export default function SendScreen() {
     return (
       <Screen title="Money sent" subtitle="From Main Checking">
         <View style={styles.doneBody}>
-          <CheckCircle2 size={48} color={accent} />
+          <HugeiconsIcon icon={CheckmarkCircle02Icon} size={48} color={accent} />
           <T variant="heading">
             {money(amount)} to {recipient.name}
           </T>

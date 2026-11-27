@@ -10,8 +10,8 @@ import {
   IconButton,
   Input,
 } from "glacia-native";
-import { X } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import Cancel01Icon from "@hugeicons/core-free-icons/Cancel01Icon";
 import { useSocial } from "../state";
 import { GradientTile, T } from "../ui";
 
@@ -121,7 +121,7 @@ export default function StoryViewerScreen() {
           accessibilityLabel="Close story"
           onPress={() => router.back()}
           isDark={social.darkMode}
-          icon={<X size={18} color={social.darkMode ? colors.dark.foreground : colors.light.foreground} />}
+          icon={<HugeiconsIcon icon={Cancel01Icon} size={18} color={social.darkMode ? colors.dark.foreground : colors.light.foreground} />}
         />
       </View>
 

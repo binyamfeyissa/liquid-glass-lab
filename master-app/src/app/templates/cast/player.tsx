@@ -2,8 +2,12 @@ import React from "react";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { useRouter } from "expo-router";
 import { colors, Button, IconButton, SegmentedControl, Select, Slider } from "glacia-native";
-import { Menu, Pause, Play, SkipBack, SkipForward } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import Menu01Icon from "@hugeicons/core-free-icons/Menu01Icon";
+import PauseIcon from "@hugeicons/core-free-icons/PauseIcon";
+import PlayIcon from "@hugeicons/core-free-icons/PlayIcon";
+import SkipBackIcon from "@hugeicons/core-free-icons/SkipBackIcon";
+import SkipForwardIcon from "@hugeicons/core-free-icons/SkipForwardIcon";
 import {
   SLEEP_TIMER_OPTIONS,
   SPEED_OPTIONS,
@@ -82,7 +86,7 @@ export default function PlayerScreen() {
           accessibilityLabel="View queue"
           onPress={() => router.push("/templates/cast/queue")}
           isDark={darkMode}
-          icon={<Menu size={16} color={colors[darkMode ? "dark" : "light"].foreground} />}
+          icon={<HugeiconsIcon icon={Menu01Icon} size={16} color={colors[darkMode ? "dark" : "light"].foreground} />}
         />
       </View>
 
@@ -144,7 +148,7 @@ export default function PlayerScreen() {
           onPress={cast.prevEpisode}
           isDark={darkMode}
           size="lg"
-          icon={<SkipBack size={20} color={colors[darkMode ? "dark" : "light"].foreground} />}
+          icon={<HugeiconsIcon icon={SkipBackIcon} size={20} color={colors[darkMode ? "dark" : "light"].foreground} />}
         />
         <IconButton
           accessibilityLabel="Back 15 seconds"
@@ -162,7 +166,7 @@ export default function PlayerScreen() {
           variant="filled"
           style={styles.playButton}
         >
-          {cast.isPlaying ? <Pause size={28} color="#FFFFFF" /> : <Play size={28} color="#FFFFFF" />}
+          {cast.isPlaying ? <HugeiconsIcon icon={PauseIcon} size={28} color="#FFFFFF" /> : <HugeiconsIcon icon={PlayIcon} size={28} color="#FFFFFF" />}
         </Button>
         <IconButton
           accessibilityLabel="Forward 30 seconds"
@@ -176,7 +180,7 @@ export default function PlayerScreen() {
           onPress={cast.nextEpisode}
           isDark={darkMode}
           size="lg"
-          icon={<SkipForward size={20} color={colors[darkMode ? "dark" : "light"].foreground} />}
+          icon={<HugeiconsIcon icon={SkipForwardIcon} size={20} color={colors[darkMode ? "dark" : "light"].foreground} />}
         />
       </View>
       <View style={styles.skipRow}>

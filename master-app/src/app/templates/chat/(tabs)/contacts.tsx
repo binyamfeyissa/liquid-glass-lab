@@ -2,8 +2,8 @@ import React, { useMemo, useState } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 import { router } from "expo-router";
 import { colors, Input } from "glacia-native";
-import { ChevronRight } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import ChevronRightIcon from "@hugeicons/core-free-icons/ChevronRightIcon";
 import { useChat, type Contact } from "../state";
 import { ContactAvatar, ListCard, pressedFill, RowSeparator, Screen, T } from "../ui";
 
@@ -28,7 +28,7 @@ function ContactRow({ contact, onPress }: { contact: Contact; onPress: () => voi
           {contact.presenceLabel}
         </T>
       </View>
-      <ChevronRight size={20} color={colors[chat.darkMode ? "dark" : "light"].muted} />
+      <HugeiconsIcon icon={ChevronRightIcon} size={20} color={colors[chat.darkMode ? "dark" : "light"].muted} />
     </Pressable>
   );
 }

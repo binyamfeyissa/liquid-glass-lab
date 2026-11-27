@@ -2,8 +2,8 @@ import React from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 import { useRouter } from "expo-router";
 import { colors, Button } from "glacia-native";
-import { ChevronRight } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import ChevronRightIcon from "@hugeicons/core-free-icons/ChevronRightIcon";
 import { episodeById, showById } from "../data";
 import { useCast } from "../state";
 import {
@@ -53,7 +53,7 @@ export default function LibraryScreen() {
                       {show.author} · {show.cadence}
                     </T>
                   </View>
-                  <ChevronRight size={16} color={colors[darkMode ? "dark" : "light"].muted} />
+                  <HugeiconsIcon icon={ChevronRightIcon} size={16} color={colors[darkMode ? "dark" : "light"].muted} />
                 </Pressable>
               </View>
             ))}

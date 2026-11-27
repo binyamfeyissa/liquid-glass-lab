@@ -2,8 +2,11 @@ import React, { type ReactNode } from "react";
 import { StyleSheet, View } from "react-native";
 import type { BottomTabBarProps } from "expo-router/build/layouts/Tabs";
 import { TabBar } from "glacia-native";
-import { CalendarDays, Repeat, TrendingUp, User } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import Calendar01Icon from "@hugeicons/core-free-icons/Calendar01Icon";
+import RepeatIcon from "@hugeicons/core-free-icons/RepeatIcon";
+import TrendingUpIcon from "@hugeicons/core-free-icons/TrendingUpIcon";
+import UserIcon from "@hugeicons/core-free-icons/UserIcon";
 import { useHealth } from "./state";
 
 /** Route name -> tab label for the four main tabs. */
@@ -18,10 +21,10 @@ const LABELS: Record<string, string> = {
  *  calls icon({ focused, color, size }), so the colour and size it
  *  resolves (accent when focused, muted when not) flow straight in. */
 const ICONS: Record<string, (state: { color: string; size: number }) => ReactNode> = {
-  index: ({ color, size }) => <CalendarDays color={color} size={size} />,
-  trends: ({ color, size }) => <TrendingUp color={color} size={size} />,
-  habits: ({ color, size }) => <Repeat color={color} size={size} />,
-  profile: ({ color, size }) => <User color={color} size={size} />,
+  index: ({ color, size }) => <HugeiconsIcon icon={Calendar01Icon} color={color} size={size} />,
+  trends: ({ color, size }) => <HugeiconsIcon icon={TrendingUpIcon} color={color} size={size} />,
+  habits: ({ color, size }) => <HugeiconsIcon icon={RepeatIcon} color={color} size={size} />,
+  profile: ({ color, size }) => <HugeiconsIcon icon={UserIcon} color={color} size={size} />,
 };
 
 /**

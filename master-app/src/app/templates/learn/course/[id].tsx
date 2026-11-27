@@ -5,8 +5,8 @@ import {
   colors,
   Avatar, Badge, Button, Card, Progress
 } from "glacia-native";
-import { ChevronRight } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import ChevronRightIcon from "@hugeicons/core-free-icons/ChevronRightIcon";
 import { useLearn } from "../state";
 import {
   QUIZ_COURSE_ID,
@@ -280,7 +280,7 @@ export default function CourseScreen() {
                           Done
                         </Badge>
                       ) : (
-                        <ChevronRight size={18} color={learn.darkMode ? colors.dark.muted : colors.light.muted} />
+                        <HugeiconsIcon icon={ChevronRightIcon} size={18} color={learn.darkMode ? colors.dark.muted : colors.light.muted} />
                       )}
                     </Pressable>
                   </React.Fragment>

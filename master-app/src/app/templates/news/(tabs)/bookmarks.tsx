@@ -5,8 +5,8 @@ import {
   colors,
   Button, IconButton
 } from "glacia-native";
-import { X } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import Cancel01Icon from "@hugeicons/core-free-icons/Cancel01Icon";
 import { ARTICLES } from "../data";
 import { useSignal } from "../state";
 import { ListCard, RowSeparator, Screen, StoryRow, T } from "../ui";
@@ -57,7 +57,7 @@ export default function BookmarksScreen() {
                   accessibilityLabel={`Remove bookmark for ${article.headline}`}
                   isDark={darkMode}
                   onPress={() => toggleBookmark(article.id)}
-                  icon={<X size={18} color={darkMode ? colors.dark.foreground : colors.light.foreground} />}
+                  icon={<HugeiconsIcon icon={Cancel01Icon} size={18} color={darkMode ? colors.dark.foreground : colors.light.foreground} />}
                 />
               </View>
             </React.Fragment>

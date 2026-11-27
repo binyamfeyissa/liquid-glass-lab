@@ -19,8 +19,8 @@ import {
   Text,
   type TextProps,
 } from "glacia-native";
-import { ChevronRight } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import ChevronRightIcon from "@hugeicons/core-free-icons/ChevronRightIcon";
 import { useSignal, type BackdropMode } from "./state";
 import type { Article } from "./data";
 
@@ -283,7 +283,7 @@ export function NavRow({
           {detail}
         </Figure>
       ) : null}
-      <ChevronRight size={18} color={darkMode ? colors.dark.muted : colors.light.muted} />
+      <HugeiconsIcon icon={ChevronRightIcon} size={18} color={darkMode ? colors.dark.muted : colors.light.muted} />
     </Pressable>
   );
 }
@@ -427,7 +427,7 @@ export function StoryRow({
           </T>
         ) : null}
       </View>
-      <ChevronRight size={18} color={darkMode ? colors.dark.muted : colors.light.muted} />
+      <HugeiconsIcon icon={ChevronRightIcon} size={18} color={darkMode ? colors.dark.muted : colors.light.muted} />
     </Pressable>
   );
 }

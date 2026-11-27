@@ -21,8 +21,10 @@ import {
   Text,
   type TextProps,
 } from "glacia-native";
-import { ChevronRight, Heart, ShoppingCart } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import ChevronRightIcon from "@hugeicons/core-free-icons/ChevronRightIcon";
+import FavouriteIcon from "@hugeicons/core-free-icons/FavouriteIcon";
+import ShoppingCart01Icon from "@hugeicons/core-free-icons/ShoppingCart01Icon";
 import { useShop, type BackdropMode, type OrderStatus } from "./state";
 import { finishOf, type Product } from "./data";
 
@@ -277,7 +279,7 @@ export function NavRow({
           {detail}
         </T>
       ) : null}
-      <ChevronRight size={18} color={darkMode ? colors.dark.muted : colors.light.muted} />
+      <HugeiconsIcon icon={ChevronRightIcon} size={18} color={darkMode ? colors.dark.muted : colors.light.muted} />
     </Pressable>
   );
 }
@@ -343,7 +345,7 @@ export function HeartButton({ productId, size = "md" }: { productId: string; siz
       isDark={shop.darkMode}
       size={size}
       icon={
-        <Heart
+        <HugeiconsIcon icon={FavouriteIcon}
           size={20}
           color={active ? accentColor(shop.backdrop) : shop.darkMode ? colors.dark.foreground : colors.light.foreground}
           fill={active ? accentColor(shop.backdrop) : "transparent"}
@@ -365,7 +367,7 @@ export function CartButton() {
         accessibilityLabel={`Cart, ${shop.cartCount} items`}
         onPress={() => router.push("/templates/shop/cart")}
         isDark={shop.darkMode}
-        icon={<ShoppingCart size={20} color={shop.darkMode ? colors.dark.foreground : colors.light.foreground} />}
+        icon={<HugeiconsIcon icon={ShoppingCart01Icon} size={20} color={shop.darkMode ? colors.dark.foreground : colors.light.foreground} />}
       />
       {shop.cartCount > 0 ? (
         <View style={styles.cartCount}>

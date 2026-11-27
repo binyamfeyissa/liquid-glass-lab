@@ -22,7 +22,10 @@ import {
   Text,
   type TextProps,
 } from "glacia-native";
-import { Bookmark, ChevronLeft, ChevronRight } from "lucide-react-native";
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import Bookmark01Icon from "@hugeicons/core-free-icons/Bookmark01Icon";
+import ChevronLeftIcon from "@hugeicons/core-free-icons/ChevronLeftIcon";
+import ChevronRightIcon from "@hugeicons/core-free-icons/ChevronRightIcon";
 import { router } from "expo-router";
 
 import { useHomes, type BackdropMode } from "./state";
@@ -210,7 +213,7 @@ export function StackHeader({
         isDark={darkMode}
         size="md"
         tint={backdrop === "light" ? "#efe9df" : "#232325"}
-        icon={<ChevronLeft size={20} color={colors[darkMode ? "dark" : "light"].foreground} />}
+        icon={<HugeiconsIcon icon={ChevronLeftIcon} size={20} color={colors[darkMode ? "dark" : "light"].foreground} />}
       />
       <View style={styles.settingText}>
         <T variant="heading" numberOfLines={1} style={titleStyle}>
@@ -321,7 +324,7 @@ export function NavRow({
           {detail}
         </T>
       ) : null}
-      <ChevronRight size={20} color={colors[darkMode ? "dark" : "light"].muted} />
+      <HugeiconsIcon icon={ChevronRightIcon} size={20} color={colors[darkMode ? "dark" : "light"].muted} />
     </Pressable>
   );
 }
@@ -444,7 +447,7 @@ export function SaveButton({ propertyId, large = false }: { propertyId: string; 
       size={large ? "md" : "sm"}
       tint={backdrop === "light" ? "rgba(253,251,247,0.88)" : "rgba(20,20,21,0.78)"}
       icon={
-        <Bookmark
+        <HugeiconsIcon icon={Bookmark01Icon}
           size={16}
           color={
             active

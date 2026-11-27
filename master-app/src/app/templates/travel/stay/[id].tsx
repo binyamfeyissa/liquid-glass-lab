@@ -11,8 +11,9 @@ import {
   colors,
   Avatar, Button, Card
 } from "glacia-native";
-import { Check, ChevronLeft } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import ChevronLeftIcon from "@hugeicons/core-free-icons/ChevronLeftIcon";
+import Tick01Icon from "@hugeicons/core-free-icons/Tick01Icon";
 import { useTravel } from "../state";
 import {
   accent,
@@ -74,7 +75,7 @@ export default function StayDetailScreen() {
             accessibilityLabel="Back"
             onPress={() => router.back()}
           >
-            <ChevronLeft size={18} color={darkMode ? colors.dark.foreground : colors.light.foreground} />
+            <HugeiconsIcon icon={ChevronLeftIcon} size={18} color={darkMode ? colors.dark.foreground : colors.light.foreground} />
           </Button>
           <T variant="heading" style={[styles.flex, styles.placeName]} numberOfLines={1}>
             {dest?.city}, {dest?.country}
@@ -176,7 +177,7 @@ export default function StayDetailScreen() {
               <View key={a}>
                 {i > 0 ? <RowSeparator /> : null}
                 <View style={styles.amenityRow}>
-                  <Check size={16} color={darkMode ? colors.dark.muted : colors.light.muted} />
+                  <HugeiconsIcon icon={Tick01Icon} size={16} color={darkMode ? colors.dark.muted : colors.light.muted} />
                   <T variant="body">{a}</T>
                 </View>
               </View>

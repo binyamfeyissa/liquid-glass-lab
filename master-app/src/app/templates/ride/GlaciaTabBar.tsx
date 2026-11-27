@@ -2,8 +2,10 @@ import React, { type ReactNode } from "react";
 import { StyleSheet, View } from "react-native";
 import type { BottomTabBarProps } from "expo-router/build/layouts/Tabs";
 import { TabBar } from "glacia-native";
-import { History, Home, User } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import HistoryIcon from "@hugeicons/core-free-icons/HistoryIcon";
+import Home01Icon from "@hugeicons/core-free-icons/Home01Icon";
+import UserIcon from "@hugeicons/core-free-icons/UserIcon";
 import { useRide } from "./state";
 
 /** Route name -> tab label for the three main tabs. */
@@ -17,9 +19,9 @@ const LABELS: Record<string, string> = {
  *  calls icon({ focused, color, size }), so the colour and size it
  *  resolves (accent when focused, muted when not) flow straight in. */
 const ICONS: Record<string, (state: { color: string; size: number }) => ReactNode> = {
-  index: ({ color, size }) => <Home color={color} size={size} />,
-  activity: ({ color, size }) => <History color={color} size={size} />,
-  profile: ({ color, size }) => <User color={color} size={size} />,
+  index: ({ color, size }) => <HugeiconsIcon icon={Home01Icon} color={color} size={size} />,
+  activity: ({ color, size }) => <HugeiconsIcon icon={HistoryIcon} color={color} size={size} />,
+  profile: ({ color, size }) => <HugeiconsIcon icon={UserIcon} color={color} size={size} />,
 };
 
 /**

@@ -19,8 +19,9 @@ import {
   Text,
   type TextProps,
 } from "glacia-native";
-import { Bookmark, ChevronRight } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import Bookmark01Icon from "@hugeicons/core-free-icons/Bookmark01Icon";
+import ChevronRightIcon from "@hugeicons/core-free-icons/ChevronRightIcon";
 import { useJobs, type ApplicationStatus, type BackdropMode } from "./state";
 import {
   companyInitials,
@@ -264,7 +265,7 @@ export function NavRow({
           {detail}
         </Figure>
       ) : null}
-      <ChevronRight size={20} color={colors[darkMode ? "dark" : "light"].muted} />
+      <HugeiconsIcon icon={ChevronRightIcon} size={20} color={colors[darkMode ? "dark" : "light"].muted} />
     </Pressable>
   );
 }
@@ -369,7 +370,7 @@ export function JobCard({ job, showMatch = true }: { job: Job; showMatch?: boole
           onPress={() => jobs.toggleSaved(job.id)}
           isDark={jobs.darkMode}
           icon={
-            <Bookmark
+            <HugeiconsIcon icon={Bookmark01Icon}
               size={16}
               color={saved ? chrome.accent : colors[jobs.darkMode ? "dark" : "light"].foreground}
               fill={saved ? chrome.accent : "none"}

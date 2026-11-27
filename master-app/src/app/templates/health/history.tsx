@@ -2,8 +2,8 @@ import React, { useMemo } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 import { router } from "expo-router";
 import { colors, Avatar, Button } from "glacia-native";
-import { X } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import Cancel01Icon from "@hugeicons/core-free-icons/Cancel01Icon";
 import { useHealth } from "./state";
 import {
   dayLabel,
@@ -98,7 +98,7 @@ export default function HistoryScreen() {
                         pressed && { backgroundColor: chrome.fill },
                       ]}
                     >
-                      <X size={16} color={colors[app.darkMode ? "dark" : "light"].muted} />
+                      <HugeiconsIcon icon={Cancel01Icon} size={16} color={colors[app.darkMode ? "dark" : "light"].muted} />
                     </Pressable>
                   </View>
                 </React.Fragment>

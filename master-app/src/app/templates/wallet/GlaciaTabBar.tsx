@@ -2,8 +2,11 @@ import React, { type ReactNode } from "react";
 import { StyleSheet, View } from "react-native";
 import type { BottomTabBarProps } from "expo-router/build/layouts/Tabs";
 import { TabBar } from "glacia-native";
-import { Activity, ArrowLeftRight, PieChart, User } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import Activity01Icon from "@hugeicons/core-free-icons/Activity01Icon";
+import ArrowLeftRightIcon from "@hugeicons/core-free-icons/ArrowLeftRightIcon";
+import PieChart01Icon from "@hugeicons/core-free-icons/PieChart01Icon";
+import UserIcon from "@hugeicons/core-free-icons/UserIcon";
 import { useWallet } from "./state";
 
 /** Route name -> tab label for the four main tabs. */
@@ -18,10 +21,10 @@ const LABELS: Record<string, string> = {
  *  calls icon({ focused, color, size }), so the colour and size it
  *  resolves (accent when focused, muted when not) flow straight in. */
 const ICONS: Record<string, (state: { color: string; size: number }) => ReactNode> = {
-  index: ({ color, size }) => <PieChart color={color} size={size} />,
-  swap: ({ color, size }) => <ArrowLeftRight color={color} size={size} />,
-  activity: ({ color, size }) => <Activity color={color} size={size} />,
-  profile: ({ color, size }) => <User color={color} size={size} />,
+  index: ({ color, size }) => <HugeiconsIcon icon={PieChart01Icon} color={color} size={size} />,
+  swap: ({ color, size }) => <HugeiconsIcon icon={ArrowLeftRightIcon} color={color} size={size} />,
+  activity: ({ color, size }) => <HugeiconsIcon icon={Activity01Icon} color={color} size={size} />,
+  profile: ({ color, size }) => <HugeiconsIcon icon={UserIcon} color={color} size={size} />,
 };
 
 /**

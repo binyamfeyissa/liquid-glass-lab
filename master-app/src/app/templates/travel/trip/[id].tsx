@@ -5,8 +5,8 @@ import {
   colors,
   AlertDialog, Avatar, Button
 } from "glacia-native";
-import { ChevronLeft } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import ChevronLeftIcon from "@hugeicons/core-free-icons/ChevronLeftIcon";
 import { dateForOffset, formatDate, useTravel } from "../state";
 import {
   Figure,
@@ -57,7 +57,7 @@ export default function TripDetailScreen() {
           accessibilityLabel="Back"
           onPress={() => router.back()}
         >
-          <ChevronLeft size={18} color={darkMode ? colors.dark.foreground : colors.light.foreground} />
+          <HugeiconsIcon icon={ChevronLeftIcon} size={18} color={darkMode ? colors.dark.foreground : colors.light.foreground} />
         </Button>
         <T variant="title" style={styles.title}>
           {dest?.city}

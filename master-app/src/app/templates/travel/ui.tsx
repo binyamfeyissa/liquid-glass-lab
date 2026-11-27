@@ -21,7 +21,9 @@ import {
   Text,
   type TextProps,
 } from "glacia-native";
-import { ChevronRight, Heart } from "lucide-react-native";
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import ChevronRightIcon from "@hugeicons/core-free-icons/ChevronRightIcon";
+import FavouriteIcon from "@hugeicons/core-free-icons/FavouriteIcon";
 import { router } from "expo-router";
 
 import type { ImageSourcePropType } from "react-native";
@@ -259,7 +261,7 @@ export function NavRow({
           {detail}
         </Figure>
       ) : null}
-      <ChevronRight
+      <HugeiconsIcon icon={ChevronRightIcon}
         size={18}
         color={darkMode ? colors.dark.muted : colors.light.muted}
       />
@@ -357,7 +359,7 @@ export function HeartButton({ stayId }: { stayId: string }) {
       onPress={() => toggleSaved(stayId)}
       isDark={darkMode}
       icon={
-        <Heart
+        <HugeiconsIcon icon={FavouriteIcon}
           size={18}
           color={saved ? accent(darkMode) : darkMode ? "#f5f2ec" : "#3d362a"}
           fill={saved ? accent(darkMode) : "transparent"}

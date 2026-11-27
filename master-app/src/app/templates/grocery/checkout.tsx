@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { router } from "expo-router";
 import { colors, Button, Field, IconButton, Input, RadioGroup } from "glacia-native";
-import { ChevronLeft } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import ChevronLeftIcon from "@hugeicons/core-free-icons/ChevronLeftIcon";
 import { useBasket, type Order } from "./state";
 import { Figure, ListCard, RowSeparator, SectionTitle, T, money } from "./ui";
 
@@ -106,7 +106,7 @@ export default function CheckoutScreen() {
           accessibilityLabel="Back"
           onPress={() => router.back()}
           isDark={basket.darkMode}
-          icon={<ChevronLeft size={20} color={colors[basket.darkMode ? "dark" : "light"].foreground} />}
+          icon={<HugeiconsIcon icon={ChevronLeftIcon} size={20} color={colors[basket.darkMode ? "dark" : "light"].foreground} />}
         />
         <View style={styles.flex}>
           <T variant="title">Checkout</T>

@@ -2,8 +2,8 @@ import React from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import { colors, IconButton } from "glacia-native";
-import { ChevronLeft } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import ChevronLeftIcon from "@hugeicons/core-free-icons/ChevronLeftIcon";
 import { aisleById, productsInAisle } from "../data";
 import { useBasket } from "../state";
 import {
@@ -32,7 +32,7 @@ export default function AisleScreen() {
             accessibilityLabel="Back"
             onPress={() => router.back()}
             isDark={basket.darkMode}
-            icon={<ChevronLeft size={20} color={colors[basket.darkMode ? "dark" : "light"].foreground} />}
+            icon={<HugeiconsIcon icon={ChevronLeftIcon} size={20} color={colors[basket.darkMode ? "dark" : "light"].foreground} />}
           />
           <View style={styles.flex}>
             <T variant="title">{aisle.name}</T>

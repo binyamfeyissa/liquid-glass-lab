@@ -5,8 +5,10 @@ import {
   colors,
   Button, Card, IconButton, Slider
 } from "glacia-native";
-import { ChevronLeft, Pause, Play } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import ChevronLeftIcon from "@hugeicons/core-free-icons/ChevronLeftIcon";
+import PauseIcon from "@hugeicons/core-free-icons/PauseIcon";
+import PlayIcon from "@hugeicons/core-free-icons/PlayIcon";
 import {
   QUALITY_OPTIONS,
   episodeRef,
@@ -111,7 +113,7 @@ export default function PlayerScreen() {
           accessibilityLabel="Back"
           onPress={() => router.back()}
           isDark={darkMode}
-          icon={<ChevronLeft size={20} color={darkMode ? colors.dark.foreground : colors.light.foreground} />}
+          icon={<HugeiconsIcon icon={ChevronLeftIcon} size={20} color={darkMode ? colors.dark.foreground : colors.light.foreground} />}
         />
         <View style={styles.headerText}>
           <T variant="caption" muted>
@@ -147,9 +149,9 @@ export default function PlayerScreen() {
             style={styles.bigPlay}
           >
             {stream.isPlaying ? (
-              <Pause size={24} color="#ffffff" />
+              <HugeiconsIcon icon={PauseIcon} size={24} color="#ffffff" />
             ) : (
-              <Play size={24} color="#ffffff" />
+              <HugeiconsIcon icon={PlayIcon} size={24} color="#ffffff" />
             )}
           </Button>
         </View>

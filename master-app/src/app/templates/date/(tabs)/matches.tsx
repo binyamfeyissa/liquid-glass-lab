@@ -2,8 +2,8 @@ import React from "react";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { router } from "expo-router";
 import { colors, Avatar, Badge, Card } from "glacia-native";
-import { ChevronRight } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import ChevronRightIcon from "@hugeicons/core-free-icons/ChevronRightIcon";
 import { profileById, useKindred } from "../state";
 import {
   Figure,
@@ -128,7 +128,7 @@ export default function MatchesScreen() {
                         {last ? last.timeLabel : match.matchedLabel}
                       </Figure>
                     </View>
-                    <ChevronRight size={20} color={colors[kindred.darkMode ? "dark" : "light"].muted} />
+                    <HugeiconsIcon icon={ChevronRightIcon} size={20} color={colors[kindred.darkMode ? "dark" : "light"].muted} />
                   </Pressable>
                 </View>
               );

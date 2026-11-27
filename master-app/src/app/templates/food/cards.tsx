@@ -2,8 +2,8 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import { router } from "expo-router";
 import { colors, Badge, Button, Card } from "glacia-native";
-import { ChevronRight } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import ChevronRightIcon from "@hugeicons/core-free-icons/ChevronRightIcon";
 import { useFood } from "./state";
 import type { MenuItem, Restaurant } from "./data";
 import {
@@ -95,7 +95,7 @@ export function RestaurantRow({ restaurant }: { restaurant: Restaurant }) {
           </T>
           <Meta style={styles.cardMeta}>{restaurantMeta(restaurant)}</Meta>
         </View>
-        <ChevronRight size={20} color={colors[darkMode ? "dark" : "light"].muted} />
+        <HugeiconsIcon icon={ChevronRightIcon} size={20} color={colors[darkMode ? "dark" : "light"].muted} />
       </View>
     </Card>
   );

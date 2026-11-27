@@ -11,15 +11,13 @@ import {
   Sheet,
   colors,
 } from "glacia-native";
-import {
-  ArrowDownLeft,
-  ArrowUpRight,
-  Ellipsis,
-  Eye,
-  EyeOff,
-  Plus,
-} from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import Add01Icon from "@hugeicons/core-free-icons/Add01Icon";
+import ArrowDownLeft01Icon from "@hugeicons/core-free-icons/ArrowDownLeft01Icon";
+import ArrowUpRight01Icon from "@hugeicons/core-free-icons/ArrowUpRight01Icon";
+import EyeIcon from "@hugeicons/core-free-icons/EyeIcon";
+import EyeOffIcon from "@hugeicons/core-free-icons/EyeOffIcon";
+import MoreHorizontalIcon from "@hugeicons/core-free-icons/MoreHorizontalIcon";
 import { useBank } from "../state";
 import {
   AccountRow,
@@ -84,28 +82,28 @@ export default function HomeScreen() {
   const actions = [
     {
       label: "Send",
-      icon: <ArrowUpRight size={22} color="#FFFFFF" />,
+      icon: <HugeiconsIcon icon={ArrowUpRight01Icon} size={22} color="#FFFFFF" />,
       onPress: () => router.push("/templates/bank/send"),
       a11y: "Send money",
       primary: true,
     },
     {
       label: "Request",
-      icon: <ArrowDownLeft size={22} color={foreground} />,
+      icon: <HugeiconsIcon icon={ArrowDownLeft01Icon} size={22} color={foreground} />,
       onPress: () => setSheet("request"),
       a11y: "Request money",
       primary: false,
     },
     {
       label: "Top up",
-      icon: <Plus size={22} color={foreground} />,
+      icon: <HugeiconsIcon icon={Add01Icon} size={22} color={foreground} />,
       onPress: () => setSheet("topup"),
       a11y: "Top up account",
       primary: false,
     },
     {
       label: "More",
-      icon: <Ellipsis size={22} color={foreground} />,
+      icon: <HugeiconsIcon icon={MoreHorizontalIcon} size={22} color={foreground} />,
       onPress: () => setSheet("more"),
       a11y: "More actions",
       primary: false,
@@ -135,9 +133,9 @@ export default function HomeScreen() {
           tint={neutralTint}
           icon={
             bank.hideBalances ? (
-              <EyeOff size={20} color={foreground} />
+              <HugeiconsIcon icon={EyeOffIcon} size={20} color={foreground} />
             ) : (
-              <Eye size={20} color={foreground} />
+              <HugeiconsIcon icon={EyeIcon} size={20} color={foreground} />
             )
           }
         />

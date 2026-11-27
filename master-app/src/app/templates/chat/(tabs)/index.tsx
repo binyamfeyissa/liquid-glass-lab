@@ -2,8 +2,9 @@ import React, { useMemo, useState } from "react";
 import { FlatList, Pressable, StyleSheet, View } from "react-native";
 import { router } from "expo-router";
 import { colors, Avatar, IconButton, Input } from "glacia-native";
-import { Plus, Users } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import Add01Icon from "@hugeicons/core-free-icons/Add01Icon";
+import UserGroupIcon from "@hugeicons/core-free-icons/UserGroupIcon";
 import { useChat, type Conversation } from "../state";
 import { accentColor, ContactAvatar, Figure, pressedFill, T } from "../ui";
 
@@ -105,13 +106,13 @@ export default function ChatsScreen() {
           <T variant="title">Relay</T>
           <View style={styles.headerActions}>
             <IconButton
-              icon={<Users size={16} color={colors[chat.darkMode ? "dark" : "light"].foreground} />}
+              icon={<HugeiconsIcon icon={UserGroupIcon} size={16} color={colors[chat.darkMode ? "dark" : "light"].foreground} />}
               accessibilityLabel="Create a group"
               isDark={chat.darkMode}
               onPress={() => router.push("/templates/chat/new-group")}
             />
             <IconButton
-              icon={<Plus size={16} color={colors[chat.darkMode ? "dark" : "light"].foreground} />}
+              icon={<HugeiconsIcon icon={Add01Icon} size={16} color={colors[chat.darkMode ? "dark" : "light"].foreground} />}
               accessibilityLabel="New chat"
               isDark={chat.darkMode}
               onPress={() => router.push("/templates/chat/new-chat")}

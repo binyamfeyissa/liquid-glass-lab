@@ -22,8 +22,11 @@ import {
   Text,
   type TextProps,
 } from "glacia-native";
-import { ChevronRight, Heart, MessageCircle, Send } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import ChevronRightIcon from "@hugeicons/core-free-icons/ChevronRightIcon";
+import FavouriteIcon from "@hugeicons/core-free-icons/FavouriteIcon";
+import Message01Icon from "@hugeicons/core-free-icons/Message01Icon";
+import SentIcon from "@hugeicons/core-free-icons/SentIcon";
 import { GRADIENTS, ME_ID, useSocial, type BackdropMode, type Post } from "./state";
 
 /* ------------------------------------------------------------------ */
@@ -330,7 +333,7 @@ export function NavRow({
           {detail}
         </T>
       ) : null}
-      <ChevronRight
+      <HugeiconsIcon icon={ChevronRightIcon}
         size={18}
         color={darkMode ? colors.dark.muted : colors.light.muted}
       />
@@ -510,7 +513,7 @@ export function PostCard({ post, preview = false }: { post: Post; preview?: bool
             isDark={social.darkMode}
             size="sm"
             icon={
-              <Heart
+              <HugeiconsIcon icon={FavouriteIcon}
                 size={18}
                 color={liked ? accentColor(social.backdrop) : social.darkMode ? colors.dark.foreground : colors.light.foreground}
                 fill={liked ? accentColor(social.backdrop) : "transparent"}
@@ -527,7 +530,7 @@ export function PostCard({ post, preview = false }: { post: Post; preview?: bool
             onPress={() => router.push(`/templates/social/post/${post.id}`)}
             isDark={social.darkMode}
             size="sm"
-            icon={<MessageCircle size={18} color={social.darkMode ? colors.dark.foreground : colors.light.foreground} />}
+            icon={<HugeiconsIcon icon={Message01Icon} size={18} color={social.darkMode ? colors.dark.foreground : colors.light.foreground} />}
           />
           <Figure variant="caption" muted>
             {commentCount}
@@ -543,7 +546,7 @@ export function PostCard({ post, preview = false }: { post: Post; preview?: bool
               }}
               isDark={social.darkMode}
               size="sm"
-              icon={<Send size={18} color={social.darkMode ? colors.dark.foreground : colors.light.foreground} />}
+              icon={<HugeiconsIcon icon={SentIcon} size={18} color={social.darkMode ? colors.dark.foreground : colors.light.foreground} />}
             />
             <T variant="caption" muted>
               Message

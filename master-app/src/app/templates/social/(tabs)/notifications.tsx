@@ -5,8 +5,11 @@ import {
   colors,
   Avatar, Button
 } from "glacia-native";
-import { AtSign, CornerUpLeft, Heart, Plus } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import Add01Icon from "@hugeicons/core-free-icons/Add01Icon";
+import AtSignIcon from "@hugeicons/core-free-icons/AtSignIcon";
+import CornerUpLeftIcon from "@hugeicons/core-free-icons/CornerUpLeftIcon";
+import FavouriteIcon from "@hugeicons/core-free-icons/FavouriteIcon";
 import { useSocial, type BackdropMode, type NotificationKind } from "../state";
 import {
   Figure,
@@ -32,14 +35,14 @@ function KindIcon({
   switch (kind) {
     case "like": {
       const accent = accentColor(backdrop);
-      return <Heart size={12} color={accent} fill={accent} />;
+      return <HugeiconsIcon icon={FavouriteIcon} size={12} color={accent} fill={accent} />;
     }
     case "follow":
-      return <Plus size={12} color={muted} />;
+      return <HugeiconsIcon icon={Add01Icon} size={12} color={muted} />;
     case "mention":
-      return <AtSign size={12} color={muted} />;
+      return <HugeiconsIcon icon={AtSignIcon} size={12} color={muted} />;
     case "comment":
-      return <CornerUpLeft size={12} color={muted} />;
+      return <HugeiconsIcon icon={CornerUpLeftIcon} size={12} color={muted} />;
   }
 }
 

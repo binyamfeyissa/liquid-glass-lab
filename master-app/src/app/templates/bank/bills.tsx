@@ -2,8 +2,12 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import { router } from "expo-router";
 import { Badge, Button } from "glacia-native";
-import { Landmark, Receipt, Shield, Wifi, Zap } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import BankIcon from "@hugeicons/core-free-icons/BankIcon";
+import ReceiptIcon from "@hugeicons/core-free-icons/ReceiptIcon";
+import Shield01Icon from "@hugeicons/core-free-icons/Shield01Icon";
+import Wifi01Icon from "@hugeicons/core-free-icons/Wifi01Icon";
+import ZapIcon from "@hugeicons/core-free-icons/ZapIcon";
 import { useBank, type Bill } from "./state";
 import {
   Amount,
@@ -17,20 +21,20 @@ import {
 } from "./ui";
 
 /** One small neutral icon per biller — identification, not decoration. */
-const BILL_ICONS: Record<string, typeof Zap> = {
-  b1: Zap,
-  b2: Wifi,
-  b3: Shield,
-  b4: Landmark,
+const BILL_ICONS: Record<string, typeof ZapIcon> = {
+  b1: ZapIcon,
+  b2: Wifi01Icon,
+  b3: Shield01Icon,
+  b4: BankIcon,
 };
 
 function BillRow({ bill }: { bill: Bill }) {
   const bank = useBank();
-  const Icon = BILL_ICONS[bill.id] ?? Receipt;
+  const Icon = BILL_ICONS[bill.id] ?? ReceiptIcon;
   const iconColor = bank.darkMode ? "#EBEBF599" : "#3C3C4399";
   return (
     <View style={styles.row}>
-      <Icon size={20} color={iconColor} />
+      <HugeiconsIcon icon={Icon} size={20} color={iconColor} />
       <View style={styles.text}>
         <T variant="body">{bill.name}</T>
         <T variant="caption" muted style={styles.detail}>

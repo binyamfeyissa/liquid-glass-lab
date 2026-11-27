@@ -5,8 +5,8 @@ import {
   colors,
   Avatar, IconButton
 } from "glacia-native";
-import { Mail } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import Mail01Icon from "@hugeicons/core-free-icons/Mail01Icon";
 import { useSocial } from "../state";
 import { Figure, PostCard, StoryRing, T, accentColor } from "../ui";
 
@@ -32,7 +32,7 @@ export default function FeedScreen() {
             accessibilityLabel="Messages"
             onPress={() => router.push("/templates/social/messages")}
             isDark={social.darkMode}
-            icon={<Mail size={20} color={social.darkMode ? colors.dark.foreground : colors.light.foreground} />}
+            icon={<HugeiconsIcon icon={Mail01Icon} size={20} color={social.darkMode ? colors.dark.foreground : colors.light.foreground} />}
           />
           {social.totalUnreadMessages > 0 ? (
             <View

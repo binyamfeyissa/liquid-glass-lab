@@ -21,8 +21,10 @@ import {
   Text,
   type TextProps,
 } from "glacia-native";
-import { Check, Download, Menu } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import Download01Icon from "@hugeicons/core-free-icons/Download01Icon";
+import Menu01Icon from "@hugeicons/core-free-icons/Menu01Icon";
+import Tick01Icon from "@hugeicons/core-free-icons/Tick01Icon";
 import {
   formatDuration,
   formatTime,
@@ -387,9 +389,9 @@ export function EpisodeRow({
         size="sm"
         icon={
           queued ? (
-            <Check size={16} color={accentColor(cast.backdrop)} />
+            <HugeiconsIcon icon={Tick01Icon} size={16} color={accentColor(cast.backdrop)} />
           ) : (
-            <Menu size={16} color={colors[darkMode ? "dark" : "light"].foreground} />
+            <HugeiconsIcon icon={Menu01Icon} size={16} color={colors[darkMode ? "dark" : "light"].foreground} />
           )
         }
       />
@@ -409,11 +411,11 @@ export function EpisodeRow({
         size="sm"
         icon={
           downloaded ? (
-            <Check size={16} color={colors[darkMode ? "dark" : "light"].foreground} />
+            <HugeiconsIcon icon={Tick01Icon} size={16} color={colors[darkMode ? "dark" : "light"].foreground} />
           ) : downloading ? (
             <Figure variant="caption">{Math.floor(download)}%</Figure>
           ) : (
-            <Download size={16} color={colors[darkMode ? "dark" : "light"].foreground} />
+            <HugeiconsIcon icon={Download01Icon} size={16} color={colors[darkMode ? "dark" : "light"].foreground} />
           )
         }
       />

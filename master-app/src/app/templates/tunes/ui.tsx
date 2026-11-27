@@ -18,8 +18,10 @@ import {
   Text,
   type TextProps,
 } from "glacia-native";
-import { Heart, Music, Pause } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import FavouriteIcon from "@hugeicons/core-free-icons/FavouriteIcon";
+import MusicNote01Icon from "@hugeicons/core-free-icons/MusicNote01Icon";
+import PauseIcon from "@hugeicons/core-free-icons/PauseIcon";
 import {
   artistOf,
   formatTime,
@@ -362,9 +364,9 @@ export function TrackRow({
       </View>
       {isCurrent ? (
         tunes.isPlaying ? (
-          <Music size={16} color={accent} />
+          <HugeiconsIcon icon={MusicNote01Icon} size={16} color={accent} />
         ) : (
-          <Pause size={16} color={accent} />
+          <HugeiconsIcon icon={PauseIcon} size={16} color={accent} />
         )
       ) : null}
       <IconButton
@@ -374,7 +376,7 @@ export function TrackRow({
         size="sm"
         tint={liked ? accent : undefined}
         icon={
-          <Heart
+          <HugeiconsIcon icon={FavouriteIcon}
             size={18}
             color={liked ? accent : darkMode ? colors.dark.foreground : colors.light.foreground}
             fill={liked ? accent : "transparent"}

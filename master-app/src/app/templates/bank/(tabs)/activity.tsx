@@ -2,8 +2,8 @@ import React, { useMemo, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { router } from "expo-router";
 import { Chip, Input, colors } from "glacia-native";
-import { Search } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import Search01Icon from "@hugeicons/core-free-icons/Search01Icon";
 import { useBank, type Category } from "../state";
 import {
   ListCard,
@@ -54,7 +54,7 @@ export default function ActivityScreen() {
         accessibilityLabel="Search activity"
         isDark={bank.darkMode}
         prefix={
-          <Search
+          <HugeiconsIcon icon={Search01Icon}
             size={18}
             color={colors[bank.darkMode ? "dark" : "light"].muted}
           />

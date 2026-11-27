@@ -3,8 +3,13 @@ import { StyleSheet, View } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { colors, Button, IconButton } from "glacia-native";
-import { Mic, MicOff, Video, VideoOff, Volume2, VolumeX } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import Mic01Icon from "@hugeicons/core-free-icons/Mic01Icon";
+import MicOff01Icon from "@hugeicons/core-free-icons/MicOff01Icon";
+import Video01Icon from "@hugeicons/core-free-icons/Video01Icon";
+import VideoOffIcon from "@hugeicons/core-free-icons/VideoOffIcon";
+import VolumeHighIcon from "@hugeicons/core-free-icons/VolumeHighIcon";
+import VolumeMute01Icon from "@hugeicons/core-free-icons/VolumeMute01Icon";
 import { nowLabel, useChat, type CallKind } from "../state";
 import { ContactAvatar, Figure, T } from "../ui";
 
@@ -93,7 +98,7 @@ export default function CallScreen() {
       <View style={styles.controls}>
         <View style={styles.control}>
           <IconButton
-            icon={muted ? <MicOff size={16} color={colors[chat.darkMode ? "dark" : "light"].foreground} /> : <Mic size={16} color={colors[chat.darkMode ? "dark" : "light"].foreground} />}
+            icon={muted ? <HugeiconsIcon icon={MicOff01Icon} size={16} color={colors[chat.darkMode ? "dark" : "light"].foreground} /> : <HugeiconsIcon icon={Mic01Icon} size={16} color={colors[chat.darkMode ? "dark" : "light"].foreground} />}
             accessibilityLabel={muted ? "Unmute" : "Mute"}
             isDark={chat.darkMode}
             size="lg"
@@ -105,7 +110,7 @@ export default function CallScreen() {
         </View>
         <View style={styles.control}>
           <IconButton
-            icon={speaker ? <Volume2 size={16} color={colors[chat.darkMode ? "dark" : "light"].foreground} /> : <VolumeX size={16} color={colors[chat.darkMode ? "dark" : "light"].foreground} />}
+            icon={speaker ? <HugeiconsIcon icon={VolumeHighIcon} size={16} color={colors[chat.darkMode ? "dark" : "light"].foreground} /> : <HugeiconsIcon icon={VolumeMute01Icon} size={16} color={colors[chat.darkMode ? "dark" : "light"].foreground} />}
             accessibilityLabel={speaker ? "Speaker off" : "Speaker on"}
             isDark={chat.darkMode}
             size="lg"
@@ -118,7 +123,7 @@ export default function CallScreen() {
         {callKind === "video" ? (
           <View style={styles.control}>
             <IconButton
-              icon={cameraOff ? <VideoOff size={16} color={colors[chat.darkMode ? "dark" : "light"].foreground} /> : <Video size={16} color={colors[chat.darkMode ? "dark" : "light"].foreground} />}
+              icon={cameraOff ? <HugeiconsIcon icon={VideoOffIcon} size={16} color={colors[chat.darkMode ? "dark" : "light"].foreground} /> : <HugeiconsIcon icon={Video01Icon} size={16} color={colors[chat.darkMode ? "dark" : "light"].foreground} />}
               accessibilityLabel={cameraOff ? "Camera on" : "Camera off"}
               isDark={chat.darkMode}
               size="lg"

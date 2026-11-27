@@ -6,8 +6,14 @@ import {
   colors,
   IconButton, Progress, TabBar
 } from "glacia-native";
-import { Home, Library, Pause, Play, Search, SkipForward, User } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import Home01Icon from "@hugeicons/core-free-icons/Home01Icon";
+import LibraryIcon from "@hugeicons/core-free-icons/LibraryIcon";
+import PauseIcon from "@hugeicons/core-free-icons/PauseIcon";
+import PlayIcon from "@hugeicons/core-free-icons/PlayIcon";
+import Search01Icon from "@hugeicons/core-free-icons/Search01Icon";
+import SkipForwardIcon from "@hugeicons/core-free-icons/SkipForwardIcon";
+import UserIcon from "@hugeicons/core-free-icons/UserIcon";
 import { artistOf, trackById } from "./data";
 import { useTunes } from "./state";
 import { Artwork, Serif, T, accentColor } from "./ui";
@@ -24,10 +30,10 @@ const LABELS: Record<string, string> = {
  *  calls icon({ focused, color, size }), so the colour and size it
  *  resolves (accent when focused, muted when not) flow straight in. */
 const ICONS: Record<string, (state: { color: string; size: number }) => ReactNode> = {
-  index: ({ color, size }) => <Home color={color} size={size} />,
-  search: ({ color, size }) => <Search color={color} size={size} />,
-  library: ({ color, size }) => <Library color={color} size={size} />,
-  profile: ({ color, size }) => <User color={color} size={size} />,
+  index: ({ color, size }) => <HugeiconsIcon icon={Home01Icon} color={color} size={size} />,
+  search: ({ color, size }) => <HugeiconsIcon icon={Search01Icon} color={color} size={size} />,
+  library: ({ color, size }) => <HugeiconsIcon icon={LibraryIcon} color={color} size={size} />,
+  profile: ({ color, size }) => <HugeiconsIcon icon={UserIcon} color={color} size={size} />,
 };
 
 /**
@@ -74,9 +80,9 @@ function MiniPlayer() {
         isDark={tunes.darkMode}
         icon={
           tunes.isPlaying ? (
-            <Pause size={18} color={tunes.darkMode ? colors.dark.foreground : colors.light.foreground} />
+            <HugeiconsIcon icon={PauseIcon} size={18} color={tunes.darkMode ? colors.dark.foreground : colors.light.foreground} />
           ) : (
-            <Play size={18} color={tunes.darkMode ? colors.dark.foreground : colors.light.foreground} />
+            <HugeiconsIcon icon={PlayIcon} size={18} color={tunes.darkMode ? colors.dark.foreground : colors.light.foreground} />
           )
         }
       />
@@ -84,7 +90,7 @@ function MiniPlayer() {
         accessibilityLabel="Next track"
         onPress={() => tunes.next(true)}
         isDark={tunes.darkMode}
-        icon={<SkipForward size={18} color={tunes.darkMode ? colors.dark.foreground : colors.light.foreground} />}
+        icon={<HugeiconsIcon icon={SkipForwardIcon} size={18} color={tunes.darkMode ? colors.dark.foreground : colors.light.foreground} />}
       />
     </Pressable>
   );

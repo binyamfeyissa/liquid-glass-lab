@@ -19,8 +19,9 @@ import {
   Text,
   type TextProps,
 } from "glacia-native";
-import { ChevronRight, Star } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import ChevronRightIcon from "@hugeicons/core-free-icons/ChevronRightIcon";
+import StarIcon from "@hugeicons/core-free-icons/StarIcon";
 import { useRide, type BackdropMode, type Trip } from "./state";
 import type { Fare } from "./data";
 
@@ -265,7 +266,7 @@ export function NavRow({
           {detail}
         </Figure>
       ) : null}
-      <ChevronRight size={18} color={darkMode ? colors.dark.muted : colors.light.muted} />
+      <HugeiconsIcon icon={ChevronRightIcon} size={18} color={darkMode ? colors.dark.muted : colors.light.muted} />
     </Pressable>
   );
 }
@@ -378,7 +379,7 @@ export function Stars({
       {[1, 2, 3, 4, 5].map((n) => {
         const filled = n <= value;
         const star = (
-          <Star
+          <HugeiconsIcon icon={StarIcon}
             size={size}
             color={filled ? filledColor : emptyColor}
             fill={filled ? filledColor : "transparent"}

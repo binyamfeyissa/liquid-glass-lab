@@ -5,8 +5,9 @@ import {
   colors,
   Button, Card, Input
 } from "glacia-native";
-import { ChevronRight, Heart } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import ChevronRightIcon from "@hugeicons/core-free-icons/ChevronRightIcon";
+import FavouriteIcon from "@hugeicons/core-free-icons/FavouriteIcon";
 import { LIKED_SONGS_IMAGE, formatLongDuration, trackById } from "../data";
 import { LIKED_PLAYLIST_ID, useTunes } from "../state";
 import {
@@ -77,7 +78,7 @@ export default function LibraryScreen() {
               {formatLongDuration(totalDuration(tunes.likedIds))}
             </T>
           </View>
-          <Heart size={20} color={accent} fill={accent} />
+          <HugeiconsIcon icon={FavouriteIcon} size={20} color={accent} fill={accent} />
         </View>
       </Card>
 
@@ -113,7 +114,7 @@ export default function LibraryScreen() {
                     {playlist.userCreated ? " · Yours" : ""}
                   </T>
                 </View>
-                <ChevronRight size={18} color={darkMode ? colors.dark.muted : colors.light.muted} />
+                <HugeiconsIcon icon={ChevronRightIcon} size={18} color={darkMode ? colors.dark.muted : colors.light.muted} />
               </Pressable>
             </View>
           ))}

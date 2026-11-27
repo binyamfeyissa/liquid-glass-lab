@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import { colors, Button, IconButton, Stepper, Toast } from "glacia-native";
-import { ChevronLeft } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import ChevronLeftIcon from "@hugeicons/core-free-icons/ChevronLeftIcon";
 import { aisleById, productById, productsInAisle } from "../data";
 import { useBasket } from "../state";
 import {
@@ -50,7 +50,7 @@ export default function ProductScreen() {
             accessibilityLabel="Back"
             onPress={() => router.back()}
             isDark={basket.darkMode}
-            icon={<ChevronLeft size={20} color={colors[basket.darkMode ? "dark" : "light"].foreground} />}
+            icon={<HugeiconsIcon icon={ChevronLeftIcon} size={20} color={colors[basket.darkMode ? "dark" : "light"].foreground} />}
           />
           <T variant="caption" muted style={styles.flex}>
             {aisleById(product.aisleId).name}

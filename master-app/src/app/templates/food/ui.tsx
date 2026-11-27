@@ -21,8 +21,10 @@ import {
   Text,
   type TextProps,
 } from "glacia-native";
-import { ChevronLeft, ChevronRight, Heart } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import ChevronLeftIcon from "@hugeicons/core-free-icons/ChevronLeftIcon";
+import ChevronRightIcon from "@hugeicons/core-free-icons/ChevronRightIcon";
+import FavouriteIcon from "@hugeicons/core-free-icons/FavouriteIcon";
 import { useFood, type BackdropMode } from "./state";
 import type { Restaurant } from "./data";
 
@@ -281,7 +283,7 @@ export function NavRow({
           {detail}
         </T>
       ) : null}
-      <ChevronRight size={20} color={colors[darkMode ? "dark" : "light"].muted} />
+      <HugeiconsIcon icon={ChevronRightIcon} size={20} color={colors[darkMode ? "dark" : "light"].muted} />
     </Pressable>
   );
 }
@@ -390,7 +392,7 @@ export function BackButton({ label = "Back" }: { label?: string }) {
       onPress={() => router.back()}
       isDark={darkMode}
       size="lg"
-      icon={<ChevronLeft size={28} color={colors[darkMode ? "dark" : "light"].foreground} />}
+      icon={<HugeiconsIcon icon={ChevronLeftIcon} size={28} color={colors[darkMode ? "dark" : "light"].foreground} />}
     />
   );
 }
@@ -439,7 +441,7 @@ export function FavouriteButton({
       size={size}
       tint={food.darkMode ? "rgba(0,0,0,0.35)" : "rgba(255,255,255,0.75)"}
       icon={
-        <Heart
+        <HugeiconsIcon icon={FavouriteIcon}
           size={size === "lg" ? 22 : 20}
           color={
             active

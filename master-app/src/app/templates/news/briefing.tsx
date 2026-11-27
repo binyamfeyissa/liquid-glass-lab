@@ -5,8 +5,9 @@ import {
   colors,
   Badge, Button, Card, IconButton
 } from "glacia-native";
-import { ArrowLeft, ChevronRight } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import ArrowLeft01Icon from "@hugeicons/core-free-icons/ArrowLeft01Icon";
+import ChevronRightIcon from "@hugeicons/core-free-icons/ChevronRightIcon";
 import { ARTICLES, BRIEFING_MARKETS } from "./data";
 import { useSignal } from "./state";
 import { Figure, Headline, RowSeparator, SectionTitle, T } from "./ui";
@@ -37,7 +38,7 @@ export default function BriefingScreen() {
           accessibilityLabel="Back"
           isDark={signal.darkMode}
           onPress={() => router.back()}
-          icon={<ArrowLeft size={20} color={signal.darkMode ? colors.dark.foreground : colors.light.foreground} />}
+          icon={<HugeiconsIcon icon={ArrowLeft01Icon} size={20} color={signal.darkMode ? colors.dark.foreground : colors.light.foreground} />}
         />
         <View style={styles.headerText}>
           <Headline variant="title">Morning Briefing</Headline>
@@ -110,7 +111,7 @@ export default function BriefingScreen() {
                       Read
                     </Badge>
                   ) : null}
-                  <ChevronRight size={18} color={signal.darkMode ? colors.dark.muted : colors.light.muted} />
+                  <HugeiconsIcon icon={ChevronRightIcon} size={18} color={signal.darkMode ? colors.dark.muted : colors.light.muted} />
                 </Pressable>
               </React.Fragment>
             );

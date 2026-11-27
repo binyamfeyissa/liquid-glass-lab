@@ -19,8 +19,11 @@ import {
   Separator,
   Toast,
 } from "glacia-native";
-import { ArrowUp, ChevronLeft, Phone, Video } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import ArrowUp01Icon from "@hugeicons/core-free-icons/ArrowUp01Icon";
+import ChevronLeftIcon from "@hugeicons/core-free-icons/ChevronLeftIcon";
+import PhoneIcon from "@hugeicons/core-free-icons/PhoneIcon";
+import Video01Icon from "@hugeicons/core-free-icons/Video01Icon";
 import { useChat, type ChatMessage } from "../state";
 import { ContactAvatar, DaySeparator, Message, T, TypingIndicator } from "../ui";
 
@@ -96,7 +99,7 @@ export default function ConversationScreen() {
       {/* Header */}
       <View style={[styles.header, { paddingTop: insets.top + 10 }]}>
         <IconButton
-          icon={<ChevronLeft size={20} color={colors[chat.darkMode ? "dark" : "light"].foreground} />}
+          icon={<HugeiconsIcon icon={ChevronLeftIcon} size={20} color={colors[chat.darkMode ? "dark" : "light"].foreground} />}
           accessibilityLabel="Back"
           isDark={chat.darkMode}
           onPress={() => router.back()}
@@ -125,13 +128,13 @@ export default function ConversationScreen() {
         {contact ? (
           <>
             <IconButton
-              icon={<Phone size={16} color={colors[chat.darkMode ? "dark" : "light"].foreground} />}
+              icon={<HugeiconsIcon icon={PhoneIcon} size={16} color={colors[chat.darkMode ? "dark" : "light"].foreground} />}
               accessibilityLabel={`Voice call ${contact.name}`}
               isDark={chat.darkMode}
               onPress={() => router.push(`/templates/chat/call/${contact.id}?kind=voice`)}
             />
             <IconButton
-              icon={<Video size={16} color={colors[chat.darkMode ? "dark" : "light"].foreground} />}
+              icon={<HugeiconsIcon icon={Video01Icon} size={16} color={colors[chat.darkMode ? "dark" : "light"].foreground} />}
               accessibilityLabel={`Video call ${contact.name}`}
               isDark={chat.darkMode}
               onPress={() => router.push(`/templates/chat/call/${contact.id}?kind=video`)}
@@ -202,7 +205,7 @@ export default function ConversationScreen() {
           />
         </View>
         <IconButton
-          icon={<ArrowUp size={20} color={colors[chat.darkMode ? "dark" : "light"].foreground} />}
+          icon={<HugeiconsIcon icon={ArrowUp01Icon} size={20} color={colors[chat.darkMode ? "dark" : "light"].foreground} />}
           accessibilityLabel="Send message"
           isDark={chat.darkMode}
           disabled={!draft.trim()}

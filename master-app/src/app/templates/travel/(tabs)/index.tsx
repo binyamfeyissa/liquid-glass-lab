@@ -5,8 +5,8 @@ import {
   colors,
   Avatar, Card
 } from "glacia-native";
-import { Search } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import Search01Icon from "@hugeicons/core-free-icons/Search01Icon";
 import { useTravel } from "../state";
 import { Figure, Plate, Screen, SectionTitle, StayCard, T } from "../ui";
 
@@ -25,7 +25,7 @@ export default function ExploreScreen() {
         accessibilityLabel="Search destinations and stays"
       >
         <View style={styles.searchRow}>
-          <Search size={18} color={darkMode ? colors.dark.foreground : colors.light.foreground} />
+          <HugeiconsIcon icon={Search01Icon} size={18} color={darkMode ? colors.dark.foreground : colors.light.foreground} />
           <View style={styles.searchText}>
             <T variant="body">Search stays</T>
             <T variant="caption" muted>

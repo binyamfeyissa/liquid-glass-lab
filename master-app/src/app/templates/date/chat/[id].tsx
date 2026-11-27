@@ -10,8 +10,8 @@ import {
 import { router, useLocalSearchParams } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { colors, Avatar, Button, Input } from "glacia-native";
-import { ChevronLeft } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import ChevronLeftIcon from "@hugeicons/core-free-icons/ChevronLeftIcon";
 import { profileById, useKindred, type ChatMessage } from "../state";
 import { Figure, MessageBubble, T } from "../ui";
 
@@ -57,7 +57,7 @@ export default function ChatScreen() {
           accessibilityLabel="Back to matches"
           style={styles.backButton}
         >
-          <ChevronLeft size={20} color={colors[kindred.darkMode ? "dark" : "light"].foreground} />
+          <HugeiconsIcon icon={ChevronLeftIcon} size={20} color={colors[kindred.darkMode ? "dark" : "light"].foreground} />
         </Pressable>
         <Avatar name={profile.name} size="md" isDark={kindred.darkMode} source={profile.image} />
         <View style={styles.headerText}>

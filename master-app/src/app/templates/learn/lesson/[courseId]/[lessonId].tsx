@@ -2,8 +2,10 @@ import React, { useEffect, useRef, useState } from "react";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import { Badge, Button, Card, Progress, Slider } from "glacia-native";
-import { Pause, Play, RotateCcw } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import PauseIcon from "@hugeicons/core-free-icons/PauseIcon";
+import PlayIcon from "@hugeicons/core-free-icons/PlayIcon";
+import RotateCcwIcon from "@hugeicons/core-free-icons/RotateCcwIcon";
 import { useLearn } from "../../state";
 import { QUIZ_COURSE_ID, courseLessons, findLesson } from "../../data";
 import {
@@ -154,11 +156,11 @@ export default function LessonScreen() {
           style={styles.playButton}
         >
           {playing ? (
-            <Pause size={28} color="#ffffff" />
+            <HugeiconsIcon icon={PauseIcon} size={28} color="#ffffff" />
           ) : finished ? (
-            <RotateCcw size={28} color="#ffffff" />
+            <HugeiconsIcon icon={RotateCcwIcon} size={28} color="#ffffff" />
           ) : (
-            <Play size={28} color="#ffffff" />
+            <HugeiconsIcon icon={PlayIcon} size={28} color="#ffffff" />
           )}
         </Pressable>
         <View style={styles.panelMeta}>

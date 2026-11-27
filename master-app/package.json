@@ -1,6 +1,8 @@
 {
   "dependencies": {
     "@expo/metro-runtime": "~58.0.17",
+    "@hugeicons/core-free-icons": "^4.4.0",
+    "@hugeicons/react-native": "^1.0.17",
     "@react-native-community/blur": "^4.4.1",
     "babel-preset-expo": "~58.0.0",
     "expo": "~58.0.26",
@@ -8,8 +10,7 @@
     "expo-clipboard": "~58.0.0",
     "expo-router": "~58.0.32",
     "expo-status-bar": "~58.0.5",
-    "glacia-native": "^0.6.6",
-    "lucide-react-native": "^1.80.0",
+    "glacia-native": "^0.6.7",
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "react-native": "0.88.1",

@@ -2,8 +2,11 @@ import React, { type ReactNode } from "react";
 import { StyleSheet, View } from "react-native";
 import type { BottomTabBarProps } from "expo-router/build/layouts/Tabs";
 import { TabBar } from "glacia-native";
-import { Bookmark, Newspaper, Sparkles, User } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import Bookmark01Icon from "@hugeicons/core-free-icons/Bookmark01Icon";
+import NewspaperIcon from "@hugeicons/core-free-icons/NewspaperIcon";
+import SparklesIcon from "@hugeicons/core-free-icons/SparklesIcon";
+import UserIcon from "@hugeicons/core-free-icons/UserIcon";
 import { useSignal } from "./state";
 
 /** Route name -> tab label for the four main tabs. */
@@ -18,10 +21,10 @@ const LABELS: Record<string, string> = {
  *  calls icon({ focused, color, size }), so the colour and size it
  *  resolves (accent when focused, muted when not) flow straight in. */
 const ICONS: Record<string, (state: { color: string; size: number }) => ReactNode> = {
-  index: ({ color, size }) => <Newspaper color={color} size={size} />,
-  'for-you': ({ color, size }) => <Sparkles color={color} size={size} />,
-  bookmarks: ({ color, size }) => <Bookmark color={color} size={size} />,
-  profile: ({ color, size }) => <User color={color} size={size} />,
+  index: ({ color, size }) => <HugeiconsIcon icon={NewspaperIcon} color={color} size={size} />,
+  'for-you': ({ color, size }) => <HugeiconsIcon icon={SparklesIcon} color={color} size={size} />,
+  bookmarks: ({ color, size }) => <HugeiconsIcon icon={Bookmark01Icon} color={color} size={size} />,
+  profile: ({ color, size }) => <HugeiconsIcon icon={UserIcon} color={color} size={size} />,
 };
 
 /**

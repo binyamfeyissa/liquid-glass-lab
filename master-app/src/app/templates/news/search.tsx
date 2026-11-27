@@ -5,8 +5,8 @@ import {
   colors,
   Chip, IconButton, Input
 } from "glacia-native";
-import { ArrowLeft } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import ArrowLeft01Icon from "@hugeicons/core-free-icons/ArrowLeft01Icon";
 import { ARTICLES, TOPICS } from "./data";
 import { useSignal } from "./state";
 import {
@@ -52,7 +52,7 @@ export default function SearchScreen() {
           accessibilityLabel="Back"
           isDark={darkMode}
           onPress={() => router.back()}
-          icon={<ArrowLeft size={20} color={darkMode ? colors.dark.foreground : colors.light.foreground} />}
+          icon={<HugeiconsIcon icon={ArrowLeft01Icon} size={20} color={darkMode ? colors.dark.foreground : colors.light.foreground} />}
         />
         <Headline variant="title">Search</Headline>
       </View>

@@ -7,8 +7,8 @@ import React, {
 import { ScrollView, StyleSheet, View } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import { Badge, Button, Card, Progress } from "glacia-native";
-import { Check } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import Tick01Icon from "@hugeicons/core-free-icons/Tick01Icon";
 import { completionShare, useFit, type LogResult } from "../state";
 import { totalSets, workoutById } from "../data";
 import { Figure, T, WorkoutTile, accentColor } from "../ui";
@@ -134,7 +134,7 @@ export default function PlayerScreen() {
               },
             ]}
           >
-            <Check size={28} color={accentColor(fit.darkMode)} />
+            <HugeiconsIcon icon={Tick01Icon} size={28} color={accentColor(fit.darkMode)} />
           </View>
           <T variant="title" style={styles.centerText}>
             Workout complete

@@ -9,8 +9,8 @@ import {
   IconButton,
   Input,
 } from "glacia-native";
-import { Heart } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import FavouriteIcon from "@hugeicons/core-free-icons/FavouriteIcon";
 import { useSocial, type Comment } from "../state";
 import {
   Figure,
@@ -48,7 +48,7 @@ function CommentRow({ comment }: { comment: Comment }) {
             isDark={social.darkMode}
             size="sm"
             icon={
-              <Heart
+              <HugeiconsIcon icon={FavouriteIcon}
                 size={16}
                 color={liked ? accentColor(social.backdrop) : social.darkMode ? colors.dark.foreground : colors.light.foreground}
                 fill={liked ? accentColor(social.backdrop) : "transparent"}

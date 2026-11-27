@@ -2,8 +2,8 @@ import React from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { router } from "expo-router";
 import { colors, Button, IconButton, Progress } from "glacia-native";
-import { ChevronLeft } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import ChevronLeftIcon from "@hugeicons/core-free-icons/ChevronLeftIcon";
 import { FREE_DELIVERY_THRESHOLD, productById } from "./data";
 import { useBasket } from "./state";
 import {
@@ -40,7 +40,7 @@ export default function CartScreen() {
           accessibilityLabel="Back"
           onPress={() => router.back()}
           isDark={basket.darkMode}
-          icon={<ChevronLeft size={20} color={colors[basket.darkMode ? "dark" : "light"].foreground} />}
+          icon={<HugeiconsIcon icon={ChevronLeftIcon} size={20} color={colors[basket.darkMode ? "dark" : "light"].foreground} />}
         />
         <View style={styles.flex}>
           <T variant="title">Your cart</T>

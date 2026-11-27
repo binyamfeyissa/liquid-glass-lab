@@ -2,8 +2,12 @@ import React, { type ReactNode } from "react";
 import { StyleSheet, View } from "react-native";
 import type { BottomTabBarProps } from "expo-router/build/layouts/Tabs";
 import { TabBar } from "glacia-native";
-import { Activity, CalendarDays, Dumbbell, Target, User } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import Activity01Icon from "@hugeicons/core-free-icons/Activity01Icon";
+import Calendar01Icon from "@hugeicons/core-free-icons/Calendar01Icon";
+import Dumbbell01Icon from "@hugeicons/core-free-icons/Dumbbell01Icon";
+import Target01Icon from "@hugeicons/core-free-icons/Target01Icon";
+import UserIcon from "@hugeicons/core-free-icons/UserIcon";
 import { useFit } from "./state";
 
 /** Route name -> tab label for the five main tabs. */
@@ -19,11 +23,11 @@ const LABELS: Record<string, string> = {
  *  calls icon({ focused, color, size }), so the colour and size it
  *  resolves (accent when focused, muted when not) flow straight in. */
 const ICONS: Record<string, (state: { color: string; size: number }) => ReactNode> = {
-  index: ({ color, size }) => <CalendarDays color={color} size={size} />,
-  workouts: ({ color, size }) => <Dumbbell color={color} size={size} />,
-  activity: ({ color, size }) => <Activity color={color} size={size} />,
-  goals: ({ color, size }) => <Target color={color} size={size} />,
-  profile: ({ color, size }) => <User color={color} size={size} />,
+  index: ({ color, size }) => <HugeiconsIcon icon={Calendar01Icon} color={color} size={size} />,
+  workouts: ({ color, size }) => <HugeiconsIcon icon={Dumbbell01Icon} color={color} size={size} />,
+  activity: ({ color, size }) => <HugeiconsIcon icon={Activity01Icon} color={color} size={size} />,
+  goals: ({ color, size }) => <HugeiconsIcon icon={Target01Icon} color={color} size={size} />,
+  profile: ({ color, size }) => <HugeiconsIcon icon={UserIcon} color={color} size={size} />,
 };
 
 /**

@@ -5,8 +5,15 @@ import {
   colors,
   Button, IconButton, Slider
 } from "glacia-native";
-import { Heart, List, Pause, Play, Repeat, Shuffle, SkipBack, SkipForward } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import FavouriteIcon from "@hugeicons/core-free-icons/FavouriteIcon";
+import ListIcon from "@hugeicons/core-free-icons/ListIcon";
+import PauseIcon from "@hugeicons/core-free-icons/PauseIcon";
+import PlayIcon from "@hugeicons/core-free-icons/PlayIcon";
+import RepeatIcon from "@hugeicons/core-free-icons/RepeatIcon";
+import ShuffleIcon from "@hugeicons/core-free-icons/ShuffleIcon";
+import SkipBackIcon from "@hugeicons/core-free-icons/SkipBackIcon";
+import SkipForwardIcon from "@hugeicons/core-free-icons/SkipForwardIcon";
 import { artistOf, formatTime, trackById } from "./data";
 import { useTunes } from "./state";
 import { Artwork, Figure, Serif, T, accentColor } from "./ui";
@@ -74,7 +81,7 @@ export default function PlayerScreen() {
           accessibilityLabel="View queue"
           onPress={() => router.push("/templates/tunes/queue")}
           isDark={darkMode}
-          icon={<List size={18} color={darkMode ? colors.dark.foreground : colors.light.foreground} />}
+          icon={<HugeiconsIcon icon={ListIcon} size={18} color={darkMode ? colors.dark.foreground : colors.light.foreground} />}
         />
       </View>
 
@@ -106,7 +113,7 @@ export default function PlayerScreen() {
           size="lg"
           tint={liked ? accent : undefined}
           icon={
-            <Heart
+            <HugeiconsIcon icon={FavouriteIcon}
               size={20}
               color={liked ? accent : darkMode ? colors.dark.foreground : colors.light.foreground}
               fill={liked ? accent : "transparent"}
@@ -143,7 +150,7 @@ export default function PlayerScreen() {
           isDark={darkMode}
           tint={tunes.shuffle ? accent : undefined}
           icon={
-            <Shuffle
+            <HugeiconsIcon icon={ShuffleIcon}
               size={18}
               color={tunes.shuffle ? accent : darkMode ? colors.dark.foreground : colors.light.foreground}
             />
@@ -154,7 +161,7 @@ export default function PlayerScreen() {
           onPress={tunes.prev}
           isDark={darkMode}
           size="lg"
-          icon={<SkipBack size={20} color={darkMode ? colors.dark.foreground : colors.light.foreground} />}
+          icon={<HugeiconsIcon icon={SkipBackIcon} size={20} color={darkMode ? colors.dark.foreground : colors.light.foreground} />}
         />
         <Button
           accessibilityLabel={tunes.isPlaying ? "Pause" : "Play"}
@@ -166,9 +173,9 @@ export default function PlayerScreen() {
           style={styles.playButton}
         >
           {tunes.isPlaying ? (
-            <Pause size={24} color="#ffffff" />
+            <HugeiconsIcon icon={PauseIcon} size={24} color="#ffffff" />
           ) : (
-            <Play size={24} color="#ffffff" />
+            <HugeiconsIcon icon={PlayIcon} size={24} color="#ffffff" />
           )}
         </Button>
         <IconButton
@@ -176,7 +183,7 @@ export default function PlayerScreen() {
           onPress={() => tunes.next(true)}
           isDark={darkMode}
           size="lg"
-          icon={<SkipForward size={20} color={darkMode ? colors.dark.foreground : colors.light.foreground} />}
+          icon={<HugeiconsIcon icon={SkipForwardIcon} size={20} color={darkMode ? colors.dark.foreground : colors.light.foreground} />}
         />
         <IconButton
           accessibilityLabel={
@@ -191,7 +198,7 @@ export default function PlayerScreen() {
           tint={tunes.repeat !== "off" ? accent : undefined}
           icon={
             <View style={styles.repeatIcon}>
-              <Repeat
+              <HugeiconsIcon icon={RepeatIcon}
                 size={18}
                 color={tunes.repeat !== "off" ? accent : darkMode ? colors.dark.foreground : colors.light.foreground}
               />

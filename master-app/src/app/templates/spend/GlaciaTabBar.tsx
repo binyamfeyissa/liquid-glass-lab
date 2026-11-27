@@ -2,8 +2,12 @@ import React, { type ReactNode } from "react";
 import { StyleSheet, View } from "react-native";
 import type { BottomTabBarProps } from "expo-router/build/layouts/Tabs";
 import { TabBar } from "glacia-native";
-import { History, Home, TrendingUp, User, Wallet } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import HistoryIcon from "@hugeicons/core-free-icons/HistoryIcon";
+import Home01Icon from "@hugeicons/core-free-icons/Home01Icon";
+import TrendingUpIcon from "@hugeicons/core-free-icons/TrendingUpIcon";
+import UserIcon from "@hugeicons/core-free-icons/UserIcon";
+import Wallet01Icon from "@hugeicons/core-free-icons/Wallet01Icon";
 import { useTally } from "./state";
 
 /** Route name -> tab label for the five main tabs. */
@@ -19,11 +23,11 @@ const LABELS: Record<string, string> = {
  *  calls icon({ focused, color, size }), so the colour and size it
  *  resolves (accent when focused, muted when not) flow straight in. */
 const ICONS: Record<string, (state: { color: string; size: number }) => ReactNode> = {
-  index: ({ color, size }) => <Home color={color} size={size} />,
-  history: ({ color, size }) => <History color={color} size={size} />,
-  budgets: ({ color, size }) => <Wallet color={color} size={size} />,
-  insights: ({ color, size }) => <TrendingUp color={color} size={size} />,
-  profile: ({ color, size }) => <User color={color} size={size} />,
+  index: ({ color, size }) => <HugeiconsIcon icon={Home01Icon} color={color} size={size} />,
+  history: ({ color, size }) => <HugeiconsIcon icon={HistoryIcon} color={color} size={size} />,
+  budgets: ({ color, size }) => <HugeiconsIcon icon={Wallet01Icon} color={color} size={size} />,
+  insights: ({ color, size }) => <HugeiconsIcon icon={TrendingUpIcon} color={color} size={size} />,
+  profile: ({ color, size }) => <HugeiconsIcon icon={UserIcon} color={color} size={size} />,
 };
 
 /**

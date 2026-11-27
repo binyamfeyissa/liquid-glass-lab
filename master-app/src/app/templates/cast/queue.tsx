@@ -2,8 +2,9 @@ import React from "react";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { useRouter } from "expo-router";
 import { colors, Button, Card, IconButton } from "glacia-native";
-import { ChevronLeft, X } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import Cancel01Icon from "@hugeicons/core-free-icons/Cancel01Icon";
+import ChevronLeftIcon from "@hugeicons/core-free-icons/ChevronLeftIcon";
 import { episodeById, formatDuration, showById } from "./data";
 import { useCast } from "./state";
 import { Artwork, Figure, ListCard, SectionTitle, T, accentColor } from "./ui";
@@ -34,7 +35,7 @@ export default function QueueScreen() {
           accessibilityLabel="Back"
           onPress={() => router.back()}
           isDark={darkMode}
-          icon={<ChevronLeft size={20} color={colors[darkMode ? "dark" : "light"].foreground} />}
+          icon={<HugeiconsIcon icon={ChevronLeftIcon} size={20} color={colors[darkMode ? "dark" : "light"].foreground} />}
         />
         <T variant="title">Up next</T>
       </View>
@@ -120,7 +121,7 @@ export default function QueueScreen() {
                         onPress={() => cast.removeFromQueue(episode.id)}
                         isDark={darkMode}
                         size="sm"
-                        icon={<X size={16} color={colors[darkMode ? "dark" : "light"].foreground} />}
+                        icon={<HugeiconsIcon icon={Cancel01Icon} size={16} color={colors[darkMode ? "dark" : "light"].foreground} />}
                       />
                     </Pressable>
                   </View>

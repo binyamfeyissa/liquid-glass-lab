@@ -10,8 +10,8 @@ import {
   type ViewStyle,
 } from "react-native";
 import { colors, Avatar, Badge, Card, SegmentedControl, Separator, Text, type TextProps } from "glacia-native";
-import { ChevronRight } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import ChevronRightIcon from "@hugeicons/core-free-icons/ChevronRightIcon";
 import { RECIPIENTS, useBank, type Account, type BackdropMode, type Transaction } from "./state";
 
 /* ------------------------------------------------------------------ */
@@ -276,7 +276,7 @@ export function NavRow({
           {detail}
         </T>
       ) : null}
-      <ChevronRight size={20} color={colors[darkMode ? "dark" : "light"].muted} />
+      <HugeiconsIcon icon={ChevronRightIcon} size={20} color={colors[darkMode ? "dark" : "light"].muted} />
     </Pressable>
   );
 }
@@ -344,7 +344,7 @@ export function AccountRow({
         signed={false}
         style={styles.accountRowBalance}
       />
-      <ChevronRight size={20} color={colors[darkMode ? "dark" : "light"].muted} />
+      <HugeiconsIcon icon={ChevronRightIcon} size={20} color={colors[darkMode ? "dark" : "light"].muted} />
     </Pressable>
   );
 }

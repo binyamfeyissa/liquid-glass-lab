@@ -3,8 +3,13 @@ import { Pressable, StyleSheet, View } from "react-native";
 import { useRouter } from "expo-router";
 import type { BottomTabBarProps } from "expo-router/build/layouts/Tabs";
 import { colors, IconButton, Progress, TabBar } from "glacia-native";
-import { Compass, Home, Library, Pause, Play, User } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import CompassIcon from "@hugeicons/core-free-icons/CompassIcon";
+import Home01Icon from "@hugeicons/core-free-icons/Home01Icon";
+import LibraryIcon from "@hugeicons/core-free-icons/LibraryIcon";
+import PauseIcon from "@hugeicons/core-free-icons/PauseIcon";
+import PlayIcon from "@hugeicons/core-free-icons/PlayIcon";
+import UserIcon from "@hugeicons/core-free-icons/UserIcon";
 import { episodeById, showById } from "./data";
 import { useCast } from "./state";
 import { Artwork, T } from "./ui";
@@ -21,10 +26,10 @@ const LABELS: Record<string, string> = {
  *  calls icon({ focused, color, size }), so the colour and size it
  *  resolves (accent when focused, muted when not) flow straight in. */
 const ICONS: Record<string, (state: { color: string; size: number }) => ReactNode> = {
-  index: ({ color, size }) => <Home color={color} size={size} />,
-  discover: ({ color, size }) => <Compass color={color} size={size} />,
-  library: ({ color, size }) => <Library color={color} size={size} />,
-  profile: ({ color, size }) => <User color={color} size={size} />,
+  index: ({ color, size }) => <HugeiconsIcon icon={Home01Icon} color={color} size={size} />,
+  discover: ({ color, size }) => <HugeiconsIcon icon={CompassIcon} color={color} size={size} />,
+  library: ({ color, size }) => <HugeiconsIcon icon={LibraryIcon} color={color} size={size} />,
+  profile: ({ color, size }) => <HugeiconsIcon icon={UserIcon} color={color} size={size} />,
 };
 
 /**
@@ -68,7 +73,7 @@ function MiniPlayer() {
         accessibilityLabel={cast.isPlaying ? "Pause" : "Play"}
         onPress={cast.togglePlay}
         isDark={cast.darkMode}
-        icon={cast.isPlaying ? <Pause size={16} color={colors[cast.darkMode ? "dark" : "light"].foreground} /> : <Play size={16} color={colors[cast.darkMode ? "dark" : "light"].foreground} />}
+        icon={cast.isPlaying ? <HugeiconsIcon icon={PauseIcon} size={16} color={colors[cast.darkMode ? "dark" : "light"].foreground} /> : <HugeiconsIcon icon={PlayIcon} size={16} color={colors[cast.darkMode ? "dark" : "light"].foreground} />}
       />
     </Pressable>
   );

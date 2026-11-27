@@ -2,8 +2,8 @@ import React, { useMemo, useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { router } from "expo-router";
 import { Badge, Button, Field, Input, RadioGroup } from "glacia-native";
-import { Check } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import Tick01Icon from "@hugeicons/core-free-icons/Tick01Icon";
 import { useShop, type Address, type Order } from "./state";
 import { productById } from "./data";
 import {
@@ -96,7 +96,7 @@ export default function CheckoutScreen() {
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.success}>
-          <Check size={36} color={accentColor(shop.backdrop)} />
+          <HugeiconsIcon icon={Tick01Icon} size={36} color={accentColor(shop.backdrop)} />
           <T variant="title">Order placed</T>
           <Badge tone="muted" isDark={shop.darkMode}>
             {placed.number}

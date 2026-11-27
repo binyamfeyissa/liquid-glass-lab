@@ -5,8 +5,8 @@ import {
   colors,
   Avatar, Chip, Field, Input
 } from "glacia-native";
-import { ChevronRight } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import ChevronRightIcon from "@hugeicons/core-free-icons/ChevronRightIcon";
 import { ME_ID, useSocial } from "../state";
 import { PostCard, SectionTitle, T, pressedFill } from "../ui";
 
@@ -107,7 +107,7 @@ export default function ExploreScreen() {
                     {user.handle} · {user.bio}
                   </T>
                 </View>
-                <ChevronRight size={18} color={social.darkMode ? colors.dark.muted : colors.light.muted} />
+                <HugeiconsIcon icon={ChevronRightIcon} size={18} color={social.darkMode ? colors.dark.muted : colors.light.muted} />
               </Pressable>
             ))}
           </View>

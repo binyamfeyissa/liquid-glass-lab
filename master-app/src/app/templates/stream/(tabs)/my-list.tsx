@@ -5,8 +5,10 @@ import {
   colors,
   Button, IconButton, Progress
 } from "glacia-native";
-import { Check, Download, X } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import Cancel01Icon from "@hugeicons/core-free-icons/Cancel01Icon";
+import Download01Icon from "@hugeicons/core-free-icons/Download01Icon";
+import Tick01Icon from "@hugeicons/core-free-icons/Tick01Icon";
 import {
   TITLES,
   formatSize,
@@ -52,11 +54,11 @@ function DownloadButton({ title }: { title: Title }) {
       isDark={stream.darkMode}
       icon={
         !entry ? (
-          <Download size={18} color={stream.darkMode ? colors.dark.foreground : colors.light.foreground} />
+          <HugeiconsIcon icon={Download01Icon} size={18} color={stream.darkMode ? colors.dark.foreground : colors.light.foreground} />
         ) : entry.status === "downloading" ? (
           <Figure variant="caption">{entry.pct}%</Figure>
         ) : (
-          <Check size={18} color={stream.darkMode ? colors.dark.foreground : colors.light.foreground} />
+          <HugeiconsIcon icon={Tick01Icon} size={18} color={stream.darkMode ? colors.dark.foreground : colors.light.foreground} />
         )
       }
     />
@@ -97,7 +99,7 @@ export default function MyListScreen() {
                         accessibilityLabel={`Remove ${title.name} from My List`}
                         onPress={() => stream.toggleMyList(title.id)}
                         isDark={darkMode}
-                        icon={<X size={18} color={darkMode ? colors.dark.foreground : colors.light.foreground} />}
+                        icon={<HugeiconsIcon icon={Cancel01Icon} size={18} color={darkMode ? colors.dark.foreground : colors.light.foreground} />}
                       />
                     </View>
                   }
@@ -183,7 +185,7 @@ export default function MyListScreen() {
                     }
                     onPress={() => stream.removeDownload(playableId)}
                     isDark={darkMode}
-                    icon={<X size={18} color={darkMode ? colors.dark.foreground : colors.light.foreground} />}
+                    icon={<HugeiconsIcon icon={Cancel01Icon} size={18} color={darkMode ? colors.dark.foreground : colors.light.foreground} />}
                   />
                 </View>
               </View>

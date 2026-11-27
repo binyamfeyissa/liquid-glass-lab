@@ -2,8 +2,11 @@ import React, { type ReactNode } from "react";
 import { StyleSheet, View } from "react-native";
 import type { BottomTabBarProps } from "expo-router/build/layouts/Tabs";
 import { TabBar } from "glacia-native";
-import { Compass, Heart, User, Users } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import CompassIcon from "@hugeicons/core-free-icons/CompassIcon";
+import FavouriteIcon from "@hugeicons/core-free-icons/FavouriteIcon";
+import UserGroupIcon from "@hugeicons/core-free-icons/UserGroupIcon";
+import UserIcon from "@hugeicons/core-free-icons/UserIcon";
 import { useKindred } from "./state";
 
 /** Route name -> tab label for the four main tabs. */
@@ -18,10 +21,10 @@ const LABELS: Record<string, string> = {
  *  calls icon({ focused, color, size }), so the colour and size it
  *  resolves (accent when focused, muted when not) flow straight in. */
 const ICONS: Record<string, (state: { color: string; size: number }) => ReactNode> = {
-  index: ({ color, size }) => <Compass color={color} size={size} />,
-  matches: ({ color, size }) => <Users color={color} size={size} />,
-  likes: ({ color, size }) => <Heart color={color} size={size} />,
-  profile: ({ color, size }) => <User color={color} size={size} />,
+  index: ({ color, size }) => <HugeiconsIcon icon={CompassIcon} color={color} size={size} />,
+  matches: ({ color, size }) => <HugeiconsIcon icon={UserGroupIcon} color={color} size={size} />,
+  likes: ({ color, size }) => <HugeiconsIcon icon={FavouriteIcon} color={color} size={size} />,
+  profile: ({ color, size }) => <HugeiconsIcon icon={UserIcon} color={color} size={size} />,
 };
 
 /**

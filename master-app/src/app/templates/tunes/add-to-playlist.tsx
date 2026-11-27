@@ -5,8 +5,10 @@ import {
   colors,
   Button, IconButton
 } from "glacia-native";
-import { Check, ChevronLeft, Plus } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import Add01Icon from "@hugeicons/core-free-icons/Add01Icon";
+import ChevronLeftIcon from "@hugeicons/core-free-icons/ChevronLeftIcon";
+import Tick01Icon from "@hugeicons/core-free-icons/Tick01Icon";
 import { artistOf, trackById } from "./data";
 import { useTunes } from "./state";
 import {
@@ -61,7 +63,7 @@ export default function AddToPlaylistScreen() {
           accessibilityLabel="Back"
           onPress={() => router.back()}
           isDark={darkMode}
-          icon={<ChevronLeft size={20} color={darkMode ? colors.dark.foreground : colors.light.foreground} />}
+          icon={<HugeiconsIcon icon={ChevronLeftIcon} size={20} color={darkMode ? colors.dark.foreground : colors.light.foreground} />}
         />
       </View>
       <T variant="title">Add to playlist</T>
@@ -102,9 +104,9 @@ export default function AddToPlaylistScreen() {
                   </T>
                 </View>
                 {included ? (
-                  <Check size={18} color={accent} />
+                  <HugeiconsIcon icon={Tick01Icon} size={18} color={accent} />
                 ) : (
-                  <Plus size={18} color={darkMode ? colors.dark.muted : colors.light.muted} />
+                  <HugeiconsIcon icon={Add01Icon} size={18} color={darkMode ? colors.dark.muted : colors.light.muted} />
                 )}
               </Pressable>
             </View>

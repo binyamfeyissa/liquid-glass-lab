@@ -2,8 +2,8 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import { Button, Card } from "glacia-native";
-import { X } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import Cancel01Icon from "@hugeicons/core-free-icons/Cancel01Icon";
 import { STAGES, useJobs, type ApplicationStatus } from "../state";
 import {
   CompanyTile,
@@ -143,7 +143,7 @@ export default function ApplicationDetailScreen() {
               <View style={styles.stepRow}>
                 <View style={styles.stepRail}>
                   <View style={[styles.dot, { backgroundColor: chrome.neg }]}>
-                    <X size={12} color={onAccent} />
+                    <HugeiconsIcon icon={Cancel01Icon} size={12} color={onAccent} />
                   </View>
                 </View>
                 <View style={styles.stepText}>

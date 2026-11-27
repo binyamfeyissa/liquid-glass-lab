@@ -2,8 +2,13 @@ import React, { type ReactNode } from "react";
 import { StyleSheet, View } from "react-native";
 import type { BottomTabBarProps } from "expo-router/build/layouts/Tabs";
 import { TabBar } from "glacia-native";
-import { Bell, Info, Palette, PenLine, Shield, User } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import InformationCircleIcon from "@hugeicons/core-free-icons/InformationCircleIcon";
+import Notification01Icon from "@hugeicons/core-free-icons/Notification01Icon";
+import PaintBoardIcon from "@hugeicons/core-free-icons/PaintBoardIcon";
+import Pen01Icon from "@hugeicons/core-free-icons/Pen01Icon";
+import Shield01Icon from "@hugeicons/core-free-icons/Shield01Icon";
+import UserIcon from "@hugeicons/core-free-icons/UserIcon";
 import { useAppState } from "./state";
 
 /** Route name -> tab label. The six screens of the template. */
@@ -20,12 +25,12 @@ const LABELS: Record<string, string> = {
  *  calls icon({ focused, color, size }), so the colour and size it
  *  resolves (accent when focused, muted when not) flow straight in. */
 const ICONS: Record<string, (state: { color: string; size: number }) => ReactNode> = {
-  index: ({ color, size }) => <User color={color} size={size} />,
-  edit: ({ color, size }) => <PenLine color={color} size={size} />,
-  notifications: ({ color, size }) => <Bell color={color} size={size} />,
-  appearance: ({ color, size }) => <Palette color={color} size={size} />,
-  privacy: ({ color, size }) => <Shield color={color} size={size} />,
-  about: ({ color, size }) => <Info color={color} size={size} />,
+  index: ({ color, size }) => <HugeiconsIcon icon={UserIcon} color={color} size={size} />,
+  edit: ({ color, size }) => <HugeiconsIcon icon={Pen01Icon} color={color} size={size} />,
+  notifications: ({ color, size }) => <HugeiconsIcon icon={Notification01Icon} color={color} size={size} />,
+  appearance: ({ color, size }) => <HugeiconsIcon icon={PaintBoardIcon} color={color} size={size} />,
+  privacy: ({ color, size }) => <HugeiconsIcon icon={Shield01Icon} color={color} size={size} />,
+  about: ({ color, size }) => <HugeiconsIcon icon={InformationCircleIcon} color={color} size={size} />,
 };
 
 /**

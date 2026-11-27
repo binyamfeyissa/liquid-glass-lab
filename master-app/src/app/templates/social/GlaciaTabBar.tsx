@@ -2,8 +2,12 @@ import React, { type ReactNode } from "react";
 import { StyleSheet, View } from "react-native";
 import type { BottomTabBarProps } from "expo-router/build/layouts/Tabs";
 import { TabBar } from "glacia-native";
-import { Bell, Compass, Home, Plus, User } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import Add01Icon from "@hugeicons/core-free-icons/Add01Icon";
+import CompassIcon from "@hugeicons/core-free-icons/CompassIcon";
+import Home01Icon from "@hugeicons/core-free-icons/Home01Icon";
+import Notification01Icon from "@hugeicons/core-free-icons/Notification01Icon";
+import UserIcon from "@hugeicons/core-free-icons/UserIcon";
 import { useSocial } from "./state";
 import { accentColor } from "./ui";
 
@@ -22,10 +26,10 @@ const LABELS: Record<string, string> = {
  *  The Activity tab wears a real unread badge — a dot over the bell —
  *  instead of the old "Activity \u2022" text badge. */
 const ICONS: Record<string, (state: { color: string; size: number }) => ReactNode> = {
-  index: ({ color, size }) => <Home color={color} size={size} />,
-  explore: ({ color, size }) => <Compass color={color} size={size} />,
-  create: ({ color, size }) => <Plus color={color} size={size} />,
-  profile: ({ color, size }) => <User color={color} size={size} />,
+  index: ({ color, size }) => <HugeiconsIcon icon={Home01Icon} color={color} size={size} />,
+  explore: ({ color, size }) => <HugeiconsIcon icon={CompassIcon} color={color} size={size} />,
+  create: ({ color, size }) => <HugeiconsIcon icon={Add01Icon} color={color} size={size} />,
+  profile: ({ color, size }) => <HugeiconsIcon icon={UserIcon} color={color} size={size} />,
 };
 
 /**
@@ -41,7 +45,7 @@ export function GlaciaTabBar({ state, emitter, navigateToTab, insets }: BottomTa
     ...ICONS,
     notifications: ({ color, size }) => (
       <View>
-        <Bell color={color} size={size} />
+        <HugeiconsIcon icon={Notification01Icon} color={color} size={size} />
         {unreadNotifications > 0 ? (
           <View
             style={[styles.unreadDot, { backgroundColor: accentColor(backdrop) }]}

@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { router } from "expo-router";
 import { colors, Badge, Button, Field, Input } from "glacia-native";
-import { ChevronRight } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import ChevronRightIcon from "@hugeicons/core-free-icons/ChevronRightIcon";
 import { useFood } from "./state";
 import {
   BackButton,
@@ -73,7 +73,7 @@ export default function CartScreen() {
                       {restaurant.cuisine} · {restaurant.eta}
                     </T>
                   </View>
-                  <ChevronRight size={20} color={colors[food.darkMode ? "dark" : "light"].muted} />
+                  <HugeiconsIcon icon={ChevronRightIcon} size={20} color={colors[food.darkMode ? "dark" : "light"].muted} />
                 </View>
               </ListCard>
             </Pressable>

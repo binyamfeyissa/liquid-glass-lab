@@ -5,8 +5,8 @@ import {
   colors,
   IconButton
 } from "glacia-native";
-import { ChevronLeft } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import ChevronLeftIcon from "@hugeicons/core-free-icons/ChevronLeftIcon";
 import { artistOf, formatTime, trackById } from "./data";
 import { useTunes } from "./state";
 import {
@@ -42,7 +42,7 @@ export default function QueueScreen() {
           accessibilityLabel="Back"
           onPress={() => router.back()}
           isDark={darkMode}
-          icon={<ChevronLeft size={20} color={darkMode ? colors.dark.foreground : colors.light.foreground} />}
+          icon={<HugeiconsIcon icon={ChevronLeftIcon} size={20} color={darkMode ? colors.dark.foreground : colors.light.foreground} />}
         />
       </View>
       <T variant="title">Queue</T>

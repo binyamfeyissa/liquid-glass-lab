@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { router } from "expo-router";
 import { Button, Progress } from "glacia-native";
-import { Check } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import Tick01Icon from "@hugeicons/core-free-icons/Tick01Icon";
 import { ORDER_STEPS, useFood } from "./state";
 import {
   ListCard,
@@ -107,7 +107,7 @@ export default function TrackingScreen() {
                     ]}
                   >
                     {done || (delivered && current) ? (
-                      <Check size={16} color="#FFFFFF" />
+                      <HugeiconsIcon icon={Tick01Icon} size={16} color="#FFFFFF" />
                     ) : (
                       <T
                         variant="body"

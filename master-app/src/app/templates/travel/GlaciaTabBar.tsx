@@ -2,8 +2,12 @@ import React, { type ReactNode } from "react";
 import { StyleSheet, View } from "react-native";
 import type { BottomTabBarProps } from "expo-router/build/layouts/Tabs";
 import { TabBar } from "glacia-native";
-import { Compass, Heart, MessageCircle, Plane, User } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import CompassIcon from "@hugeicons/core-free-icons/CompassIcon";
+import FavouriteIcon from "@hugeicons/core-free-icons/FavouriteIcon";
+import Message01Icon from "@hugeicons/core-free-icons/Message01Icon";
+import PlaneIcon from "@hugeicons/core-free-icons/PlaneIcon";
+import UserIcon from "@hugeicons/core-free-icons/UserIcon";
 import { useTravel } from "./state";
 
 /** Route name -> tab label for the five main tabs. */
@@ -19,11 +23,11 @@ const LABELS: Record<string, string> = {
  *  calls icon({ focused, color, size }), so the colour and size it
  *  resolves (accent when focused, muted when not) flow straight in. */
 const ICONS: Record<string, (state: { color: string; size: number }) => ReactNode> = {
-  index: ({ color, size }) => <Compass color={color} size={size} />,
-  trips: ({ color, size }) => <Plane color={color} size={size} />,
-  saved: ({ color, size }) => <Heart color={color} size={size} />,
-  messages: ({ color, size }) => <MessageCircle color={color} size={size} />,
-  profile: ({ color, size }) => <User color={color} size={size} />,
+  index: ({ color, size }) => <HugeiconsIcon icon={CompassIcon} color={color} size={size} />,
+  trips: ({ color, size }) => <HugeiconsIcon icon={PlaneIcon} color={color} size={size} />,
+  saved: ({ color, size }) => <HugeiconsIcon icon={FavouriteIcon} color={color} size={size} />,
+  messages: ({ color, size }) => <HugeiconsIcon icon={Message01Icon} color={color} size={size} />,
+  profile: ({ color, size }) => <HugeiconsIcon icon={UserIcon} color={color} size={size} />,
 };
 
 /**

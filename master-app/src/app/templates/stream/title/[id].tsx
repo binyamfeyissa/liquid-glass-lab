@@ -5,8 +5,11 @@ import {
   colors,
   Badge, Button, IconButton, Progress, Select
 } from "glacia-native";
-import { Check, ChevronLeft, Download, Play } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import ChevronLeftIcon from "@hugeicons/core-free-icons/ChevronLeftIcon";
+import Download01Icon from "@hugeicons/core-free-icons/Download01Icon";
+import PlayIcon from "@hugeicons/core-free-icons/PlayIcon";
+import Tick01Icon from "@hugeicons/core-free-icons/Tick01Icon";
 import {
   formatRuntime,
   formatSize,
@@ -72,7 +75,7 @@ function EpisodeRow({
             </View>
           ) : null}
         </View>
-        <Play size={15} color={darkMode ? colors.dark.foreground : colors.light.foreground} />
+        <HugeiconsIcon icon={PlayIcon} size={15} color={darkMode ? colors.dark.foreground : colors.light.foreground} />
       </Pressable>
       <IconButton
         accessibilityLabel={
@@ -90,11 +93,11 @@ function EpisodeRow({
         isDark={darkMode}
         icon={
           !download ? (
-            <Download size={18} color={darkMode ? colors.dark.foreground : colors.light.foreground} />
+            <HugeiconsIcon icon={Download01Icon} size={18} color={darkMode ? colors.dark.foreground : colors.light.foreground} />
           ) : download.status === "downloading" ? (
             <Figure variant="caption">{download.pct}%</Figure>
           ) : (
-            <Check size={18} color={darkMode ? colors.dark.foreground : colors.light.foreground} />
+            <HugeiconsIcon icon={Tick01Icon} size={18} color={darkMode ? colors.dark.foreground : colors.light.foreground} />
           )
         }
       />
@@ -132,7 +135,7 @@ export default function TitleScreen() {
           accessibilityLabel="Back"
           onPress={() => router.back()}
           isDark={darkMode}
-          icon={<ChevronLeft size={20} color={darkMode ? colors.dark.foreground : colors.light.foreground} />}
+          icon={<HugeiconsIcon icon={ChevronLeftIcon} size={20} color={darkMode ? colors.dark.foreground : colors.light.foreground} />}
         />
         <T variant="caption" muted>
           {title.kind === "movie" ? "Film" : "Series"} · {title.genres.join(" · ")}

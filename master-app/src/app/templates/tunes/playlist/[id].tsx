@@ -5,8 +5,9 @@ import {
   colors,
   Button, IconButton
 } from "glacia-native";
-import { ChevronLeft, X } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import Cancel01Icon from "@hugeicons/core-free-icons/Cancel01Icon";
+import ChevronLeftIcon from "@hugeicons/core-free-icons/ChevronLeftIcon";
 import { formatLongDuration, trackById } from "../data";
 import { LIKED_SONGS_IMAGE } from "../data";
 import { LIKED_PLAYLIST_ID, useTunes, type Playlist } from "../state";
@@ -71,7 +72,7 @@ export default function PlaylistScreen() {
           accessibilityLabel="Back"
           onPress={() => router.back()}
           isDark={darkMode}
-          icon={<ChevronLeft size={20} color={darkMode ? colors.dark.foreground : colors.light.foreground} />}
+          icon={<HugeiconsIcon icon={ChevronLeftIcon} size={20} color={darkMode ? colors.dark.foreground : colors.light.foreground} />}
         />
       </View>
 
@@ -126,7 +127,7 @@ export default function PlaylistScreen() {
                   isDark={darkMode}
                   size="sm"
                   icon={
-                    <X
+                    <HugeiconsIcon icon={Cancel01Icon}
                       size={16}
                       color={darkMode ? colors.dark.muted : colors.light.muted}
                     />

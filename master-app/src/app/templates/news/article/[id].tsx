@@ -12,8 +12,9 @@ import {
   colors,
   Button, Card, IconButton, Progress
 } from "glacia-native";
-import { ArrowLeft, ArrowUpRight } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import ArrowLeft01Icon from "@hugeicons/core-free-icons/ArrowLeft01Icon";
+import ArrowUpRight01Icon from "@hugeicons/core-free-icons/ArrowUpRight01Icon";
 import { articleById, type Article } from "../data";
 import { FONT_STEPS, useSignal } from "../state";
 import {
@@ -113,7 +114,7 @@ export default function ArticleScreen() {
             accessibilityLabel="Back"
             isDark={signal.darkMode}
             onPress={() => router.back()}
-            icon={<ArrowLeft size={20} color={signal.darkMode ? colors.dark.foreground : colors.light.foreground} />}
+            icon={<HugeiconsIcon icon={ArrowLeft01Icon} size={20} color={signal.darkMode ? colors.dark.foreground : colors.light.foreground} />}
           />
           <View style={styles.toolbarSpacer} />
           <View style={styles.fontControls}>
@@ -150,7 +151,7 @@ export default function ArticleScreen() {
             accessibilityLabel="Share this story"
             isDark={signal.darkMode}
             onPress={share}
-            icon={<ArrowUpRight size={18} color={signal.darkMode ? colors.dark.foreground : colors.light.foreground} />}
+            icon={<HugeiconsIcon icon={ArrowUpRight01Icon} size={18} color={signal.darkMode ? colors.dark.foreground : colors.light.foreground} />}
           />
         </View>
 

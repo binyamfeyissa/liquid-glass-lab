@@ -2,8 +2,9 @@ import React from "react";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { useRouter } from "expo-router";
 import { colors, Button, Card, IconButton, Progress } from "glacia-native";
-import { Check, ChevronLeft } from "lucide-react-native";
-
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import ChevronLeftIcon from "@hugeicons/core-free-icons/ChevronLeftIcon";
+import Tick01Icon from "@hugeicons/core-free-icons/Tick01Icon";
 import { EPISODES, episodeById, showById, type Episode } from "./data";
 import { useCast } from "./state";
 import { Artwork, Figure, ListCard, SectionTitle, T } from "./ui";
@@ -35,7 +36,7 @@ export default function DownloadsScreen() {
           accessibilityLabel="Back"
           onPress={() => router.back()}
           isDark={darkMode}
-          icon={<ChevronLeft size={20} color={colors[darkMode ? "dark" : "light"].foreground} />}
+          icon={<HugeiconsIcon icon={ChevronLeftIcon} size={20} color={colors[darkMode ? "dark" : "light"].foreground} />}
         />
         <T variant="title">Downloads</T>
       </View>
@@ -136,7 +137,7 @@ function DownloadRow({ episode }: { episode: Episode }) {
       </View>
       {downloaded ? (
         <>
-          <Check size={16} color={colors[darkMode ? "dark" : "light"].foreground} />
+          <HugeiconsIcon icon={Tick01Icon} size={16} color={colors[darkMode ? "dark" : "light"].foreground} />
           <Button
             accessibilityLabel={`Remove download of ${episode.title}`}
             onPress={() => cast.removeDownload(episode.id)}
