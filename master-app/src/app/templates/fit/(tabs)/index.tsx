@@ -1,19 +1,20 @@
 import React from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { router } from "expo-router";
-import { Avatar, Badge, Button, Card } from "glacia-native";
+import { Avatar, Button } from "glacia-native";
 
 import { useFit } from "../state";
 import { TODAYS_WORKOUT_ID, USER_IMAGE, workoutById } from "../data";
 import {
   Figure,
-  ListCard,
   RingProgress,
   RowSeparator,
   SectionTitle,
+  Stat,
   T,
   WeekBars,
-  WorkoutTile,
+  WorkoutPhoto,
+  accentColor,
 } from "../ui";
 
 const todayLabel = new Date().toLocaleDateString("en-US", {
@@ -43,144 +44,119 @@ export default function TodayScreen() {
           </T>
           <T variant="heading">{fit.userName}</T>
         </View>
-        <Badge tone="muted" isDark={fit.darkMode}>{`${fit.streakDays} day streak`}</Badge>
+        <View style={styles.streakStat}>
+          <Figure variant="title">{fit.streakDays}</Figure>
+          <T variant="caption" muted>
+            day streak
+          </T>
+        </View>
       </View>
 
-      {/* Today's activity */}
+      {/* Today's activity — the ring is the hero, the stats are plain figures */}
       <View>
         <SectionTitle>Today's activity</SectionTitle>
-        <Card isDark={fit.darkMode} padding={20}>
-          <View style={styles.activityRow}>
-            <RingProgress value={stepShare}>
-              <Figure variant="title">
-                {fit.todaySteps.toLocaleString("en-US")}
-              </Figure>
-              <T variant="caption" muted>
-                of {fit.stepGoal.toLocaleString("en-US")} steps
-              </T>
-            </RingProgress>
-            <View style={styles.statsColumn}>
-              <View>
-                <Figure variant="title">{fit.todayCalories}</Figure>
-                <T variant="caption" muted>
-                  Calories burned
-                </T>
-              </View>
-              <View>
-                <Figure variant="title">{fit.todayActiveMin} min</Figure>
-                <T variant="caption" muted>
-                  Active minutes
-                </T>
-              </View>
-              <View>
-                <Figure variant="title">{Math.round(stepShare * 100)}%</Figure>
-                <T variant="caption" muted>
-                  Of today's step goal
-                </T>
-              </View>
-            </View>
-          </View>
-        </Card>
+        <View style={styles.ringWrap}>
+          <RingProgress value={stepShare} size={168} strokeWidth={12}>
+            <Figure variant="title" style={styles.stepsFigure}>
+              {fit.todaySteps.toLocaleString("en-US")}
+            </Figure>
+            <T variant="caption" muted>
+              of {fit.stepGoal.toLocaleString("en-US")} steps
+            </T>
+          </RingProgress>
+        </View>
+        <View style={styles.statsStrip}>
+          <Stat value={`${fit.todayCalories}`} label="Calories" variant="title" />
+          <Stat value={`${fit.todayActiveMin}`} label="Active min" variant="title" />
+          <Stat value={`${fit.todaysSessions.length}`} label="Workouts today" variant="title" />
+        </View>
       </View>
 
-      {/* Today's workout */}
+      {/* Today's workout — the photo leads, type does the rest */}
       <View>
         <SectionTitle>Today's workout</SectionTitle>
-        <Card isDark={fit.darkMode} padding={20}>
-          <View style={styles.planRow}>
-            <WorkoutTile workout={plan} size={64} />
-            <View style={styles.flex1}>
-              <T variant="heading" numberOfLines={1}>
-                {plan.name}
-              </T>
-              <T variant="caption" muted style={styles.planMeta}>
-                {plan.category} · {plan.durationMin} min · {plan.exercises.length}{" "}
-                exercises · {plan.calories} kcal
-              </T>
-            </View>
+        <WorkoutPhoto workout={plan} />
+        <T variant="heading" numberOfLines={1} style={styles.planName}>
+          {plan.name}
+        </T>
+        <T variant="caption" muted style={styles.planMeta}>
+          {plan.category} · {plan.durationMin} min · {plan.exercises.length}{" "}
+          exercises · {plan.calories} kcal
+        </T>
+        <T variant="body" muted style={styles.planBlurb}>
+          {plan.blurb}
+        </T>
+        {planDoneToday ? (
+          <View style={styles.planActions}>
+            <T variant="body" style={[styles.doneLine, { color: accentColor(fit.darkMode) }]}>
+              Completed today
+            </T>
+            <Button
+              variant="ghost"
+              accessibilityLabel="View today's workout details"
+              onPress={() => router.push(`/templates/fit/workout/${plan.id}`)}
+              isDark={fit.darkMode}
+            >
+              View details
+            </Button>
           </View>
-          <T variant="body" muted style={styles.planBlurb}>
-            {plan.blurb}
-          </T>
-          {planDoneToday ? (
-            <View style={styles.doneRow}>
-              <Badge tone="muted" isDark={fit.darkMode}>
-                Completed today
-              </Badge>
-              <Button
-                variant="ghost"
-                accessibilityLabel="View today's workout details"
-                onPress={() => router.push(`/templates/fit/workout/${plan.id}`)}
-                isDark={fit.darkMode}
-              >
-                View details
-              </Button>
-            </View>
-          ) : (
-            <View style={styles.planActions}>
-              <Button
-                variant="filled"
-                size="lg"
-                accessibilityLabel={`Start ${plan.name}`}
-                onPress={() => router.push(`/templates/fit/player/${plan.id}`)}
-                isDark={fit.darkMode}
-                style={styles.flex1}
-              >
-                Start workout
-              </Button>
-              <Button
-                variant="glass"
-                size="lg"
-                accessibilityLabel="Preview today's workout"
-                onPress={() => router.push(`/templates/fit/workout/${plan.id}`)}
-                isDark={fit.darkMode}
-                // flex:1: without a definite width the fallback button
-                // collapses to a circle and "Preview" spills out both sides.
-                style={styles.flex1}
-              >
-                Preview
-              </Button>
-            </View>
-          )}
-        </Card>
+        ) : (
+          <View style={styles.planActions}>
+            <Button
+              variant="filled"
+              size="lg"
+              tint={accentColor(fit.darkMode)}
+              accessibilityLabel={`Start ${plan.name}`}
+              onPress={() => router.push(`/templates/fit/player/${plan.id}`)}
+              isDark={fit.darkMode}
+              style={styles.fullWidth}
+            >
+              Start workout
+            </Button>
+            <Button
+              variant="ghost"
+              accessibilityLabel="Preview today's workout"
+              onPress={() => router.push(`/templates/fit/workout/${plan.id}`)}
+              isDark={fit.darkMode}
+            >
+              Preview
+            </Button>
+          </View>
+        )}
       </View>
 
       {/* This week */}
       <View>
         <SectionTitle>This week</SectionTitle>
-        <ListCard>
-          <View style={styles.weekHeader}>
-            <T variant="body">Active minutes</T>
-            <T variant="caption" muted>
-              {fit.weekBars.reduce((s, b) => s + b.minutes, 0)} min total
-            </T>
-          </View>
-          <View style={styles.weekBarsWrap}>
-            <WeekBars bars={fit.weekBars} />
-          </View>
-        </ListCard>
+        <View style={styles.weekHeader}>
+          <T variant="body">Active minutes</T>
+          <T variant="caption" muted>
+            {fit.weekBars.reduce((s, b) => s + b.minutes, 0)} min total
+          </T>
+        </View>
+        <View style={styles.weekBarsWrap}>
+          <WeekBars bars={fit.weekBars} height={96} />
+        </View>
       </View>
 
       {/* Sessions logged today */}
       {fit.todaysSessions.length > 0 ? (
         <View>
           <SectionTitle>Logged today</SectionTitle>
-          <ListCard>
-            {fit.todaysSessions.map((session, i) => (
-              <View key={session.id}>
-                {i > 0 ? <RowSeparator /> : null}
-                <View style={styles.sessionRow}>
-                  <View style={styles.flex1}>
-                    <T variant="body">{session.workoutName}</T>
-                    <T variant="caption" muted>
-                      {session.setsDone} sets · {session.calories} kcal
-                    </T>
-                  </View>
-                  <Figure variant="body">{session.durationMin} min</Figure>
+          {fit.todaysSessions.map((session, i) => (
+            <View key={session.id}>
+              {i > 0 ? <RowSeparator /> : null}
+              <View style={styles.sessionRow}>
+                <View style={styles.flex1}>
+                  <T variant="body">{session.workoutName}</T>
+                  <T variant="caption" muted>
+                    {session.setsDone} sets · {session.calories} kcal
+                  </T>
                 </View>
+                <Figure variant="body">{session.durationMin} min</Figure>
               </View>
-            ))}
-          </ListCard>
+            </View>
+          ))}
         </View>
       ) : null}
 
@@ -202,50 +178,49 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   flex1: { flex: 1 },
-  activityRow: {
-    flexDirection: "row",
+  streakStat: {
+    alignItems: "flex-end",
+    gap: 2,
+  },
+  ringWrap: {
     alignItems: "center",
-    gap: 24,
+    paddingTop: 8,
   },
-  statsColumn: {
-    flex: 1,
-    gap: 12,
+  stepsFigure: {
+    fontSize: 34,
+    lineHeight: 38,
   },
-  planRow: {
+  statsStrip: {
     flexDirection: "row",
-    alignItems: "center",
     gap: 12,
+    marginTop: 20,
   },
+  planName: { marginTop: 12 },
   planMeta: { marginTop: 4 },
-  planBlurb: { marginTop: 16 },
+  planBlurb: { marginTop: 8 },
   planActions: {
-    flexDirection: "row",
-    gap: 12,
+    gap: 4,
     marginTop: 16,
   },
-  doneRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginTop: 16,
+  fullWidth: {
+    alignSelf: "stretch",
+  },
+  doneLine: {
+    textAlign: "center",
+    fontWeight: "600",
   },
   weekHeader: {
     flexDirection: "row",
     alignItems: "baseline",
     justifyContent: "space-between",
-    paddingHorizontal: 16,
-    paddingTop: 16,
   },
   weekBarsWrap: {
-    paddingHorizontal: 16,
-    paddingBottom: 16,
-    paddingTop: 12,
+    marginTop: 12,
   },
   sessionRow: {
     flexDirection: "row",
     alignItems: "center",
     paddingVertical: 12,
-    paddingHorizontal: 16,
     gap: 12,
   },
 });

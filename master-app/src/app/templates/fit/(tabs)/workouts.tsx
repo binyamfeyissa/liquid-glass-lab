@@ -5,7 +5,7 @@ import { Chip } from "glacia-native";
 
 import { useFit } from "../state";
 import { CATEGORIES, type Category } from "../data";
-import { ListCard, RowSeparator, Screen, WorkoutRow } from "../ui";
+import { RowSeparator, Screen, WorkoutRow } from "../ui";
 
 export default function WorkoutsScreen() {
   const fit = useFit();
@@ -40,7 +40,7 @@ export default function WorkoutsScreen() {
         ))}
       </ScrollView>
 
-      <ListCard>
+      <View>
         {filtered.map((workout, i) => (
           <View key={workout.id}>
             {i > 0 ? <RowSeparator /> : null}
@@ -50,7 +50,7 @@ export default function WorkoutsScreen() {
             />
           </View>
         ))}
-      </ListCard>
+      </View>
     </Screen>
   );
 }

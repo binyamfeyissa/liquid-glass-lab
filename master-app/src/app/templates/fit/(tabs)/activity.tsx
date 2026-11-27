@@ -1,18 +1,17 @@
 import React, { useMemo, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { router } from "expo-router";
-import { Badge, Button, SegmentedControl } from "glacia-native";
+import { Button, SegmentedControl } from "glacia-native";
 
 import { useFit } from "../state";
 import { workoutById, type HistoryEntry } from "../data";
-import { Figure, ListCard, RowSeparator, Screen, T, WorkoutTile } from "../ui";
+import { Figure, RowSeparator, Screen, Stat, T, WorkoutTile } from "../ui";
 
 function HistoryRow({ entry }: { entry: HistoryEntry }) {
-  const fit = useFit();
   const workout = workoutById(entry.workoutId);
   return (
     <View style={styles.row}>
-      <WorkoutTile workout={workout} size={46} />
+      <WorkoutTile workout={workout} size={56} />
       <View style={styles.flex1}>
         <T variant="body" numberOfLines={1}>
           {entry.workoutName}
@@ -23,9 +22,9 @@ function HistoryRow({ entry }: { entry: HistoryEntry }) {
       </View>
       <View style={styles.rowRight}>
         <Figure variant="body">{entry.durationMin} min</Figure>
-        <Badge tone="muted" isDark={fit.darkMode} style={styles.rowBadge}>
+        <T variant="caption" muted>
           {entry.category}
-        </Badge>
+        </T>
       </View>
     </View>
   );
@@ -43,14 +42,14 @@ export default function ActivityScreen() {
   const totalCal = entries.reduce((s, h) => s + h.calories, 0);
 
   return (
-    <Screen belowTabBar
-      title="Activity"
-      subtitle={
-        range === 0
-          ? `${entries.length} workouts · ${totalMin} min · ${totalCal} kcal this week`
-          : `${entries.length} workouts · ${totalMin} min · ${totalCal} kcal in this log`
-      }
-    >
+    <Screen belowTabBar title="Activity">
+      {/* The totals are the summary: big figures first, like Health */}
+      <View style={styles.summaryStrip}>
+        <Stat value={`${entries.length}`} label="Workouts" variant="title" />
+        <Stat value={`${totalMin}`} label="Minutes" variant="title" />
+        <Stat value={`${totalCal.toLocaleString("en-US")}`} label="Kcal" variant="title" />
+      </View>
+
       <SegmentedControl
         segments={["This week", "All logged"]}
         selectedIndex={range}
@@ -60,51 +59,51 @@ export default function ActivityScreen() {
       />
 
       {entries.length === 0 ? (
-        <ListCard>
-          <View style={styles.empty}>
-            <T variant="heading">Nothing here yet</T>
-            <T variant="body" muted style={styles.emptyText}>
-              Finish a workout in the player and it will show up here.
-            </T>
-            <Button
-              variant="ghost"
-              accessibilityLabel="Browse workouts"
-              onPress={() => router.push("/templates/fit/(tabs)/workouts")}
-              isDark={fit.darkMode}
-            >
-              Browse workouts
-            </Button>
-          </View>
-        </ListCard>
+        <View style={styles.empty}>
+          <T variant="heading">Nothing here yet</T>
+          <T variant="body" muted style={styles.emptyText}>
+            Finish a workout in the player and it will show up here.
+          </T>
+          <Button
+            variant="ghost"
+            accessibilityLabel="Browse workouts"
+            onPress={() => router.push("/templates/fit/(tabs)/workouts")}
+            isDark={fit.darkMode}
+          >
+            Browse workouts
+          </Button>
+        </View>
       ) : (
-        <ListCard>
+        <View>
           {entries.map((entry, i) => (
             <View key={entry.id}>
               {i > 0 ? <RowSeparator /> : null}
               <HistoryRow entry={entry} />
             </View>
           ))}
-        </ListCard>
+        </View>
       )}
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
+  summaryStrip: {
+    flexDirection: "row",
+    gap: 12,
+  },
   row: {
     flexDirection: "row",
     alignItems: "center",
     paddingVertical: 12,
-    paddingHorizontal: 16,
     gap: 12,
   },
   flex1: { flex: 1 },
   rowMeta: { marginTop: 2 },
   rowRight: {
     alignItems: "flex-end",
-    gap: 4,
+    gap: 2,
   },
-  rowBadge: { alignSelf: "flex-end" },
   empty: {
     paddingVertical: 28,
     paddingHorizontal: 20,

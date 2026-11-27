@@ -6,14 +6,10 @@ import {
   ScrollView,
   StyleSheet,
   View,
-  type StyleProp,
-  type ViewStyle,
 } from "react-native";
 import Svg, { Circle } from "react-native-svg";
 import {
   colors,
-  Badge,
-  Card,
   SegmentedControl,
   Separator,
   Text,
@@ -27,7 +23,8 @@ import type { Workout } from "./data";
 /* ------------------------------------------------------------------ */
 /*  Accent — strong orange, the colour of effort. It appears only      */
 /*  where effort is measured: the ring arc, today's bar, the current   */
-/*  set, the main goal bar.                                            */
+/*  set, the main goal bar, and the primary action. Filled buttons     */
+/*  take it as their tint (the library's blue fill is never used).     */
 /* ------------------------------------------------------------------ */
 
 export function accentColor(dark: boolean): string {
@@ -68,6 +65,42 @@ export function Figure({ style, ...rest }: TextProps) {
       style={[{ fontFamily: MONO, fontVariant: ["tabular-nums"] }, style]}
       {...rest}
     />
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  Stat — one figure + one caption, centred, for the plain stat       */
+/*  strips (Today, Activity, Goals, Profile, the done summary). No     */
+/*  card, no badge: the number is the content.                         */
+/* ------------------------------------------------------------------ */
+
+export function Stat({
+  value,
+  label,
+  accent,
+  variant = "heading",
+}: {
+  value: string;
+  label: string;
+  /** Accent figure — reserved for the one number that matters most. */
+  accent?: boolean;
+  /** "title" (28pt) where the values are short; "heading" (20pt) is the
+   *  default so a 4-column strip (e.g. "38 min", "41,200") never wraps. */
+  variant?: "title" | "heading";
+}) {
+  const { darkMode } = useFit();
+  return (
+    <View style={styles.stat}>
+      <Figure
+        variant={variant}
+        style={accent ? { color: accentColor(darkMode) } : undefined}
+      >
+        {value}
+      </Figure>
+      <T variant="caption" muted>
+        {label}
+      </T>
+    </View>
   );
 }
 
@@ -169,7 +202,8 @@ export function Screen({
 }
 
 /* ------------------------------------------------------------------ */
-/*  List vocabulary shared by the screens.                             */
+/*  List vocabulary shared by the screens. Rows are open — they sit    */
+/*  on the backdrop, not inside a card — separated by hairlines.       */
 /* ------------------------------------------------------------------ */
 
 export function SectionTitle({ children }: { children: ReactNode }) {
@@ -177,21 +211,6 @@ export function SectionTitle({ children }: { children: ReactNode }) {
     <T variant="label" muted style={styles.sectionTitle}>
       {children}
     </T>
-  );
-}
-
-export function ListCard({
-  children,
-  style,
-}: {
-  children: ReactNode;
-  style?: StyleProp<ViewStyle>;
-}) {
-  const { darkMode } = useFit();
-  return (
-    <Card isDark={darkMode} padding={8} style={style}>
-      {children}
-    </Card>
   );
 }
 
@@ -425,7 +444,44 @@ export function WorkoutTile({
   );
 }
 
-/** A tappable workout row: tile, name, meta, level badge, chevron. */
+/* ------------------------------------------------------------------ */
+/*  WorkoutPhoto — the workout's bundled photo as a large editorial    */
+/*  image (Today's feature, the detail hero). glacia-native ships no   */
+/*  artwork component, so this is a template-local composition, the    */
+/*  same Image-or-tone fallback WorkoutTile already uses.              */
+/* ------------------------------------------------------------------ */
+
+export function WorkoutPhoto({
+  workout,
+  aspectRatio = 16 / 9,
+}: {
+  workout: Workout;
+  aspectRatio?: number;
+}) {
+  if (workout.image) {
+    return (
+      <Image
+        source={workout.image}
+        style={{ width: "100%", aspectRatio, borderRadius: 20 }}
+        resizeMode="cover"
+      />
+    );
+  }
+  return (
+    <View
+      style={[
+        styles.photoFallback,
+        { aspectRatio, backgroundColor: workout.tone },
+      ]}
+    >
+      <T variant="title" style={styles.tileText}>
+        {initialsOf(workout.name)}
+      </T>
+    </View>
+  );
+}
+
+/** A tappable workout row: photo, name, meta, level as quiet text, chevron. */
 export function WorkoutRow({
   workout,
   onPress,
@@ -446,7 +502,7 @@ export function WorkoutRow({
         },
       ]}
     >
-      <WorkoutTile workout={workout} />
+      <WorkoutTile workout={workout} size={72} />
       <View style={styles.flex1}>
         <T variant="body" numberOfLines={1}>
           {workout.name}
@@ -456,10 +512,12 @@ export function WorkoutRow({
           exercises
         </T>
       </View>
-      <Badge tone="muted" isDark={darkMode}>
-        {workout.level}
-      </Badge>
-      <HugeiconsIcon icon={ChevronRightIcon} size={20} color={colors[darkMode ? "dark" : "light"].muted} />
+      <View style={styles.rowRight}>
+        <T variant="caption" muted>
+          {workout.level}
+        </T>
+        <HugeiconsIcon icon={ChevronRightIcon} size={20} color={colors[darkMode ? "dark" : "light"].muted} />
+      </View>
     </Pressable>
   );
 }
@@ -483,13 +541,16 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     marginBottom: 8,
-    marginLeft: 6,
+  },
+  stat: {
+    flex: 1,
+    alignItems: "center",
+    gap: 2,
   },
   settingRow: {
     flexDirection: "row",
     alignItems: "center",
     paddingVertical: 12,
-    paddingHorizontal: 16,
     gap: 12,
   },
   flex1: {
@@ -505,7 +566,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingVertical: 12,
-    paddingHorizontal: 16,
     gap: 12,
     borderRadius: 12,
   },
@@ -540,12 +600,23 @@ const styles = StyleSheet.create({
     color: "#ffffff",
     fontWeight: "600",
   },
+  photoFallback: {
+    width: "100%",
+    borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   workoutRow: {
     flexDirection: "row",
     alignItems: "center",
     paddingVertical: 12,
-    paddingHorizontal: 16,
     gap: 12,
     borderRadius: 12,
+  },
+  rowRight: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    flexShrink: 0,
   },
 });

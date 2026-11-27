@@ -6,12 +6,12 @@ import React, {
 } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
-import { Badge, Button, Card, Progress } from "glacia-native";
+import { Button, Progress } from "glacia-native";
 import { HugeiconsIcon } from "@hugeicons/react-native";
 import Tick01Icon from "@hugeicons/core-free-icons/Tick01Icon";
 import { completionShare, useFit, type LogResult } from "../state";
 import { totalSets, workoutById } from "../data";
-import { Figure, T, WorkoutTile, accentColor } from "../ui";
+import { Figure, Stat, T, accentColor } from "../ui";
 
 type Phase = "work" | "rest" | "done";
 
@@ -143,42 +143,23 @@ export default function PlayerScreen() {
             {workout.name} is logged and your totals are updated
           </T>
         </View>
-        <Card isDark={fit.darkMode} padding={20}>
-          <View style={styles.summaryRow}>
-            <View style={styles.summaryItem}>
-              <Figure variant="title">{result.durationMin} min</Figure>
-              <T variant="caption" muted>
-                Duration
-              </T>
-            </View>
-            <View style={styles.summaryItem}>
-              <Figure variant="title">
-                {result.exercisesDone}/{workout.exercises.length}
-              </Figure>
-              <T variant="caption" muted>
-                Exercises
-              </T>
-            </View>
-            <View style={styles.summaryItem}>
-              <Figure variant="title">{result.setsDone}</Figure>
-              <T variant="caption" muted>
-                Sets
-              </T>
-            </View>
-            <View style={styles.summaryItem}>
-              <Figure variant="title">{result.calories}</Figure>
-              <T variant="caption" muted>
-                Kcal
-              </T>
-            </View>
-          </View>
-        </Card>
+        <View style={styles.summaryStrip}>
+          <Stat value={`${result.durationMin} min`} label="Duration" />
+          <Stat
+            value={`${result.exercisesDone}/${workout.exercises.length}`}
+            label="Exercises"
+          />
+          <Stat value={`${result.setsDone}`} label="Sets" />
+          <Stat value={`${result.calories}`} label="Kcal" />
+        </View>
         <Button
           variant="filled"
           size="lg"
+          tint={accentColor(fit.darkMode)}
           accessibilityLabel="Back to Today"
           onPress={() => router.replace("/templates/fit/(tabs)")}
           isDark={fit.darkMode}
+          style={styles.fullWidth}
         >
           Back to Today
         </Button>
@@ -188,6 +169,7 @@ export default function PlayerScreen() {
           accessibilityLabel="View activity history"
           onPress={() => router.replace("/templates/fit/(tabs)/activity")}
           isDark={fit.darkMode}
+          style={styles.fullWidth}
         >
           View in Activity
         </Button>
@@ -202,36 +184,35 @@ export default function PlayerScreen() {
       contentContainerStyle={styles.content}
       showsVerticalScrollIndicator={false}
     >
-      <View style={styles.topRow}>
-        <T variant="body" muted>
+      {/* The clock is the hero: big mono elapsed time, like Watch Workout */}
+      <View>
+        <T variant="caption" muted>
           {workout.name}
         </T>
-        <Badge tone="muted" isDark={fit.darkMode}>
-          {clock(elapsed)}
-        </Badge>
+        <Figure style={styles.elapsedClock}>{clock(elapsed)}</Figure>
       </View>
-      <Progress
-        value={(setsDone / total) * 100}
-        tint={accentColor(fit.darkMode)}
-        accessibilityLabel={`Workout progress, ${setsDone} of ${total} sets`}
-        isDark={fit.darkMode}
-      />
-      <T variant="caption" muted>
-        {setsDone} of {total} sets done
-      </T>
+      <View>
+        <Progress
+          value={(setsDone / total) * 100}
+          tint={accentColor(fit.darkMode)}
+          accessibilityLabel={`Workout progress, ${setsDone} of ${total} sets`}
+          isDark={fit.darkMode}
+        />
+        <T variant="caption" muted style={styles.progressCaption}>
+          {setsDone} of {total} sets done
+        </T>
+      </View>
 
       {phase === "work" ? (
-        <Card isDark={fit.darkMode} padding={24} style={styles.stage}>
-          <WorkoutTile workout={workout} size={76} />
-          <T variant="caption" muted style={styles.stageKicker}>
-            Exercise {exerciseIdx + 1} of {workout.exercises.length} ·{" "}
-            {exercise.monogram}
+        <View style={styles.stage}>
+          <T variant="caption" muted style={styles.centerText}>
+            Exercise {exerciseIdx + 1} of {workout.exercises.length}
           </T>
           <T variant="title" style={styles.centerText}>
             {exercise.name}
           </T>
           <Figure variant="heading" style={styles.centerText}>
-            Set {setIdx + 1} of {exercise.sets} — {exercise.reps}
+            Set {setIdx + 1} of {exercise.sets} · {exercise.reps}
           </Figure>
           <View style={styles.setDots}>
             {Array.from({ length: exercise.sets }).map((_, i) => (
@@ -254,6 +235,7 @@ export default function PlayerScreen() {
           <Button
             variant="filled"
             size="lg"
+            tint={accentColor(fit.darkMode)}
             accessibilityLabel={
               isLastSetOverall ? "Finish workout" : "Set done, start rest"
             }
@@ -268,15 +250,13 @@ export default function PlayerScreen() {
               Up next: {nextExercise.name}
             </T>
           ) : null}
-        </Card>
+        </View>
       ) : (
-        <Card isDark={fit.darkMode} padding={24} style={styles.stage}>
-          <T variant="caption" muted style={styles.stageKicker}>
+        <View style={styles.stage}>
+          <T variant="caption" muted style={styles.centerText}>
             Rest
           </T>
-          <Figure variant="title" style={styles.restClock}>
-            {clock(restLeft)}
-          </Figure>
+          <Figure style={styles.restClock}>{clock(restLeft)}</Figure>
           <Progress
             value={restTotal > 0 ? (restLeft / restTotal) * 100 : 0}
             tint={accentColor(fit.darkMode)}
@@ -304,6 +284,7 @@ export default function PlayerScreen() {
             </Button>
             <Button
               variant="filled"
+              tint={accentColor(fit.darkMode)}
               accessibilityLabel="Skip the rest and start the next set"
               onPress={advance}
               isDark={fit.darkMode}
@@ -312,7 +293,7 @@ export default function PlayerScreen() {
               Skip rest
             </Button>
           </View>
-        </Card>
+        </View>
       )}
 
       <Button
@@ -335,16 +316,19 @@ const styles = StyleSheet.create({
     paddingBottom: 28,
     gap: 16,
   },
-  topRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+  elapsedClock: {
+    fontSize: 40,
+    lineHeight: 46,
+    marginTop: 4,
+  },
+  progressCaption: {
+    marginTop: 8,
   },
   stage: {
     alignItems: "center",
-    gap: 12,
+    gap: 16,
+    paddingTop: 32,
   },
-  stageKicker: {},
   centerText: { textAlign: "center" },
   setDots: {
     flexDirection: "row",
@@ -362,8 +346,8 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   restClock: {
-    fontSize: 56,
-    lineHeight: 62,
+    fontSize: 72,
+    lineHeight: 78,
   },
   restProgress: {
     alignSelf: "stretch",
@@ -375,6 +359,9 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   flex1: { flex: 1 },
+  fullWidth: {
+    alignSelf: "stretch",
+  },
   centerBlock: {
     alignItems: "center",
     gap: 12,
@@ -387,13 +374,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  doneBadgeText: {},
-  summaryRow: {
+  summaryStrip: {
     flexDirection: "row",
-  },
-  summaryItem: {
-    flex: 1,
-    alignItems: "center",
-    gap: 2,
+    gap: 12,
   },
 });
