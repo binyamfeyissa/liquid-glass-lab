@@ -1,6 +1,12 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { Card } from "glacia-native";
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import CheckmarkCircle02Icon from "@hugeicons/core-free-icons/CheckmarkCircle02Icon";
+import FlameIcon from "@hugeicons/core-free-icons/FlameIcon";
+import PlayIcon from "@hugeicons/core-free-icons/PlayIcon";
+import TrendingUpIcon from "@hugeicons/core-free-icons/TrendingUpIcon";
+import WindIcon from "@hugeicons/core-free-icons/WindIcon";
 
 import { useStillwater } from "../state";
 import { WEEK_DAYS } from "../data";
@@ -19,23 +25,26 @@ export default function ProgressScreen() {
 
   return (
     <Screen belowTabBar title="Progress" subtitle="Your minutes, streak and history">
-      {/* Stats — one ledger line, figures only */}
+      {/* Stats — one ledger line, figures only, each with its mark */}
       <Card isDark={app.darkMode} padding={20}>
         <View style={styles.statGrid}>
           <View style={styles.statCell}>
-            <Figure variant="title">{app.streakDays}</Figure>
+            <HugeiconsIcon icon={FlameIcon} size={20} color={accentColor(app.backdrop)} />
+            <Figure variant="title" style={styles.statFigure}>{app.streakDays}</Figure>
             <T variant="caption" muted style={styles.statLabel}>
               day streak
             </T>
           </View>
           <View style={styles.statCell}>
-            <Figure variant="title">{weekTotal}</Figure>
+            <HugeiconsIcon icon={TrendingUpIcon} size={20} color={accentColor(app.backdrop)} />
+            <Figure variant="title" style={styles.statFigure}>{weekTotal}</Figure>
             <T variant="caption" muted style={styles.statLabel}>
               minutes this week
             </T>
           </View>
           <View style={styles.statCell}>
-            <Figure variant="title">{app.history.length}</Figure>
+            <HugeiconsIcon icon={CheckmarkCircle02Icon} size={20} color={accentColor(app.backdrop)} />
+            <Figure variant="title" style={styles.statFigure}>{app.history.length}</Figure>
             <T variant="caption" muted style={styles.statLabel}>
               practices logged
             </T>
@@ -72,7 +81,7 @@ export default function ProgressScreen() {
                 <T
                   variant="caption"
                   muted={i !== todayIndex}
-                  style={styles.barLabel}
+                  style={[styles.barLabel, i === todayIndex && { color: accentColor(app.backdrop) }]}
                 >
                   {i === todayIndex ? "Today" : WEEK_DAYS[i]}
                 </T>
@@ -93,6 +102,11 @@ export default function ProgressScreen() {
             <React.Fragment key={entry.id}>
               {i > 0 ? <RowSeparator /> : null}
               <View style={styles.historyRow}>
+                <HugeiconsIcon
+                  icon={entry.kind === "breathing" ? WindIcon : PlayIcon}
+                  size={18}
+                  color={accentColor(app.backdrop)}
+                />
                 <View style={styles.historyText}>
                   <T variant="body" numberOfLines={1}>
                     {entry.title}
@@ -115,7 +129,8 @@ export default function ProgressScreen() {
 
 const styles = StyleSheet.create({
   statGrid: { flexDirection: "row", gap: 16 },
-  statCell: { flex: 1, alignItems: "center" },
+  statCell: { flex: 1, alignItems: "center", gap: 4 },
+  statFigure: { marginTop: 4 },
   statLabel: { marginTop: 4, textAlign: "center" },
   bars: {
     flexDirection: "row",

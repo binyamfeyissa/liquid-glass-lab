@@ -2,11 +2,17 @@ import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { router } from "expo-router";
 import { Avatar, Badge, Button, Field, Input, Select, Switch } from "glacia-native";
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import CheckIcon from "@hugeicons/core-free-icons/CheckIcon";
+import Moon01Icon from "@hugeicons/core-free-icons/Moon01Icon";
+import TrendingUpIcon from "@hugeicons/core-free-icons/TrendingUpIcon";
+import WindIcon from "@hugeicons/core-free-icons/WindIcon";
 
 import { useStillwater } from "../state";
 import { BEDTIME_OPTIONS, GOAL_OPTIONS } from "../data";
 import {
   BackdropControl,
+  FILLED_TINT,
   ListCard,
   NavRow,
   RowSeparator,
@@ -14,6 +20,7 @@ import {
   SectionTitle,
   SettingRow,
   T,
+  accentColor,
 } from "../ui";
 
 export default function ProfileScreen() {
@@ -68,6 +75,8 @@ export default function ProfileScreen() {
               isDark={app.darkMode}
               accessibilityLabel="Save practice settings"
               variant="filled"
+              tint={FILLED_TINT}
+              icon={<HugeiconsIcon icon={CheckIcon} size={18} color="#ffffff" />}
               disabled={!app.userName.trim()}
               onPress={() => setSaved(true)}
             >
@@ -89,18 +98,21 @@ export default function ProfileScreen() {
           <NavRow
             title="Breathing exercises"
             description="4·4·6, Box and 4·7·8 patterns"
+            icon={<HugeiconsIcon icon={WindIcon} size={20} color={accentColor(app.backdrop)} />}
             onPress={() => router.push("/templates/calm/breathing")}
           />
           <RowSeparator />
           <NavRow
             title="Sleep sounds"
             description="Rain, ocean, forest and white noise"
+            icon={<HugeiconsIcon icon={Moon01Icon} size={20} color={accentColor(app.backdrop)} />}
             onPress={() => router.push("/templates/calm/(tabs)/sleep")}
           />
           <RowSeparator />
           <NavRow
             title="Your progress"
             description={`${app.todayMinutes} of ${app.goalMinutes} minutes today`}
+            icon={<HugeiconsIcon icon={TrendingUpIcon} size={20} color={accentColor(app.backdrop)} />}
             onPress={() => router.push("/templates/calm/(tabs)/progress")}
           />
         </ListCard>
@@ -118,6 +130,7 @@ export default function ProfileScreen() {
               value={app.dailyReminder}
               onValueChange={app.setDailyReminder}
               accessibilityLabel="Daily practice reminder"
+              accentColor={accentColor(app.backdrop)}
               isDark={app.darkMode}
             />
           </SettingRow>
@@ -130,6 +143,7 @@ export default function ProfileScreen() {
               value={app.bedtimeReminder}
               onValueChange={app.setBedtimeReminder}
               accessibilityLabel="Bedtime reminder"
+              accentColor={accentColor(app.backdrop)}
               isDark={app.darkMode}
             />
           </SettingRow>
@@ -142,6 +156,7 @@ export default function ProfileScreen() {
               value={app.weeklyReport}
               onValueChange={app.setWeeklyReport}
               accessibilityLabel="Weekly progress report"
+              accentColor={accentColor(app.backdrop)}
               isDark={app.darkMode}
             />
           </SettingRow>

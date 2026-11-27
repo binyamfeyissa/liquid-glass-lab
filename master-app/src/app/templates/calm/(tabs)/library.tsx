@@ -4,9 +4,16 @@ import { router } from "expo-router";
 import { Field, Input } from "glacia-native";
 
 import { useStillwater } from "../state";
-import { SESSIONS } from "../data";
-import { ListCard, RowSeparator, Screen, SessionRow, T } from "../ui";
+import { CATEGORIES, SESSIONS } from "../data";
+import { ListCard, RowSeparator, Screen, SectionTitle, SessionRow, T } from "../ui";
 
+/**
+ * Library, redesigned: the twelve sessions are grouped under their four
+ * categories instead of one long undifferentiated list, so the catalogue
+ * reads as curated shelves. Search narrows every shelf at once; a shelf
+ * with no match hides. Nothing is invented — the categories and the
+ * sessions are the existing catalogue.
+ */
 export default function LibraryScreen() {
   const app = useStillwater();
   const [query, setQuery] = useState("");
@@ -36,17 +43,28 @@ export default function LibraryScreen() {
       </Field>
 
       {results.length > 0 ? (
-        <ListCard>
-          {results.map((session, i) => (
-            <React.Fragment key={session.id}>
-              {i > 0 ? <RowSeparator /> : null}
-              <SessionRow
-                session={session}
-                onPress={() => router.push(`/templates/calm/player/${session.id}`)}
-              />
-            </React.Fragment>
-          ))}
-        </ListCard>
+        CATEGORIES.map((category) => {
+          const shelf = results.filter((s) => s.category === category);
+          if (shelf.length === 0) return null;
+          return (
+            <View key={category}>
+              <SectionTitle>
+                {category} · {shelf.length} session{shelf.length === 1 ? "" : "s"}
+              </SectionTitle>
+              <ListCard>
+                {shelf.map((session, i) => (
+                  <React.Fragment key={session.id}>
+                    {i > 0 ? <RowSeparator /> : null}
+                    <SessionRow
+                      session={session}
+                      onPress={() => router.push(`/templates/calm/player/${session.id}`)}
+                    />
+                  </React.Fragment>
+                ))}
+              </ListCard>
+            </View>
+          );
+        })
       ) : (
         <View>
           <T variant="body" muted>

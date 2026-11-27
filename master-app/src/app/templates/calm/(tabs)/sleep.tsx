@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { Avatar, Badge, Button, Card, Field, Select, Slider, Switch } from "glacia-native";
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import Moon01Icon from "@hugeicons/core-free-icons/Moon01Icon";
+import PauseIcon from "@hugeicons/core-free-icons/PauseIcon";
+import PlayIcon from "@hugeicons/core-free-icons/PlayIcon";
 
 import { useStillwater } from "../state";
 import { BEDTIME_OPTIONS, MIXER_TIMER_OPTIONS, SOUNDS, formatClock } from "../data";
-import { Figure, ListCard, RowSeparator, Screen, SectionTitle, SettingRow, T } from "../ui";
+import { Figure, FILLED_TINT, ListCard, RowSeparator, Screen, SectionTitle, SettingRow, T, accentColor } from "../ui";
 
 /**
  * The sleep-sounds mixer. There is no audio in this template: the sliders
@@ -45,6 +49,7 @@ export default function SleepScreen() {
       {/* Mixer status */}
       <Card isDark={app.darkMode} padding={20}>
         <View style={styles.statusRow}>
+          <HugeiconsIcon icon={Moon01Icon} size={22} color={accentColor(app.backdrop)} />
           <View style={styles.statusText}>
             <T variant="label" muted>
               Your mix
@@ -70,6 +75,14 @@ export default function SleepScreen() {
           isDark={app.darkMode}
           accessibilityLabel={mixerRunning ? "Stop the soundscape" : "Play the soundscape"}
           variant="filled"
+          tint={FILLED_TINT}
+          icon={
+            <HugeiconsIcon
+              icon={mixerRunning ? PauseIcon : PlayIcon}
+              size={18}
+              color="#ffffff"
+            />
+          }
           disabled={activeSounds.length === 0}
           onPress={() => (mixerRunning ? setMixerRunning(false) : startMixer())}
           style={styles.playButton}
@@ -157,6 +170,7 @@ export default function SleepScreen() {
               value={app.bedtimeReminder}
               onValueChange={app.setBedtimeReminder}
               accessibilityLabel="Bedtime reminder"
+              accentColor={accentColor(app.backdrop)}
               isDark={app.darkMode}
             />
           </SettingRow>

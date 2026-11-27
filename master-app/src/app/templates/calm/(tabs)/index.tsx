@@ -1,13 +1,18 @@
 import React, { useState } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { router } from "expo-router";
-import { Badge, Button, Card, Chip, Progress } from "glacia-native";
+import { Button, Chip, Progress } from "glacia-native";
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import PlayIcon from "@hugeicons/core-free-icons/PlayIcon";
+import WindIcon from "@hugeicons/core-free-icons/WindIcon";
 
 import { useStillwater } from "../state";
 import { CATEGORIES, SESSIONS, formatClock, formatDuration, type Category } from "../data";
 import {
   Artwork,
+  CategoryCard,
   Figure,
+  FILLED_TINT,
   ListCard,
   RowSeparator,
   SectionTitle,
@@ -19,6 +24,14 @@ import {
 type Filter = Category | "All";
 const FILTERS: Filter[] = ["All", ...CATEGORIES];
 
+/**
+ * Home, redesigned: the day's minutes are plain type on the backdrop
+ * (Apple Health, not a dashboard card); the featured session is led by
+ * its artwork, not wrapped in a glass card; categories get their own
+ * photo strip so each group has a different layout; the list below
+ * stays a quiet grouped list. Glass is kept for the TabBar, the chips
+ * and the buttons only.
+ */
 export default function HomeScreen() {
   const app = useStillwater();
   const [filter, setFilter] = useState<Filter>("All");
@@ -27,6 +40,7 @@ export default function HomeScreen() {
   const continueSession = SESSIONS.find((s) => s.id === app.lastSessionId) ?? SESSIONS[0];
   const listed = SESSIONS.filter((s) => filter === "All" || s.category === filter);
   const goalPct = Math.min(100, Math.round((app.todayMinutes / app.goalMinutes) * 100));
+  const accent = accentColor(app.backdrop);
 
   return (
     <ScrollView
@@ -42,26 +56,21 @@ export default function HomeScreen() {
         </T>
       </View>
 
-      {/* Today's minutes + goal */}
-      <Card isDark={app.darkMode} padding={20}>
-        <View style={styles.statRow}>
-          <View>
-            <T variant="label" muted>
-              Minutes today
-            </T>
-            <View style={styles.statLine}>
-              <Figure variant="title">{app.todayMinutes}</Figure>
-              <T variant="body" muted>
-                {" "}
-                of {app.goalMinutes} min goal
-              </T>
-            </View>
-          </View>
-          <Badge tone="muted" isDark={app.darkMode}>{`${app.streakDays}-day streak`}</Badge>
+      {/* Today's minutes — plain type on the backdrop, no card */}
+      <View>
+        <T variant="label" muted>
+          Minutes today
+        </T>
+        <View style={styles.statLine}>
+          <Figure style={styles.todayFigure}>{app.todayMinutes}</Figure>
+          <T variant="body" muted>
+            {" "}
+            of {app.goalMinutes} min goal · {app.streakDays}-day streak
+          </T>
         </View>
         <Progress
           value={goalPct}
-          tint={accentColor(app.backdrop)}
+          tint={accent}
           accessibilityLabel="Progress toward today's goal"
           isDark={app.darkMode}
           style={styles.goalBar}
@@ -70,44 +79,42 @@ export default function HomeScreen() {
           {goalPct}% of today's goal · week so far:{" "}
           {app.weekMinutes.reduce((a, b) => a + b, 0)} minutes
         </T>
-      </Card>
+      </View>
 
-      {/* Featured session */}
+      {/* Featured session — artwork-led, no glass card */}
       <View>
         <SectionTitle>Featured tonight</SectionTitle>
-        <Card isDark={app.darkMode} padding={16}>
-          <Artwork session={featured} height={150} />
-          <T variant="heading" style={styles.featuredTitle}>
-            {featured.title}
+        <Artwork session={featured} height={220} radius={20} />
+        <T variant="heading" style={styles.featuredTitle}>
+          {featured.title}
+        </T>
+        <T variant="body" muted style={styles.featuredBlurb}>
+          {featured.blurb}
+        </T>
+        <T variant="caption" style={styles.featuredMeta}>
+          <T variant="caption" style={{ color: accent }}>
+            {featured.category}
           </T>
-          <T variant="body" muted style={styles.featuredBlurb}>
-            {featured.blurb}
-          </T>
-          <View style={styles.featuredMeta}>
-            <Badge tone="muted" isDark={app.darkMode}>
-              {featured.category}
-            </Badge>
-            <Badge tone="muted" isDark={app.darkMode}>
-              {formatDuration(featured.durationSec)}
-            </Badge>
-            <T variant="caption" muted style={styles.featuredNarrator}>
-              {featured.narrator}
-            </T>
-          </View>
-          <Button
-            isDark={app.darkMode}
-            accessibilityLabel={`Play ${featured.title}`}
-            variant="filled"
-            onPress={() => router.push(`/templates/calm/player/${featured.id}`)}
-          >
-            Play session
-          </Button>
-        </Card>
+          {"  ·  "}
+          {featured.narrator} · {formatDuration(featured.durationSec)} · {featured.plays} plays
+        </T>
+        <Button
+          isDark={app.darkMode}
+          accessibilityLabel={`Play ${featured.title}`}
+          variant="filled"
+          tint={FILLED_TINT}
+          icon={<HugeiconsIcon icon={PlayIcon} size={18} color="#ffffff" />}
+          onPress={() => router.push(`/templates/calm/player/${featured.id}`)}
+          style={styles.playButton}
+        >
+          Play session
+        </Button>
       </View>
 
       {/* Breathing shortcut */}
       <ListCard>
         <View style={styles.breathRow}>
+          <HugeiconsIcon icon={WindIcon} size={22} color={accent} />
           <View style={styles.breathText}>
             <T variant="body">One minute of breathing</T>
             <T variant="caption" muted style={styles.breathSub}>
@@ -117,6 +124,7 @@ export default function HomeScreen() {
           <Button
             isDark={app.darkMode}
             accessibilityLabel="Start a breathing exercise"
+            variant="glass"
             onPress={() => router.push("/templates/calm/breathing")}
           >
             Breathe
@@ -137,7 +145,7 @@ export default function HomeScreen() {
               value={Math.round(
                 (app.lastSessionElapsed / continueSession.durationSec) * 100,
               )}
-              tint={accentColor(app.backdrop)}
+              tint={accent}
               accessibilityLabel="How far through the session you are"
               isDark={app.darkMode}
             />
@@ -147,6 +155,30 @@ export default function HomeScreen() {
             </Figure>
           </View>
         </ListCard>
+      </View>
+
+      {/* Browse by category — photo cards, a different layout from the list */}
+      <View>
+        <SectionTitle>Browse</SectionTitle>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.categoryRow}
+        >
+          {CATEGORIES.map((category) => {
+            const cover = SESSIONS.find((s) => s.category === category) ?? SESSIONS[0];
+            const count = SESSIONS.filter((s) => s.category === category).length;
+            return (
+              <CategoryCard
+                key={category}
+                category={category}
+                cover={cover.image}
+                count={count}
+                onPress={() => setFilter(category)}
+              />
+            );
+          })}
+        </ScrollView>
       </View>
 
       {/* Category filter + sessions */}
@@ -197,40 +229,32 @@ const styles = StyleSheet.create({
     gap: 24,
   },
   sub: { marginTop: 8 },
-  statRow: {
-    flexDirection: "row",
-    alignItems: "flex-start",
-    justifyContent: "space-between",
-    gap: 12,
-  },
   statLine: {
     flexDirection: "row",
     alignItems: "baseline",
     marginTop: 8,
   },
+  todayFigure: {
+    fontSize: 44,
+    lineHeight: 52,
+  },
   goalBar: { marginTop: 16, marginBottom: 8 },
   featuredTitle: { marginTop: 16 },
   featuredBlurb: { marginTop: 8 },
-  featuredMeta: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    alignItems: "center",
-    gap: 8,
-    marginTop: 12,
-    marginBottom: 16,
-  },
-  featuredNarrator: { marginLeft: 4 },
+  featuredMeta: { marginTop: 12 },
+  playButton: { marginTop: 16 },
   breathRow: {
     flexDirection: "row",
     alignItems: "center",
     paddingVertical: 12,
     paddingHorizontal: 16,
-    gap: 16,
+    gap: 12,
   },
   breathText: { flex: 1 },
   breathSub: { marginTop: 4 },
   continueBar: { paddingHorizontal: 16, paddingBottom: 16, gap: 8 },
   continueLabel: { marginTop: 8 },
+  categoryRow: { gap: 12, paddingRight: 4 },
   chipRow: { gap: 8, paddingBottom: 12, paddingRight: 4 },
   empty: { textAlign: "center", paddingVertical: 12 },
 });

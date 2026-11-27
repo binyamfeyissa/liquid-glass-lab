@@ -9,7 +9,13 @@ import {
   Progress,
   SegmentedControl,
   Select,
+  colors,
 } from "glacia-native";
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import Forward01Icon from "@hugeicons/core-free-icons/Forward01Icon";
+import PauseIcon from "@hugeicons/core-free-icons/PauseIcon";
+import PlayIcon from "@hugeicons/core-free-icons/PlayIcon";
+import RewindIcon from "@hugeicons/core-free-icons/RewindIcon";
 
 import { useStillwater } from "../state";
 import {
@@ -20,7 +26,7 @@ import {
   formatClock,
   formatDuration,
 } from "../data";
-import { Artwork, Figure, T, accentColor } from "../ui";
+import { Artwork, BackButton, Figure, FILLED_TINT, T, accentColor } from "../ui";
 
 type PlayerStatus = "ready" | "playing" | "paused" | "completed" | "goodnight";
 
@@ -132,21 +138,13 @@ export default function PlayerScreen() {
       showsVerticalScrollIndicator={false}
     >
       <View style={styles.topRow}>
-        <Button
-          isDark={app.darkMode}
-          accessibilityLabel="Back"
-          variant="glass"
-          onPress={() => router.back()}
-          style={styles.backButton}
-        >
-          Back
-        </Button>
+        <BackButton onPress={() => router.back()} />
         <Badge tone="muted" isDark={app.darkMode}>
           {session.category}
         </Badge>
       </View>
 
-      <Artwork session={session} height={230} radius={20} />
+      <Artwork session={session} height={288} radius={20} />
 
       <View style={styles.titleBlock}>
         <T variant="title">{session.title}</T>
@@ -201,13 +199,16 @@ export default function PlayerScreen() {
         </View>
       </View>
 
-      {/* Transport */}
+      {/* Transport — fixed-width skip buttons so the flex play button
+          never squeezes them (the old flex:1 play row); the play action
+          is the one filled control, in deep sage, with its icon. */}
       <View style={styles.transport}>
         <Button
           isDark={app.darkMode}
           accessibilityLabel="Back 30 seconds"
           variant="glass"
           onPress={() => skip(-30)}
+          icon={<HugeiconsIcon icon={RewindIcon} size={18} color={colors[app.darkMode ? "dark" : "light"].foreground} />}
           style={styles.skipButton}
         >
           −30s
@@ -216,7 +217,15 @@ export default function PlayerScreen() {
           isDark={app.darkMode}
           accessibilityLabel={playing ? "Pause" : "Play"}
           variant="filled"
+          tint={FILLED_TINT}
           onPress={togglePlay}
+          icon={
+            <HugeiconsIcon
+              icon={playing ? PauseIcon : PlayIcon}
+              size={18}
+              color="#ffffff"
+            />
+          }
           style={styles.playButton}
         >
           {finished ? "Listen again" : playing ? "Pause" : "Play"}
@@ -226,6 +235,7 @@ export default function PlayerScreen() {
           accessibilityLabel="Forward 30 seconds"
           variant="glass"
           onPress={() => skip(30)}
+          icon={<HugeiconsIcon icon={Forward01Icon} size={18} color={colors[app.darkMode ? "dark" : "light"].foreground} />}
           style={styles.skipButton}
         >
           +30s
@@ -283,7 +293,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
   },
-  backButton: { alignSelf: "flex-start" },
   titleBlock: { gap: 4 },
   meta: { marginTop: 4 },
   blurb: { marginTop: 8 },
@@ -299,7 +308,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 12,
   },
-  skipButton: { flexShrink: 0 },
+  skipButton: { width: 76, flexShrink: 0 },
   playButton: { flex: 1 },
   controlLabel: {
     marginBottom: 8,

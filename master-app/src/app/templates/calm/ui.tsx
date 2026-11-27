@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import {
   colors,
-  Avatar,
+  Button,
   Card,
   SegmentedControl,
   Separator,
@@ -19,6 +19,7 @@ import {
   type TextProps,
 } from "glacia-native";
 import { HugeiconsIcon } from "@hugeicons/react-native";
+import ArrowLeft01Icon from "@hugeicons/core-free-icons/ArrowLeft01Icon";
 import ChevronRightIcon from "@hugeicons/core-free-icons/ChevronRightIcon";
 import { useStillwater, type BackdropMode } from "./state";
 import { formatDuration, type Category, type Session } from "./data";
@@ -39,6 +40,11 @@ export const SAGE = {
 export function accentColor(mode: BackdropMode): string {
   return mode === "light" ? SAGE.light : SAGE.dark;
 }
+
+/** Filled primary buttons use the deep sage in BOTH modes: white onTint
+ *  text reads on it in light and dark, where the pale dark-mode accent
+ *  (#9db29a) would not. Same fill as the breathing circle. */
+export const FILLED_TINT = SAGE.deep;
 
 const MONO = Platform.OS === "ios" ? "Menlo" : "monospace";
 
@@ -212,16 +218,19 @@ export function SettingRow({
   );
 }
 
-/** A tappable list row with a chevron, for menus and link lists. */
+/** A tappable list row with an optional leading icon and a chevron, for
+ *  menus and link lists. */
 export function NavRow({
   title,
   description,
   detail,
+  icon,
   onPress,
 }: {
   title: string;
   description?: string;
   detail?: string;
+  icon?: ReactNode;
   onPress: () => void;
 }) {
   const { darkMode } = useStillwater();
@@ -237,6 +246,7 @@ export function NavRow({
         },
       ]}
     >
+      {icon ? <View style={styles.navIcon}>{icon}</View> : null}
       <View style={styles.settingText}>
         <T variant="body">{title}</T>
         {description ? (
@@ -252,6 +262,24 @@ export function NavRow({
       ) : null}
       <HugeiconsIcon icon={ChevronRightIcon} size={20} color={colors[darkMode ? "dark" : "light"].muted} />
     </Pressable>
+  );
+}
+
+/** The shared glass back button for stack screens (Player, Breathing):
+ *  a left-arrow icon plus the word "Back" — the icon alone would be a
+ *  bare glyph on the fallback floor, the word alone is plain. */
+export function BackButton({ onPress }: { onPress: () => void }) {
+  const { darkMode } = useStillwater();
+  return (
+    <Button
+      isDark={darkMode}
+      accessibilityLabel="Back"
+      variant="glass"
+      onPress={onPress}
+      icon={<HugeiconsIcon icon={ArrowLeft01Icon} size={18} color={colors[darkMode ? "dark" : "light"].foreground} />}
+    >
+      Back
+    </Button>
   );
 }
 
@@ -304,16 +332,10 @@ export function Artwork({
   );
 }
 
-/** One representative cover per category, for the category avatar. */
-const CATEGORY_IMAGES: Record<Category, number> = {
-  Sleep: require("./assets/img/drift-into-sleep.jpg"),
-  Focus: require("./assets/img/focus-flow.jpg"),
-  Anxiety: require("./assets/img/calm-the-spiral.jpg"),
-  Morning: require("./assets/img/first-light.jpg"),
-};
-
 /* ------------------------------------------------------------------ */
 /*  SessionRow — one catalogue entry, used on Home and Library.        */
+/*  The thumb is the session's own cover photo, Apple-Music style:     */
+/*  the row reads as content, not as a monogram for its category.      */
 /* ------------------------------------------------------------------ */
 
 export function SessionRow({
@@ -336,7 +358,9 @@ export function SessionRow({
         },
       ]}
     >
-      <Avatar name={session.category} isDark={darkMode} source={CATEGORY_IMAGES[session.category]} />
+      {session.image ? (
+        <Image source={session.image} resizeMode="cover" style={styles.sessionThumb} />
+      ) : null}
       <View style={styles.settingText}>
         <T variant="body" numberOfLines={1}>
           {session.title}
@@ -348,6 +372,41 @@ export function SessionRow({
       <Figure variant="caption" muted>
         {formatDuration(session.durationSec)}
       </Figure>
+    </Pressable>
+  );
+}
+
+/** One photo card per category for Home's browse strip: the first
+ *  session's cover, the category name over a scrim, and the count.
+ *  Uses only existing catalogue data — no invented content. */
+export function CategoryCard({
+  category,
+  cover,
+  count,
+  onPress,
+}: {
+  category: Category;
+  cover: number;
+  count: number;
+  onPress: () => void;
+}) {
+  return (
+    <Pressable
+      onPress={onPress}
+      accessibilityRole="button"
+      accessibilityLabel={`${category}, ${count} sessions`}
+      style={styles.categoryCard}
+    >
+      <Image source={cover} resizeMode="cover" style={styles.categoryImage} />
+      <View style={styles.categoryScrim} />
+      <View style={styles.categoryLabel}>
+        <T variant="body" style={styles.categoryName}>
+          {category}
+        </T>
+        <T variant="caption" style={styles.categoryCount}>
+          {count} session{count === 1 ? "" : "s"}
+        </T>
+      </View>
     </Pressable>
   );
 }
@@ -400,6 +459,11 @@ const styles = StyleSheet.create({
     gap: 12,
     borderRadius: 12,
   },
+  navIcon: {
+    width: 28,
+    alignItems: "center",
+    flexShrink: 0,
+  },
   navDetail: {
     flexShrink: 0,
   },
@@ -413,5 +477,41 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     gap: 12,
     borderRadius: 12,
+  },
+  sessionThumb: {
+    width: 48,
+    height: 48,
+    borderRadius: 12,
+  },
+  categoryCard: {
+    width: 148,
+    height: 104,
+    borderRadius: 16,
+    overflow: "hidden",
+    flexShrink: 0,
+  },
+  categoryImage: {
+    width: "100%",
+    height: "100%",
+  },
+  categoryScrim: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    backgroundColor: "rgba(0,0,0,0.38)",
+  },
+  categoryLabel: {
+    position: "absolute",
+    left: 12,
+    bottom: 10,
+    gap: 2,
+  },
+  categoryName: {
+    color: "#ffffff",
+  },
+  categoryCount: {
+    color: "rgba(255,255,255,0.8)",
   },
 });

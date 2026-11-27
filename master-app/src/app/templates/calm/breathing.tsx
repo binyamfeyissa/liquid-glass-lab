@@ -2,10 +2,13 @@ import React, { useEffect, useRef, useState } from "react";
 import { Animated, ScrollView, StyleSheet, View } from "react-native";
 import { router } from "expo-router";
 import { Badge, Button, Card, Field, Select } from "glacia-native";
+import { HugeiconsIcon } from "@hugeicons/react-native";
+import CheckmarkCircle02Icon from "@hugeicons/core-free-icons/CheckmarkCircle02Icon";
+import PlayIcon from "@hugeicons/core-free-icons/PlayIcon";
 
 import { useStillwater } from "./state";
 import { BREATH_PATTERNS, CYCLE_OPTIONS } from "./data";
-import { ListCard, RowSeparator, SAGE, SectionTitle, T } from "./ui";
+import { BackButton, FILLED_TINT, ListCard, RowSeparator, SAGE, SectionTitle, T, accentColor } from "./ui";
 
 /**
  * Guided breathing. A timer-driven state machine walks the pattern's
@@ -93,15 +96,7 @@ export default function BreathingScreen() {
       showsVerticalScrollIndicator={false}
     >
       <View style={styles.topRow}>
-        <Button
-          isDark={app.darkMode}
-          accessibilityLabel="Back"
-          variant="glass"
-          onPress={() => router.back()}
-          style={styles.backButton}
-        >
-          Back
-        </Button>
+        <BackButton onPress={() => router.back()} />
         <Badge tone="muted" isDark={app.darkMode}>
           Breathing
         </Badge>
@@ -114,36 +109,63 @@ export default function BreathingScreen() {
         </T>
       </View>
 
-      {/* The breathing circle */}
+      {/* The breathing circle — the app's one moving thing. A hairline
+          ring marks its full swell (200pt × 1.45) so the motion has a
+          frame; the phase names underneath name the moment. The timing
+          logic is untouched. */}
       <View style={styles.stage}>
-        <Animated.View
-          style={[
-            styles.circle,
-            {
-              transform: [{ scale }],
-              backgroundColor: SAGE.deep,
-            },
-          ]}
-        >
-          <T variant="heading" style={styles.circlePhase}>
-            {completed ? "Done" : running || phaseIdx > 0 || cycle > 1 ? phase.label : "Ready"}
-          </T>
-          <T variant="title" style={styles.circleCount}>
-            {completed ? totalMinutes : running ? phaseLeft : "·"}
-          </T>
-          <T variant="caption" style={styles.circleCycle}>
-            {completed
-              ? "minutes added"
-              : `Cycle ${Math.min(cycle, targetCycles)} of ${targetCycles}`}
-          </T>
-        </Animated.View>
+        <View style={[styles.ring, { borderColor: `${accentColor(app.backdrop)}33` }]}>
+          <Animated.View
+            style={[
+              styles.circle,
+              {
+                transform: [{ scale }],
+                backgroundColor: SAGE.deep,
+              },
+            ]}
+          >
+            <T variant="heading" style={styles.circlePhase}>
+              {completed ? "Done" : running || phaseIdx > 0 || cycle > 1 ? phase.label : "Ready"}
+            </T>
+            <T variant="title" style={styles.circleCount}>
+              {completed ? totalMinutes : running ? phaseLeft : "·"}
+            </T>
+            <T variant="caption" style={styles.circleCycle}>
+              {completed
+                ? "minutes added"
+                : `Cycle ${Math.min(cycle, targetCycles)} of ${targetCycles}`}
+            </T>
+          </Animated.View>
+        </View>
+      </View>
+
+      <View style={styles.phaseRow}>
+        {Array.from(new Set(pattern.phases.map((p) => p.label))).map((label, i) => (
+          <React.Fragment key={label}>
+            {i > 0 ? (
+              <T variant="caption" muted>
+                ·
+              </T>
+            ) : null}
+            <T
+              variant="caption"
+              muted={phase.label !== label}
+              style={phase.label === label ? { color: accentColor(app.backdrop) } : undefined}
+            >
+              {label}
+            </T>
+          </React.Fragment>
+        ))}
       </View>
 
       {completed ? (
         <Card isDark={app.darkMode} padding={16} style={styles.banner}>
-          <Badge tone="muted" isDark={app.darkMode}>
-            Round complete
-          </Badge>
+          <View style={styles.bannerHead}>
+            <HugeiconsIcon icon={CheckmarkCircle02Icon} size={22} color={accentColor(app.backdrop)} />
+            <Badge tone="muted" isDark={app.darkMode}>
+              Round complete
+            </Badge>
+          </View>
           <T variant="body" style={styles.bannerText}>
             {totalMinutes} minute{totalMinutes > 1 ? "s" : ""} of {pattern.name}{" "}
             breathing added to today — you're at {app.todayMinutes} minutes.
@@ -155,6 +177,12 @@ export default function BreathingScreen() {
         isDark={app.darkMode}
         accessibilityLabel={running ? "Stop breathing exercise" : "Start breathing exercise"}
         variant="filled"
+        tint={FILLED_TINT}
+        icon={
+          running ? undefined : (
+            <HugeiconsIcon icon={PlayIcon} size={18} color="#ffffff" />
+          )
+        }
         onPress={() => {
           if (running) {
             reset();
@@ -186,6 +214,8 @@ export default function BreathingScreen() {
                   isDark={app.darkMode}
                   accessibilityLabel={`Use the ${p.name} pattern`}
                   variant={p.id === patternId ? "filled" : "glass"}
+                  size="sm"
+                  tint={p.id === patternId ? FILLED_TINT : undefined}
                   onPress={() => {
                     setPatternId(p.id);
                     reset(p);
@@ -232,17 +262,24 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
   },
-  backButton: { alignSelf: "flex-start" },
   titleBlock: { gap: 8 },
   stage: {
     alignItems: "center",
     justifyContent: "center",
-    height: 280,
+    height: 320,
+  },
+  ring: {
+    width: 300,
+    height: 300,
+    borderRadius: 150,
+    borderWidth: 1,
+    alignItems: "center",
+    justifyContent: "center",
   },
   circle: {
-    width: 180,
-    height: 180,
-    borderRadius: 90,
+    width: 200,
+    height: 200,
+    borderRadius: 100,
     alignItems: "center",
     justifyContent: "center",
     gap: 4,
@@ -250,7 +287,19 @@ const styles = StyleSheet.create({
   circlePhase: { color: "#ffffff" },
   circleCount: { color: "#ffffff" },
   circleCycle: { color: "rgba(255,255,255,0.75)" },
+  phaseRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+    marginTop: -8,
+  },
   banner: { gap: 12 },
+  bannerHead: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+  },
   bannerText: { marginTop: 4 },
   patternRow: {
     flexDirection: "row",
