@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   FlatList,
   KeyboardAvoidingView,
@@ -9,11 +9,19 @@ import {
 } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { colors, Avatar, Button, Input } from "glacia-native";
+import { colors, Avatar, IconButton, Input, Separator } from "glacia-native";
 import { HugeiconsIcon } from "@hugeicons/react-native";
+import ArrowUp01Icon from "@hugeicons/core-free-icons/ArrowUp01Icon";
 import ChevronLeftIcon from "@hugeicons/core-free-icons/ChevronLeftIcon";
 import { profileById, useKindred, type ChatMessage } from "../state";
-import { Figure, MessageBubble, T } from "../ui";
+import { accentColor, Figure, Message, T } from "../ui";
+
+interface RunItem {
+  message: ChatMessage;
+  isFirstInRun: boolean;
+  isLastInRun: boolean;
+  isLastOverall: boolean;
+}
 
 export default function ChatScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -22,7 +30,7 @@ export default function ChatScreen() {
   const profile = profileById(id ?? "");
   const messages = kindred.chats[profile.id] ?? [];
   const [draft, setDraft] = useState("");
-  const listRef = useRef<FlatList<ChatMessage>>(null);
+  const listRef = useRef<FlatList<RunItem>>(null);
 
   // Opening the conversation clears its "New" badge on the Matches tab.
   useEffect(() => {
@@ -38,6 +46,24 @@ export default function ChatScreen() {
     );
     return () => clearTimeout(t);
   }, [messages.length]);
+
+  // Runs: consecutive messages from one sender. The run flags decide
+  // where the avatar, the tail corner, and the timestamp land.
+  const items = useMemo(
+    () =>
+      messages.map((message, index) => {
+        const prev = messages[index - 1];
+        const next = messages[index + 1];
+        return {
+          message,
+          isFirstInRun: !prev || prev.senderId !== message.senderId,
+          isLastInRun:
+            !next || next.senderId !== message.senderId,
+          isLastOverall: index === messages.length - 1,
+        };
+      }),
+    [messages],
+  );
 
   const send = () => {
     if (!draft.trim()) return;
@@ -72,19 +98,33 @@ export default function ChatScreen() {
           </Figure>
         </View>
       </View>
+      <Separator isDark={kindred.darkMode} />
 
       <FlatList
         ref={listRef}
         style={styles.thread}
         contentContainerStyle={styles.threadContent}
         showsVerticalScrollIndicator={false}
-        data={messages}
-        keyExtractor={(message) => message.id}
+        data={items}
+        keyExtractor={(item) => item.message.id}
         renderItem={({ item }) => (
-          <MessageBubble message={item} senderName={profile.name} senderImage={profile.image} />
+          <Message
+            message={item.message}
+            senderName={profile.name}
+            senderImage={profile.image}
+            isFirstInRun={item.isFirstInRun}
+            isLastInRun={item.isLastInRun}
+            isLastOverall={item.isLastOverall}
+          />
         )}
         ListEmptyComponent={
           <View style={styles.emptyThread}>
+            <Avatar
+              name={profile.name}
+              size="lg"
+              isDark={kindred.darkMode}
+              source={profile.image}
+            />
             <T variant="heading" style={styles.emptyTitle}>
               You matched with {profile.name}
             </T>
@@ -98,6 +138,9 @@ export default function ChatScreen() {
         }
       />
 
+      {/* Composer — the send button is a solid accent circle (IconButton
+          tint), white arrow, dimmed while the draft is empty: the
+          Messages pattern, not another glass disc. */}
       <View
         style={[
           styles.composer,
@@ -110,20 +153,23 @@ export default function ChatScreen() {
             onChangeText={setDraft}
             placeholder={`Message ${profile.name}`}
             accessibilityLabel={`Message ${profile.name}`}
+            multiline
+            minLines={1}
             returnKeyType="send"
             onSubmitEditing={send}
             isDark={kindred.darkMode}
           />
         </View>
-        <Button
-          isDark={kindred.darkMode}
+        <IconButton
+          icon={({ color, size }: { color: string; size: number }) => (
+            <HugeiconsIcon icon={ArrowUp01Icon} size={size} color={color} />
+          )}
           accessibilityLabel="Send message"
-          variant="filled"
+          isDark={kindred.darkMode}
+          tint={draft.trim() ? accentColor(kindred.backdrop) : undefined}
           disabled={!draft.trim()}
           onPress={send}
-        >
-          Send
-        </Button>
+        />
       </View>
     </KeyboardAvoidingView>
   );

@@ -11,8 +11,6 @@ import {
 import {
   Avatar,
   Card,
-  Chip,
-  Glass,
   SegmentedControl,
   Separator,
   Text,
@@ -38,9 +36,16 @@ export function accentColor(mode: BackdropMode): string {
   return mode === "light" ? "#b3372a" : "#e0684f";
 }
 
-/** The wash on my chat bubbles — the same red, kept quiet. */
+/** The fill on my chat bubbles — the same red, kept quiet. Solid, never
+ *  glass: white text on it reads at a glance in every mode. */
 function bubbleTint(mode: BackdropMode): string {
   return mode === "light" ? "#c0452f" : "#9c3a26";
+}
+
+/** Incoming bubbles: a solid neutral surface, one step off the backdrop
+ *  — warm broken white on light, graphite one step up on dark. */
+function theirsBubbleFill(mode: BackdropMode): string {
+  return mode === "light" ? "#e9e3d7" : "#2c2c2e";
 }
 
 function hexToRgb(hex: string): [number, number, number] {
@@ -255,19 +260,21 @@ export function SettingRow({
 }
 
 /* ------------------------------------------------------------------ */
-/*  PhotoPanel — the composed "photo": one flat tonal plate with the   */
-/*  person's initials. The fixture pair is averaged and mixed toward   */
-/*  the mode neutral, so the plate sits in the room, not on it.        */
-/*  No images of real people.                                          */
+/*  PhotoPanel — the person's bundled portrait, full-bleed in its      */
+/*  frame with a soft corner (24pt on feature panels, 16pt on tiles). */
+/*  Without a photo it falls back to the composed plate with serif     */
+/*  initials — the serif is an open owner call, left exactly as is.    */
 /* ------------------------------------------------------------------ */
 
 export function PhotoPanel({
   profile,
   height = 340,
+  radius = 24,
   children,
 }: {
   profile: Pick<Profile, "name" | "colors" | "image">;
   height?: number;
+  radius?: number;
   children?: ReactNode;
 }) {
   const { backdrop, darkMode } = useKindred();
@@ -281,7 +288,12 @@ export function PhotoPanel({
     .slice(0, 2)
     .toUpperCase();
   return (
-    <View style={[styles.photo, { height, backgroundColor: plate }]}>
+    <View
+      style={[
+        styles.photo,
+        { height, backgroundColor: plate, borderRadius: radius },
+      ]}
+    >
       {profile.image ? (
         <Image
           source={profile.image}
@@ -310,16 +322,19 @@ export function PhotoPanel({
 }
 
 /* ------------------------------------------------------------------ */
-/*  InterestChips — a wrapping row of read-only interest pills.        */
+/*  InterestLine — interests as one quiet editorial line, not a cloud  */
+/*  of tags: a small label above a dot-joined list.                    */
 /* ------------------------------------------------------------------ */
 
-export function InterestChips({ interests }: { interests: string[] }) {
-  const { darkMode } = useKindred();
+export function InterestLine({ interests }: { interests: string[] }) {
   return (
-    <View style={styles.chipRow}>
-      {interests.map((interest) => (
-        <Chip key={interest} label={interest} isDark={darkMode} />
-      ))}
+    <View style={styles.interestBlock}>
+      <T variant="label" muted>
+        Interests
+      </T>
+      <T variant="body" style={styles.interestText}>
+        {interests.join(" · ")}
+      </T>
     </View>
   );
 }
@@ -359,24 +374,21 @@ export function ProfileFacts({
         )}
       </View>
       <Separator isDark={darkMode} />
-      <View style={styles.factRow}>
-        <T variant="caption" muted>
-          Interests
-        </T>
-        <Figure variant="body">{profile.interests.length}</Figure>
-      </View>
-      <Separator isDark={darkMode} />
     </View>
   );
 }
 
 /* ------------------------------------------------------------------ */
-/*  ProfileCard — the full Discover/profile-preview card.              */
+/*  ProfileCardView — the editorial profile: one tall photograph,     */
+/*  then the name, the bio as flowing prose, a ruled facts list, and   */
+/*  interests as a single line. No card around the content, no stack   */
+/*  of floating panels — the photograph is the feature, the type       */
+/*  underneath it does the rest.                                       */
 /* ------------------------------------------------------------------ */
 
 export function ProfileCardView({
   profile,
-  photoHeight = 320,
+  photoHeight = 440,
   distanceText,
 }: {
   profile: Profile;
@@ -384,9 +396,8 @@ export function ProfileCardView({
   /** Overrides the distance line — used for your own card preview. */
   distanceText?: string;
 }) {
-  const { darkMode } = useKindred();
   return (
-    <Card isDark={darkMode} padding={0} style={styles.profileCard}>
+    <View style={styles.profileCard}>
       <PhotoPanel profile={profile} height={photoHeight} />
       <View style={styles.profileBody}>
         <View style={styles.profileNameRow}>
@@ -399,43 +410,91 @@ export function ProfileCardView({
           {profile.bio}
         </T>
         <ProfileFacts profile={profile} distanceText={distanceText} />
-        <InterestChips interests={profile.interests} />
+        <InterestLine interests={profile.interests} />
       </View>
-    </Card>
+    </View>
   );
 }
 
 /* ------------------------------------------------------------------ */
-/*  MessageBubble — glacia-native has no Message family, so chat       */
-/*  bubbles are composed locally from the Glass primitive, the way     */
-/*  the Chat template does it. Mine wear the warm-red tint, quietly,   */
-/*  theirs stay neutral. Times are mono and muted.                     */
+/*  The Message family.                                                */
+/*                                                                     */
+/*  glacia-native 0.6.7 exports no Message components, so the thread   */
+/*  is composed here from Glacia primitives (Avatar, Text) and plain   */
+/*  Views, the way the Chat template does it:                          */
+/*                                                                     */
+/*    Message          — the row: alignment + avatar slot              */
+/*    MessageBubble    — a SOLID surface, never glass: mine in the     */
+/*                       warm-red accent, theirs one neutral step off  */
+/*                       the backdrop (prompt §7: bubbles are not      */
+/*                       glass, and glass would fight the photo        */
+/*                       backdrop behind the thread)                   */
+/*    MessageTimestamp — the small time label, only on the last        */
+/*                       message of a run (mine adds "· Sent" only    */
+/*                       on the very last message of the thread)       */
+/*                                                                     */
+/*  Consecutive messages from one sender form a run: the avatar and    */
+/*  the tail corner belong to the run's last bubble only, and the gap   */
+/*  inside a run is 2pt against 12pt between runs — so a run reads     */
+/*  as one thought instead of a stack of separate cards.               */
 /* ------------------------------------------------------------------ */
 
-export function MessageBubble({
+export function Message({
   message,
   senderName,
   senderImage,
+  isFirstInRun,
+  isLastInRun,
+  isLastOverall,
 }: {
   message: ChatMessage;
   senderName: string;
   /** Bundled portrait of the sender, if known. */
   senderImage?: number;
+  /** First message of a consecutive same-sender run. */
+  isFirstInRun: boolean;
+  /** Last message of a consecutive same-sender run. */
+  isLastInRun: boolean;
+  /** The very last message of the whole thread. */
+  isLastOverall: boolean;
 }) {
   const { darkMode, backdrop } = useKindred();
   const mine = message.senderId === "me";
   return (
-    <View style={[styles.messageRow, mine && styles.messageRowMine]}>
+    <View
+      style={[
+        styles.messageRow,
+        mine && styles.messageRowMine,
+        { marginTop: isFirstInRun ? 12 : 2 },
+      ]}
+    >
+      {/* MessageAvatar — only the run's last incoming bubble carries it;
+          earlier bubbles keep the empty slot so the column stays aligned. */}
       {!mine ? (
         <View style={styles.messageAvatar}>
-          <Avatar name={senderName} size="sm" isDark={darkMode} source={senderImage} />
+          {isLastInRun ? (
+            <Avatar
+              name={senderName}
+              size="sm"
+              isDark={darkMode}
+              source={senderImage}
+            />
+          ) : null}
         </View>
       ) : null}
       <View style={[styles.messageColumn, mine && styles.messageColumnMine]}>
-        <Glass
-          isDark={darkMode}
-          tintColor={mine ? bubbleTint(backdrop) : undefined}
-          style={[styles.bubble, mine ? styles.bubbleMine : styles.bubbleTheirs]}
+        <View
+          style={[
+            styles.bubble,
+            {
+              backgroundColor: mine
+                ? bubbleTint(backdrop)
+                : theirsBubbleFill(backdrop),
+            },
+            mine
+              ? isLastInRun && styles.bubbleMineTail
+              : isLastInRun && styles.bubbleTheirsTail,
+          ]}
         >
           <Text
             isDark={darkMode}
@@ -444,11 +503,14 @@ export function MessageBubble({
           >
             {message.text}
           </Text>
-        </Glass>
-        <Figure variant="caption" muted style={styles.messageTime}>
-          {message.timeLabel}
-          {mine ? " · Sent" : ""}
-        </Figure>
+        </View>
+        {/* MessageTimestamp — only the run's last bubble carries one. */}
+        {isLastInRun ? (
+          <Figure variant="caption" muted style={styles.messageTime}>
+            {message.timeLabel}
+            {mine && isLastOverall ? " · Sent" : ""}
+          </Figure>
+        ) : null}
       </View>
     </View>
   );
@@ -501,17 +563,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  chipRow: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: 8,
+  interestBlock: {
+    gap: 6,
+  },
+  interestText: {
+    lineHeight: 22,
   },
   profileCard: {
-    overflow: "hidden",
+    gap: 20,
   },
   profileBody: {
-    padding: 20,
-    gap: 12,
+    gap: 16,
   },
   profileNameRow: {
     flexDirection: "row",
@@ -532,13 +594,13 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "flex-end",
     gap: 8,
-    marginBottom: 16,
   },
   messageRowMine: {
     justifyContent: "flex-end",
   },
   messageAvatar: {
-    marginBottom: 20,
+    width: 28,
+    alignItems: "center",
   },
   messageColumn: {
     maxWidth: "78%",
@@ -550,12 +612,13 @@ const styles = StyleSheet.create({
   bubble: {
     paddingHorizontal: 16,
     paddingVertical: 12,
+    borderRadius: 20,
   },
-  bubbleMine: {
-    borderBottomRightRadius: 6,
+  bubbleMineTail: {
+    borderBottomRightRadius: 8,
   },
-  bubbleTheirs: {
-    borderBottomLeftRadius: 6,
+  bubbleTheirsTail: {
+    borderBottomLeftRadius: 8,
   },
   bubbleTextMine: {
     color: "#ffffff",

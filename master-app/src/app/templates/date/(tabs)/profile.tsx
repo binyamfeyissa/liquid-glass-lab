@@ -67,7 +67,7 @@ export default function ProfileScreen() {
       </View>
 
       <View>
-        <SectionTitle>Your card</SectionTitle>
+        <SectionTitle>How others see you</SectionTitle>
         <ProfileCardView
           profile={previewProfile}
           photoHeight={240}

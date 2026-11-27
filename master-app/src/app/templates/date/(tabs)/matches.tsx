@@ -1,13 +1,14 @@
 import React from "react";
 import { Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { router } from "expo-router";
-import { colors, Avatar, Badge, Card } from "glacia-native";
+import { colors, Avatar, Badge } from "glacia-native";
 import { HugeiconsIcon } from "@hugeicons/react-native";
 import ChevronRightIcon from "@hugeicons/core-free-icons/ChevronRightIcon";
 import { profileById, useKindred } from "../state";
 import {
   Figure,
   ListCard,
+  PhotoPanel,
   RowSeparator,
   Screen,
   SectionTitle,
@@ -46,13 +47,10 @@ export default function MatchesScreen() {
                   accessibilityLabel={`New match: ${profile.name}`}
                   style={styles.newItem}
                 >
-                  <View>
-                    <Avatar
-                      name={profile.name}
-                      size="lg"
-                      isDark={kindred.darkMode}
-                      source={profile.image}
-                    />
+                  {/* A portrait tile, not a circle — the photograph is
+                      what makes a new match feel like a person. */}
+                  <View style={styles.newTile}>
+                    <PhotoPanel profile={profile} height={96} radius={16} />
                     <Badge
                       tone="muted"
                       isDark={kindred.darkMode}
@@ -74,12 +72,10 @@ export default function MatchesScreen() {
       <View>
         <SectionTitle>Conversations</SectionTitle>
         {conversations.length === 0 ? (
-          <Card isDark={kindred.darkMode} padding={20}>
-            <T variant="body" muted>
-              No matches yet. People you match with appear here — find them
-              in Discover.
-            </T>
-          </Card>
+          <T variant="body" muted>
+            No matches yet. People you match with appear here — find them
+            in Discover.
+          </T>
         ) : (
           <ListCard>
             {conversations.map((match, index) => {
@@ -124,11 +120,15 @@ export default function MatchesScreen() {
                           ? `${last.senderId === "me" ? "You: " : ""}${last.text}`
                           : "No messages yet — say hello"}
                       </T>
+                    </View>
+                    {/* Messages-style trailing column: the time sits at
+                        the top right, the chevron under it. */}
+                    <View style={styles.rowTrailing}>
                       <Figure variant="caption" muted>
                         {last ? last.timeLabel : match.matchedLabel}
                       </Figure>
+                      <HugeiconsIcon icon={ChevronRightIcon} size={20} color={colors[kindred.darkMode ? "dark" : "light"].muted} />
                     </View>
-                    <HugeiconsIcon icon={ChevronRightIcon} size={20} color={colors[kindred.darkMode ? "dark" : "light"].muted} />
                   </Pressable>
                 </View>
               );
@@ -149,6 +149,9 @@ const styles = StyleSheet.create({
   newItem: {
     alignItems: "center",
     gap: 8,
+    width: 76,
+  },
+  newTile: {
     width: 76,
   },
   newDot: {
@@ -174,6 +177,11 @@ const styles = StyleSheet.create({
   rowNameLine: {
     flexDirection: "row",
     alignItems: "center",
+    gap: 8,
+  },
+  rowTrailing: {
+    alignItems: "flex-end",
+    justifyContent: "flex-start",
     gap: 8,
   },
 });
