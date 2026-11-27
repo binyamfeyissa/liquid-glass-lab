@@ -9,13 +9,10 @@ import {
   Progress,
   SegmentedControl,
   Select,
-  colors,
 } from "glacia-native";
 import { HugeiconsIcon } from "@hugeicons/react-native";
-import Forward01Icon from "@hugeicons/core-free-icons/Forward01Icon";
 import PauseIcon from "@hugeicons/core-free-icons/PauseIcon";
 import PlayIcon from "@hugeicons/core-free-icons/PlayIcon";
-import RewindIcon from "@hugeicons/core-free-icons/RewindIcon";
 
 import { useStillwater } from "../state";
 import {
@@ -26,7 +23,7 @@ import {
   formatClock,
   formatDuration,
 } from "../data";
-import { Artwork, BackButton, Figure, FILLED_TINT, T, accentColor } from "../ui";
+import { Artwork, BUTTON_PAD, BackButton, Figure, FILLED_TINT, T, accentColor, neutralTint } from "../ui";
 
 type PlayerStatus = "ready" | "playing" | "paused" | "completed" | "goodnight";
 
@@ -201,14 +198,17 @@ export default function PlayerScreen() {
 
       {/* Transport — fixed-width skip buttons so the flex play button
           never squeezes them (the old flex:1 play row); the play action
-          is the one filled control, in deep sage, with its icon. */}
+          is the one filled control, in deep sage, with its icon. Skip
+          buttons stay text-only: an icon-only button would be empty on
+          the fallback floor, which never renders button icons. */}
       <View style={styles.transport}>
         <Button
           isDark={app.darkMode}
           accessibilityLabel="Back 30 seconds"
           variant="glass"
+          tint={neutralTint(app.darkMode)}
+          contentStyle={BUTTON_PAD}
           onPress={() => skip(-30)}
-          icon={<HugeiconsIcon icon={RewindIcon} size={18} color={colors[app.darkMode ? "dark" : "light"].foreground} />}
           style={styles.skipButton}
         >
           −30s
@@ -234,8 +234,9 @@ export default function PlayerScreen() {
           isDark={app.darkMode}
           accessibilityLabel="Forward 30 seconds"
           variant="glass"
+          tint={neutralTint(app.darkMode)}
+          contentStyle={BUTTON_PAD}
           onPress={() => skip(30)}
-          icon={<HugeiconsIcon icon={Forward01Icon} size={18} color={colors[app.darkMode ? "dark" : "light"].foreground} />}
           style={styles.skipButton}
         >
           +30s

@@ -46,6 +46,20 @@ export function accentColor(mode: BackdropMode): string {
  *  (#9db29a) would not. Same fill as the breathing circle. */
 export const FILLED_TINT = SAGE.deep;
 
+/** Neutral tint for glass buttons: the theme's glass token, so the
+ *  fallback floor renders a neutral pill instead of system blue, and
+ *  the engine gets a neutral wash over the glass (bank's pattern). */
+export function neutralTint(darkMode: boolean): string {
+  return colors[darkMode ? "dark" : "light"].glass;
+}
+
+/** Horizontal padding every content-sized button needs: the fallback
+ *  floor gives the button's content view no padding of its own, so a
+ *  width-less button renders edge-to-edge (a blue circle for "Back",
+ *  a blue dot for "Use"). Pass this as contentStyle on every button
+ *  whose width comes from its label. */
+export const BUTTON_PAD = { paddingHorizontal: 16 };
+
 const MONO = Platform.OS === "ios" ? "Menlo" : "monospace";
 
 /* ------------------------------------------------------------------ */
@@ -275,6 +289,8 @@ export function BackButton({ onPress }: { onPress: () => void }) {
       isDark={darkMode}
       accessibilityLabel="Back"
       variant="glass"
+      tint={neutralTint(darkMode)}
+      contentStyle={BUTTON_PAD}
       onPress={onPress}
       icon={<HugeiconsIcon icon={ArrowLeft01Icon} size={18} color={colors[darkMode ? "dark" : "light"].foreground} />}
     >
